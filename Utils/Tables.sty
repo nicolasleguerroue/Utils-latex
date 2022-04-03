@@ -1,0 +1,17 @@
+%############################################################
+%###### Package 'Tables' 
+%###### This package contains some tools to display Tables (listoftables)
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+\typeout{>>> Utils: Package 'Tables' loaded !}
+
+\newcommand{\displayListOfTables}[1]{%Display the listOfTables #tocName
+\renewcommand{\listtablename}{#1}
+\addcontentsline{toc}{chapter}{#1}
+%\chapter*{#1}
+\vspace{-4cm}
+\listoftables
+}
+
+

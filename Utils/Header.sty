@@ -1,0 +1,193 @@
+%############################################################
+%###### Package 'Layout' 
+%###### This package contains some tools to set page layout or text
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+\RequirePackage{lmodern}
+\RequirePackage{graphicx}           %Images
+\RequirePackage{caption}            %legend
+\RequirePackage{textcomp}           %special characters
+\RequirePackage{fancyhdr}           %headers & footers
+\RequirePackage{lastpage}           %page counter
+
+\RequirePackage{float}              %image floating
+\RequirePackage{wrapfig}
+\RequirePackage{subcaption}         %Subcaption
+
+\RequirePackage{geometry}
+\typeout{>>> Utils: Package 'Header' loaded !}
+%############################################################
+
+\begin{comment}
+@begin
+@command \setHeader
+@des 
+Cette commande permet de créer une page de garde minimaliste
+@sed
+@input Titre du document
+@input Auteur(s) - Les retours à la ligne se font en utilisant la commande \\
+@input La date
+@begin_example 
+\setHeader{Titre}{Auteur 1 \\ Auteur 2}{XX/XX/XXXX}
+@end_example
+@end
+\end{comment}
+
+\newcommand{\setHeader}[3]{  %Set minimal page header #title author date 
+\title{#1}
+\author{#2}
+\date{#3}
+\maketitle
+}
+
+
+
+
+
+
+%###############################################################
+\begin{comment}
+@begin
+@command \partImg
+@des 
+Cette commande permet de créer une page de partie avec une image
+@sed
+@input Titre de la partie
+@input Source de l'image \\
+@input Ratio
+@begin_example 
+\partImg{Partie}{Images/file.png}{0.2}
+@end_example
+@end
+\end{comment}
+\newcommand{\partImg}[3]{  %Set minimal part page with image #subtitle imgSource ratio
+    \part[#1]{#1 \\ \vspace*{2cm} \makebox{\centering \includegraphics[width=#3\textwidth]{#2}}}
+}
+
+
+%###############################################################
+\begin{comment}
+@begin
+@command \setHeaderImage
+@des 
+Cette commande permet de créer une page de garde avec une image centrée, un titre, sous titre en plus
+@sed
+@input Titre du document
+@input Auteur(s) - Les retours à la ligne se font en utilisant la commande \\
+@input La date
+@begin_example 
+\setHeaderImage{Titre}{Auteur 1 \\ Auteur 2}{XX/XX/XXXX}
+@end_example
+@end
+\end{comment}
+
+\newcommand{\setHeaderImage}[6]{ %Set header with image #imagePath Title subtitle authors info
+\begin{titlepage}
+  \begin{sffamily}
+  \begin{center}
+    \includegraphics[scale=#2]{#1} \sn \sn
+    \hfill
+%\HRule \\[0.4cm]
+\begin{center}
+    {\Huge \textbf{#3}} \sn
+    \textbf{#4}\sn \sn
+\end{center}
+\sn \sn
+ #5 \sn
+   \vfill
+   {\large #6}
+  \end{center}
+  \end{sffamily}
+\end{titlepage}
+}
+
+
+%### Définition du style de page 'classic' si report
+
+\newcommand{\addPresentation}[6]{ %Set document presentation (header and footer) #rightHeaderContent centerHeaderContent leftHeaderContent rightFooterContent centerFooterContent leftFooterContent
+\fancypagestyle{classic}{
+    \rhead{#3}  
+    \lhead{#1}
+    \chead{#2}
+    \rfoot{#6}  
+    \cfoot{#5}
+    \lfoot{#4}
+}
+
+\@ifclassloaded{report}{
+\makeatletter
+\renewcommand\chapter{
+  \if@openright\cleardoublepage\else\clearpage\fi
+                      \thispagestyle{classic} %Thème 'classic'
+                      \global\@topnum\z@
+                      \@afterindentfalse
+                      \secdef\@chapter\@schapter}
+\makeatother
+}%End renew chapter
+
+\@ifclassloaded{book}{
+\makeatletter
+\renewcommand\chapter{
+  \if@openright\cleardoublepage\else\clearpage\fi
+                      \thispagestyle{classic} %Thème 'classic'
+                      \global\@topnum\z@
+                      \@afterindentfalse
+                      \secdef\@chapter\@schapter}
+\makeatother
+}%End renew chapter
+
+\pagestyle{classic}
+}
+
+
+\newcommand{\setRightHeader}[1]{\rhead{#1}} %Set right header content #content
+\newcommand{\setCenterHeader}[1]{\chead{#1}} %Set center header content #content
+\newcommand{\setLeftHeader}[1]{\lhead{#1}} %Set left header content
+
+\newcommand{\setRightFooter}[1]{\rfoot{#1}} %Set right footer content #content
+\newcommand{\setCenterFooter}[1]{\cfoot{#1}} %Set center footer content #content
+\newcommand{\setLeftFooter}[1]{\lfoot{#1}} %Set left footer content #content
+
+
+
+\newcommand{\setHeaderLine}[1]{  %Enable header line (disable with arg to 0) #width
+\renewcommand{\headrulewidth}{#1pt} 
+}
+\newcommand{\setFooterLine}[1]{ %Enable footer line (disable with arg to 0) #width
+\renewcommand{\footrulewidth}{#1pt} 
+}
+  
+\newcommand{\currentChapter}{\leftmark} %Get current chapter name #
+
+%Raccourcis
+\@ifclassloaded{report}{
+
+\newcommand{\setAliasChapter}[1]{%create alias chapter #name
+\makeatletter
+\renewcommand{\@chapapp}{
+  #1}  
+\makeatother
+}
+}%End if
+{
+  \newcommand{\setAliasChapter}[1]{
+}
+}
+
+\@ifclassloaded{book}{
+\newcommand{\currentChapter}{\leftmark}
+\newcommand{\setAliasChapter}[1]{
+\makeatletter
+\renewcommand{\@chapapp}{
+  #1
+  }  
+\makeatother
+}
+}%End if
+
+
+\newcommand{\currentPage}{ %Get current page number on total #
+  \thepage{}
+  } 
+

@@ -1,0 +1,16 @@
+%############################################################
+%###### Package 'Quotes' 
+%###### This package contains some tools to display quotes
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+\RequirePackage{cite}
+\RequirePackage{epigraph}
+\RequirePackage{quotchap}
+
+%################################################################
+\typeout{>>> Utils: Package 'Quotes' loaded !}
+
+\newcommand{\addQuote}[2]{ %Create quote #content author
+   \epigraph{\textit{\og #1 \fg{}}}{#2}
+}

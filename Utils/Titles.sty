@@ -1,0 +1,17 @@
+%############################################################
+%###### Package 'Titles' 
+%###### This package contains some tools to set title color
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+\RequirePackage[explicit]{titlesec} 
+%################################################################
+\typeout{>>> Utils: Package 'Titles' loaded !}
+% \@ifclassloaded{report}{
+%     \titleformat{\chapter}[display] {\fontsize{17pt}{12pt}\selectfont \bfseries}{\textcolor{blue} {\chaptertitlename\ \thechapter: #1}}{20pt}{\Huge}
+% }
+
+\titleformat{\section}[display] {\fontsize{17pt}{12pt}\selectfont \bfseries}{\textcolor{darkBlue} {#1}}{20pt}{\Huge}
+\titleformat{\subsection}[display] {\fontsize{15pt}{12pt}\selectfont \bfseries}{\textcolor{orange} {#1}}{20pt}{\large}
+\titlespacing*{\section}{0pt}{20pt}{-30pt}
+\titlespacing*{\subsection}{0pt}{20pt}{-20pt}

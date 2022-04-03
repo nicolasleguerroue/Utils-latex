@@ -1,0 +1,59 @@
+%############################################################
+%###### Package 'name' 
+%###### This package contains ...
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+
+\RequirePackage{csvsimple} 
+\RequirePackage{tikz}  
+\RequirePackage{pgfplots}  
+\RequirePackage{pgf}  
+\RequirePackage{version}            %use commented code
+
+\RequirePackage{graphics} %include figures
+\RequirePackage{graphicx} %include figures
+\RequirePackage{caption}
+\RequirePackage{subcaption} %Add
+\RequirePackage{version}            %use commented code
+\pgfplotsset{compat=1.7}
+\typeout{>>> Utils: Package 'Objects3D' loaded !}
+%############################################################
+%################################################################
+%1 : color
+%2 : diameter
+\newcommand{\ball}[2]{%create a 3D ball #color size
+    \tikz\path[shading=ball,
+    ball color=#1] circle (#2mm);
+}
+
+
+
+
+
+%############################################################
+\begin{comment}
+    @begin
+    @command plot
+    @des 
+    Cette commande permet de tracer des surfaces 3D
+    @sed
+    @input Iitre du graphique
+    @input Equation à deux variables (x et y)
+    @begin_example 
+    \plot{Titre}{x*x+y*5}
+    @end_example
+    @end
+    \end{comment}   
+        
+    \newcommand{\plot}[2]{%Create a 3D plot #title equation
+        \raiseMessage{Creating new plot [title='#1']}
+    \begin{tikzpicture}
+    \setGraphic %command to display with frenchb babel
+     \begin{axis}[title={#1}, xlabel=x, ylabel=y]
+     \addplot3[surf,domain=0:360,samples=50]
+     {#2};
+     \end{axis}
+     \end{tikzpicture}
+     }
+        

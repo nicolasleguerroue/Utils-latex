@@ -1,0 +1,24 @@
+%############################################################
+%###### Package 'Badge' 
+%###### This package contains ...some tools to generate badges
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+\RequirePackage{lmodern}
+\RequirePackage[many]{tcolorbox}
+\typeout{>>> Utils: Package 'Badge' loaded !}
+
+\newtcbox{\badge}[3][red]{%Create badge #txtColor(blue,red,green...) backgroundColor(blue,red,green...) text
+  on line, 
+  arc=2pt,
+  colback=#3,
+  colframe=#3,
+  fontupper=\color{#2},
+  boxrule=1pt, 
+  boxsep=0pt,
+  left=6pt,
+  right=6pt,
+  top=2pt,
+  bottom=2pt
+}
+%################################################################

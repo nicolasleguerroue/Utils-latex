@@ -1,0 +1,124 @@
+%############################################################
+%###### Package 'Labels' 
+%###### This package contains some tools to display labels
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+
+\tcbuselibrary{listings,breakable, skins}
+\typeout{>>> Utils: Package 'Labels' loaded !}
+
+\newtcbox{\lbl}[2]{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm, %Create generic label #color title content
+    right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+    colframe=#1!50!#1,coltext=#1!25!black,colback=#1!10!white,
+    overlay={\begin{tcbclipinterior}\fill[#1!75!white] (frame.south west)
+      rectangle node[text=white,font=\sffamily\bfseries\tiny,rotate=90] {#2} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
+
+\newcommand{\file}[1]{\lbl{orange}{FILE}{#1}}
+\newcommand{\dir}[1]{\lbl{red}{DIR}{#1}}
+\newcommand{\link}[1]{\lbl{blue}{LINK}{#1}}
+\newcommand{\lib}[1]{\lbl{green}{LIB}{#1}}
+\newcommand{\shortcut}[1]{\lbl{cyan}{KEY}{#1}}
+
+
+%network
+\newcommand{\ip}[1]{\lbl{rose}{IP}{#1}}
+\newcommand{\mac}[1]{\lbl{purple}{MAC}{#1}}
+\newcommand{\bin}[1]{\lbl{magenta}{BIN}{#1}}
+\newcommand{\hexa}[1]{\lbl{gray}{HEX}{#1}}
+
+%Doc
+\newcommand{\loc}[1]{\lbl{green}{LOC}{#1}}
+\newcommand{\deprecated}[1]{\lbl{red}{INFO}{#1}}
+
+%electronic
+\newcommand{\genericPin}[1]{\lbl{orange}{PIN}{#1}}
+\newcommand{\inputPin}[1]{\lbl{blue}{IN}{#1}}
+\newcommand{\outputPin}[1]{\lbl{green}{OUT}{#1}}
+\newcommand{\reg}[1]{\lbl{gray}{REG}{#1}}
+\newcommand{\func}[1]{\lbl{cyan}{FUNC}{#1}}
+\newcommand{\adr}[1]{\lbl{brown}{ADDR}{#1}}
+
+\newtcbox{\lgreen}[1]{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm, %Create green label #title content
+  right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+  colframe=green!50!black,coltext=green!25!black,colback=green!10!white,
+  overlay={\begin{tcbclipinterior}\fill[green!75!white] (frame.south west)
+    rectangle node[text=white,font=\sffamily\bfseries\tiny,rotate=90] {#1} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
+
+\newtcbox{\lmagenta}[1]{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm, %Create magenta label #title content
+  right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+  colframe=magenta!50!black,coltext=magenta!25!black,colback=magenta!10!white,
+  overlay={\begin{tcbclipinterior}\fill[magenta!75!white] (frame.south west)
+    rectangle node[text=white,font=\sffamily\bfseries\tiny,rotate=90] {#1} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
+  
+\newtcbox{\lpurple}[1]{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm, %Create purple label #title content
+  right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+  colframe=purple!50!black,coltext=purple!25!black,colback=purple!10!white,
+  overlay={\begin{tcbclipinterior}\fill[purple!75!white] (frame.south west)
+    rectangle node[text=white,font=\sffamily\bfseries\tiny,rotate=90] {#1} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
+    
+\newtcbox{\lblue}[1]{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm, %Create blue label #title content
+  right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+  colframe=blue!50!black,coltext=blue!25!black,colback=blue!10!white,
+  overlay={\begin{tcbclipinterior}\fill[blue!75!white] (frame.south west)
+    rectangle node[text=white,font=\sffamily\bfseries\tiny,rotate=90] {#1} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
+   
+   
+\newtcbox{\lcyan}[1]{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm, %Create cyan label #title content
+  right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+  colframe=cyan!50!black,coltext=cyan!25!black,colback=cyan!10!white,
+  overlay={\begin{tcbclipinterior}\fill[cyan!75!white] (frame.south west)
+    rectangle node[text=white,font=\sffamily\bfseries\tiny,rotate=90] {#1} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
+
+\newtcbox{\lbrown}[1]{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm, %Create brown label #title content
+    right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+    colframe=brown!50!black,coltext=brown!25!black,colback=brown!10!white,
+    overlay={\begin{tcbclipinterior}\fill[brown!75!white] (frame.south west)
+      rectangle node[text=white,font=\sffamily\bfseries\tiny,rotate=90] {#1} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
+   
+\newtcbox{\lyellow}[1]{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm, %Create yellow label #title content
+  right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+  colframe=yellow!50!black,coltext=yellow!25!black,colback=yellow!10!white,
+  overlay={\begin{tcbclipinterior}\fill[yellow!75!white] (frame.south west)
+    rectangle node[text=white,font=\sffamily\bfseries\tiny,rotate=90] {#1} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
+        
+\newtcbox{\lblack}[1]{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm, %Create black label #title content
+    right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+    colframe=black!50!black,coltext=black!25!black,colback=black!10!white,
+    overlay={\begin{tcbclipinterior}\fill[black!75!white] (frame.south west)
+      rectangle node[text=white,font=\sffamily\bfseries\tiny,rotate=90] {#1} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
+
+
+
+\newtcbox{\ugrey}{nobeforeafter,colframe=gray,colback=gray!10!white,boxrule=0.5pt,arc=2pt,
+  boxsep=0pt,left=2pt,right=2pt,top=2pt,bottom=2pt,tcbox raise base}
+
+
+\newtcbox{\ugreen}{nobeforeafter,colframe=white,colback=green!40!white,boxrule=0pt,arc=0pt,
+  boxsep=0pt,left=1pt,right=1pt,top=1pt,bottom=1pt,tcbox raise base}
+
+\newtcbox{\ublue}{nobeforeafter,colframe=white,colback=blue!10!white,boxrule=0pt,arc=0pt,
+  boxsep=0pt,left=1pt,right=1pt,top=1pt,bottom=1pt,tcbox raise base}
+
+\newtcbox{\uorange}{nobeforeafter,colframe=white,colback=orange!40!white,boxrule=0pt,arc=0pt,
+  boxsep=0pt,left=1pt,right=1pt,top=1pt,bottom=1pt,tcbox raise base}
+
+\newtcbox{\ured}{nobeforeafter,colframe=white,colback=orange!40!red,boxrule=0pt,arc=0pt,
+  boxsep=0pt,left=1pt,right=1pt,top=1pt,bottom=1pt,tcbox raise base}
+
+\newtcbox{\highlight}[1]{nobeforeafter,colframe=white,colback=#1,boxrule=0pt,arc=0pt,
+  boxsep=0pt,left=1pt,right=1pt,top=1pt,bottom=1pt,tcbox raise base}
+
+
+%Old label
+\newtcbox{\bitgreen}{nobeforeafter,colframe=white,colback=green!40!white,boxrule=0pt,arc=0pt,
+  boxsep=0pt,left=1pt,right=1pt,top=1pt,bottom=1pt,tcbox raise base}
+
+\newtcbox{\bitblue}{nobeforeafter,colframe=white,colback=blue!10!white,boxrule=0pt,arc=0pt,
+  boxsep=0pt,left=1pt,right=1pt,top=1pt,bottom=1pt,tcbox raise base}
+
+\newtcbox{\bitorange}{nobeforeafter,colframe=white,colback=orange!40!white,boxrule=0pt,arc=0pt,
+  boxsep=0pt,left=1pt,right=1pt,top=1pt,bottom=1pt,tcbox raise base}
+
+\newtcbox{\bitred}{nobeforeafter,colframe=white,colback=orange!40!red,boxrule=0pt,arc=0pt,
+  boxsep=0pt,left=1pt,right=1pt,top=1pt,bottom=1pt,tcbox raise base}

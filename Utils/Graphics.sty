@@ -1,0 +1,212 @@
+%############################################################
+%###### Package 'Graphics' 
+%###### This package contains some tools to create graphics 2D or 3D
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+%\ProvidesPackage{Utils}[2013/01/13 Utils Package]
+%############################################################
+\RequirePackage{csvsimple} 
+\RequirePackage{tikz}  
+\RequirePackage{pgfplots}  
+\RequirePackage{pgf}  
+\RequirePackage{version}            %use commented code
+
+\RequirePackage{graphics} 
+\RequirePackage{graphicx} 
+\RequirePackage{caption}
+\RequirePackage{subcaption} 
+\RequirePackage{version}      
+\typeout{>>> Utils: Package 'Graphics' loaded !}
+
+\pgfplotsset{compat=1.7}
+%###### Checking if babel is loaded
+\makeatletter
+\@ifpackageloaded{babel}
+{% if the package was loaded
+\newcommand{\setGraphic}{%Internal command to display graphics #
+    \shorthandoff{:;!?}} %Internal command to display graphics #
+\frenchbsetup{StandardLists=true} %to include if using \RequirePackage[french]{babel} -> rounded list
+}
+{%else:
+\newcommand{\setGraphic}%Internal command to display graphics #
+{} 
+}
+\makeatother
+%############################################################
+%### WARNING : USE \shorthandoff{:;!?} before \begin{tikzpicture} 
+%### environment
+%############################################################
+\begin{comment}
+@begin
+@env graphics
+@des 
+Cet environnement permet de tracer des courbes en 2D à partir de points, d'équations ou de fichier CSV
+@sed
+@input Largeur du graphique ]0;1] 
+@input Hauteur du graphique ]0;1+] 
+@input Valeur minimale en abscisse 
+@input Valeur maximale en abscisse
+@input Valeur minimale en ordonnée 
+@input Valeur maximale en ordonnée
+@input Légende de l'axe des abscisse
+@input Légende de l'axe des ordonnées
+@input Titre du graphique
+@begin_example 
+\begin{graphics}{0.8}{0.5}{0}{100}{-10}{10}{ve}{vs}{Titre}
+\addPointsFromCSV{raw.csv}
+\end{graphics}
+@end_example
+@end
+\end{comment}
+
+\newenvironment{graphicFigure}[9]  %Display graphe inside figure #widht height minAbs maxAbs minOrd maxOrd xLegend yLegend title
+{
+    \raiseMessage{Creating new graphic figure [title='#9']}
+    \begin{center}
+        \makeatletter
+        \def\@captype{figure}
+        \makeatother
+
+        \newcommand{\TitleGraphic}%Internal command to display title graphic # 
+    {#9} 
+        \begin{tikzpicture}
+        \setGraphic %command to display with frenchb babel
+    \begin{axis}[width=#1\linewidth,height=#2\linewidth,xmin=#3,xmax=#4,  ymin=#5, ymax=#6, scale only axis,xlabel=#7,ylabel=#8] %grid=both
+    }
+    { 
+    \end{axis}
+        \end{tikzpicture}
+        \captionof{figure}{\TitleGraphic}
+    \end{center}
+}
+
+
+\newenvironment{graphic}[9]  %Display graphe without figure #widht height minAbs maxAbs minOrd maxOrd xLegend yLegend title
+{
+    \raiseMessage{Creating new graphic [title='#9']}
+    \newcommand{\TitleGraphic}%Internal command to display title graphic # 
+    {#9} 
+        \begin{tikzpicture}
+        \setGraphic %command to display with frenchb babel
+    \begin{axis}[width=#1\linewidth,height=#2\linewidth,xmin=#3,xmax=#4,  ymin=#5, ymax=#6, scale only axis,xlabel=#7,ylabel=#8, title=#9] %grid=both
+    }
+    { 
+    \end{axis}
+        \end{tikzpicture}
+
+}
+    
+%############################################################
+\begin{comment}
+@begin
+@command addPoints
+@des 
+Cette commande permet de tracer une courbe en passant une liste de coordonnées de points : (x1,y1)(x2,y2)(...)
+Il faut que cette commande soit utilisées dans l'environnement \textbf{graphics}.
+@sed
+@input Couleur de la courbe
+@input Liste des coordonnées des points. Chaque point est entre parenthèse et les coordonnées sont séparées par une virgule
+@begin_example 
+\addPoints{red}{(0,0)(5,0)(5,5)(10,5)(10,0)}
+@end_example
+@end
+\end{comment}   
+
+\newcommand{\addPoints}[2]{ %Add points in graph #color coords
+    \addplot+[thick,mark=none, color=#1] coordinates{#2};
+}
+
+%############################################################
+\begin{comment}
+@begin
+@command addTrace
+@des 
+Cette commande permet de tracer une courbe en passant une équation en fonction de x
+Il faut que cette commande soit utilisées dans l'environnement \textbf{graphics}.
+@sed
+@input Couleur de la courbe
+@input Début du domaine de définition
+@input Fin du domaine de définition
+@input Équation à tracer
+@begin_example 
+\addTrace{blue}{4}{8}{8x^2}
+@end_example
+@end
+\end{comment}
+
+\newcommand{\addTrace}[4]{ %Display equation #color xBegin xEnd equation
+    \addplot [#1, domain=#2:#3, samples=400] {#4};
+}
+
+%############################################################
+\begin{comment}
+@begin
+@command addPointsFromCSV
+@des 
+Cette commande permet de tracer une courbe en passant un fichier de données CSV (ou format TXT)
+Il faut que cette commande soit utilisées dans l'environnement \textbf{graphics}.
+@sed
+@input Couleur de la courbe
+@input délimitateur des données (comma=virgule, semicolon=point-vigule)
+@input Fichier des données
+@begin_example 
+\addPointsFromCSV{blue}{semicolon}{raw.csv}
+@end_example
+@end
+\end{comment}
+
+\newcommand{\addPointsFromCSV}[3]{%Add points on graphe from CSV #color delimitor filename
+    \IfFileExists{#3}{
+    \addplot+[thick, mark=none, color=#1] table[mark=none,col sep=#2] {#3};
+    \raiseMessage{File '#3' loaded !}
+    }
+    {\raiseError{[import failed]'#3' \stop}
+    }
+}
+
+%############################################################
+\begin{comment}
+@begin
+@command addLegend
+@des 
+Cette commande permet d'ajouter une légende au graphique
+Il faut que cette commande soit utilisées dans l'environnement \textbf{graphics}.
+@sed
+@input Légendes de chaque courbe séparées par une virgule
+@begin_example 
+\addLegend{sig1, sig2, sig3}
+@end_example
+@end
+\end{comment}
+
+\newcommand{\addLegend}[1]{ %Add legend on graphe #legend
+    \legend{#1}
+}
+
+%############################################################
+
+
+
+\newenvironment{graphic3D}[1]  %Display graphe without figure #title
+{
+    \raiseMessage{Creating new 3D graphic [title='#1']}
+    \newcommand{\TitleGraphic}%Internal command to display title graphic # 
+    {#1} 
+        \setGraphic %command to display with frenchb babel
+\begin{tikzpicture}
+    \begin{axis}[
+      title=#1,
+      hide axis,
+      colormap/cool]
+    }
+    { 
+    \end{axis}
+        \end{tikzpicture}
+
+}
+
+
+    %   \addplot3[mesh, samples=50, domain=-8:8]
+    %     {sin(deg(sqrt(x^2+y^2)))/sqrt(x^2+y^2)};
+    %   \addlegendentry{$\frac{sin(r)}{r}$}

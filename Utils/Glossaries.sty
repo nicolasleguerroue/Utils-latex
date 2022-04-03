@@ -1,0 +1,20 @@
+%############################################################
+%###### Package 'Glossaries' 
+%###### This package contains some tools to set glossaries
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+\RequirePackage[xindy, acronym, nomain, toc,nonumberlist]{glossaries}
+%################################################################
+\typeout{>>> Utils: Package 'Glossaries' loaded !}
+
+
+\renewcommand{\glossary}[1]{%display glossarie #filename
+\gls{#1}
+}
+
+\newcommand{\displayGlossaries}[1]{%Display the glossaries #tocName
+    \addcontentsline{toc}{chapter}{#1}
+    \renewcommand*\acronymname{\uppercase{#1}}
+    \printglossaries
+}

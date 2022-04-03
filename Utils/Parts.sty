@@ -1,0 +1,8 @@
+
+\typeout{>>> Utils: Package 'Parts' loaded !}
+\makeatletter
+\newcommand{\addPartText}[1]{\def\@extraPartText{#1}} %Add text in part page (must be placed before part command) #text
+\pretocmd{\@endpart}{\vspace{8ex}\begingroup\centering\@extraPartText\par\endgroup\let\@extraPartText\relax}{}{}
+\makeatother
+
+

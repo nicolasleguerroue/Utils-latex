@@ -1,0 +1,37 @@
+%############################################################
+%###### Package 'Figures' 
+%###### This package contains some tools to display Figures (listoffigures)
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+\typeout{>>> Utils: Package 'Figures' loaded !}
+\RequirePackage{graphics}
+\RequirePackage{graphicx}
+
+\newcommand{\displayListOfFigures}[1]{%Display the listOfFigures #tocName
+\renewcommand{\listfigurename}{#1}
+\addcontentsline{toc}{chapter}{#1}
+%\chapter*{#1}
+\vspace{-4cm}
+\listoffigures
+}
+
+
+\newcommand{\createFigure}[2]  %Create new figure #name #content
+{
+    \begin{figure}[h]
+        \centering
+    \raiseMessage{Creating new figure ['#1']}
+        {#2}
+        \caption{#1}
+    \end{figure}
+}
+
+\newcommand{\createNoCenteredFigure}[2]  %Create new figure without centering #name #content
+{
+    \begin{figure}[h]
+    \raiseMessage{Creating new figure ['#1']}
+        {#2}
+        \caption{#1}
+    \end{figure}
+}

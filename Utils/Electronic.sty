@@ -1,0 +1,221 @@
+%############################################################
+%###### Package 'Electronic' 
+%###### This package contains some tools to generate electronic circuits
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+
+\RequirePackage{tikz-timing}
+
+\RequirePackage{graphics} 
+\RequirePackage{graphicx}
+\RequirePackage{pgf}
+\RequirePackage{tikz}
+\RequirePackage{circuitikz}
+\usetikzlibrary{babel}  
+
+\RequirePackage{ifthen}   
+\typeout{>>> Utils: Package 'Electronics' loaded !}
+
+%############################ Settings ##############################
+\tikzset{
+    timing/table/axis/.style={->,>=latex},
+    timing/table/axis ticks/.style={},   
+}
+
+%Direction of some device such as resistor, led...
+%1.5 is the minimum length of device according my runs
+\newcommand{\Up}{0,1.5}     %Componant Direction to up #
+\newcommand{\Down}{0,-1.5} %Componant Direction to down #
+\newcommand{\Right}{1.5,0} %Componant Direction to right #
+\newcommand{\Left}{-1.5,0} %Componant Direction to left #
+
+
+%###### Length of components
+\newcommand{\bipolesLength}[1]{#1cm}%Default size of components #size
+%Length update
+\newcommand{\setBipolesLength}[1]{%Set default size of components #size
+    \renewcommand{\bipolesLength}{#1}
+    \ctikzset{bipoles/length=\bipolesLength cm}
+}
+
+
+%############ Mirrors and inverting
+\newcommand{\Mirror}{}%Mirror rotate of component #
+\newcommand{\Invert}{}%Invert rotate of component #
+
+\newcommand{\setMirror}{%Set mirror #
+    \renewcommand{\Mirror}{,mirror}
+}
+
+\newcommand{\setNoMirror}{%Set no mirror #
+    \renewcommand{\Mirror}{}
+}
+
+\newcommand{\setInvert}{ %Set invert #
+    \renewcommand{\Invert}{,Invert}
+}
+
+\newcommand{\setNoInvert}{ %Set no invert #
+    \renewcommand{\Invert}{}
+}
+
+
+%############## Rotate ###########
+\newcommand{\rotate}{0} %default rotate value #
+
+%Update
+\newcommand{\setRotate}[1]{ %Set rotate value #angle
+    \renewcommand{\rotate}{#1}
+}%End \setRotate
+
+
+%####################### Colors
+\newcommand{\deviceBorderColor}{black} %Default colors of border color #
+\newcommand{\deviceBackgroundColor}{white}%default colors of background color #
+
+\newcommand{\setDeviceBorderColor}[1]{ %Set color of device #color
+    \renewcommand{\deviceBorderColor}{#1}  
+    \renewcommand{\deviceBackgroundColor}{white} 
+}
+
+\newcommand{\setDeviceBackgroundColor}[1]{ %Set background color of device #color
+    \renewcommand{\deviceBorderColor}{black} 
+    \renewcommand{\deviceBackgroundColor}{#1}
+}
+
+\newcommand{\resetColors}{ %Reset colors #
+    \renewcommand{\deviceBorderColor}{black} 
+    \renewcommand{\deviceBackgroundColor}{white} 
+}
+
+%####################################################################
+%############## draw device #########################################
+
+
+
+%\ifthenelse{\equal{#1}{0}}{A.}{no A.}
+%Init
+
+\begin{comment}
+    @begin
+    @command \addLogicGate
+    @des 
+    Cette commande permet de dessiner une porte logique à double entrée. Pour dessinder une porte inverseuse, utiliser la commande \addNotGate
+    @sed
+    @input Coordonnées de la porte en (x,y) sans parenthèse
+    @input Référence de la porte pour s'accrocher aux entrées et sorties
+    @input Type de la porte [nand, nor, or, and, or, xor]
+    @input Label de sortie (laisser vide si absence de label souhaité)
+    @input Label de l'entrée 1 (laisser vide si absence de label souhaité)
+    @input Label de l'entrée 2 (laisser vide si absence de label souhaité)
+    @input Nom de la porte [NOR1, AND1...]
+    @begin_example 
+    \addLogicGate{5,5}{logicgate}{nand}{S}{A}{B}{L1}
+    @end_example
+    @end
+    \end{comment}
+
+\newcommand{\addLogicGate}[7] {%Add logic gate #coord reference type outputLabel inputLabel1 inputLabel2 name
+    \raiseMessage{Adding logic gate device [type=#3]}
+    \ifthenelse{\equal{\deviceBorderColor}  {black}}
+    {\draw (#1)         node (#2) [rotate=\rotate,xshift=0cm,fill=\deviceBackgroundColor,#3 port] {#7}}%if equal to black
+    {\draw (#1)         node (#2) [rotate=\rotate,xshift=0cm,color=\deviceBorderColor,#3 port] {#7}}
+
+    (#2.out)  node      [anchor=south west, yshift=-0.3cm] {#4}
+    (#2.in 1) node (A1)     [anchor=east,xshift=0cm,yshift=+0.3cm]       {#5}
+    (#2.in 2) node (B1)     [anchor=east,xshift=0cm,yshift=+0.3cm]       {#6};
+}
+
+
+\newenvironment{schema}[1] %Create newt schema #name
+{
+    \begin{center}
+        \makeatletter
+        \def\@captype{figure}
+        \makeatother
+        \newcommand{\TitleSchema}%Print title schema #
+        {#1}
+        %\shorthandoff{:;!?} %Compulsory if frenchb package is used (from babel)
+        \raiseMessage{Creating new schema ['#1']}
+        \begin{tikzpicture}
+            %\setGraphic %command to display with frenchb babel
+    }
+    { 
+        \end{tikzpicture}
+   % \caption{\TitleSchema}
+    \end{center}
+}
+
+
+\newenvironment{numeric}[1]%create new chronogram #name
+{
+\begin{center}
+    \makeatletter
+    \def\@captype{figure}
+    \makeatother
+    \newcommand{\TitleNumeric}%use var to print title #
+    {#1}
+    \raiseMessage{Creating new chronogram ['#1']}
+\begin{tikztimingtable}
+}
+{
+\end{tikztimingtable}%
+\caption{\TitleNumeric}
+\end{center}
+}
+
+
+\newcommand{\addTransistor}[6] {%add transistor #coord name type B C E
+
+    \raiseMessage{Adding transistor device [type=#3]}
+    \ifthenelse{\equal{\deviceBorderColor}  {black}}
+    {\draw (#1)         node (#2) [xshift=0cm,fill=\deviceBackgroundColor,#3] {}}%if equal to black
+    {\draw (#1)         node (#2) [xshift=0cm,color=\deviceBorderColor,#3] {}}
+
+    (#2.B)  node      [anchor=south west, xshift=0cm, yshift=0cm] {#4} 
+    (#2.C) node (A1)     [anchor=north,xshift=0.3cm,yshift=+0.1cm]       {#5}
+    (#2.E) node (B1)     [anchor=south,xshift=0.3cm,yshift=0.1cm]       {#6};
+}
+
+\newcommand{\addWire}[3] {%Add wire #node1 node2 direction
+    \draw (#1) #3 (#2);
+}
+
+\newcommand{\orthogonalWireA}{-|}%Set wire vertical direction 1#
+\newcommand{\orthogonalWireB}{|-}%Set wire vetical direction 2#
+\newcommand{\directWire}{--}%Set wire hrizontal direction #
+
+
+\newcommand{\addNode}[3] {%Add node #coord label value
+    \node (#2) at (#1) {#3};
+}
+
+
+\newcommand{\addPoint}[3] { %Add point #coord color width
+    \filldraw [#2] (#1) circle (#3pt);
+}
+
+
+\newcommand{\addPower}[3] {  %Add power supply #coord name value
+    \raiseMessage{Adding power device [name=#2, value=#3]}
+    \draw (#1) node (#2) [vcc] {#3};
+}
+
+\newcommand{\addGround}[3] { %Add ground #coord name value
+    \draw (#1) node (#2) [ground] {#3};
+}
+
+
+\newcommand{\addResistor}[4] {%Create resistor #beginCoord orientation endCoord
+    \raiseMessage{Adding resistor device}
+    \draw (#1) to[R,l=$R$] +(#2) #4 (#3);
+}
+
+
+\newcommand{\addLed}[5] {  %Create led #beginCoord orientation endCoord type name
+    \raiseMessage{Adding LED device [name=#5]}
+    \ifthenelse{\equal{\deviceBorderColor}  {black}}
+    {\draw (#1) to[leD,l_=#5,fill=\deviceBackgroundColor] +(#2) #4 (#3);}
+    {\draw (#1) to[leD,l_=#5,color=\deviceBorderColor] +(#2) #4 (#3);}
+}

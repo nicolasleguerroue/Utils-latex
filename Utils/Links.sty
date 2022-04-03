@@ -1,0 +1,59 @@
+%############################################################
+%###### Package 'name' 
+%###### This package contains tools to use links, url and other
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+\RequirePackage{hyperref}           %Url
+\typeout{>>> Utils: Package 'Links' loaded !}
+%################################################################
+\begin{comment}
+@begin
+@command \setParameters
+@des 
+Cette commande permet de définir les propriétés du document PDF (auteur, titre...)
+@sed
+@input Titre du PDF
+@input Auteur(s)
+@input Sujet du fichier PDF (courte phrase)
+@input Créateur du fichier PDF
+@input Mots-clés (liste)
+@input Couleurs des liens
+@input Couleurs des citations dans la bibliographie
+@input Couleurs des liens de fichier
+@input Couleurs des liens externe
+@begin_example 
+\setParameters {Tutoriel Latex} {Nicolas LE GUERROUE} {Tutoriel Latex pour la mise en place des outils} {\author}{Latex}{green}{blue}{blue}
+@end_example
+@end
+\end{comment}
+
+\newcommand{\setParameters}[8]{ %Set document settings #title author subject creator keyword linkColor bibLinkColor linkFileColor
+   \typeout{>>> Utils - [MData] : title='#1}
+   \typeout{>>> Utils - [MData] : author(s)='#2'}
+   \typeout{>>> Utils - [MData] : subject='#3'}
+   \typeout{>>> Utils - [MData] : creator='#4'}
+   \typeout{>>> Utils - [MData] : keywords='#5'}
+   \typeout{>>> Utils - [MData] : link colors='#6'}
+   \typeout{>>> Utils - [MData] : bib links colors='#7'}
+   \typeout{>>> Utils - [MData] : link file colors='#8'}
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=true,          % non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={1},    % fits the width of the page to the window
+    pdftitle={#1},    % title
+    pdfauthor={#2},     % author
+    pdfsubject={#3},   % subject of the document
+    pdfcreator={#4},   % creator of the document
+    pdfproducer={#4}, % producer of the document
+    pdfkeywords={#5}, % list of keywords
+    pdfnewwindow=true,      % links in new PDF window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=black,          % color of internal links (change box color with linkbordercolor)
+    citecolor=#6,        % color of links to bibliography
+    filecolor=#7,         % color of file links
+    urlcolor=#8        % color of external links
+} }

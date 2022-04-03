@@ -1,0 +1,147 @@
+\RequirePackage{color}              %colors
+\RequirePackage{listings}           %new env such as Bash, Python
+\RequirePackage{xcolor}             %define new colors
+\RequirePackage{graphicx}             %define new colors
+\RequirePackage{xparse}
+\RequirePackage{amssymb}    
+\RequirePackage{amsthm}    
+\RequirePackage{multirow}
+\RequirePackage{tabularx}           %use for csv file [table]
+\RequirePackage{textcomp}           %special characters
+\typeout{>>> Utils: Package 'Programming' loaded !}
+%###############################################################
+%### Couleurs programmation
+\definecolor{green}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{purple}{rgb}{0.58,0,0.82}
+\definecolor{bg}{rgb}{0.98,0.98,0.98}
+%###############################################################
+%### définition du style 'Python' [begin{Python}]
+\lstdefinestyle{Python}{
+    backgroundcolor=\color{bg},   
+    commentstyle=\color{green},
+    keywordstyle=\color{blue},
+    numberstyle=\tiny\color{gray},
+    stringstyle=\color{purple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=none,   %left, right, none 
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,  
+    tabsize=2
+}
+\lstset{style=Python}
+\lstset{literate=
+  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+  {À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+  {Ã}{{\~A}}1 {ã}{{\~a}}1 {Õ}{{\~O}}1 {õ}{{\~o}}1 {’}{{'}}1
+  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+  {ű}{{\H{u}}}1 {Ű}{{\H{U}}}1 {ő}{{\H{o}}}1 {Ő}{{\H{O}}}1
+  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+  {€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
+  {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
+}
+\lstnewenvironment{Python}[1]{\lstset{language=Python, title=#1}}{}
+
+%###############################################################
+%###############################################################
+%### définition du style 'Cpp' [begin{Cpp}]
+\lstdefinestyle{Cpp}{
+    basicstyle=\ttfamily,
+    columns=fullflexible,
+    keepspaces=true,
+    upquote=true,
+    showstringspaces=false,
+    commentstyle=\color{olive},
+    keywordstyle=\color{blue},
+    identifierstyle=\color{violet},
+    stringstyle=\color{purple},
+    numbers=none,
+    language=c,
+}
+\lstnewenvironment{Cpp}[1]{\lstset{style=Cpp, title=#1}}{}
+
+%###############################################################
+%### définition du style 'Bash' [begin{Bash}]
+\lstdefinestyle{Bash}{
+    basicstyle=\ttfamily,
+    columns=fullflexible,
+    keepspaces=true,
+    upquote=true,
+    frame=trBL, %frame=trBL, shadowbox, trrb
+    %frameround=fttt,
+    numbers=none,
+    showstringspaces=false,
+    commentstyle=\color{olive},
+    keywordstyle=\color{blue},
+    identifierstyle=\color{black},
+    stringstyle=\color{gray},
+    language=bash,
+    morekeywords={sudo,apt-get,install, autoremove, update, upgrade, chmod, ifconfig}
+}
+\lstnewenvironment{Bash}[1]{\lstset{style=Bash, title=#1}}{}
+
+%###############################################################
+%### définition du style 'Latex' [begin{Latex}]
+\lstdefinestyle{Latex}{
+    basicstyle=\ttfamily,
+    columns=fullflexible,
+    keepspaces=true,
+    upquote=true,
+    frame=trBL, %frame=trBL, shadowbox, trrb
+    %frameround=fttt,
+    numbers=none,
+    showstringspaces=false,
+    commentstyle=\color{olive},
+    keywordstyle=\color{blue},
+    identifierstyle=\color{black},
+    stringstyle=\color{gray},
+    language=tex,
+    morekeywords={nomenclature, badge,texttiming, addPower,addGround,setDeviceBackgroundColor, 
+    setRotate, addLogicGate, resetColors, addTransistor,
+    addWire,addNode,addLed, addResistor,
+    addPoints, addPointsFromCSV,addLegend,addTrace,
+    setHeaderImage, setHeader, setFooterLine, setHeaderLine, partImg, setAliasChapter, addPresentation,
+    addParent, setParameters,
+    img, imgf, imgr,
+    includepdf, setFullPage, currentChapter, bold, italic, ib,sn,
+    \chapter, \section, \subsection, \subsubsection, \begin, \end, \item, items, messageBox, evec, emat, plot, ball,
+    lorange,lred,lgreen, lmagenta,lpurple,lcyan,lblue,lbrown,lyellow,lblack, tree}
+    }
+\lstnewenvironment{Latex}[1]{\lstset{style=Latex, title=#1}}{}
+
+
+
+
+%###############################################################
+%### définition du style 'Latex' [begin{Latex}]
+\lstdefinestyle{Html}{
+    basicstyle=\ttfamily,
+    columns=fullflexible,
+    keepspaces=true,
+    upquote=true,
+    frame=trBL, %frame=trBL, shadowbox, trrb
+    %frameround=fttt,
+    numbers=none,
+    showstringspaces=false,
+    commentstyle=\color{olive},
+    keywordstyle=\color{blue},
+    identifierstyle=\color{black},
+    stringstyle=\color{gray},
+    language=html,
+    morekeywords={}
+    }
+\lstnewenvironment{Html}[1]{\lstset{style=Html, title=#1}}{}
+
+

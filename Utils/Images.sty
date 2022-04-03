@@ -1,0 +1,80 @@
+%############################################################
+%###### Package 'Images' 
+%###### This package contains some tools to display images
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+\RequirePackage{lmodern}
+\RequirePackage{graphicx}           %Images
+\RequirePackage{caption}            %légende
+\RequirePackage{float}              %image floating
+\RequirePackage{wrapfig}
+\RequirePackage{subcaption}         %Subcaption
+\typeout{>>> Utils: Package 'Images' loaded !}
+%################################################################
+
+
+\newcounter{imgCounter}  
+
+%##################
+\begin{comment}
+    @begin
+    @command \img
+    @des 
+    Cette commande permet de mettre une image centrée avec un titre et une taille
+    @sed
+    @input Source et nom de l'image
+    @input Titre de l'image
+    @input Taille de l'image ]0;1+]
+    @begin_example 
+    \img{Image.png}{Titre de l'image}{0.5}
+    @end_example
+    @end
+\end{comment}
+    
+\newcommand{\img}[3]{%Add simple image #\\rootImages/ legend 0.5
+    \IfFileExists{#1}{\begin{figure}[H]\centering\ \includegraphics[scale=#3]{#1}\caption{#2}\end{figure} \addtocounter{imgCounter}{1} \raiseMessage{Image '#1' [size=#3,id \arabic{imgCounter}] loaded !}  }{\raiseWarning{Image '#1' no loaded}}
+}
+
+
+\begin{comment}
+      @begin
+      @command \imgr
+      @des 
+      Cette commande permet de mettre une image centrée avec un titre et une taille et un angle
+      @sed
+      @input Source et nom de l'image
+      @input Titre de l'image
+      @input Taille de l'image ]0;1+]
+      @input angle en degres
+      @begin_example 
+      \img{Image.png}{Titre de l'image}{0.5}{90}
+      @end_example
+      @end
+\end{comment}
+\newcommand{\imgr}[4]{%Add simple image with rotation #\\rootImages/ legend 0.5 0
+    \IfFileExists{#1}{\begin{figure}[H]\centering\ \includegraphics[scale=#3,angle=#4]{#1}\caption{#2}\end{figure} \addtocounter{imgCounter}{1} \raiseMessage{Image '#1' [size=#3,id \arabic{imgCounter},angle=#4] loaded !} }{\raiseWarning{Image '#1' no loaded}}
+}
+
+    %################################################################
+    \begin{comment}
+    @begin
+    @command \imgf
+    @des 
+    Cette commande permet de mettre une image centrée sans titre et une taille de manière flottante avec le contenu
+    @sed
+    @input Source et nom de l'image
+    @input Titre de l'image
+    @input Taille de l'image ]0;1+] par rapport au texte
+    @input Taille de l'image par rapport à l'espace qui lui est reservé
+    
+    @begin_example 
+    \imgf{Image.png}{Titre de l'image}{0.5}{0.5}
+    @end_example
+    @end
+    \end{comment}
+
+
+\newcommand{\rootImages}{Images/empty}  %Get root of all Images #
+
+    %################################################################

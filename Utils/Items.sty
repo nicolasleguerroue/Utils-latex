@@ -1,0 +1,27 @@
+%############################################################
+%###### Package 'name' 
+%###### This package contains ...
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+\RequirePackage{enumitem}
+\RequirePackage{pifont}
+\typeout{>>> Utils: Package 'Items' loaded !}
+%################################################################
+
+\newcommand{\setTriangleList}{\renewcommand{\labelitemi}{$\blacktriangleright$}}    %Set default display by triangle in list #
+\newcommand{\setCircleList}{\renewcommand{\labelitemi}{$\circ$}}                    %Set default display by circle in list #
+\newcommand{\setBulletList}{\renewcommand{\labelitemi}{$\bullet$}}                  %Set default display by bullet in list #
+
+\newcommand{\Triangle}{$\blacktriangleright$}           %Display triangle in item list #
+\newcommand{\Circle}{$\circ$}                           %Display circle in item list #
+\newcommand{\Bullet}{$\bullet$}                         %Display bullet in item list #
+
+
+\newenvironment{items}[2] %Create list #color labelForm
+{      
+        \begin{itemize}[font=\color{#1}, label=#2]  
+    }
+    { 
+        \end{itemize}
+}

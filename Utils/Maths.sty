@@ -1,0 +1,18 @@
+%############################################################
+%###### Package 'Maths' 
+%###### This package contains some tools to set mathematic tools
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+%Vecteur à 3 composantes  
+\typeout{>>> Utils: Package 'Maths' loaded !}
+\newcommand{\evec}[3]{%Set 3D vector #x y z
+    \left (\begin{array}{ccc} #1 \\ #2 \\ #3\end{array} \right )} %Set 3D vector #x y z
+%Matrice à 3 composantes
+\newcommand{\emat}[3]{%Set 3D matrix #x y z
+    \left [\begin{array}{ccc} #1 \\ #2 \\ #3\end{array} \right ]} %Set 3D matrix #x y z
+% \emat{a & b & c}{d & e & f}{g & h & i}
+%Torseur à 3 composantes
+\newcommand{\torsor}[3]{%Set 3D torsor #x y z
+    \left \{\begin{array}{ccc} #1 \\ #2 \\ #3\end{array} \right \}} %Set 3D torsor #x y z
+% \torsor{a & b}{c & d}{e & f}
