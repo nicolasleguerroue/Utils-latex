@@ -1,0 +1,59 @@
+{
+    "actionButtons": {
+        "defaultColor": "white", // Can also use string color names.
+        "loadNpmCommands":false, // Disables automatic generation of actions for npm commands.
+        "reloadButton":"♻️", // Custom reload button text or icon (default ↻). null value enables automatic reload on configuration change
+        "commands": [
+            {
+                "cwd": "${workspaceFolder}", 	// Terminal initial folder ${workspaceFolder} and os user home as defaults
+                "name": "Display PDF",
+                "color": "white",
+                "singleInstance": true,
+                "command": "okular main.pdf", 
+            },
+            {
+                "name": "Compilation",
+                "color": "black",
+                "command": "./make --full",
+            },
+            {
+                "name": "Display errors",
+                "color": "red",
+                "command": "code render_report_log.txt",
+            },
+            {
+                "name": "Checking",
+                "color": "white",
+                "command": "./make --check",
+            },
+            {
+                "name": "Add version",
+                "color": "white",
+                "command": "./make --version",
+            },
+            {
+                "name": "Update libraries",
+                "color": "white",
+                "command": "./make --update",
+            },
+            {
+                "name": "Installation",
+                "color": "white",
+                "command": "./make --install",
+            },
+            {
+                "cwd": "${workspaceFolder}/.vscode", 
+                "name": "Enable full compilation",
+                "color": "white",
+                "command": "php compileAllFiles.php",
+            },
+            {
+                "cwd": "${workspaceFolder}/.vscode", 
+                "name": "Disable full compilation",
+                "color": "orange",
+                "command": "php compileAnyFile.php",
+            }
+        ]
+    }
+}
+

@@ -1,0 +1,11 @@
+##version=2.0.0
+##defaultColor=white
+##loadNpmCommands=false
+##reloadButton=♻️
+
+
+#label=generic name, type=shell, cwd=${workspaceFolder}, kind=build, isDefault=true, command=./make, reveal=always, panel=shared, color=white
+#label=generic name, type=shell, cwd=${workspaceFolder}, kind=build, isDefault=true, command=./make, reveal=always, panel=shared, color=white
+
+#label=generic name, type=shell, cwd=${workspaceFolder}, kind=build, isDefault=true, command=./make, reveal=always, panel=shared, color=white
+
