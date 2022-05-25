@@ -1,5 +1,5 @@
 #!/bin/bash
-#Writed by Nicolas Le Guerroué
+#Wrote by Nicolas Le Guerroué
 #####################################################################################
 ##
 ##    SETTINGS
