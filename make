@@ -86,6 +86,107 @@ function pdfLatex {
 }
 #End pdfLatex
 
+#install all tools required to compile the LaTeX project
+function installTools(){
+    VSCodeCmd=""
+    #find VSCode command : either "code" or "codium"
+    #if a parameter is given, the function will be silent
+    function findVSCodeCmd(){
+        if [ ! -z "$(which code)" ]
+        then
+            VSCodeCmd="code"
+        elif [ ! -z "$(which codium)" ];then
+            VSCodeCmd="codium"
+        else
+            #no VSCode command found
+            VSCodeCmd=""
+            return
+        fi
+
+        if [ -z "$1" ];then
+            echo -e "Found VSCode cmd <${VSCodeCmd}>"
+            echo ""
+        fi
+    }
+
+
+    # sudo apt-get update
+    echo ""
+    read -p "Run apt upgrade (advised)? ([y/n])" -n 1 -r
+    echo ""
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        # answer == yes
+        sudo apt-get -y upgrade
+    fi
+
+    TO_INSTALL=(
+        "texlive-full"
+        "git"
+        "php"
+        "aspell-fr"
+        "texlive-lang-european"
+        "okular"
+        "gnuplot"
+    )
+
+    for CUR_PACKAGE in ${TO_INSTALL[@]}; do
+        if [ $(dpkg-query -W -f='${Status}' "${CUR_PACKAGE}" 2>/dev/null | grep -c "ok installed") -eq 0 ];
+        then
+            echo -e "Installation of ${CUR_PACKAGE}"
+            sudo apt-get install -y "${CUR_PACKAGE}"
+        else
+            echo -e "Package ${CUR_PACKAGE} already installed"
+        fi
+    done
+
+    echo ""
+    read -p "Install VSCode extensions? ([y/n])" -n 1 -r
+    echo ""
+    if [[ ! $REPLY =~ ^[Yy]$ ]]
+    then
+        # answer == no
+        return
+        #end installation here
+    fi
+
+    findVSCodeCmd silent
+
+    #if no VSCode cmd found
+    if [ -z "${VSCodeCmd}" ]
+    then
+        echo -e "VSCode not found."
+        read -p "Install VSCode ? ([y/n])" -n 1 -r
+        echo ""
+        if [[ ! $REPLY =~ ^[Yy]$ ]]
+        then
+            # answer == no
+            return
+            #end installation here
+        fi
+        echo -e "Installation of VSCode"
+        sudo snap install code --classic
+        if [ ! $pdflatex_success -eq 0 ];then
+            echo -e "Cannot install VSCode... Aborting installation script"
+            return
+        fi
+        VSCodeCmd="code"
+    fi
+    CODE_EXTENSIONS=(
+        "alefragnani.Bookmarks"
+        "streetsidesoftware.code-spell-checker"
+        "streetsidesoftware.code-spell-checker-french"
+        "jkearins.action-buttons-ext"
+    )
+
+    for e in ${CODE_EXTENSIONS[@]}; do
+        echo -e "\tInstalling VSCode extension : <${e##*.}>"
+        $VSCodeCmd --install-extension $e
+    done
+
+}
+#End installTools
+
 
 #####################################################################################
 ##
@@ -709,21 +810,9 @@ if [ "$1" == "--install" ];then
 
 	#################################################
 	## Install dependencies
-	#################################################	
+	#################################################
 	sudo apt-get update
-	sudo apt-get -y upgrade
-	echo -e "Installation of texlife-full..."
-	sudo apt-get install -y texlive-full
-	echo -e "Installation of git..."
-	sudo apt-get install -y git
-	echo -e "Installation of php..."
-	sudo apt-get install -y php
-	echo -e "Installation of aspell-fr..."
-	sudo apt-get install -y aspell-fr
-	echo -e "Installation of texlive-lang-european..."
-	sudo apt-get install -y texlive-lang-european
-	echo -e "Installation of okular..."
-	sudo apt-get install -y okular
+	installTools
 	exit
 fi
 ############################# END IF ###############################################
