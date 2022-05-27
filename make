@@ -38,6 +38,7 @@ setting_file="Settings.tex" 					#Settings file
 main_file="main.tex" 							#main file
 standlone="standlone.tex"						#standlone file -> compiling without any other file
 version="Versions.tex"
+
 #################################################
 ## Function
 #################################################
@@ -69,6 +70,21 @@ function loadValue {
 	
 }
 #End createDirectory
+
+#compile latex in pdf with error checking
+function pdfLatex {
+	pdflatex_common_args="--file-line-error --halt-on-error"
+	pdflatex ${pdflatex_common_args} --output-dir=$output_dir $main.tex >> .render_report_log.txt
+	pdflatex_success=$?
+	if [ ! $pdflatex_success -eq 0 ];then
+		echo -e "${red}An error occurred during pdflatex compilation :\nExtract of the error log :"
+		echo -e ""
+		tail -n 15 .render_report_log.txt
+		echo -e "$default"
+		exit
+	fi
+}
+#End pdfLatex
 
 
 #####################################################################################
@@ -873,7 +889,7 @@ let count_step++
 if [ "$1" == "--full" ];then 
 	echo -e "[Step $count_step / $count_sum_full] >>> First compilation of '$main.tex' file..."
 	let count_step++
-	pdflatex --output-dir=$output_dir $main.tex >> .render_report_log.txt
+	pdfLatex
 	echo -e "[Step $count_step / $count_sum_full] >>> Creating of bibliography..."
 	echo -e "$default"
 	bibtex $output_dir/$main
@@ -901,8 +917,9 @@ else
  	echo -e "[Step $count_step / $count_sum_full] >>> First compilation of  '$main.tex' file..."
 fi
 
+
 echo -e "$orange"
-pdflatex --output-dir=$output_dir $main >> .render_report_log.txt
+pdfLatex
 echo -e "$green"
 if [ "$1" == "--full" ];then 
 	echo -e "[Step $count_step / $count_sum_full] >>> Second compilation of  '$main.tex' is over"
