@@ -6,6 +6,28 @@ Le langage Latex n'est pas le plus simple à prendre un main mais permet de réd
 
 Un tutoriel détaillé sur l'utilisation des sources est disponible dans le document ```Documentation_Latex.pdf```
 
+<!--MARKDOWN_INDEX_BEGIN-->
+# Table des matières
+
+**[Sources Latex](#sources-latex)**<br/>
+&emsp;*[Présentation](#présentation)*<br/>
+&emsp;*[Installation](#installation)*<br/>
+&emsp;&emsp;[Installation de Visual Studio Code](#installation-de-visual-studio-code)<br/>
+&emsp;&emsp;[Installation du module PHP](#installation-du-module-php)<br/>
+&emsp;*[Organisation du projet](#organisation-du-projet)*<br/>
+&emsp;*[Fusion de projets](#fusion-de-projets)*<br/>
+&emsp;*[Compilation du projet](#compilation-du-projet)*<br/>
+&emsp;&emsp;[Première compilation](#première-compilation)<br/>
+&emsp;&emsp;&emsp;[Don des droits d'éxécution sur le fichier ```make```](#don-des-droits-déxécution-sur-le-fichier-make)<br/>
+&emsp;&emsp;[Compilation classique](#compilation-classique)<br/>
+&emsp;&emsp;[Compilation du projet](#compilation-du-projet-1)<br/>
+&emsp;&emsp;[Vérification orthographique](#vérification-orthographique)<br/>
+&emsp;&emsp;&emsp;[Installation de aspell](#installation-de-aspell)<br/>
+&emsp;&emsp;[Mise à jour Git](#mise-à-jour-git)<br/>
+&emsp;&emsp;[Mise à jour de l'autocomplétion](#mise-à-jour-de-lautocomplétion)<br/>
+&emsp;&emsp;[Compilation avec VSCode](#compilation-avec-vscode)<br/>
+<!--MARKDOWN_INDEX_END-->
+
 ## Présentation
 
 Ce document a pour but de présenter les fonctionnalités de la bibliothèque Utils, qui n'est qu'un regroupement de bibliothèques pour simplifier l'utilisation de Latex.
