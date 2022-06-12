@@ -9,8 +9,8 @@
             "options": {
                 "cwd": "${workspaceFolder}"
             },
-            "group": "build",
-            "command": "./make",
+            "group": {"kind":"build","isDefault": true},
+            "command": "./runDocker.sh ./make",
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
@@ -19,12 +19,26 @@
         },
         {
             "type": "shell",
-            "label": "Mise à jour des bibliothèques",
+            "label": "Mise à jour des bibliothèques locales",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
             "group": "build",
             "command": "./make --update-pull",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "Mise à jour des bibliothèques distantes (Git) depuis la version locale",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "command": "./make --update-push",
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
@@ -41,7 +55,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "command": "./make --full",
+            "command": "./runDocker.sh ./make --full",
             "presentation": {
                 "reveal": "always",
                 "panel": "shared"
@@ -70,7 +84,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "command": "./make --check"
+            "command": "./runDocker.sh ./make --check"
         },
         {
             "type": "shell",
@@ -94,7 +108,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "command": "./make --snippet"
+            "command": "./runDocker.sh ./make --snippet"
         },
         {
             "type": "shell",
@@ -106,7 +120,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "command": "./make --install"
+            "command": "./runDocker.sh ./make --install"
         },
         {
             "type": "shell",
@@ -118,7 +132,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "command": "./make --update"
+            "command": "./runDocker.sh ./make --update"
         },
         {
             "type": "shell",
@@ -158,6 +172,18 @@
                 "isDefault": true
             }
         }
+        ,
+        {
+            "label": "New part",
+            "type": "shell",
+            "command": "./runDocker.sh mkdir ${workspaceFolder}/Parts/${input:partNumber}.${input:partName} && mkdir ${workspaceFolder}/Images/${input:partName} && echo -e \"\\\\\\chapter{${input:partName}}\\n\\\\\\addcontentsline{toc}{chapter}{${input:partName}}\" > \"${workspaceFolder}/Parts/${input:partNumber}.${input:partName}/0.${input:partName}.tex\"",
+            "args": [
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        }
     ],
     "inputs": [
         {
@@ -182,6 +208,18 @@
             "id": "componentName",
             "description": "Name your component.",
             "default": "my-new-component"
+          },
+          {
+            "type": "promptString",
+            "id": "partName",
+            "description": "Name your part",
+            "default": "PartName"
+          },
+          {
+            "type": "promptString",
+            "id": "partNumber",
+            "description": "Give a number to your part",
+            "default": "0"
           }
     ]
 }
