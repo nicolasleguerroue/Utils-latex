@@ -7,11 +7,11 @@
 \typeout{>>> Utils: Package 'Figures' loaded !}
 \RequirePackage{graphics}
 \RequirePackage{graphicx}
+\RequirePackage{nameref}
 
 \newcommand{\displayListOfFigures}[1]{%Display the listOfFigures #tocName
 \renewcommand{\listfigurename}{#1}
 \addcontentsline{toc}{chapter}{#1}
-%\chapter*{#1}
 \vspace{-4cm}
 \listoffigures
 }
@@ -35,3 +35,7 @@
         \caption{#1}
     \end{figure}
 }
+
+
+\newcommand{\figureRef}[1]{(Figure \ref{#1})}  %Display number of fugure with '(Figure X.X)' format #figureReference passed to \imgf
+\newcommand{\figureName}[1]{figure \ref{#1}}    %Display number of fugure with 'figure X.X' format #figureReference passed to \imgf

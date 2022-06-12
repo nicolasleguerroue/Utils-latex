@@ -219,3 +219,11 @@
     {\draw (#1) to[leD,l_=#5,fill=\deviceBackgroundColor] +(#2) #4 (#3);}
     {\draw (#1) to[leD,l_=#5,color=\deviceBorderColor] +(#2) #4 (#3);}
 }
+
+
+\newcounter{datasheetCounter}  
+   
+\newcommand{\addDatasheet}[1]{%Add simple image #filename legend ratio
+    \raiseMessage{Adding datasheet [name=#1]}
+    \addtocounter{datasheetCounter}{1}
+}

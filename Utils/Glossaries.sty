@@ -15,6 +15,16 @@
 
 \newcommand{\displayGlossaries}[1]{%Display the glossaries #tocName
     \addcontentsline{toc}{chapter}{#1}
-    \renewcommand*\acronymname{\uppercase{#1}}
+    \renewcommand {\acronymname}{#1}
+    \printnoidxglossaries
     \printglossaries
+}
+
+
+\newcommand{\addGlossaryInput}[3]{
+    \newglossaryentry{#1}
+    {
+        name=#1,
+        description={\italic{#2} \\#3}
+    }
 }

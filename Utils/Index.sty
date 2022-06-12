@@ -6,5 +6,16 @@
 %############################################################
 %################################################################
 \RequirePackage{makeidx}            %make index
+\RequirePackage{index}            %make index
+
+\newindex{aut}{otx}{otd}{Liste des auteurs} % définition d'un nouvel index personnalisé
+%\RequirePackage[splitindex]{imakeidx}
 \typeout{>>> Utils: Package 'Index' loaded !}
-%\makeindex 
+
+
+\newcommand{\displayIndex}[1]{%Display the index #tocName
+    \addcontentsline{toc}{chapter}{#1}
+    \newpage
+    \printindex
+    \printindex[aut]
+}
