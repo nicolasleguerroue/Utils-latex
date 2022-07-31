@@ -18,10 +18,12 @@ function extractLine($string, $target, $index=1) { //Extract item in line #'stri
 
 }//End extractLine
 
-
+echo ">>>> INIT -> ".strval(getcwd())."\n";
 $folder="../Parts";
 $items = scandir($folder); 			//Get all directories
 $files = array();
+echo ">>>> LAST -> \n";
+print_r($items);
 
 		
 for($i=0;$i<count($items);$i++){

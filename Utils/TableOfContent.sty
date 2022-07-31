@@ -1,0 +1,14 @@
+%############################################################
+%###### Package 'TableOfContent' 
+%###### This package contains some tools to display table of content
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+\RequirePackage[open=true]{bookmark}  %Good toc
+\typeout{>>> Utils: Package 'TableOfContent' loaded !}
+
+\newcommand{\displayTableOfContent}[2]{%Display the listOfTables #tocName
+    \setcounter{page}{#1}
+    \addtocontents{toc}{~\hfill\textbf{#2}\par} 
+    \tableofcontents 
+}

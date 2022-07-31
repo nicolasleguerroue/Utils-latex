@@ -1,0 +1,63 @@
+#!/bin/bash
+#Wrote by Nicolas Le Guerroué
+src="Utils-latex"
+
+source ${src}/bash/Colors.sh
+source ${src}/bash/System.sh
+source ${src}/bash/Time.sh
+source ${src}/bash/Network.sh
+source ${src}/bash/Directories.sh
+
+#Dir
+outputDir="Output"
+makeDir="Make"
+imagesDir="Images"
+partsDir="Parts"
+settingsDir="Settings"
+
+#file
+main="main.tex"
+
+
+function checkEnvironment()
+{
+echo ">>> Checking of directories"
+createDirectory ${outputDir}
+createDirectory ${makeDir}
+createDirectory ${imagesDir}
+createDirectory ${partsDir}
+createDirectory ${settingsDir}
+echo -e ">>> Checking of directories : [$green OK $default]"
+
+echo ">>> Checking of files"
+
+createFile ${settingsDir}/"ChapterAlias.tex" "\setAliasChapter{Section} %Alias of chapters"
+createFile ${settingsDir}/"DocumentClass.tex" "\documentclass[11pt]{Utils/utils_report}"
+createFile ${settingsDir}/"FHeaderLine.tex" "\setHeaderLine{0.2} %Width of header line\n\setFooterLine{0.2} %Width of footer line"
+createFile ${settingsDir}/"Fonts.tex" "\usepackage[sfdefault]{carlito} %Fonts"
+createFile ${settingsDir}/"Hyperref.tex" "%Hyperref"
+createFile ${settingsDir}/"Includes.tex" "%Includes"
+createFile ${settingsDir}/"LOF.tex" "\displayListOfFigures{Table des Figures} %Display List of Figures"
+createFile ${settingsDir}/"Margins.tex" "\geometry{hmargin=2cm,vmargin=2cm} %Margins of file"
+createFile ${settingsDir}/"NomenclatureName.tex" "\renewcommand{\nomname}{Nomenclature}" 1
+createFile ${settingsDir}/"Theme.tex" "\usepackage[]{fncychap} %Theme of chapter"
+createFile ${settingsDir}/"TocDepth.tex" "\setcounter{tocdepth}{0} %Depth of table of content"
+
+
+
+createFile ${makeDir}/"Alias.tex" "%Set personnal commands here"
+createFile ${makeDir}/"Contacts.tex" "%Set personnal informations to contact author"
+createFile ${makeDir}/"Glossaries.tex" "%Set glossaries\n\makenoidxglossaries"
+createFile ${makeDir}/"Index.tex" "%Make index \n\makeindex"
+createFile ${makeDir}/"Nomenclature.tex" "%Set nomenclature"
+createFile ${makeDir}/"Rules.tex" "%Set rules"
+createFile ${makeDir}/"Versions.tex" "%Set versions of project"
+
+}
+
+if [[ $1 == "extern" ]];then
+    checkEnvironment
+fi
+
+
+echo -e ">>> Checking of files : [$green OK $default]"

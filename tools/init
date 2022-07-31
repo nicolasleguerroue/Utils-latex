@@ -1,0 +1,152 @@
+#!/bin/bash
+#Wrote by Nicolas Le Guerroué
+src="Utils-latex"
+
+source ${src}/bash/Colors.sh
+source ${src}/bash/System.sh
+source ${src}/bash/Time.sh
+source ${src}/bash/Network.sh
+source ${src}/bash/Directories.sh
+
+source ${src}/tools/install
+source ${src}/tools/checking
+
+
+main="main.tex"
+parts="Parts"
+images="Images"
+make="Make"
+settings="Settings"
+
+echo -e ">>> generating symbolic links..."
+
+ln -s ${src}/Utils Utils
+ln -s ${src}/.vscode .vscode
+ln -s ${src}/make make
+
+echo -e ">>> Generating symbolic links : [$green OK $default]"
+
+checkEnvironment
+installTools
+
+echo -e ">>> generating main file..."
+cp Utils/universe.jpg Images/universe.jpg
+touch main.tex
+
+echo "\input{Settings/Includes} " >> $main
+
+echo "\addPresentation " >> $main
+echo "{Title} {...} {\currentChapter}" >> $main
+echo "{subTtitle} {} {\currentPage}" >> $main
+echo "" >> $main
+echo "\input{Make/Glossaries.tex}" >> $main
+echo "\input{Make/Index.tex}" >> $main
+echo "" >> $main
+echo "\begin{document}" >> $main
+echo "" >> $main
+echo "" >> $main
+echo "\setHeaderImage{Images/universe.jpg}{0.6}{TITLE}{Subtitle}{Author}{\today}" >> $main
+echo "" >> $main
+echo "\displayTableOfContent{2}{Page}" >> $main
+echo "" >> $main
+echo "\input{Make/Contacts.tex}" >> $main
+echo "\input{Make/Versions.tex}" >> $main
+echo "\newpage" >> $main
+echo "\input{Make/Rules.tex}" >> $main
+echo "" >> $main
+echo "\displayNomenclature{Nomenclature}{Make/Nomenclature.tex}" >> $main
+echo "\displayGlossaries{Glossaire}" >> $main
+echo "" >> $main
+echo "" >> $main
+echo "\input{Output/add_content.tex}" >> $main
+echo "" >> $main
+echo "%\displayBibliography{Bibliographie}{Make/Bibliography}" >> $main
+echo "\displayListOfFigures{Liste des figures}" >> $main
+echo "%\displayIndex{Index}" >> $main
+echo "%\displayListOfTables{Liste des tables}" >> $main
+echo "" >> $main
+echo "\end{document} " >> $main
+
+echo ">>> generating main file : [$green OK $default]"
+
+echo ">>> generating first part..."
+
+createDirectory $parts/0.default
+createDirectory $images/default
+touch $parts/0.default/default.tex
+echo "\chapter{Introduction}" >> $parts/0.default/default.tex
+echo "\img{Utils/universe.jpg}{Universe}{0.5}" >> $parts/0.default/default.tex
+echo "\lipsum" >> $parts/0.default/default.tex
+
+echo "\begin{items}{blue}{\Triangle}" >> $parts/0.default/default.tex
+echo "\item A" >> $parts/0.default/default.tex
+echo "\item B" >> $parts/0.default/default.tex
+echo "\item C" >> $parts/0.default/default.tex
+echo "\end{items}" >> $parts/0.default/default.tex
+
+echo -e ">>> generating first part : [$green OK $default]"
+
+echo -e ">>> Initialisation of settings file..."
+
+echo "\input{Settings/DocumentClass}" >> $settings/Includes.tex
+echo "\input{Settings/ChapterAlias}" >> $settings/Includes.tex
+echo "\input{Settings/FHeaderLine}" >> $settings/Includes.tex
+echo "\input{Settings/Fonts}" >> $settings/Includes.tex
+echo "\input{Settings/Hyperref}" >> $settings/Includes.tex
+echo "\input{Settings/Margins}" >> $settings/Includes.tex
+echo "\input{Settings/NomenclatureName}" >> $settings/Includes.tex
+echo "\input{Settings/Theme}" >> $settings/Includes.tex
+echo "\input{Settings/TocDepth}">> $settings/Includes.tex
+
+echo -e ">>> Initialisation of settings file : [$green OK $default] "
+
+echo -e ">>> Initialisation of bibliography..."
+# #################################################
+# ## Creating bibliography
+# #################################################
+touch $make/Bibliography.bib
+echo "@book{reference_l1,
+title={Titre 1},
+author={Auteur 1},
+year={1990},
+note={Annotations},
+publisher={Editeur}
+},
+@book{reference_l2,
+title={Titre 2},
+author={Auteur 2},
+year={1991},
+note={Annotations},
+publisher={Editeur}
+}" >> $make/Bibliography.bib
+
+echo -e ">>> Initialisation of bibliography : [$green OK $default]"
+
+
+echo -e ">>> Initialisation of Hyperref..."
+echo "\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=true,          % non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={1},    % fits the width of the page to the window
+    pdftitle={Title},    % title
+    pdfauthor={$USER},     % author
+    pdfsubject={subject},   % subject of the document
+    pdfcreator={$USER},   % creator of the document
+    pdfproducer={$USER}, % producer of the document
+    pdfkeywords={keywords}, % list of keywords
+    pdfnewwindow=true,      % links in new PDF window
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=black,          % color of internal links (change box color with linkbordercolor)
+    citecolor=blue,        % color of links to bibliography
+    filecolor=black,         % color of file links
+    urlcolor=black        % color of external links
+}" >> $settings/Hyperref.tex
+
+echo -e ">>> Initialisation of Hyperref : [$green OK $default]"
+
+echo -e ">>> Opening of VSCode..."
+code .
+

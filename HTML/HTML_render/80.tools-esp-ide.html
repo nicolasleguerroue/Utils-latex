@@ -1,0 +1,57 @@
+<html><head><style>.cent {  display: block;  margin-left: auto;  margin-right: auto;}</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> </script><body style='margin-left:5%;margin-right:5%;margin-top:1%'><h4>Fichier générer depuis les sources Latex</h4><h5>Auteur : Nicolas Le Guerroué</h5><a href='index.html'><button class='btn btn-success' >Revenir au sommaire</button></a><hr><h1 class=''>Annexes</h1>
+<h2 >Utilisation de l'ESP12 sous Arduino</h2>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/nodemcu.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/nodemcu.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - ESP12 NodeMCU</figcaption></div></figure>
+<h3>Installation des bibliothèques et cartes ESP8266</h3>
+La carte ESP12 NodeMCU est prévue pour être programmée directement via l'IDE<span title="IDE : Environnement de Développement Intégré" style='color:grey;'><sup>[note]</sup></span> Arduino.
+
+Cette carte fait partie de la grande famille des ESP8266.
+
+Pour installer les bibliothèques et cartes sur le logiciel Arduino, il faut réaliser les étapes suivantes : 
+
+<ul>
+    <li> Ouvrir les préférences du logiciel Arduino dans <span style='background-color:blue;opacity:60%;color:white;' class='badge badge-pill'>Fichiers - Préférences</span>
+</li>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/preference.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/preference.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Préférences Arduino</figcaption></div></figure>
+    <li> Dans le champ <b>URL de gestionnaire de cartes supplémentaires</b>, mettre le lien suivant : </li>
+    
+
+<div class='alert alert-warning' ><h4>Avertissement</h4>Veuillez vérifier l'URL après le copier-coller car les underscores ("tirets du 8") peuvent disparaître.</div>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/url.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/url.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Lien pour les cartes ESP8266</figcaption></div></figure>
+    
+
+    Puis faire <span style='background-color:blue;opacity:60%;color:white;' class='badge badge-pill'>OK</span>
+
+    
+
+    <li> Fermer le logiciel Arduino
+</li>
+    <li> Lancer le logiciel Arduino
+</li>
+    <li> Allez dans <span style='background-color:blue;opacity:60%;color:white;' class='badge badge-pill'>Outils - Type de carte - Gestionnaire de carte</span> 
+</li>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/boardManager.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/boardManager.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Gestionnaire des cartes ESP8266</figcaption></div></figure>
+    
+
+    et faire une recherche avec le mot clé <span style='background-color:blue;opacity:60%;color:white;' class='badge badge-pill'>esp8266</span>
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/install.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/install.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Installation des bibliothèques ESP8266</figcaption></div></figure>
+    Il ne vous reste plus qu'à cliquer sur <span style='background-color:blue;opacity:60%;color:white;' class='badge badge-pill'>Installer</span> et redémarrer le logiciel Arduino.
+
+</ul>
+<h3>Recherche des cartes ESP8266</h3>
+Lors de la programmation d'une carte ESP8266 NodeMCU, il faudra donc aller dans 
+
+<span style='background-color:blue;opacity:60%;color:white;' class='badge badge-pill'>Outils - Type de carte - ESP8266 Boards NodeMCU X.X (ESP12 Module)</span> 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/espFull.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/espFull.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Sélection de la carte ESP12</figcaption></div></figure>
+Afin de tester le bon fonctionnement, nous vous invitons à tester le programme <b>Blink</b> disponible dans les exemples.
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/blink.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/blink.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Emplacement de l'exemple Blink</figcaption></div></figure>
+La led bleue de l'ESP12 devrait clignoter si l'installation s'est correctement effectuée.
+
+<h3>Recherche des cartes Arduino</h3>
+Pour la programmation des cartes Arduino, il suffira de sélectionner 
+
+<span style='background-color:blue;opacity:60%;color:white;' class='badge badge-pill'>Outils - Type de carte - Arduino AVR Boards - Carte X</span> en fonction du modèle de votre carte.
+
+
+</body></html>

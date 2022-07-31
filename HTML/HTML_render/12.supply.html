@@ -1,0 +1,186 @@
+<html><head><style>.cent {  display: block;  margin-left: auto;  margin-right: auto;}</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> </script><body style='margin-left:5%;margin-right:5%;margin-top:1%'><h4>Fichier générer depuis les sources Latex</h4><h5>Auteur : Nicolas Le Guerroué</h5><a href='index.html'><button class='btn btn-success' >Revenir au sommaire</button></a><hr><h4>Théorie sur les alimentations</h4>
+<h1 class=''>Les alimentations linéaires et à découpage</h1>
+<h2 >Les alimentations linéaires</h2>
+<h3>Introduction</h3>
+Il existe deux grandes familles d'alimentations : 
+
+<ul>
+    <li> Les alimentations linéaires
+</li>
+    <li> Les alimentations à découpage  </li>
+</ul>
+Les alimentations linéaires sont réputées pour avoir une tension stable et propre (tension continue).
+
+Regardons de plus près le principe de ces alimentations.
+
+<h3>L'objectif</h3>
+On souhaite transformer une tension sinusoïdale<span title="De valeur efficace 230V et de fréquence 50 Hz" style='color:grey;'><sup>[note]</sup></span> en une tension continue, 
+
+stable et régulée.
+
+\vfill
+
+\begin{graphicFigure}{0.8}{1}{0}{0.08}{-230}{230}{t(s)}{Tension (V)}{Les tensions d'entrée et de sortie de notre alimentation}
+
+  \addTrace{blue}{0}{0.08}{230*sin(50*360*\x)}
+
+  \addTrace{orange}{0}{0.08}{12}
+
+  \addTrace{black}{0}{0.08}{0}
+
+  \addLegend{Entrée, Sortie, 0V}
+
+  \end{graphicFigure}
+
+  <br>
+
+  <h3>Le choix du transformateur</h3>
+  Pour notre circuit, nous devons connaître la tension finale en sortie de notre alimentation.
+
+  Au vue des composants demandés (régulateurs, pont de diode), il faudra une tension efficace de \(12V\)\footnote{Nous verrons 
+
+  la justification de cette valeur par la suite.}
+
+  Le rapport des bobines de notre transformateur sera donc au minimum de <b>19</b>. Cela veut dire que pour 19 enroulements dans 
+  la bobine primaire, il en faudra une seule dans la bobine secondaire.
+
+  La puissance demandée pour le transformateur n'est pas critique, la puissance absorbée par le circuit en aval est négligeable.
+
+  Notre transformateur va donc abaisser la tension du secteur en une tension plus faible.
+
+  \begin{graphicFigure}{0.6}{0.6}{0}{0.08}{-230}{230}{t(s)}{Tension (V)}{Les tensions d'entrée et de sortie du transformateur}
+
+    \addTrace{blue}{0}{0.08}{230*sin(50*360*\x)}
+
+    \addTrace{red}{0}{0.08}{14*sin(50*360*\x)}
+
+    \addTrace{black}{0}{0.08}{0}
+
+    \addLegend{Entrée, Sortie, 0V}
+
+    \end{graphicFigure}
+
+    <br> 
+
+  <h3>Le pont redresseur de tension</h3>
+  <h4>Principe</h4>
+  Notre objectif est maintenant de supprimer la composante négative de notre signal. Pour cela, on va utiliser la propriété des 
+
+  diodes qui ont la faculté de laisser passer le courant dans un seul sens.
+
+  Un montage existant est le Pont de Graetz. 
+
+   
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/diode.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/diode.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Le pont de diode</figcaption></div></figure>
+  Observons le résultat lorsque nous mettons notre tension de sortie du transformateur sur notre entrée de pont.
+
+  \begin{graphicFigure}{0.6}{0.6}{0}{0.08}{-20}{20}{t(s)}{Tension (V)}{Les tensions d'entrée et de sortie du pont de diode}
+
+    \addTrace{blue}{0}{0.08}{12*sin(50*360*\x)}
+
+    \addTrace{red}{0}{0.08}{abs(15.64*sin(50*360*\x))}
+
+    \addTrace{black}{0}{0.08}{0}
+
+    \addLegend{Entrée, Sortie, 0V}
+
+    \end{graphicFigure}
+
+  On constate que la tension de sortie est plus élevée que notre tension d'entrée.
+
+  Cette valeur s'explique par les diodes. 
+
+  
+
+  En sortie, nous voulons une tension de \(15V\). Or, les \(12V\) en entrée de notre pont sont une valeur efficace, ce qui veut dire 
+
+  que la valeur réelle vaut \(17.04V\)
+
+  Or, à chaque changement de polarité dans notre pont (signal alternatif [positif et négatif]), le courant passe à travers 
+
+  deux diodes.
+
+  Chaque diode engendre une chute de tension de \(0.7V\), d'où une perte de \(1.4V\) en sortie.
+
+  Nous avons comme tension finale en sortie de pont: 
+
+  \(V_{s} = V_{efficace}\cdot \sqrt{2} - 0.7\cdot 2 = 12\cdot 1.41 -1.4 = 15.64 V\)
+
+  <h4>Un exemple de boîtier</h4>
+    La plupart des boîtiers possèdent 4 broches
+
+<ul>
+      <li> deux broches \(V_{~}\) pour la tension alternative
+</li>
+      <li> Une broche \(V_-\) pour la masse du circuit en aval
+</li>
+      <li> Une broche \(V_+\) pour la tension positive du circuit en aval
+</li>
+</ul>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/case.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/case.png' class='alignnone size-medium' style='max-width:20%;'></a><figcaption>Figure - Un exemple de boîtier</figcaption></div></figure>
+  <h3>Les condensateurs</h3>
+  <h4>Principe</h4>
+  Comme vu à la section précédente, notre signal n'est pas continu et possède des oscillations élevées.
+
+  Nous cherchons à produire une tension continue.
+
+  Pour cela, nous allons utiliser des condensateurs.
+
+  Leur rôle sera d'accumuler de l'énergie lorsque le signal monte en amplitude et de restituer cette énergie lorsque le signal sera sur sa phase descendante.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/signal.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/signal.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Le rôle du condensateur</figcaption></div></figure>
+  <h4>Choix de la valeur</h4>
+  Plus la valeur du condensateur est élevée, plus notre signal sera lisse en sortie, ce qui est l'effet recherché.
+
+  En effet, la capacité du condensateur exprime la quantité d'énergie emmagasinée dans le condensateur.
+
+  Un condensateur de \(1mF\) et plus est une valeur normale.
+
+   Une fois notre tension assez propre (même si elle présente des oscillations), nous allons utiliser les régulateurs de tensions.
+
+  <h3>Les Régulateurs de tension</h3>
+  <h4>Principe et branchements</h4>
+  Ces composants à trois broches servent à stabiliser une tension pseudo-continue en une tension continue et stable, c'est à dire ne présentant pas d'oscillations.
+
+  Le branchement est le suivant : 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/lm.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/lm.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Un régulateur de tension</figcaption></div></figure>
+<ul>
+    <li> L'entrée INPUT est la tension à réguler
+</li>
+    <li> La broche GROUND est la masse du circuit
+</li>
+    <li> la sortie OUTPUT est la tension régulée (stable)
+</li>
+</ul>
+<h4>Les familles des régulateurs</h4>
+  Il existe différentes familles de régulateurs linaires, les plus connus étant les LM78XX<span title="XX prend la tension régulée de sortie (5,9,12,15,18V...)" style='color:grey;'><sup>[note]</sup></span> ou les LM317 qui sont des régulateurs de tension réglables.
+
+  Pour des tensions négatives, se référer à la famille des LM79XX.
+
+  Pour que ces composants fonctionnent correctement, il convient de leur mettre en entrée une tension supérieure à leur tension de régulation.
+
+  Concrètement, si on utilise un LM7812 (régulateur 12 V), il faudra mettre en entrée au moins 15 V pour que le composant fonctionne dans la plage idéale.
+
+  <b>Cette tension de \(15V\) justifie la valeur de tension du transformateur.</b>
+  Ces composants sont linéaires, c'est à dire que la différence de tension entre l'entrée et la sortie (\(V_{e}-V_s\)) 
+
+  engendre une perte de puissance dans le système.
+
+  Cette perte dépend directement du courant absorbé par le circuit en aval mais également de la différence de tension \((V_e-V_s)\).
+
+  Cette puissance vaut : \( P_{perdue} =(V_e-V_s)\cdot I_{charge} ~~~~(W)\)
+
+  <h4>Un exemple</h4>
+  On souhaite réguler un circuit en 12V, ce dernier consommant 150 mA (\(I_{charge}\)).
+
+  La perte d'énergie vaut \( P_{perdue} =(V_e-V_s)\cdot I_{charge} =(15-12)\cdot 0.150 = 0.45 W\)
+
+  <h4>La résistance thermique  des régulateurs</h4>
+   
+  En fonction de cette puissance perdue, il est possible de calculer l’élévation de la température du régulateur de tension.
+
+  La documentation technique des régulateurs de tension précise la valeur de la résistance thermique, c'est à dire de l'élévation de température lorsque le composant dissipe 1 Watt en pure chaleur.
+
+
+</body></html>

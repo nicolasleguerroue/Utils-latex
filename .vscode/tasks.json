@@ -4,8 +4,49 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Launch app", // Name of task
             "type": "shell",
-            "label": "Compilation du projet (sans bibliographie, index et nomenclature)",
+            "command": "${workspaceFolder}/Utils-latex/tools/checking extern", // Enter your command here
+            "presentation": {
+              "reveal": "always",
+              "panel": "shared"
+            },
+            "runOptions": {
+              "runOn": "folderOpen"
+            }
+          },
+          {
+            "type": "shell",
+            "label": "Compilation > Convert Latex to HTML",
+            "options": {
+                "cwd": "${workspaceFolder}/Utils-latex/HTML"
+            },
+            "group": "build",
+            "command": "python3 generateHTML.py",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "Compilation > Display HTML render",
+            "options": {
+                "cwd": "${workspaceFolder}/Utils-latex/HTML/HTML_render"
+            },
+            "group": "build",
+            "command": "chromium-browser",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "args": ["index.html"],
+            "problemMatcher": []
+        },
+        {
+            "type": "shell",
+            "label": "Compilation > Light (without bibliography, index and nomenclature)",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -19,35 +60,7 @@
         },
         {
             "type": "shell",
-            "label": "Mise à jour des bibliothèques locales",
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "group": "build",
-            "command": "./make --update-pull",
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared"
-            },
-            "problemMatcher": []
-        },
-        {
-            "type": "shell",
-            "label": "Mise à jour des bibliothèques distantes (Git) depuis la version locale",
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "group": "build",
-            "command": "./make --update-push",
-            "presentation": {
-                "reveal": "always",
-                "panel": "shared"
-            },
-            "problemMatcher": []
-        },
-        {
-            "type": "shell",
-            "label": "Compilation du projet (complète)",
+            "label": "Compilation > Full",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -64,7 +77,7 @@
         },
         {
             "type": "shell",
-            "label": "Affichage des erreurs",
+            "label": "Compilation > Display errors",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -76,19 +89,7 @@
         },
         {
             "type": "shell",
-            "label": "Vérification orthographique des fichiers",
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "command": "./make --check"
-        },
-        {
-            "type": "shell",
-            "label": "Afficher le rendu PDF",
+            "label": "Compilation > Display PDF",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -112,18 +113,6 @@
         },
         {
             "type": "shell",
-            "label": "Installation des utiliaires de compilation",
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "command": "./make --install"
-        },
-        {
-            "type": "shell",
             "label": "Ajout d'une version de projet",
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -136,27 +125,27 @@
         },
         {
             "type": "shell",
-            "label": "Retirer tous les documents de la compilation",
+            "label": "Compilation > Disable all files",
             "options": {
-                "cwd": "${workspaceFolder}/.vscode"
+                "cwd": "${workspaceFolder}/Utils-latex/tools"
             },
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "command": "php compileAnyFile.php"
+            "command": "python3 compileAnyFile.py"
         },
         {
             "type": "shell",
-            "label": "Autoriser la compilation complète du répertoire",
+            "label": "Compilation > Enable all files",
             "options": {
-                "cwd": "${workspaceFolder}/.vscode"
+                "cwd": "${workspaceFolder}/Utils-latex/tools"
             },
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "command": "php compileAllFiles.php"
+            "command": "python3 compileAllFiles.py"
         },
         {
             "label": "Run",
@@ -171,50 +160,320 @@
                 "kind": "build",
                 "isDefault": true
             }
-        }
-        ,
+        },
+        /*
+        ** ***************************************************************************************************************
+        ** **************************   Parts                *************************************************************
+        ** ***************************************************************************************************************
+        */
         {
-            "label": "New part",
+            "label": "Parts > New part",
             "type": "shell",
-            "command": "mkdir ${workspaceFolder}/Parts/${input:partNumber}.${input:partName} && mkdir ${workspaceFolder}/Images/${input:partName} && echo -e \"\\\\\\chapter{${input:partName}}\\n\\\\\\addcontentsline{toc}{chapter}{${input:partName}}\" > \"${workspaceFolder}/Parts/${input:partNumber}.${input:partName}/0.${input:partName}.tex\"",
+            "command": "mkdir ${workspaceFolder}/Parts/${input:partNumber}.${input:partName} && mkdir ${workspaceFolder}/Images/${input:partName} && echo -e \"\\\\\\chapter{${input:partName}}\" > \"${workspaceFolder}/Parts/${input:partNumber}.${input:partName}/0.${input:partName}.tex\"",
             "args": [
             ],
             "problemMatcher": [],
             "group": {
                 "kind": "build"
             }
-        }
+        },
+        /*
+        ** ***************************************************************************************************************
+        ** **************************   Settings             *************************************************************
+        ** ***************************************************************************************************************
+        */
+        {
+            "label": "Settings > depth of TOC",
+            "type": "shell",
+            "command": "echo -n \"\\setcounter{tocdepth}{${input:tocDepth}} %Depth of table of content\" > Settings/TocDepth.tex",
+            "args": [
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "Settings > Update of fonts",
+            "type": "shell",
+            "command": "echo -n \"\\usepackage[sfdefault]{${input:fonts}} %Fonts\" > Settings/Fonts.tex \"} ",
+            "args": [
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "Settings > Update of chapter alias",
+            "type": "shell",
+            "command": "echo \"\\setAliasChapter{${input:aliasChapter}} %Alias of chapters\" > Settings/ChapterAlias.tex",
+            "args": [
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "Settings > Update of margins",
+            "type": "shell",
+            "command": "echo \"\\geometry{hmargin=${input:horizontalMargin}cm,vmargin=${input:verticalMargin}cm} %Margins of file\" > Settings/Margins.tex",
+            "args": [
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "Settings > Update of metadata",
+            "type": "shell",
+            "command": "echo \"\\setParameters{${input:mdataTitleDocument}}{${input:mdataAuthor}}{${input:mdataSubject}}{${input:mdataCreator}}{${input:mdataProducer}}{${input:mdataKeywords}}{${input:mdataColorLinks}} {${input:mdataColorCite}} {${input:mdataColorFile}} %Metadata of file\" > Settings/Metadata.tex",
+            "args": [
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "Settings > Update of theme",
+            "type": "shell",
+            "command": "echo \"\\usepackage[${input:theme}]{fncychap} %Theme of chapter\" > Settings/Theme.tex",
+            "args": [
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "Settings > Update of line width",
+            "type": "shell",
+            "command": "echo \"\\setHeaderLine{${input:headerLine}} %Width of header line\" > Settings/FHeaderLine.tex && echo \"\\setFooterLine{${input:footerLine}} %Width of footer line\" >> Settings/FHeaderLine.tex ",
+            "args": [
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "Settings > Update of document class",
+            "type": "shell",
+            "command": "echo \"\\documentclass[${input:textSize}pt]{${input:documentClass}}\" >  Settings/DocumentClass.tex",
+            "args": [
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "Settings > Update of nomenclature name",
+            "type": "shell",
+            "command": "echo \"\\renewcommand{\\nomname}{${input:nomenclatureName}}\" >  Settings/NomenclatureName.tex",
+            "args": [
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "Display > Enable List of Figures",
+            "type": "shell",
+            "command": "echo \"\\displayListOfFigures{${input:lofName}} %Display List of Figures\" > Settings/LOF.tex",
+            "args": [
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "Display > Disable List of Figures",
+            "type": "shell",
+            "command": "echo  > Settings/LOF.tex",
+            "args": [
+            ],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
     ],
+
+    /*
+    ** ***************************************************************************************************************
+    ** ***************************************************************************************************************
+    ** **************************     INPUTS     *********************************************************************
+    ** ***************************************************************************************************************
+    ** ***************************************************************************************************************
+    */
     "inputs": [
+        /*
+        ** ***************************************************************************************************************
+        ** **************************   Settings             *************************************************************
+        ** ***************************************************************************************************************
+        */
         {
             "type": "pickString",
-            "id": "componentType",
-            "description": "What type of component do you want to create?",
+            "id": "tocDepth",
+            "description": "What is the depth of the Table of Content ?",
             "options": [
-              "component",
-              "directive",
-              "pipe",
-              "service",
-              "class",
-              "guard",
-              "interface",
-              "enum",
-              "enum"
+              "-1",
+              "0",
+              "1",
+              "2"
             ],
-            "default": "component"
-          },
-          {
+            "default": "1"
+        },
+        {
+            "type": "pickString",
+            "id": "fonts",
+            "description": "What is your wanted font ?",
+            "options": [
+              "carlito",
+              "default"
+            ],
+            "default": "carlito"
+        },
+        {
             "type": "promptString",
-            "id": "componentName",
-            "description": "Name your component.",
-            "default": "my-new-component"
-          },
-          {
+            "id": "aliasChapter",
+            "description": "What is the alias of chapter ?",
+            "default": "Section"
+        },
+        {
+            "type": "promptString",
+            "id": "horizontalMargin",
+            "description": "Horizontal margin (cm)",
+            "default": "2"
+        },
+        {
+            "type": "promptString",
+            "id": "verticalMargin",
+            "description": "Vertical margin (cm)",
+            "default": "2"
+        },
+        {
+            "type": "promptString",
+            "id": "mdataTitleDocument",
+            "description": "Title of PDF file",
+            "default": "main"
+        },
+        {
+            "type": "promptString",
+            "id": "mdataAuthor",
+            "description": "Author(s)",
+            "default": "username"
+        },
+        {
+            "type": "promptString",
+            "id": "mdataSubject",
+            "description": "Subject of file",
+            "default": "main"
+        },
+        {
+            "type": "promptString",
+            "id": "mdataCreator",
+            "description": "Name of file creator",
+            "default": "username",
+        },
+        {
+            "type": "promptString",
+            "id": "mdataProducer",
+            "description": "Name of producer",
+            "default": "Written in Latex"
+        },
+        {
+            "type": "promptString",
+            "id": "mdataKeywords",
+            "description": "Keywords of document",
+            "default": "keywords"
+        },
+        {
+            "type": "promptString",
+            "id": "mdataColorLinks",
+            "description": "Color of link (URL)",
+            "default": "blue"
+        },
+        {
+            "type": "promptString",
+            "id": "mdataColorCite",
+            "description": "Color of citations",
+            "default": "black"
+        },
+        {
+            "type": "promptString",
+            "id": "mdataColorFile",
+            "description": "Color of links (file)",
+            "default": "black"
+        },
+        {
+            "type": "pickString",
+            "id": "theme",
+            "description": "Themes of chapter",
+            "options": [
+                "", "Lenny", "Glenn", "Sonny", "Conny", "Rejne", "Bjarne"
+            ],
+            "default": ""
+        },
+        {
+            "type": "promptString",
+            "id": "headerLine",
+            "description": "Width of header line (Set to 0 to hide the line)",
+            "default": "0.2"
+        },
+        {
+            "type": "promptString",
+            "id": "footerLine",
+            "description": "Width of footer line (Set to 0 to hide the line)",
+            "default": "0.2"
+        },
+        {
+            "type": "pickString",
+            "id": "documentClass",
+            "description": "Type of class",
+            "options": [
+                "Utils/utils_report", "report", "Utils/utils_article", "article", "book"
+            ],
+            "default": "Utils/utils_report"
+        },
+        {
+            "type": "pickString",
+            "id": "textSize",
+            "description": "Size of text in pt",
+            "options": [
+                "10", "11", "12"
+            ],
+            "default": "11"
+        },
+        {
+            "type": "promptString",
+            "id": "nomenclatureName",
+            "description": "Name of nomenclature",
+            "default": "Nomenclature"
+        },
+        {
+            "type": "promptString",
+            "id": "lofName",
+            "description": "Name of Table Of Figure",
+            "default": "Table des Figures"
+        },
+        /*
+        ** ***************************************************************************************************************
+        ** **************************   Parts                *************************************************************
+        ** ***************************************************************************************************************
+        */
+        {
             "type": "promptString",
             "id": "partName",
-            "description": "Name your part",
+            "description": "Name of your part",
             "default": "PartName"
-          },
+        },
           {
             "type": "promptString",
             "id": "partNumber",

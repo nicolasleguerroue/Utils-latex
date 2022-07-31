@@ -4,7 +4,7 @@
 %###### Author  : Nicolas LE GUERROUE
 %###### Contact : nicolasleguerroue@gmail.com
 %############################################################
-\RequirePackage{hyperref}           %Url
+\RequirePackage[unicode]{hyperref}           %Url
 \RequirePackage{xurl}
 \typeout{>>> Utils: Package 'Links' loaded !}
 %################################################################
@@ -38,7 +38,7 @@ Cette commande permet de définir les propriétés du document PDF (auteur, titr
    \typeout{>>> Utils - [MData] : link colors='#6'}
    \typeout{>>> Utils - [MData] : bib links colors='#7'}
    \typeout{>>> Utils - [MData] : link file colors='#8'}
-\hypersetup{
+    \hypersetup{
     bookmarks=true,         % show bookmarks bar?
     unicode=true,          % non-Latin characters in Acrobat’s bookmarks
     pdftoolbar=true,        % show Acrobat’s toolbar?
@@ -57,4 +57,5 @@ Cette commande permet de définir les propriétés du document PDF (auteur, titr
     citecolor=#6,        % color of links to bibliography
     filecolor=#7,         % color of file links
     urlcolor=#8        % color of external links
-} }
+} 
+}
