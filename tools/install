@@ -93,6 +93,7 @@ function installTools(){
         VSCodeCmd="code"
     fi
     CODE_EXTENSIONS=(
+        "vscode-pdf"
         "alefragnani.Bookmarks"
         "streetsidesoftware.code-spell-checker"
         "streetsidesoftware.code-spell-checker-french"

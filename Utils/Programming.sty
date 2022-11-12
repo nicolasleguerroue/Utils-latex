@@ -9,31 +9,31 @@
 \RequirePackage{tabularx}           %use for csv file [table]
 \RequirePackage{textcomp}           %special characters
 \typeout{>>> Utils: Package 'Programming' loaded !}
-%###############################################################
-%### Couleurs programmation
-\definecolor{green}{rgb}{0,0.6,0}
+
+%\definecolor{green}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{purple}{rgb}{0.58,0,0.82}
-\definecolor{bg}{rgb}{0.98,0.98,0.98}
-%###############################################################
-%### définition du style 'Python' [begin{Python}]
+%\definecolor{purple}{rgb}{0.58,0,0.82}
+\definecolor{bg}{rgb}{0.99,0.99,0.99}
+
 \lstdefinestyle{Python}{
     backgroundcolor=\color{bg},   
     commentstyle=\color{green},
-    keywordstyle=\color{blue},
+    keywordstyle=\color{black},
     numberstyle=\tiny\color{gray},
-    stringstyle=\color{purple},
-    basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,         
-    breaklines=true,                 
+    stringstyle=\color{blue},
+    basicstyle=\ttfamily,
+    breakatwhitespace=true, %false         
+    breaklines=false,     %true            
     captionpos=b,                    
-    keepspaces=true,                 
-    numbers=none,   %left, right, none 
-    numbersep=5pt,                  
+    keepspaces=false,       %true          
+    numbers=right,   %left, right, none 
+    numbersep=5pt,     
+    identifierstyle=\color{darkBlue},             
     showspaces=false,                
     showstringspaces=false,
     showtabs=false,  
-    tabsize=2
+    tabsize=2,
+    frame=trBL   %trBL, shadowbox, trrb
 }
 \lstset{style=Python}
 \lstset{literate=
@@ -52,11 +52,11 @@
   {€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
   {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
 }
-\lstnewenvironment{Python}[1]{\lstset{language=Python, title=#1}}{}
+\lstnewenvironment{Python}[1] %Create env Python #title
+{\lstset{language=Python, title=#1}}{}
 
 %###############################################################
 %###############################################################
-%### définition du style 'Cpp' [begin{Cpp}]
 \lstdefinestyle{Cpp}{
     basicstyle=\ttfamily,
     columns=fullflexible,
@@ -67,13 +67,13 @@
     keywordstyle=\color{blue},
     identifierstyle=\color{violet},
     stringstyle=\color{purple},
-    numbers=none,
+    numbers=right,
     language=c,
 }
-\lstnewenvironment{Cpp}[1]{\lstset{style=Cpp, title=#1}}{}
+\lstnewenvironment{Cpp}[1] %New code Cpp #FigureName
+{\lstset{style=Cpp, title=#1}}{}
 
 %###############################################################
-%### définition du style 'Bash' [begin{Bash}]
 \lstdefinestyle{Bash}{
     basicstyle=\ttfamily,
     columns=fullflexible,
@@ -90,18 +90,18 @@
     language=bash,
     morekeywords={sudo,apt-get,install, autoremove, update, upgrade, chmod, ifconfig}
 }
-\lstnewenvironment{Bash}[1]{\lstset{style=Bash, title=#1}}{}
+\lstnewenvironment{Bash}[1] %New code Bash #title
+{\lstset{style=Bash, title=#1}}{}
 
 %###############################################################
-%### définition du style 'Latex' [begin{Latex}]
 \lstdefinestyle{Latex}{
     basicstyle=\ttfamily,
     columns=fullflexible,
     keepspaces=true,
     upquote=true,
     frame=trBL, %frame=trBL, shadowbox, trrb
-    %frameround=fttt,
-    numbers=none,
+    frameround=fttt,
+    numbers=right,
     showstringspaces=false,
     commentstyle=\color{olive},
     keywordstyle=\color{blue},
@@ -119,13 +119,13 @@
     \chapter, \section, \subsection, \subsubsection, \begin, \end, \item, items, messageBox, evec, emat, plot, ball,
     lorange,lred,lgreen, lmagenta,lpurple,lcyan,lblue,lbrown,lyellow,lblack, tree}
     }
-\lstnewenvironment{Latex}[1]{\lstset{style=Latex, title=#1}}{}
+\lstnewenvironment{Latex}[1] %New code Latex #title
+{\lstset{style=Latex, title=#1}}{}
 
 
 
 
 %###############################################################
-%### définition du style 'Latex' [begin{Latex}]
 \lstdefinestyle{Html}{
     basicstyle=\ttfamily,
     columns=fullflexible,

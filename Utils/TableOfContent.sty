@@ -7,7 +7,17 @@
 \RequirePackage[open=true]{bookmark}  %Good toc
 \typeout{>>> Utils: Package 'TableOfContent' loaded !}
 
-\newcommand{\displayTableOfContent}[2]{%Display the listOfTables #tocName
+
+\newcommand{\smallTableOfContent}{  %Reduce the size of Table Of Content #
+    \addtocontents{toc}{
+    \protect\setlength{\baselineskip}{-20em}
+    \protect\setlength{\parskip}{0pt}}
+}
+\newcommand{\classicalTableOfContent}{  %No reduce the size of Table Of Content #
+}
+
+\newcommand{\displayTableOfContent}[2] %Display the table of content #tocName
+{ 
     \setcounter{page}{#1}
     \addtocontents{toc}{~\hfill\textbf{#2}\par} 
     \tableofcontents 

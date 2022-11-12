@@ -37,21 +37,51 @@ createFile ${settingsDir}/"FHeaderLine.tex" "\setHeaderLine{0.2} %Width of heade
 createFile ${settingsDir}/"Fonts.tex" "\usepackage[sfdefault]{carlito} %Fonts"
 createFile ${settingsDir}/"Hyperref.tex" "%Hyperref"
 createFile ${settingsDir}/"Includes.tex" "%Includes"
+createFile ${settingsDir}/"ListMargin.tex" "\setlength{\leftmargini}{1cm} %Margin of list item"
 createFile ${settingsDir}/"LOF.tex" "\displayListOfFigures{Table des Figures} %Display List of Figures"
 createFile ${settingsDir}/"Margins.tex" "\geometry{hmargin=2cm,vmargin=2cm} %Margins of file"
 createFile ${settingsDir}/"NomenclatureName.tex" "\renewcommand{\nomname}{Nomenclature}" 1
 createFile ${settingsDir}/"Theme.tex" "\usepackage[]{fncychap} %Theme of chapter"
 createFile ${settingsDir}/"TocDepth.tex" "\setcounter{tocdepth}{0} %Depth of table of content"
-
-
+createFile ${settingsDir}/"TocSize.tex" "\classicalTableOfContent %Size of table of content" 1
+createFile ${settingsDir}/"SectionColor.tex" "\setSectionColor{darkBlue}{0} %Color of section"
+createFile ${settingsDir}/"SubSectionColor.tex" "\setSubSectionColor{orange}{0} %Color of subsection"
+createFile ${settingsDir}/"TitlePrefix.tex" "\disableSectionPrefix %Status of section prefix \n \disableSubSectionPrefix %Status of subsection prefix"
 
 createFile ${makeDir}/"Alias.tex" "%Set personnal commands here"
+createFile ${makeDir}/"Colors.tex" "%Set personnal colors here"
 createFile ${makeDir}/"Contacts.tex" "%Set personnal informations to contact author"
 createFile ${makeDir}/"Glossaries.tex" "%Set glossaries\n\makenoidxglossaries"
 createFile ${makeDir}/"Index.tex" "%Make index \n\makeindex"
 createFile ${makeDir}/"Nomenclature.tex" "%Set nomenclature"
 createFile ${makeDir}/"Rules.tex" "%Set rules"
 createFile ${makeDir}/"Versions.tex" "%Set versions of project"
+
+
+for part in `ls -a $partsDir`
+do
+    if [[ -d "$partsDir/$part" ]];then #If directory
+        found=0
+        for subFile in `ls -a $partsDir/$part`
+        do
+            #echo $subFile
+            if [[ "$subFile" == "header" ]];then #If directory
+                found=1
+            fi
+        done
+        if [[ $found == 0 ]];then
+            echo -e ">>> Creating header file for $partsDir/$part directory : [$green OK $default]"
+            touch $partsDir/$part/header
+        fi
+    fi
+
+done
+
+echo -e ">>> Checking of files : [$green OK $default]"
+
+echo ">>> Generating Snippets file"
+python3 ${src}/tools/generateSnippets.py
+echo -e ">>> Generating Snippets file : [$green OK $default]"
 
 }
 
@@ -60,4 +90,4 @@ if [[ $1 == "extern" ]];then
 fi
 
 
-echo -e ">>> Checking of files : [$green OK $default]"
+

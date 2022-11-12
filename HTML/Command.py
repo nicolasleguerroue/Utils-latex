@@ -177,7 +177,7 @@ class Command():
                         color=group[0]
                         id=group[1]
                         text=group[2]
-                        data = Label.create(color, text)
+                        data = Label.create(color, id, text)
                         content = content.replace("\\lbl{"+color+"}{"+id+"}{"+text+"}", data)
                         #print(content)
                 self.__flag = self.LABEL
@@ -337,91 +337,6 @@ class Command():
                     #print(">>> Bad glossary format")
                     pass
 
-
-        elif(self.__type == self.BEGIN_LIST):
-
-            regexCommand = r".*\\begin\{"+self.__name+"\}"
-
-            if(re.match(regexCommand, content)):  #Only one list in line
-                #print(">>> Begin List found"+content)
-                result = re.compile(r'\{(.+?)}').findall(content)
-                if(len(result)==self.__argumentsNumber and (self.__name in result[0])):
-                    self.__flag = self.BEGIN_LIST
-
-                    return "<ul>"
-
-        elif(self.__type == self.END_LIST):
-
-            regexCommand = r".*\\end\{("+self.__name+r")\}"
-
-            if(re.match(regexCommand, content)):  #Only one list in line
-                self.__flag = self.END_LIST
-                return "</ul>"
-
-        elif(self.__type == self.ITEM_LIST):
-
-            regexCommand = r".*\\"+self.__name+"*(.*)"
-
-            if(re.match(regexCommand, content)):
-
-                #print(">>> Line content found" + content)
-                self.__flag = self.ITEM_LIST
-                return content.replace("\\item", "<li>")+"</li>"
-
-
-        elif(self.__type == self.BEGIN_CODE):
-
-            regexCommand = r".*\\begin\{"+self.__name+"\}"
-
-            if(re.match(regexCommand, content)):  #Only one list in line
-                result = re.compile(r'\{(.+?)}').findall(content)
-                if(len(result)==self.__argumentsNumber):
-                    self.__flag = self.BEGIN_CODE
-                    return "<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>"
-
-        elif(self.__type == self.END_CODE):
-
-            regexCommand = r".*end\{"+self.__name+r".*\}"
-            if(re.match(regexCommand, content)):  #Only one list in line
-                if(self.__name in content):
-                    self.__flag = self.END_CODE
-                    return "</code></pre><hr>"
-
-        elif(self.__type == self.IMAGE):
-
-            regexCommand = r".*\\"+self.__name+"(.*)"
-
-            if(re.match(regexCommand, content)):  #Only one list in line
-                #print(">>> Begin List found"+content)
-                result = re.compile(r'\{(.+?)}').findall(content)
-                if(len(result)==self.__argumentsNumber):
-                    folder = str(result[0])
-                    name = folder.split("/")[1]
-                    legend = result[1]
-                    size = int(float(result[2])*100)
-
-                    folder = Image.findPath("../../Images", name, "")
-                    #print(folder)
-                    self.__flag = self.IMAGE
-                    return Image.create(folder.replace("../../Images/", ""), legend, size)
-
-        elif(self.__type == self.MESSAGE_BOX):
-
-            regexCommand = r".*\\"+self.__name+r"\{(.*)\}"
-
-            if(re.match(regexCommand, content)):  #Only one list in line
-                result = re.compile(r'\{(.+?)}').findall(content)
-                if(len(result)==self.__argumentsNumber): 
-                    title = str(result[0])
-                    colorframe = result[2]
-                    backgroundColor = result[1]
-                    text= result[3]
-                    data = MessageBox.create(title, backgroundColor,colorframe, text)
-                    self.__flag = self.MESSAGE_BOX
-                    return data    
-                else:
-                    print(">>> MessageBox Error"+content)
-                    pass
         elif(self.__type == self.ESCAPE):
 
             regexCommand = r".*\\"+self.__name

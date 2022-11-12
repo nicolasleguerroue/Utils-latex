@@ -1,0 +1,893 @@
+<html><head><style>.cent {  display: block;  margin-left: auto;  margin-right: auto;}</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> </script><body style='margin-left:5%;margin-right:5%;margin-top:1%'><h4>Fichier générer depuis les sources Latex</h4><h5>Auteur : Nicolas Le Guerroué</h5><a href='index.html'><button class='btn btn-success' >Revenir au sommaire</button></a><hr><h1 class=''>Les capteurs et périphériques</h1>
+<h2 >Principes et théorie</h2>
+<h3>Objectifs</h3>
+Ce chapitre a pour but de faire un petit tour d'horizon des différents capteurs et de leur mise en place.
+
+Une mise en exemple sera faite avec le code de base pour réaliser un serveur Web.
+
+<h3>Les types de capteurs</h3>
+Il existe une multitude de capteurs: 
+
+<ul>
+    <li> Capteur de distance
+</li>
+    <li> Capteur de température
+</li>
+    <li> Capteur de présence
+</li>
+    <li> Capteur de pression-humidité
+</li>
+    <li> Capteur de position (potentiomètre, joystick, fin de course)
+</li>
+    <li> Capteur de particules fines
+</li>
+    <li> Capteur d'accélération
+</li>
+</ul>
+<h3>Les modes de transmission</h3>
+Voici les différentes façon de communiquer. 
+
+Pour nos exemples, nous nous baserons sur deux périphériques qui communiquent entre eux.
+
+<ul>
+     
+    <li> Simplex: la communication est unidirectionnel , c'est à dire que le périphérique A envoie des informations au périphérique B mais le B ne peut pas envoyer au A. 
+</li>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/keyboard.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/keyboard.png' class='alignnone size-medium' style='max-width:20%;'></a><figcaption>Figure - L'analogie du mode Simplex</figcaption></div></figure>
+     
+    <li> Half-duplex: la communication se fait dans les deux sens mais avec un décalage dans le temps. Si le périphérique A communique, le B ne peut pas envoyer des informations en meme temps que le A. 
+</li>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/talkie.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/talkie.png' class='alignnone size-medium' style='max-width:20%;'></a><figcaption>Figure - L'analogie du mode Half-Duplex</figcaption></div></figure>
+     
+    <li> Full-duplex: les périphériques peuvent communiquer en même temps, comme dans une conversation téléphonique.
+</li>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/cell3.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/cell3.png' class='alignnone size-medium' style='max-width:10%;'></a><figcaption>Figure - L'analogie du mode Full-Duplex</figcaption></div></figure>
+</ul>
+<h3>Les protocoles de communication</h3>
+Pour communiquer, de nombreux protocoles existent mais voici les principaux.
+
+<h4>Le bus I2C</h4>
+Le bus <span title="Inter-Integrated Circuit (Bus) : Bus de communication" style='color:blue;'>I2C</span>   est un bus informatique qui a émergé dans les années 80 pendant la «guerre des standards» lancée par les acteurs du monde électronique.
+Conçu par Philips pour les applications de domotique et d’électronique domestique, il permet de relier facilement un microcontrôleur et différents circuits récepteurs tels que des capteurs de pression, température....
+
+C'est un bus série synchrone bidirectionnel half-duplex avec 2 broches utilisées pour communiquer :
+
+<ul>
+    <li> <span title="Serial Data : Ligne de données pour le protocole I2C" style='color:blue;'>SDA</span> : Serial Data (ligne de données)  </li>
+    <li> <span title="Serial Clock : Ligne d'horloge pour le protocole I2C" style='color:blue;'>SCL</span> : Serial Clock (ligne d'horloge)  </li>
+</ul>
+Une masse est commune aux périphériques.
+
+Les échanges ont toujours lieu entre un seul maître et un (ou tous les) esclave(s), toujours à l’initiative du maître <span title="Jamais de maître à maître ou d’esclave à esclave, cependant, rien n’empêche un composant de passer du statut de maître à esclave et réciproquement" style='color:grey;'><sup>[note]</sup></span> et pour éviter les conflits électriques les broches SDA et SCL sont de type <b>Collecteur Ouvert</b>. Il faut donc ajouter des résistances de tirage mais ces dernières sont généralement intégrées.
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/opencollector.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/opencollector.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Les résistances de rappel du bus I2C</figcaption></div></figure>
+Il existe d’innombrables périphériques exploitant ce bus, il est même implémentable par logiciel dans n’importe quel microcontrôleur.
+
+A chaque composant est attribué une adresse physique qui permettra les échanges.
+
+ Cette adresse est codée sur 7 bits, ce qui fait que le bus I2C peut supporter en théorie 127 périphériques <span title="en  réalité moins car il faut tenir compte de la capacité de ligne" style='color:grey;'><sup>[note]</sup></span>.
+
+Par exemple, on pourra trouver sur un même bus I2C : 
+
+<ul>
+    <li> 1 écran <span title="Organic LED : Écran LED organique" style='color:blue;'>OLED</span>  (adresse 0x3C)  </li>
+    <li> 1 écran <span title="Liquid Crystal Display : Ecran à Affichage à Cristaux Liquide" style='color:blue;'>LCD</span>  (0x27)  </li>
+    <li> 1 capteur de pression BME180 (0x35)
+</li>
+</ul>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/bus_i2c.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/bus_i2c.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Un réseau de capteurs</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/I2C.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/I2C.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Une capture de trame I2C</figcaption></div></figure>
+<h4>Les changements d'adresses</h4>
+Lorsqu'on souhaite connecter plusieurs périphériques ayant la même adresse (par exemple 2 capteurs de température), il est possible pour certains périphériques de mettre certaines broches à un certain niveau logique pour définir l'adresse.
+
+<h4>Le bus SPI</h4> 
+Le bus SPI<span title="SPI : Serial Peripheral Interface" style='color:grey;'><sup>[note]</sup></span> <span title="Serial Peripheral Interface : Interface Série pour Périphérique" style='color:blue;'>SPI</span>   est full-duplex et développé par Motorola dans le milieu des années 80.
+La liaison est de type maitre-esclave ou le maitre sélectionne l'esclave avec qui il veut communiquer avec une broche \genericPin{SS}.
+
+Le bus comporte 4 broches :
+
+<ul>
+    <li> SCLK : Serial Clock, Horloge (généré par le maître)
+</li>
+    <li> MOSI : Master Output Slave Input (généré par le maître)
+</li>
+    <li> MISO : Master Input Slave Output (généré par l'esclave)
+</li>
+    <li> SS : Slave Select, Actif à l'état bas (généré par le maître)
+</li>
+</ul>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/spi.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/spi.png' class='alignnone size-medium' style='max-width:20%;'></a><figcaption>Figure - Un bus SPI</figcaption></div></figure>
+<h4>Protocole</h4>
+<ul>
+    <li> Le maître génère l'horloge et sélectionne l'esclave avec qui il veut communiquer par l'utilisation du signal SS
+</li>
+    <li> L'esclave répond aux requêtes du maître
+</li>
+</ul>
+<h4>La liaison UART</h4> 
+ 
+La liaison <span title="Universal Asynchronous Receiver / Transmitter  : Transmetteur / Receveur Asynchorne Universel" style='color:blue;'>UART</span> est une liaison série avec deux broches :
+
+<ul>
+    <li> RX
+</li>
+    <li> TX
+</li>
+</ul>
+Il permet uniquement de faire communiquer plus de deux appareils entre eux, contrairement aux bus I2C ou SPI, on ne peut pas relier plusieurs périphériques.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/uart_periph.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/uart_periph.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Une communication UART</figcaption></div></figure>
+<h4>Protocole</h4>
+<ul>
+    <li> Un bit de start toujours à 0 pour synchroniser la communication
+</li>
+    <li> Un champ de données de 7 à 8 bits
+</li>
+    <li> Un bit de parité (paire ou impaire)
+</li>
+    <li> Un bit de stop
+</li>
+</ul>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/uart_prot.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/uart_prot.png' class='alignnone size-medium' style='max-width:20%;'></a><figcaption>Figure - Le protocole UART</figcaption></div></figure>
+Au repos, la ligne est au niveau logique HAUT.
+
+<h4>Vitesse de communication</h4>
+La liaison étant asynchrone, il faut que les périphériques communiquent à la même vitesse. Cette dernière est normalisée et représente le nombre de bit par seconde (baud<span title="1 baud représente 1 symbole par seconde." style='color:grey;'><sup>[note]</sup></span>)
+
+<ul>
+<li> 1 200 bauds
+</li>
+<li> 2 400 bauds
+</li>
+<li> 4 800 bauds
+</li>
+<li> 9 600 bauds
+</li>
+<li> 19 200 bauds
+</li>
+<li> 38 400 bauds
+</li>
+<li> 57 600 bauds
+</li>
+<li> 115 200 bauds
+</li>
+</ul>
+<h4>Une trame en exemple</h4>
+On constate bien que le niveau au repos est au niveau HAUT.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/uart.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/uart.png' class='alignnone size-medium' style='max-width:28%;'></a><figcaption>Figure - Une capture de trame UART à 9600 bauds</figcaption></div></figure>
+<h4>D'autres exemple</h4>
+<ul>
+    <li> Le bus CAN<span title="Controller Area Network" style='color:grey;'><sup>[note]</sup></span> est un bus série half-duplex couramment utilisé dans l'industrie automobile et avionique. La transmission suit le principe de transmission en paire différentielle et possèdent donc deux lignes CAN L (CAN LOW) et CAN H (CAN HIGH). Tous les équipements, appelés noeuds, souhaitant communiquer via le bus sont connectés et peuvent échanger des informations.
+</li>
+    <li> Protocole One-Wire qui utilise un seul câble pour communiquer.
+</li>
+    <li> Protocole MODBus <span title="Utilisé dans les automates industriels" style='color:grey;'><sup>[note]</sup></span>
+</li>
+</ul>
+<h3>Les capteurs de distance</h3>
+Différentes technologies sont utilisées pour mesurer une distance, cependant elles possèdent leurs avantages et inconvénients.
+
+<ul>
+    <li> Infrarouge
+</li>
+<ul>
+        <li> Bon marché
+</li>
+        <li> Assez précis
+</li>
+</ul>
+<ul>
+        <li> Non-linéaires
+</li>
+        <li> Sensibilité à la lumière ambiante
+</li>
+        <li> Dépend du coefficient de réflexion lumineuse de la surface en face du capteur
+</li>
+</ul>
+    <li> Laser
+</li>
+<ul>
+        <li> Très précis
+</li>
+        <li> Longue distance
+</li>
+</ul>
+<ul>
+        <li> Prix
+</li>
+</ul>
+    <li> Ultra-sonore
+</li>
+<ul>
+        <li> Prix
+</li>
+        <li> Ne dépend pas de la couleur de la surface en face du capteur
+</li>
+</ul>
+<ul>
+        <li> Précision parfois arbitraire
+</li>
+</ul>
+</ul>
+    
+
+<h4>Les capteurs infrarouges</h4>
+Ce capteur envoie une tension qui dépend de la distance de l'objet.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/sharp.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/sharp.png' class='alignnone size-medium' style='max-width:10%;'></a><figcaption>Figure - Un capteur de distance infrarouge</figcaption></div></figure>
+Cependant, cette tension n'est pas proportionnelle à la distance<span title="Extrait de la datasheet du capteur" style='color:grey;'><sup>[note]</sup></span>
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/dist.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/dist.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - La tension de sortie en fonction de la distance</figcaption></div></figure>
+<h4>Les capteurs ultrasons</h4>
+<h4>Principe</h4>
+Le principe de ce capteur repose sur le temps de propagation d'une onde sonore dans l'air.
+
+En connaissant le temps d'une aller-retour et la vitesse de propagation, on peut déterminer la distance de l'objet.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/hcsr04.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/hcsr04.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Un capteur de distance HCSR-04</figcaption></div></figure>
+<h4>Séquence de la mesure</h4>
+<ul>
+    <li> On envoie une impulsion de 10µs sur la broche <span style='background-color:green;opacity:60%;color:white;' class='badge badge-pill'>TRIGGER</span> du capteur.
+</li>
+    <li> Le capteur envoie une dizaine d'impulsions ultrasonores à 40 kHz
+</li>
+    <li> Les ondes se propagent et rebondissent sur l'obstacle
+</li>
+    <li> Le capteur renvoie le temps de propagation avec la broche <span style='background-color:green;opacity:60%;color:white;' class='badge badge-pill'>ECHO</span> en mettant la sortie à 
+</li>
+    l'état haut durant le temps de l'aller-retour.
+
+</ul>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/hc.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/hc.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - L'algorithme de la mesure</figcaption></div></figure>
+Voici le relevé de la broche \lbl{green}{PIN}{TRIGGER} et <span style='background-color:green;opacity:60%;color:white;' class='badge badge-pill'>ECHO</span> 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/trigger.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/trigger.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Les broches TRIGGER et ECHO</figcaption></div></figure>
+<h3>Les écrans OLED</h3>
+Les écrans OLED<span title="Organic Light Emitting Diode : DEL organique" style='color:grey;'><sup>[note]</sup></span> sont des afficheurs graphiques compacts avec une résolution de 128×64 pixels ou 64x32 pixels.
+
+Leur résolution plus élevée que des écrans LCD permet de faire des petits dessins.
+
+Ces écrans utilisent le protocole I2C pour communiquer.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/oled.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/08/oled.jpg' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Un écran OLED</figcaption></div></figure>
+<h3>Les capteurs de température</h3>
+<h4>Les capteurs numériques</h4>
+Les capteurs de température DHTXX<span title="DHT11 ou DHT22" style='color:grey;'><sup>[note]</sup></span> sont des capteurs de température et d'humidité fonctionnant entre 3.3 et 5V.
+
+<h4>Protocole</h4>
+Le protocole de communication se fait sur un seul câble.<span title="Protocole de type "One-Wire"" style='color:grey;'><sup>[note]</sup></span>
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/dht.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/dht.png' class='alignnone size-medium' style='max-width:23%;'></a><figcaption>Figure - Une trame du capteur DHT22</figcaption></div></figure>
+<h4>Branchements</h4>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/dht22.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/08/dht22.jpg' class='alignnone size-medium' style='max-width:35%;'></a><figcaption>Figure - Le capteur DHT22</figcaption></div></figure>
+<h4>Les capteurs analogiques</h4>
+Enfin, certains capteurs transmettent leurs données via une tension analogique. 
+
+Pour certains capteurs, il suffire le lire une tension pour obtenir indirectement la grandeur physique. Par exemple, le capteur LM35 sort une tension de 10 mV/°C.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/lm35.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/08/lm35.jpg' class='alignnone size-medium' style='max-width:20%;'></a><figcaption>Figure - Le capteur de température LM35</figcaption></div></figure>
+Si le capteur sort une tension de 210 mV, cela veut dire qu'il fait 21°C.
+
+<h3>Les capteurs PIR</h3>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/pir.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/08/pir.jpg' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Un capteur PIR</figcaption></div></figure>
+<h4>Principe</h4>
+Les capteurs PIR (Passive-Infra-Red) détectent les rayonnements infrarouges émis par un objet.
+
+Puisque tout objet émet un rayonnement infrarouge, le capteur PIR est muni de deux cellules sensibles aux infrarouges qui vont détecter ces rayons infrarouges réfléchit ou émit par l'objet. 
+
+Lorsqu’il n’y a pas de mouvement, le niveau d’infrarouge reçu est le même pour les deux cellules. Lors du passage d’un objet, l’émission de ces rayons va être modifiée sur une cellule puis sur l’autre ce qui va permettre de détecter le mouvement. 
+
+Le cache blanc, qui couvre et protège généralement le capteur, est une lentille de Fresnel avec plusieurs facettes qui permet de concentrer le rayonnement infrarouge sur les cellules.
+
+<h4>Utilisation</h4>
+Ces capteurs possèdent une broche de sortie qui est mise à l'état HAUT pendent une certaine durée
+
+<span title="Cette durée est réglable avec le potentiomètre sur le capteur" style='color:grey;'><sup>[note]</sup></span> lorsqu'il y a détection d'un mouvement.
+
+\begin{numeric}{Diagramme temporel du capteur}
+
+    Présence & [green] LLLLLLHHHHHHHLLLLLLHHHLLLLLLLLLLLLHHHHHHLLLLL 
+
+    OUT & [blue] LLLLLLLHHHHHHHHLLLLLHHHHHHHHLLLLLLLHHHHHHHHLL 
+
+\end{numeric}
+
+<h4>Applications</h4>
+<ul>
+    <li> Allumage d’une lumière à la détection d’un mouvement
+</li>
+    <li> Activation d’une alarme lors de l’intrusion d’une personne
+</li>
+</ul>
+<h3>Les relais électromagnétiques</h3>
+<h4>Principe</h4>
+Les relais sont des interrupteurs commandés électriquement. 
+
+Une bobine alimentée sous faible tension (5 à 24 V) génère un champ électromagnétique qui fait déplacer une membrane qui va ouvrir ou fermer le circuit.
+
+Le relai offre une isolation galvanique entre le circuit de commande et de puissance, c'est à dire qu'il n'y a aucune liaison conductrice entre ces deux circuits.
+
+Un relai est caractérisé par :
+
+<ul>
+  <li> La tension de commande : 5 à 24V
+</li>
+  <li> Le courant de coupure : Ex 30A
+</li>
+  <li> La tension maximale dans le circuit de puissance : Ex 230V
+</li>
+  <li> Sa position au repos<span title="Position en absence de tension sur la commande" style='color:grey;'><sup>[note]</sup></span> : Normalement Ouvert (NO) ou 
+</li>
+  Normalement Fermé (NF)
+
+  <li> Sa durée de vie : les relais sont garantis pour un nombre de commutation, par exemple 1 million.
+</li>
+</ul>
+<h4>Symbole</h4>
+Le relai se symbolise de la façon suivante : 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/relais.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/relais.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - Le symbole du relai</figcaption></div></figure>
+On distingue clairement la partie de commande (rectangle) et le circuit qui s'ouvre ou se ferme pour laisser passer le courant.
+
+<h4>La diode de roue libre</h4>
+La bobine de commande du relai nécessite un certain courant <span title="De l'ordre de la centaine de mA" style='color:grey;'><sup>[note]</sup></span> qu'une broche de microcontrôleur ne peut pas fournir.
+
+Pour cela on utilise un composant qui fera l'interface entre le microcontrôleur et le relai : le transistor.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/commande-de-relais.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/08/commande-de-relais.jpg' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - Utilisation d'un relai</figcaption></div></figure>
+Cependant, lors de la fermeture du relai <span title="Mise à 0 de la broche de commande de transistor" style='color:grey;'><sup>[note]</sup></span>, le courant est brutalement coupé, or, les bobines s'opposent aux variations de courant.
+
+Cela engendre une surtension qui va se répercuter sur le transistor.
+
+Cette surtension vaut : 
+
+\( U = L\cdot \frac{dI}{dt}\)
+
+Avec : 
+
+<ul>
+    <li> U la tension en Volt aux bornes de la bobine
+</li>
+    <li> L la valeur en Henry de l'inductance<span title="Bobine" style='color:grey;'><sup>[note]</sup></span>
+</li>
+    <li> I la variation de courant en Ampère dans la bobine
+</li>
+</ul>
+On met donc une diode en parallèle de la bobine pour que l’énergie accumulée dans la bobine passe dans la diode.
+
+Cette diode est appelé <b>diode de roue libre</b>.
+En exemple, une simulation sans diode est faite avec <span class='badge badge-success'>LTSpice</span> : 
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/ltspice.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/ltspice.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Une simulation LTSpice</figcaption></div></figure>
+On active le transistor pendant 100 ms puis on le désactive et on observe la tension aux bornes du transistor.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/simulation.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/simulation.png' class='alignnone size-medium' style='max-width:34%;'></a><figcaption>Figure - Une surtension sur le transistor</figcaption></div></figure>
+On constate un pic à 24V, c'est à dire le double de l'alimentation 12V.
+
+Maintenant, faisons la même simulation avec une diode de roue libre. Pour ces diodes, on privilégie des diodes Schottky à commutation rapide.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/simulation2.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/simulation2.png' class='alignnone size-medium' style='max-width:34%;'></a><figcaption>Figure - Une surtension plus faible</figcaption></div></figure>
+La surtension ne vaut plus que quelques dizaines de mV.
+
+<h4>En pratique</h4>
+Pour utiliser des relais avec des microcontrôleurs, on utilise le plus souvent des relais qui intègrent une interface de contrôle.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/relai_5V.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/relai_5V.png' class='alignnone size-medium' style='max-width:20%;'></a><figcaption>Figure - Un relai avec une interface de contrôle</figcaption></div></figure>
+Il suffit généralement d'alimenter le relai en 5V constant et une broche active le relai si elle passe au niveau logique HAUT.
+
+
+Les codes suivants seront utilisés avec le serveur Web mis en place avec l'ESP12.
+
+Cela permettra de réaliser une interface plus élaborée avec des capteurs et actionneurs.
+
+<h3>Utilisation du DHT11</h3>
+<h4>Objectif</h4>
+L'intégration du code permettant de lire la température permettra d'obtenir l'interface suivante, à savoir un graphique pour 
+
+visualiser la température et l'humidité en temps réel.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/graphe.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/graphe.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Le rendu de l'interface</figcaption></div></figure>
+<h4>Branchements</h4>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/dht_esp12.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/dht_esp12.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Le branchement du module DHT</figcaption></div></figure>
+<h4>Programme de test</h4>
+Avant de tester le code complet du DHT11/22 avec le serveur Web , on va essayer le module DHT sans le serveur. 
+
+Pour cela, on va téléverser le programme suivant<span title="Fichier \lbl{red" style='color:grey;'><sup>[note]</sup></span>{FILE}{temperature humidite.ino}} :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    #include "DHT.h"
+
+    #define DHTPIN D2     //Broche du capteur
+
+    
+
+    #define DHTTYPE DHT11   // DHT 11
+
+    //#define DHTTYPE DHT22   // DHT 22 
+
+    //#define DHTTYPE DHT21   // DHT 21 
+
+    
+
+    DHT dht(DHTPIN, DHTTYPE);
+
+    
+
+    void setup() {
+
+      
+
+      Serial.begin(115200);
+
+      dht.begin();          //Initialisation du capteur
+
+    }
+
+    
+
+    void loop() {
+
+    
+
+      float h = dht.readHumidity();       //Récupère la température
+
+      float t = dht.readTemperature();    //récupère l'humidité
+
+    
+
+      Serial.print("Humidite: ");
+
+      Serial.print(h);
+
+      Serial.print("\%  Temperature: ");
+
+      Serial.print(t);
+
+      Serial.println("C ");
+
+      
+
+      delay(2000);
+
+    
+
+    }
+
+</code></pre><hr>
+Si vous obtenez le résultat suivant en lançant la console série, c'est que le capteur est fonctionnel.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/term_dht.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/term_dht.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Le capteur DHT fonctionnel</figcaption></div></figure>
+Il ne vous reste plus qu'à lancer le programme <span style='background-color:red;opacity:60%;color:white;' class='badge badge-pill'>Serveur Web DHT11 Graphe.ino</span>.
+
+<h4>Explications</h4>
+Pour gérer les températures et les valeurs d'humidité dans le temps, un tableau 'circulaire' est utilisé dans le programme. 
+
+Il consiste à remplir au fur et à mesure un tableau et quand celui-ci est plein, on décale les valeurs pour ajouter la dernière.
+
+Prenons un exemple avec un tableau de 5 éléments auquel on cherche à ajouter le cycle suivant : 21,22,21,22,23,24,25,26 
+
+\begin{numeric}{Les tableaux 'circulaires'}
+
+    Etape Initial & 2D{0} 2D{0} 2D{0} 2D{0} 2D{0} 
+
+    Ajout de '21' & 2D{21} 2D{0} 2D{0} 2D{0} 2D{0} 
+
+    Ajout de '22' & 2D{21} 2D{22} 2D{0} 2D{0} 2D{0} 
+
+    Ajout de '21' & 2D{21} 2D{22} 2D{21} 2D{0} 2D{0} 
+
+    Ajout de '22' & 2D{21} 2D{22} 2D{21} 2D{22} 2D{0} 
+
+    Ajout de '23' & 2D{21} 2D{22} 2D{21} 2D{22} 2D{23} 
+
+    Ajout de '24' & 2D{22} 2D{21} 2D{22} 2D{23} 2D{24} 
+
+    Ajout de '25' & 2D{21} 2D{22} 2D{23} 2D{24} 2D{25} 
+
+    Ajout de '26' & 2D{22} 2D{23} 2D{24} 2D{25} 2D{26} 
+
+\end{numeric}%
+
+Ce mouvement cyclique est géré par la fonction \lbl{blue}{FUNC}{updateRings} dans le fichier <span style='background-color:purple;opacity:60%;color:white;' class='badge badge-pill'>circularRings.h</span>
+
+La fonction principale pour gérer le graphique est la fonction <span style='background-color:blue;opacity:60%;color:white;' class='badge badge-pill'>getString</span> : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    temperature = dht.readTemperature();
+
+    humidity  = dht.readHumidity();
+
+</code></pre><hr>
+Une fois ces deux données lues, on actualise les tableaux circulaires contenant les températures, les valeurs d'humidité et les références du graphique <span title="Tableau contenant que des '0'" style='color:grey;'><sup>[note]</sup></span>.
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    updateRings(&current_index, NB_DATA_TEMP, temperature, humidity); //Mise à jour des tableaux
+
+</code></pre><hr>
+On créer ensuite les chaines de caractères pour générer le graphique :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    String dataTemperatures = concatenateArray(temperatures, current_index);
+
+    String dataHumidities = concatenateArray(humidities, current_index);
+
+    String dataReferences = concatenateArray(references, current_index); //Tableau contenant toutes les valeurs à 0, pour afficher la référence sur le graphique
+
+    
+
+    String dataTime ="[";
+
+    for (int i=current_index;i>0;i--) {
+
+      dataTime += "'"+String(i)+"',";
+
+    }
+
+    dataTime += "]";
+
+</code></pre><hr>
+Une fois toutes les données, on génère la page dans son intégralité :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+const String fullPageContent = "<html>\
+
+<head>\
+
+  <title>Serveur Web CREPP</title>\
+
+  <meta charset=\"utf-8\"/> \
+
+  <meta http-equiv=\"refresh\" content=\""+String(REFRESH_PAGE_DELAY)+"\">\
+
+  <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\" integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\">\
+
+  <script src=\"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js\"></script>  \
+
+  </head>\
+
+<body style=\"margin-left:5\%;\">\
+
+  <h1>Interface ESP12</h1><br>\
+
+  <h3>Contrôle de la LED sur la broche <span class=\"badge badge-secondary\">D4</span></h3><br>\
+
+    <a href=\"/?LED=ON\"><button class=\"btn btn-success\">Allumer</button></a>\
+
+    <a href=\"/?LED=OFF\"><button class=\"btn btn-danger\">Eteindre</button></a><br><br>\
+
+  <h3>Mesure de la température et humidité avec le module DHT11 sur la broche <span class=\"badge badge-secondary\">D2</span></h3><br>\
+
+    <br>\
+
+    >>> <b>Temperature</b> : "+String(temperature)+" C<br>\
+
+    >>> <b>Humidite</b> : "+String(humidity)+"%\
+
+    <div style='max-width:40\%;'><canvas id=\"myChart\" width=\"600\" height=\"450\"></canvas></div> \
+
+      <script> \
+
+var ctx = document.getElementById('myChart'); \
+
+var temperatures = "+dataTemperatures+";\
+
+var references = "+dataReferences+";\
+
+var humidities = "+dataHumidities+";\
+
+var time = "+dataTime+";\
+
+var myChart = new Chart(ctx, {type: 'line', data: { labels: time, datasets: [{ label: 'Temperature', data: temperatures, borderColor: 'blue',backgroundColor: '', fill: 0}, { label: 'Référence', data: references, borderColor: 'black',backgroundColor: '', fill: 1}, { label: 'Humidité', data: humidities, borderColor: 'green',backgroundColor: '', fill: 0}]}})</script>\
+
+</body>\
+
+</html>";
+
+</code></pre><hr>
+<h3>Utilisation du HC-SR04</h3>
+<h4>Branchements</h4>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/hcsr04_esp.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/hcsr04_esp.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Branchement du capteur</figcaption></div></figure>
+<h4>Code complet</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#define TRIGGER_PIN D5  //Broche Trigger
+
+#define ECHO_PIN D6     //Broche Echo
+
+#define SOUND_VELOCITY 0.034 //Vitesse en cm/us
+
+float distance = 0.0;
+
+void setup() {
+
+  Serial.begin(9600);         //Communication à 9600 bauds
+
+  pinMode(TRIGGER_PIN, OUTPUT); //Broche Trigger en sortie
+
+  pinMode(ECHO_PIN, INPUT);     //Broche Echo en entrée
+
+  digitalWrite(TRIGGER_PIN, LOW);
+
+}//End setup
+
+void loop() {
+
+  digitalWrite(TRIGGER_PIN, HIGH); //Envoie une impulsion de 10us
+
+  delayMicroseconds(10);
+
+  digitalWrite(TRIGGER_PIN, LOW);
+
+  
+
+  int duration = pulseIn(ECHO_PIN, HIGH); //Récupère le temps à l'état Haut de la broche ECHO
+
+  distance = duration * SOUND_VELOCITY/2; //Distance en cm, v=d/t
+
+  Serial.print("Distance (cm) = ");
+
+  Serial.println(distance);
+
+  
+
+  delay(1000);
+
+}
+
+</code></pre><hr>
+<h3>Utilisation d'un capteur PIR</h3>
+<h4>Branchements</h4>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/pir_esp.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/pir_esp.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Branchement du capteur PIR</figcaption></div></figure>
+<h4>Code complet</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#define LED D2    //Broche de la LED
+
+#define OUT D7     //Broche du capteur PIR
+
+    
+
+int status = LOW;     //Statut du mouvement : LOW : pas de mouvement détecté
+
+bool outValue = 0;    //Valeur du capteur
+
+long beginTime = 0;   //instant du déclenchement lors de la ldétection d'un mouvement
+
+    
+
+void setup() 
+
+{
+
+      
+
+  pinMode(LED, OUTPUT); //LED en sortie
+
+  pinMode(OUT, INPUT);  //Broche du capteur en entrée
+
+  Serial.begin(9600);   //Vitesse de communication à 9600 bauds
+
+}//End setup
+
+    
+
+void loop(){
+
+    
+
+  outValue = digitalRead(OUT);          //Lire létat du capteur
+
+        
+
+  if (outValue == HIGH)                 //Détection d'un mouvement
+
+  {
+
+    digitalWrite(LED, HIGH);            //Allume la LED
+
+    
+
+    if (status == LOW) 
+
+    {
+
+      Serial.println(">>> Mouvement ");
+
+      status = HIGH;                    //Mise à jour du statut du capteur
+
+      beginTime = millis();             //Sauvegarde du temps                   
+
+    
+
+    }//End if
+
+    
+
+    } 
+
+    else                                //Aucun mouvement
+
+    {
+
+          
+
+      digitalWrite(LED, LOW);           //Eteint la LED
+
+            
+
+      if(status == HIGH)                //Fin de détection
+
+      { 
+
+        Serial.print(">>> Fin du mouvement");
+
+        status = LOW;                               //Mise à jour du statut du capteur
+
+        unsigned long duree = millis() - beginTime; //Calcul de la durée du mouvement
+
+        Serial.print(">>> Duree = ");
+
+        Serial.print(duree);
+
+        Serial.println(" ms");
+
+    
+
+      }//End if
+
+    }//End else
+
+}//End loop
+
+</code></pre><hr>
+<h3>Utilisation d'un écran OLED</h3>
+<h4>Récupération de l'adresse I2C</h4>
+Pour tous les périphériques I2C, il convient de connaître l'adresse du périphérique. Or parfois on ne s'en rappel plus.
+
+Il existe un code qui permet de scanner toutes les adresses possibles et d'afficher l'adresse du composant qui est relié au bus I2C.
+
+Voici le code, disponible dans les exemples de la classe Wire <span title="Classe qui gère le protocole I2C" style='color:grey;'><sup>[note]</sup></span> : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+void loop()
+
+{
+
+  byte error, address;
+
+  int nDevices;
+
+     
+
+  Serial.println("Scanning...");
+
+     
+
+  nDevices = 0;
+
+  for(address = 1; address < 127; address++ )
+
+  {
+
+    Wire.beginTransmission(address);
+
+    error = Wire.endTransmission();
+
+     
+
+    if (error == 0)
+
+    {
+
+      Serial.print("I2C device found at address 0x");
+
+      if (address<16) {
+
+        Serial.print("0");
+
+      }
+
+      Serial.print(address,HEX);
+
+      Serial.println("  !");
+
+      nDevices++;
+
+    }
+
+    else if (error==4)
+
+    {
+
+      Serial.print("Unknow error at address 0x");
+
+      if (address<16) {
+
+        Serial.print("0");
+
+      } 
+
+      Serial.println(address,HEX);
+
+    }    
+
+  }
+
+  if (nDevices == 0) {
+
+    Serial.println("No I2C devices found\n");
+
+  }
+
+  else {
+
+    Serial.println("done\n");
+
+  }
+
+  delay(5000);         
+
+    
+
+}
+
+</code></pre><hr>
+<h4>Code complet</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  #include "SSD1306Ascii.h"
+
+  #include "SSD1306AsciiAvrI2c.h"
+
+   
+
+  #define I2C_ADDRESS 0x3C
+
+   
+
+  SSD1306AsciiAvrI2c oled;
+
+   
+
+  void setup() {
+
+  
+
+    //Init size
+
+    oled.begin(&Adafruit128x64, I2C_ADDRESS);
+
+    oled.setFont(Adafruit5x7);  
+
+    oled.clear();
+
+    oled.set2X();
+
+  
+
+    
+
+    oled.println("CREPP");
+
+    oled.set1X();
+
+    oled.println("Club de");
+
+    oled.println("Robotique et");
+
+    oled.println("d'Electronique");
+
+    oled.println("Programmable");
+
+   
+
+  }
+
+  void loop() {
+
+   
+
+  }
+
+</code></pre><hr>
+<h4>Branchements</h4>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Branchements de l'éran OLED</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/oled_result.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/08/oled_result.jpg' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - L'écran OLED fonctionnel</figcaption></div></figure>
+
+</body></html>

@@ -9,16 +9,29 @@
 \typeout{>>> Utils: Package 'Items' loaded !}
 %################################################################
 
-\newcommand{\setTriangleList}{\renewcommand{\labelitemi}{$\blacktriangleright$}}    %Set default display by triangle in list #
-\newcommand{\setCircleList}{\renewcommand{\labelitemi}{$\circ$}}                    %Set default display by circle in list #
-\newcommand{\setBulletList}{\renewcommand{\labelitemi}{$\bullet$}}                  %Set default display by bullet in list #
-
-\newcommand{\Triangle}{$\blacktriangleright$}           %Display triangle in item list #
-\newcommand{\Circle}{$\circ$}                           %Display circle in item list #
-\newcommand{\Bullet}{$\bullet$}                         %Display bullet in item list #
+%Use default list  newenvironment{itemize} #
+%Use default numeroted list newenvironment{enumerate} #
 
 
-\newenvironment{items}[2] %Create list #color labelForm
+\newcommand{\setBulletList}                  %Set default display by bullet in list #
+{\renewcommand{\labelitemi}{$\bullet$}}
+
+\newcommand{\Triangle}           %Display triangle in item list #
+{$\blacktriangleright$}
+\newcommand{\Circle}                          %Display circle in item list #
+{$\circ$} 
+\newcommand{\Bullet}                         %Display bullet in item list #
+{$\bullet$}
+
+\newenvironment{items}[2] %Create list (items) #color labelForm
+{      
+        \begin{itemize}[font=\color{#1}, label=#2]  
+    }
+    { 
+        \end{itemize}
+}
+
+\newenvironment{List}[2] %Create list (List)#color labelForm
 {      
         \begin{itemize}[font=\color{#1}, label=#2]  
     }

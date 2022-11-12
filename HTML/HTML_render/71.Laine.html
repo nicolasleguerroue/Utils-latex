@@ -1,0 +1,371 @@
+<html><head><style>.cent {  display: block;  margin-left: auto;  margin-right: auto;}</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> </script><body style='margin-left:5%;margin-right:5%;margin-top:1%'><h4>Fichier générer depuis les sources Latex</h4><h5>Auteur : Nicolas Le Guerroué</h5><a href='index.html'><button class='btn btn-success' >Revenir au sommaire</button></a><hr><h3>Objectif</h3>
+L'objectif est d'automatiser le feutrage de la laine, étape fastidieuse à la main.
+
+On part du principe que si, sur une surface en laine ( 80\% ), on pose une petite quantité de laine pure, on pourra avec une aiguille spéciale enfoncer des brins de laine dans le support et ceux-ci y resteront à la remontée de l’aiguille ( les brins de laine s’accrochent entre eux avec une facilité incroyable ).
+
+ Pour une petite surface on utilise un support avec 6 à 9 aiguilles et tenir dans la main le dit support avec un aller et retour vertical devient fastidieux avec des risques de blessures.
+
+<b>C’est cette action qu’il faut automatiser. </b>
+<h3>Les versions</h3>
+Une premiere version comporte un simple balayage du plateau.
+
+La seconde version devrait comporter un traitement d'image avec une caméra pour adapter le balayage.
+
+<h3>État des lieux</h3>
+Actuellement, des essais ont été réalisés avec la CNC qui était stocké au FabLab.
+
+De nombreuses tentatives (parfois infructueuses) pour prendre en main le GCode ont donc été réalisées.
+
+<h3>Liste du matériel</h3>
+<ul>
+    <li> Une ancienne CNC (modèle de Xavier Hinault)
+</li>
+    <li> Support d'aiguilles
+</li>
+</ul>
+<h3>Communication avec la CNC</h3>
+L'ensemble des communications ont lieu avec une liaison série (UART)
+
+La liaison <span title="Universal Asynchronous Receiver / Transmitter  : Transmetteur / Receveur Asynchorne Universel" style='color:blue;'>UART</span> est une liaison série avec deux broches :
+
+<ul>
+   <li> RX
+</li>
+   <li> TX
+</li>
+</ul>
+<h4>Protocole</h4>
+<ul>
+   <li> Un bit de start toujours à 0 pour synchroniser la communication
+</li>
+   <li> Un champ de données de 8 bits
+</li>
+   <li> Un bit de parité (dans notre cas aucune parité)
+</li>
+   <li> Un bit de stop
+</li>
+</ul>
+<h4>Vitesse de communication</h4>
+La liaison étant asynchrone, il faut que les périphériques communiquent à la même vitesse. Cette dernière est normalisée et représente le nombre de bit par seconde (baud<span title="1 baud représente 1 symbole par seconde." style='color:grey;'><sup>[note]</sup></span>)
+
+En l’occurrence, la CNC communique à 115200 bauds.
+
+<h2 >Rappels du G-Code</h2>
+Le G-Code est un langage machine utilisé par les machines numériques.
+
+Chaque instruction G-Code se termine un retour à la ligne (valeur 13 dans la table ASCII). Par souci de lisibilité, il ne sera pas affiché.
+
+<h3>Le référentiel</h3>
+Soit on effectue les déplacements de manière relative (+xmm depuis la position actuelle) ou absolue (depuis l'origine avec les capteurs fin de course)
+
+Pour définir le référentiel, on utilise soit la commande suivante pour le référentiel absolu:
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+G90
+
+</code></pre><hr>
+et pour le référentiel relatif : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+G91
+
+</code></pre><hr>
+Par la suite, on va utiliser le mode relatif.
+
+<h3>Les déplacements</h3>
+Pour se déplacer on va utiliser la commande suivante : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+G01 X[mm] Y[mm] Z[mm]
+
+</code></pre><hr>
+Les arguments entre crochets correspondent aux déplacements voulus sur les axes concernés.
+
+Ainsi, si on souhaite se déplacer de 20 mm vers le centre sur l'axe X, on va utiliser la commande : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+G01 X20
+
+</code></pre><hr>
+Les axes non concernés par le déplacement ne sont pas présents dans la commande.
+
+<h3>Le retour à l'origine</h3>
+Le retour en position d'origine se fait via la commande suivante : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+G28 [X] [Y] [Z]
+
+</code></pre><hr>
+Ainsi, pour effectuer un retour à l'origine sur l'axe X on fait la commande 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+G28 X
+
+</code></pre><hr>
+<h2 >Algorithme de déplacement</h2>
+L'objectif est de ne pas faire de déplacement sur X ou Y lorsque le moteur Z est activé afin d'éviter de casser les aiguilles.
+
+Au début du programme, le porte-aiguille est placé aux coordonnées (0,0) avec le porte-aiguille en position de repos (position haute).
+
+Pendant toutes les durées des déplacements en X et Y, le porte-aiguille reste en position de repos.
+
+<ul>
+<li> Le porte-aiguille se déplace en Y de la moité de la largeur de la tête contenant les aiguilles (disons 8mm)
+</li>
+<li> Le cycle Z correspond à plusieurs aller-retour du porte-aiguille et à leur retour en position de départ (capteur de fin de course activé)
+</li>
+</ul>
+Ce cycle se reproduit pour balayer l'ensemble du plateau.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/cycle.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/cycle.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Cycle de poinçonnage</figcaption></div></figure>
+<h2 >Programmation Python</h2>
+De nombreuses heures ont été consacrées pour envoyer des séquences GCode avec la version 3.X de Python.
+
+La communication via liaison série avec la CNC n'a pas été possible via Python3.X, 
+
+pour la première version de l'interface, une des contraintes sera d'utiliser la version 2.7 de Python.
+
+<h3>L'interface graphique</h3>
+Le choix de l'interface graphique s'est porté sur les bibliothèques PyQt.
+
+La version 5 est la plus récente mais des soucis de compatibilité existent avec la version 2.7.
+
+La deuxième contrainte est donc d'utiliser la version 4 de PyQt.
+
+<h3>Installation des outils</h3>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+sudo apt install python-pip
+
+sudo apt-get install python-qt4
+
+sudo apt-get install pyqt4-dev-tools 
+
+pip install serial
+
+sudo apt-get install qt4-designer
+
+</code></pre><hr>
+    
+
+<h3>Un premier programme</h3>
+Ce premier programme, sans interface graphique (juste dans un terminal) permet de vérifier le bon déplacement de la tête sur l'ensemble du plateau.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/algo.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/algo.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Déplacement de la tête</figcaption></div></figure>
+Pour lancer le programme, il faut saisir la commande suivante : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+python GCode.py
+
+</code></pre><hr>
+Le programme demande ensuite les dimensions du plateau (X et Y) et il va générer au fur et à mesure le G-Code pour balayer le plateau.
+
+<h4>Code source</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#!/usr/bin/python
+
+# -*- coding: utf-8 -*-
+
+from math import floor
+
+import serial
+
+import time
+
+ser = serial.Serial( '/dev/ttyACM0', 115200,serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE, timeout=0.1)
+
+ser.flushInput()  #Vide le buffer
+
+if(open):
+
+    print("Communication fonctionnelle !")
+
+else:
+
+    print("Mauvaise communication")
+
+decalagePas = 8 #moitie du porte outil en mm
+
+yWidth = input("Quelle est la longueur du plateau ? (mm) : ")
+
+xWidth = input("Quelle est la largeur du plateau ? (mm) : ")
+
+yIter = floor(int(yWidth)/8)
+
+xIter = floor(int(xWidth)/8)
+
+nbBlocX = xIter/2
+
+deplacementZ = 10 #mm
+
+vitesse=4 #max 6
+
+print("Nombre d'arret sur X : "+str(xIter))
+
+print("Nombre d'arret sur Y : "+str(yIter))
+
+def sendCommand(command):
+
+    print("Commande : "+str(command))
+
+    ser.write(command+'\n')
+
+    result=""
+
+    waitingOK = True
+
+    while (waitingOK==True): # tant que au moins un caractère en réception
+
+        char=ser.read() # on lit le caractère
+
+        if char=='\n': # si saut de ligne, on sort du while
+
+            result=""
+
+        else: #tant que c'est pas le saut de ligne, on l'ajoute à la chaine 
+
+            result=result+char	
+
+            if(result=="<ok>"):
+
+                print("Commande valide")
+
+                waitingOK = False
+
+#Init
+
+print("Mode relatif")
+
+sendCommand("G91") #Mode relatif
+
+#Retour Home
+
+print("Retour origine")
+
+sendCommand("G28 X")
+
+sendCommand("G28 Y")
+
+#Generation du GCode
+
+gcode =""
+
+for xBloc in range(0, int(nbBlocX)):
+
+    #Code bloc
+
+    
+
+    for xStep in range(0,int(yIter)):
+
+        gcode += "G01 Y"+str(decalagePas)+" F4"+"\n"
+
+        gcode += "G04 P0.1"+"\n"
+
+    
+
+    gcode += "G01 X"+str(decalagePas)+" F"+str(vitesse)+"\n"
+
+    
+
+    for xStep in range(0,int(yIter)):
+
+        gcode += "G01 Y-"+str(decalagePas)+" F4"+"\n"
+
+        gcode += "G04 P0.1"+"\n"
+
+    
+
+    gcode += "G01 X"+str(decalagePas)+" F"+str(vitesse)+"\n"
+
+    
+
+print(gcode)
+
+allCommands = gcode.split("\n")
+
+print("Nombre d'instructions a executer :" +str(len(allCommands)))
+
+for line in allCommands:
+
+    sendCommand(line)
+
+        
+
+ 
+
+</code></pre><hr>
+<h3>Une première interface</h3>
+Voici la première version d'une interface graphique réalisée avec PyQt4.
+
+Le code est disponible sur le Git du club à 
+
+l'adresse <a class="alert-link">\url{https://github.com/CREPP-PLOEMEUR/Feutrage-de-laine</a>}
+<h4>Utilisation de l'interface</h4>
+Tout d'abord, veuillez télécharger le dossier complet puis se rendre dans le dossier <span class='badge badge-light'>GUI</span>
+Ensuite, faire click-droit et <b>Ouvrir un terminal ici</b>
+Ensuite, saisir la commande suivante pour lancer l'interface : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+python GUIMain.py
+
+</code></pre><hr>
+L'interface se lance. Elle se compose de 4 onglets : 
+
+<ul>
+    <li> Présentation
+</li>
+    <li> Paramètres
+</li>
+    <li> Génération du GCode
+</li>
+    <li> Lancement du cycle
+</li>
+</ul>
+Veuillez vous rendre à l'onglet <b>Présentation</b>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/1.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/1.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Onglet Présentation</figcaption></div></figure>
+Il détaille le déplacement du porte aiguilles sur le schéma.
+
+Une barre de statut est disponible sur tous les onglets et indique l'état courant du cycle. Au démarrage de l'application, il indique <b>Non connecte</b>.
+il faut donc se connecter à la machine.
+
+Pour cela, il faut sélectionner le port série disponible dans la liste (ttyACMX généralement) et cliquer sur <span class='badge badge-light'>Connect</span>.
+En cas de bonne connexion, la barre de statut indique <b>Connecte - Gcode non genere</b>.
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/2.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/2.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Connexion effectué</figcaption></div></figure>
+Il faut ensuite cliquer sur l'onglet <b>Paramètres</b>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/3.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/3.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Paramètres du cycle</figcaption></div></figure>
+Voici les différents paramètres du cycle
+
+<ul>
+    <li> La longueur du plateau en mm [0-300mm comme valeur possible]
+</li>
+    <li> La largeur du plateau en mm [0-300mm comme valeur possible]
+</li>
+    <li> Déplacement du porte-aiguilles : Cela correspond à la distance parcourue (en mm) par le porte-aiguilles entre deux séquences de poinçonnage
+</li>
+    <li> Déplacement de l'axe Z : Cela correspond à l'image de la distance pour effectuer une rotation pour planter le porte-aiguilles et le faire remonter en position de repos. Il faudra jouer avec cette valeur pour que le porte-aiguilles fasse précisément un aller-retour jusqu'à la position de repos.
+</li>
+    <li> Nombre d'actions de l'outil-aiguilles : Cela correspond au nombre d'aller-retour effectués par le porte aiguilles entre 2 déplacements (X ou Y) sur le plateau
+</li>
+    <li> Vitesse sur l'axe X et Y : La vitesse de déplacement sur l'axe X et Y comprise entre 1 et 6
+</li>
+    <li> Vitesse sur l'axe Z : La vitesse de déplacement sur l'axe Z comprise entre 1 et 10
+</li>
+</ul>
+Une fois tous les paramètres renseignés, nous allons générer le GCode. Pour cela, il faut se rendre dans l'onglet <b>Génération du GCode</b>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/4.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/4.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Génération du GCode</figcaption></div></figure>
+Lors de l'ouverture de l'onglet, le GCode n'est pas généré, pour le faire il faut cliquer sur le bouton <span class='badge badge-light'>générer le GCode</span>
+A ce moment là, le GCode généré apparaît sur l'interface : 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/5.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/5.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Le GCode généré</figcaption></div></figure>
+Il ne reste plus qu'à lancer le cycle en appuyant sur le bouton <span class='badge badge-light'>Lancer le cycle</span> dans l'onglet <b>Lancement du cycle</b>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/6.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/6.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Lancement du cycle</figcaption></div></figure>
+<div class='alert alert-danger' ><h4>Attention</h4>Une fois le cycle lancé, il n'est plus possible d'utiliser l'interface. En cas d'arret d'urgence, il faut couper l'alimentation avec l'interrupteur. Une future version de l'interface règlera ce problème.</div>
+Quand le cycle est terminé, les instructions GCode envoyés seront affichées sur l'écran et la barre de status indique <b>Termine</b>.
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/7.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/7.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Un cycle terminé</figcaption></div></figure>
+<h3>Pistes d'améliorations</h3>
+La prochaine version, dans l'optimal, devrait gérer la communication série sans fonction bloquante (ce qui est le cas sur cette version car manque de temps).
+
+Si jamais la communication série est fonctionnelle avec Python3.X, toute la structure de l'interface est disponible avec la version 5 de PyQt.Il serait préférable à moyen terme de passer en version Python 3.X.
+
+
+</body></html>

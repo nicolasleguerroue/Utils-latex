@@ -18,7 +18,7 @@ class Image():
         assert type(figureRef) is str, "Expected <str>, given <"+str(type(figureRef))+">"
 
         if(wordpress==True): #Path is image/name
-            return "<figure id='"+figureRef+"'><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/"+path+"'><img src='http://www.crepp.org/wp-content/uploads/2022/06/"+path+"' class='alignnone size-medium' style='max-width:"+str(size)+"%;'></a><figcaption>Figure - "+legend+"</figcaption></div></figure>"
+            return "<figure id='"+figureRef+"'><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/"+path+"'><img src='http://www.crepp.org/wp-content/uploads/2022/08/"+path+"' class='alignnone size-medium' style='max-width:"+str(size)+"%;'></a><figcaption>Figure - "+legend+"</figcaption></div></figure>"
         else:
             return "<figure id='"+figureRef+"'><div class='cent' style='text-align:center;'><img src='"+path+"' class='alignnone size-medium' style='max-width:"+str(size)+"%;'><figcaption>Figure - "+legend+"</figcaption></div></figure>"
    

@@ -1,5 +1,5 @@
 {
-    "actionButtons": {
+    "actionButtons": { 
         "defaultColor": "white", // Can also use string color names.
         "loadNpmCommands":false, // Disables automatic generation of actions for npm commands.
         "reloadButton":"♻️", // Custom reload button text or icon (default ↻). null value enables automatic reload on configuration change
@@ -10,6 +10,15 @@
                 "color": "white",
                 "singleInstance": true,
                 "command": "okular main.pdf", 
+                "useVsCodeApi": false
+            },
+            {  
+                "cwd": "${workspaceFolder}", 	// Terminal initial folder ${workspaceFolder} and os user home as defaults
+                "name": "Add",
+                "color": "blue",
+                "useVsCodeApi": true,
+                "command": "editor.action.insertSnippet", 
+
             },
             {
                 "name": "Compilation",
@@ -54,6 +63,10 @@
                 "command": "php compileAnyFile.php",
             }
         ]
-    }
+    },
+    "task.allowAutomaticTasks": "on",
+    "cSpell.words": [
+        "Techwave"
+    ]
 }
 

@@ -1,0 +1,2132 @@
+<html><head><style>.cent {  display: block;  margin-left: auto;  margin-right: auto;}</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> </script><body style='margin-left:5%;margin-right:5%;margin-top:1%'><h4>Fichier générer depuis les sources Latex</h4><h5>Auteur : Nicolas Le Guerroué</h5><a href='index.html'><button class='btn btn-success' >Revenir au sommaire</button></a><hr><h3>Présentation</h3>
+Ce document a pour but de présenter les fonctionnalités de la bibliothèque Utils, qui n'est qu'un regroupement de bibliothèques 
+
+pour simplifier l'utilisation de Latex. 
+
+Voici les bibliothèques disponibles: 
+
+<ul>
+<li> Badges
+</li>
+<li> Bibliography
+</li>
+<li> Colors
+</li>
+<li> Debug
+</li>
+<li> Electronic
+</li>
+<li> Figures
+</li>
+<li> Fonts
+</li>
+<li> Glossaries
+</li>
+<li> Graphics
+</li>
+<li> Header
+</li>
+<li> Images
+</li>
+<li> Index
+</li>
+<li> Items
+</li>
+<li> Labels
+</li>
+<li> Layout
+</li>
+<li> Links
+</li>
+<li> Lipsum
+</li>
+<li> Maths
+</li>
+<li> MessageBox
+</li>
+<li> Nomenclature
+</li>
+<li> Objects3D
+</li>
+<li> Parts
+</li>
+<li> Pdf
+</li>
+<li> Programming
+</li>
+<li> Quotes
+</li>
+<li> TableOfContent
+</li>
+<li> Tables
+</li>
+<li> Theorems
+</li>
+<li> Titles
+</li>
+<li> Tree
+</li>
+</ul>
+
+<h3>Installation des outils</h3>
+La bibliothèque Utils-latex regroupe les outils pour installer et compiler un répertoire de travail Latex.
+
+<div class='alert alert-success' ><h4>Remarque</h4>L'ensemble des outils présentés est optimisé pour une utilisation avec le logiciel Visual Studio Code</div>
+Il faut donc saisir la commande suivante dans le dossier où l'on souhaite créer le répertoire de travail : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    git clone https://github.com/nicolasleguerroue/Utils-latex.git && Utils-latex/tools/init
+
+</code></pre><hr>
+On vous demande ensuite si vous souhaitez mettre à jour le système.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/acceptInstall.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/acceptInstall.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Installation des paquets</figcaption></div></figure>
+Répondre <b>y</b> est fortement conseillé. A ce moment là, l'ensemble des logiciels et paquets nécessaires vont être installés.
+Enfin, on vous demande si vous souhaitez installer les extensions VScode, encore une fois, l'acceptation est vivement recommandée.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/installExtensions.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/installExtensions.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Installation des extensions VSCode</figcaption></div></figure>
+Le logiciel VSCode se lance une fois que l'installation est terminée.
+
+
+<h3>Organisation du projet</h3>
+\createNoCenteredFigure{Arborescence du projet}{
+
+\dirtree{%
+
+.1 <span class='badge badge-light'>Projet</span>. 
+.2 <span class='badge badge-light'>Images</span>.
+.3 <span class='badge badge-light'>Intro</span>.
+.3 <span class='badge badge-light'>Content</span>.
+.3 <span class='badge badge-light'>OtherDirectory</span>.
+.2 <span class='badge badge-light'>Make</span>.
+.3 <span class='badge badge-primary'>Alias.tex</span>.
+.3 <span class='badge badge-primary'>Bibliography.bib</span>.
+.3 <span class='badge badge-primary'>Contacts.tex</span>.
+.3 <span class='badge badge-primary'>Glossaries.tex</span>.
+.3 <span class='badge badge-primary'>Index.tex</span>.
+.3 <span class='badge badge-primary'>Nomenclature.tex</span>.
+.3 <span class='badge badge-primary'>Rules.tex</span>.
+.3 <span class='badge badge-primary'>Versions.tex</span>.
+.2 <span class='badge badge-light'>Output</span>.
+.2 <span class='badge badge-light'>Parts</span>.
+.3 <span class='badge badge-light'>0.Intro</span>.
+.3 <span class='badge badge-light'>1.Content</span>.
+.3 <span class='badge badge-light'>2.OtherDirectory</span>.
+.2 \sym{Utils}.
+
+.2 <span class='badge badge-light'>Utils-latex</span>.
+.3 <span class='badge badge-light'>bash</span>.
+.3 <span class='badge badge-light'>HTML</span>.
+.3 <span class='badge badge-light'>tools</span>.
+.3 <span class='badge badge-light'>Utils</span>.
+.3 <span class='badge badge-light'>.vscode</span>.
+.3 <span class='badge badge-primary'>make</span>.
+.2 \sym{.vscode}.
+
+.2 <span class='badge badge-primary'>main.tex</span>.
+.2 \sym{make}.
+
+}
+
+}
+
+ 
+
+Chaque projet est constitué de 8 dossiers et de 2 fichiers situés à la racine du projet.
+
+Les fichiers ou dossier violets (SYM) sont des liens symboliques dont la source est située dans le dossier <span class='badge badge-light'>Utils-latex</span>.
+<ul>
+    <li> Le dossier <span class='badge badge-light'>Images</span> contient l'ensemble des images du projet.</li>
+    Chaque image doit faire partie de la même partie que son document source associé.
+
+    La gestion des emplacements des images est indiqué dans la section <a class="alert-link"><a href='#handleImages</a>'>handleImages</a></a>
+    <li> Le dossier <span class='badge badge-light'>Make</span> contient les fichiers annexes du projet: </li>
+<ul>
+        <li> Le fichier <span class='badge badge-primary'>Alias.tex</span> regroupe les les nouvelles commandes utilisés pour les abréviations.</li>
+        <li> Le fichier <span class='badge badge-primary'>Bibliography.bib</span> recense les bibliographies du projet. Pour plus d'informations, consulter la section <a class="alert-link"><a href='#biblio</a>'>biblio</a></a>.</li>
+        <li> Le fichier <span class='badge badge-primary'>Contacts.tex</span> est une page pour contacter l'auteur et contient les informations sur les </li>
+        droits et les licences du projet.
+
+        <li> Le fichier <span class='badge badge-primary'>Glossaries.tex</span> contient le glossaire. Pour ajouter une définition, </li>
+        veuillez vous référer à la section <a class="alert-link"><a href='#addDef</a>'>addDef</a></a>
+        
+
+        <li> Le fichier <span class='badge badge-primary'>Index.tex</span> contient l'index. </li>
+        <li> Le fichier <span class='badge badge-primary'>Nomenclature.tex</span> contient la structure de la nomenclature\footnote{Les unités et </li>
+        grandeurs physiques par exemple}.
+
+        Pour ajouter un element, consulter la section <a class="alert-link"><a href='#addNomenclature</a>'>addNomenclature</a></a>
+        <li> Le fichier <span class='badge badge-primary'>Rules.tex</span> contient les conventions pour le projet. Il peut contenir les types de commandes, </li>
+        les conventions de nommage du projet...
+
+        <li> Le fichier <span class='badge badge-primary'>Versions.tex</span> contient les différentes versions du projet.  Pour plus d'information, </li>
+        consulter la partie <a class="alert-link"><a href='#addVersion</a>'>addVersion</a></a>
+</ul>
+    <li> Le dossier <span class='badge badge-light'>Output</span> contient les fichiers de compilation générés de manière automatique. </li>
+    <b>Vous n'aurez pas à modifier des fichiers à cette emplacement.</b>
+    <li> Le dossier <span class='badge badge-light'>Parts</span> contient les différentes parties du projet. Il est possible de scinder son projet </li>
+    en grandes parties (Introduction, Chapitre1, Chapitre2, Conclusion), chaque dossier contenu dans le 
+
+    dossier <b>Parts</b> représente ces parties.
+    Dans chacun de ces dossiers, vous pouvez créer autant de fichier Latex que vous voulez, il seront compilés dans 
+
+    l'ordre alphabétique ou bien par ordre croissant si vous mettre un numéro au début du nom de fichier.
+
+    Pour nommer les dossiers dans le dossier <span class='badge badge-light'>Parts</span>, \colors{red}{il faut impérativement commencer le nom avec un 
+    numéro suivi d'un point.} Par exemple <span class='badge badge-light'>0.Intro</span> puis <span class='badge badge-light'>1.Content</span>.
+    <span style='color:red;'>Les espaces sont interdits dans les noms des dossiers mais les symboles ~ ~ et - sont acceptés.</span>
+
+    Pour chaque dossier crée dans le dossier <span class='badge badge-light'>Parts</span>, il faudra créer un dossier avec le même nom dans le dossier 
+    <span class='badge badge-light'>Images</span>, sous peine de voir une volée d'erreurs lors de la compilation.
+    <li> Le dossier <span class='badge badge-light'>Settings</span> qui contient les fichiers de configuration du projet.</li>
+    Pour configurer le projet, reportez-vous à la section <a class="alert-link"><a href='#setSettings</a>'>setSettings</a></a> : 
+<ul>
+        <li> Le fichier <span class='badge badge-primary'>ChapterAlias.tex</span> enregistre le nom des chapitres ('Section' au lieu de 'Chapitre' par exemple)</li>
+        <li> Le fichier <span class='badge badge-primary'>DocumentClass.tex</span> sauvegarde la classe du document.</li>
+        <li> Le fichier <span class='badge badge-primary'>FHeaderLine.tex</span> s'occupe de l'épaisseur des lignes entre l'en-tête et le pied de page.</li>
+        <li> Le fichier <span class='badge badge-primary'>Fonts.tex</span> sélectionne la police du document.</li>
+        <li> Le fichier <span class='badge badge-primary'>Hyperref.tex</span> enregistre les métadonnées du fichier.</li>
+        <li> Le fichier <span class='badge badge-primary'>Includes.tex</span> est un fichier généré automatiquement pour importer tous les paramètres cités.</li>
+        <li> Le fichier <span class='badge badge-primary'>Margins.tex</span> s'occupe des marges du document.</li>
+        <li> Le fichier <span class='badge badge-primary'>NomenclatureName.tex</span> enregistre le nom de la nomenclature.</li>
+        <li> Le fichier <span class='badge badge-primary'>Theme.tex</span> enregistre le thème des pages.</li>
+        <li> Le fichier <span class='badge badge-primary'>TocDepth.tex</span> enregistre la profondeur du sommaire.</li>
+</ul>
+    <li> Le dossier \sym{Utils} est un dossier symbolique qui contient les bibliothèques Latex du projet. Le fichier <span class='badge badge-primary'>Utils.sty</span> est généré </li>
+    dynamiquement, toute écriture manuelle sera écrasée à la prochaine compilation.
+
+    <li> Le dossier <span class='badge badge-light'>Utils-latex</span> contient toutes les bibliothèques du projet ainsi que les outils de compilation. </li>
+    Il est configuré en tant que sous-module Git afin de séparer le contenu des bibliothèques et le contenu Latex à compiler.
+
+    Ce dossier contient :
+
+<ul>
+        <li> Le dossier <span class='badge badge-light'>bash</span> qui regroupe plusieurs bibliothèques : </li>
+<ul>
+            <li> La bibliothèque <span class='badge badge-success'>Charts.sh</span> qui permet de générer des graphiques</li>
+            <li> La bibliothèque <span class='badge badge-success'>Colors.sh</span> qui gère les couleurs dans le terminal</li>
+            <li> La bibliothèque <span class='badge badge-success'>Directories.sh</span> qui permet de gérer les fichiers et dossiers</li>
+            <li> La bibliothèque <span class='badge badge-success'>Networks.sh</span> qui surveille l'état de la connexion Internet</li>
+            <li> La bibliothèque <span class='badge badge-success'>System.sh</span> qui permet de faire des fonctions System</li>
+            <li> La bibliothèque <span class='badge badge-success'>Time.sh</span> qui gère les dates</li>
+</ul>
+        <li> Le dossier <span class='badge badge-light'>HTML</span> qui regroupe plusieurs bibliothèques utilisées pour convertir le code source Latex en fichier HTML.: </li>
+<ul>
+            <li> La bibliothèque <span class='badge badge-success'>Badge.py</span> qui gère les badges</li>
+            <li> La bibliothèque <span class='badge badge-success'>Color.py</span> qui gère les couleurs</li>
+            <li> La bibliothèque <span class='badge badge-success'>Command.py</span> qui gère les types de commandes disponibles</li>
+            <li> La bibliothèque <span class='badge badge-success'>Glossary.py</span> qui gère le glossaire</li>
+            <li> La bibliothèque <span class='badge badge-success'>Image.py</span> qui gère les images et leur intégration au sein du fichier HTML<span title="Compatibilité Wordpress" style='color:grey;'><sup>[note]</sup></span></li>
+            <li> La bibliothèque <span class='badge badge-success'>Label.py</span> qui gère labels</li>
+            <li> Le fichier <span class='badge badge-primary'>generateHTML.py</span> qui génère les pages HTML</li>
+            <li> Le fichier <span class='badge badge-primary'>startWebServer.py</span> qui démarre un serveur Web pour afficher la page Web de rendu</li>
+            <li> Le dossier <span class='badge badge-light'>HTML render</span> contient les pages Web générées</li>
+</ul>
+        <li> Le dossier <span class='badge badge-light'>tools</span> regroupe plusieurs fichiers : </li>
+<ul>
+            <li> Le fichier <span class='badge badge-primary'>checking</span> qui permet de vérifier l'intégrité du dossier de projet lors du lancement de VScode</li>
+            <li> Le fichier <span class='badge badge-primary'>init</span> qui initialise le dossier du projet</li>
+            <li> Le fichier <span class='badge badge-primary'>install</span> qui installe les paquets et utilitaires pour la compilation</li>
+            <li> Le fichier <span class='badge badge-primary'>compileAllFiles.py</span> désactive la compilation pour l'ensemble des dossiers contenus </li>
+            dans le dossier <span class='badge badge-light'>Parts</span>. \footnote{Concrètement, cela revient à ajouter un point devant le nom du 
+            dossier pour que le compilateur ignore le dossier.}
+
+            <li> Le fichier <span class='badge badge-primary'>compileAnyFile.py</span> autorise la compilation des dossiers contenus dans le dossier </li>
+            <span class='badge badge-light'>Parts</span>. <span title="On retire les points devant les noms." style='color:grey;'><sup>[note]</sup></span>
+</ul>
+</ul>
+    <li> Le dossier \sym{.vscode} contient tous les fichiers de configuration du répertoire VScode : 
+</li>
+<ul>
+        <li> Le fichier <span class='badge badge-primary'>generateSnippets.php</span> créer un fichier de snippets VScode</li>
+        afin de gérer l'autocomplétion VSCode. \bold{Ce fichier doit obligatoirement être appelé depuis le 
+
+        fichier <span class='badge badge-primary'>make</span>.}
+        <li> Le fichier <span class='badge badge-primary'>settings.json</span> contient les tâches exécutables VScode via un bouton <span title="Cf. \link{\nameref{allTasks" style='color:grey;'><sup>[note]</sup></span>}}. Ces tâches permettent de lancer la compilation et les utilitaires du répertoire.</li>
+        <li> Le fichier <span class='badge badge-primary'>task.json</span> est le fichier qui recense les tâches exécutables sous VSCode.</li>
+</ul>
+    Et voici les deux fichiers situés à la racine: 
+
+<ul>
+        <li> Le fichier <span class='badge badge-primary'>main.tex</span> est le fichier principal du projet. C'est dans ce fichier qu'on définit notamment :</li>
+<ul>
+            <li> Le choix de la classe du document.
+</li>
+            <li> Le titre de la page
+</li>
+            <li> Le choix de la disposition du document
+</li>
+            <li> Le choix de la présence des fichiers dans le dossier <span class='badge badge-light'>Make</span>, c'est à dire les fichiers </li>
+            personnalisables tels que la bibliographie, l'index, le glossaire...
+
+</ul>
+        <li> Le fichier \sym{make} est le fichier de compilation. \bold{Vous n'aurez pas besoin de modifier ce 
+</li>
+        fichier pour une utilisation classique}
+
+</ul>
+</ul>
+
+La compilation du projet se fait grâce au fichier <span class='badge badge-primary'>make</span> situé à la racine du projet.
+L'ensemble des outils de compilation sont disponibles de deux façons :
+
+<ul>
+    <li> Via un terminal
+</li>
+    <li> Via le logiciel VSCode
+</li>
+</ul>
+L'avantage du logiciel VScode est qu'il fournit des raccourcis clavier et une interface graphique plus évoluée (boutons)
+
+<h3>Compilation avec un terminal</h3>
+<h4>Compilation classique</h4>
+Une compilation classique a pour objectif de générer le fichier PDF de rendu, appelé <span class='badge badge-primary'>main.pdf</span> et situé à la 
+racine du projet.
+
+La commande est la suivante :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+./make --full
+
+</code></pre><hr>
+Lors de la compilation, plusieurs fichiers sont générés à la racine, dont : 
+
+<ul>
+    <li> Le fichier <span class='badge badge-primary'>.render report.tex</span> (fichier caché) qui contient la première partie des fichiers journaux de compilation</li>
+    <li> Le fichier <span class='badge badge-primary'>.render report logs.tex</span> qui contient la seconde partie des fichiers journaux de compilation<span title="Les messages de compilation générés par la bibliothèque Utils sont situés dans ce fichier." style='color:grey;'><sup>[note]</sup></span></li>
+    <li> Une image <i>Part.png</i> qui affiche le nombre de ligne pour chaque fichier compilé contenu dans le dossier <b>Parts</b></li>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/Part.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/Part.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Nombre de ligne pour les parties</figcaption></div></figure>
+    <li> Une image <i>Utils.png</i> qui affiche le nombre de ligne pour chaque fichier contenu dans le dossier <b>Utils</b></li>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/Utils.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/Utils.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Nombre de ligne pour les bibliothèques</figcaption></div></figure>
+    <li> Un fichier <span class='badge badge-primary'>standlone.tex</span> qui contient l'ensemble du code latex généré. Ne pas supprimer ce fichier, il est utilisé pour la conversion du code Latex en fichier source HTML.</li>
+</ul>
+Lors de la compilation, différents messages s'affichent : 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/messages.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/messages.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Message d'ajout d'élements de la bibliothèque Utils</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/warnings.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/warnings.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Message d'avertissements</figcaption></div></figure>
+<h4>Ajout de version</h4><span id='addVersion'></span>
+Il est possible d'ajouter une version de projet en invoquant la commande suivante : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+./make --version
+
+</code></pre><hr>
+La date de la mise à jour vous sera demandée ainsi que le contenu de la mise à jour.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/addVersion.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/addVersion.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Ajout d'une version</figcaption></div></figure>
+<span id='setLayout'></span>
+<h4>Mise à jour de l'autocomplétion</h4>
+Il est possible de mettre à jour l'autocomplétion sous VScode pour les bibliothèques Utils.
+
+En invoquant le paramètre <b>--snippet</b>, il est possible de générer le fichier VScode qui va ajouter l'autocomplétion.
+Ce fichier est appelée <span class='badge badge-primary'>output.snippet-code</span> et se situe dans le dossier <span class='badge badge-light'>.vscode</span>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+./make --snippet
+
+</code></pre><hr>
+La commande se termine en affichant le nombre de commandes documentées : 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Fin de la commande de génération de l'auto-complétion</figcaption></div></figure>
+<h3>Compilation avec VSCode</h3>
+L'ensemble des commandes présentées précédemment sont disponibles sous VSCode.
+
+<h4>Ouverture d'un projet</h4>
+Il faut ouvrir un terminal à la racine du projet et lancer la commande : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+code .
+
+</code></pre><hr>
+<div class='alert alert-success' ><h4>Remarque</h4>Lors de chaque ouverture du répertoire de projet VSCode, un script de vérification des fichier va se lancer. Les fichiers manquants seront regénérés à leur valeur par défaut.</div>
+Le logiciel se lance avec une interface similaire :
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/vscode_opened.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/vscode_opened.png' class='alignnone size-medium' style='max-width:45%;'></a><figcaption>Figure - Le logiciel VSCode ouvert</figcaption></div></figure>
+On observe sur la gauche l'arborescence du projet. En cliquant sur les dossiers, ces derniers se déroulent et affichent leur contenu.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/vscode_part.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/vscode_part.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - L'arborescence du projet</figcaption></div></figure>
+    
+
+<h4>Lancement de la compilation</h4>
+Il y deux méthodes pour lancer les outils de compilation sous VSCode :
+
+<ul>
+    <li> Via les raccourcis clavier (Tâches)
+</li>
+    <li> Via les boutons sur l'interface graphique
+</li>
+</ul>
+<h4>Les raccourcis clavier</h4>
+<span id='allTasks'></span>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/example.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/example.png' class='alignnone size-medium' style='max-width:35%;'></a><figcaption>Figure - Visualisation des commandes</figcaption></div></figure>
+Les commandes sont classées par catégorie, à savoir : 
+
+<ul>
+    <li> <b>Compilation</b></li>
+    Les commandes pour compiler le projet.
+
+    <li> <b>Settings</b></li>
+    Les commandes pour définir les paramètres du projet.
+
+    <li> <b>Display</b></li>
+    Les commandes pour afficher ou non des éléments (liste des figures...)
+
+    <li> <b>Part</b></li>
+    Les commandes pour gérer les parties
+
+</ul>
+<h4>Les commandes de compilation</h4>
+<ul>
+    <li> Compilation
+</li>
+<ul>
+        <li> <b>Full</b></li>
+        Lance une compilation complète
+
+        <li> <b>Display HTML render</b></li>
+        Lance la page d'affichage du rendu HTML du code Latex. Avant de faire cette commande, il faut faire la commande <b>Compilation > Convert Latex to HTML</b>
+        <li>  <b>Enable all files</b></li>
+        Autorise la compilation complète du répertoire <span class='badge badge-light'>Parts</span>
+        <li>  <b>Disable all files</b></li>
+        Empêche la compilation complète du répertoire <span class='badge badge-light'>Parts</span>
+        <li>  <b>Display PDF</b></li>
+        Ouvre le PDF de sortie (main.pdf) avec le logiciel <span class='badge badge-success'>okular</span>
+        <li>  <b>Display errors</b></li>
+        Affiche le fichier de sortie de compilation.
+
+        <li>  <b>Convert Latex to HTML</b></li>
+        Lance les scripts python pour convertir le Latex en HTML.
+
+        <li>  <b>Light (without bibliography, index and nomenclature)</b></li>
+        Lance une compilation rapide sans bibliographie, index et nomenclature. Cette compilation ne compile pas l'intégralité du document, la table des matière sera donc absente mais cela a le mérite de compiler rapidement.
+
+</ul>
+</ul>
+Pour trier les commandes disponibles, il faut saisir le type de commande (Compilation, Settings...) et les commandes seront triées.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Trie des commandes</figcaption></div></figure>
+<h4>Les commandes de configuration du projet</h4><span id='setSettings'></span>
+Il est possible d'éditer de nombreux paramètres de manière graphique sous VScode.
+
+Les configurations se font via les commandes de type <b>Settings</b>
+<ul>
+    <li> Settings
+</li>
+<ul>
+        <li> <b>Depth of TOC</b></li>
+        Définit la profondeur du sommaire (défaut=1)
+
+        <li> <b>Update of font</b></li>
+        Définit la police du document.
+
+        <li>  <b>Update of theme</b></li>
+        Définit le thème du document
+
+        <li>  <b>Update of margins</b></li>
+        Définit les marges du document.
+
+        <li>  <b>Update of metadata</b></li>
+        Ouvre le fichier de définition des métadonnées
+
+        <li>  <b>Update of line widht</b></li>
+        Définit l'épaisseur des traits pour les en-tête et pied de page.
+
+        <li>  <b>Update of document class</b></li>
+        Définit la classe du document
+
+        <li>  <b>Update of nomenclature</b></li>
+        Définit le nom de la nomenclature.
+
+</ul>
+</ul>
+<h4>Les boutons</h4>
+Au lieu d'utiliser les raccourcis avec <span class='badge badge-light'>CTRT+SHIFT+B</span>, il est possible d’exécuter les outils avec les boutons en bas de VSCode : 
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/buttons.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/buttons.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Visualisation des boutons</figcaption></div></figure>
+
+Le choix d'un dossier par partie (Parts/XXX) permet de fusionner très facilement des projets.
+
+Pour fusionner deux projets, il suffit de copier-coller le contenu du dossier <span class='badge badge-light'>Images</span> et <span class='badge badge-light'>Parts</span> du projet A 
+dans le dossier de projet qui contiendra la fusion (projet B). Lors de la compilation, <span class='badge badge-success'>make</span> va gérer la 
+fusion automatiquement.
+
+</br><span class='badge badge-info'>Header</span><br> veut dire que le code est à mettre avant <b>begin\{document\</b>}
+</br><span class='badge badge-info'>Body</span><br> veut dire que le code est à mettre entre <b>begin\{document\</b>} et <b>end\{document\</b>}
+</br><span class='badge badge-info'>main.tex</span><br> veut dire que le code est à mettre dans le fichier <span class='badge badge-primary'>main.tex</span>
+</br><span class='badge badge-info'>Make/Nomenclature.tex</span><br> veut dire que le code est à mettre dans le fichier <span class='badge badge-primary'>Nomenclature.text</span> situé dans le dossier <span class='badge badge-light'>Make</span>
+</br><span class='badge badge-info'>Make/Bibliography.bib</span><br> veut dire que le code est à mettre dans le fichier <span class='badge badge-primary'>Bibliography.bib</span> situé dans le dossier <span class='badge badge-light'>Make</span>
+
+<h2 >Bibliothèque Badges</h2>
+La bibliothèque <span class='badge badge-success'>Badges</span> gère les badges de différentes couleurs. Les couleurs disponibles sont présentées dans la section <a class="alert-link"><a href='#colors</a>'>colors</a></a>
+<h3>Création de badges avec des couleurs</h3>
+\badge{white}{black}{Electronique}
+
+\badge{white}{blue}{Mécanique}
+
+\badge{white}{green}{Informatique}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\badge{white}{black}{Electronique}
+
+\badge{white}{blue}{Mécanique}
+
+\badge{white}{green}{Informatique}
+
+</code></pre><hr>
+
+<span id='biblio'></span>
+La bibliothèque <span class='badge badge-success'>Bibliography</span> gère la bibliographie du document.
+<h3>Format de la bibliographie</h3>
+La bibliographie contenue dans le fichier <span class='badge badge-light'>Make</span>/<span class='badge badge-primary'>Bibliography.bib</span> doit être au format <b>Bibtex</b> : 
+</br><span class='badge badge-info'>Make/Bibliography.bib</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    @book{ID,
+
+    title={Titre},
+
+    author={Auteur},
+
+    year={2007},
+
+    note={Une description},
+
+    publisher={Editeur}
+
+},
+
+ ...
+
+</code></pre><hr>
+Le format Zotero se base sur cette architecture.
+
+<h3>Affichage de la bibliographie</h3>
+Pour afficher la bibliographie située dans le dossier <span class='badge badge-light'>Make</span>/<span class='badge badge-primary'>Bibliography.bib</span>, il faut saisir la commande suivante : 
+</br><span class='badge badge-info'>main.tex</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\displayBibliography{Bibliographie}{Make/Bibliography}
+
+</code></pre><hr>
+<div class='alert alert-warning' ><h4>Remarque</h4>L'extension du fichier .bib ne doit pas être précisée !</div>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/bib.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/bib.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Un rendu de la bibliographie</figcaption></div></figure>
+
+La bibliothèque <span class='badge badge-success'>Colors</span> gère les couleurs dans le document.
+<h3>Afficher du contenu en couleur</h3>
+<span style='color:blue;'>Ceci est du texte en bleu</span>
+
+<span style='color:red;'>Ceci est du texte en rouge</span>
+
+<span style='color:green;'>Ceci est du texte en vert</span>
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+<span style='color:blue;'>Ceci est du texte en bleu</span>
+
+<span style='color:red;'>Ceci est du texte en rouge</span>
+
+<span style='color:green;'>Ceci est du texte en vert</span>
+
+</code></pre><hr>
+<h3>Liste des couleurs disponibles</h3>
+<ul>
+    <li> <span style='color:red;'>red</span>
+</li>
+    <li> <span style='color:green;'>green</span>
+</li>
+    <li> <span style='color:blue;'>blue</span>
+</li>
+    <li> <span style='color:orange;'>orange</span>
+</li>
+    <li> <span style='color:yellow;'>yellow</span>
+</li>
+    <li> <span style='color:gray;'>gray</span>
+</li>
+    <li> <span style='color:brown;'>brown</span>
+</li>
+    <li> <span style='color:cyan;'>cyan</span>
+</li>
+    <li> <span style='color:black;'>black</span>
+</li>
+    <li> <span style='color:purple;'>purple</span>
+</li>
+    <li> <span style='color:magenta;'>magenta</span>
+</li>
+    <li> <span style='color:rose;'>rose</span>
+</li>
+    <li> <span style='color:darkBlue;'>darkBlue</span>
+</li>
+    <li> <span style='color:darkBrown;'>darkBrown</span>
+</li>
+    <li> <span style='color:darkRed;'>darkRed</span>
+</li>
+    <li> <span style='color:darkOrange;'>darkOrange</span>
+</li>
+    <li> <span style='color:DarkGray;'>DarkGray</span>
+</li>
+</ul>
+
+La bibliothèque <span class='badge badge-success'>Electronic</span> permet de générer des chronogrammes et des schémas électriques
+<h3>Création de chronogrammes fixes</h3>
+\begin{numeric}{Exemple 1}
+
+    D1 &  20{C}   
+
+    D2 &  [green] 1H1L1L1L1H1L1L1H1L1H1L1H1L1H1L1H  
+
+    D7 &  [black] 1H1L1L1L1H1L1L1H1L1H1L1H1L1H1L1H  
+
+    D8 & 8D5U7U5D 
+
+    D9 & LLL 2{0.1H 0.1L} 0.6H HH 
+
+    D10 & ZZ G ZZ G XX G X 
+
+    D11 & [d] 4{5D{Text}} 0.2D 
+
+    D12 & [L][timing/slope=1.0] HL HL HL HL HL 
+
+  \end{numeric}
+
+  \begin{numeric}{Exemple 2 - Chronogramme du compteur 4 bits}
+
+    INPUT &  CC [blue]16{CC} CCC   
+
+    D0 &  HL 8{LHHL} LHL   
+
+    D1 &  H  4{LLLLHHHH} LLLL 
+
+    D2 &  H 2{LLLLLLLLHHHHHHHH} LLLL   
+
+    D3 &  H{LLLLLLLLLLLLLLLLHHHHHHHHHHHHHHHH} LLLL  
+
+    END &  LL [green]14{LL} LHHLLL  
+
+    VALUE & L 2D{0} 2D{1} 2D{2} 2D{3} 2D{4} 2D{5} 2D{6} 2D{7} 2D{8} 2D{9} 2D{10} 2D{11} 2D{12} 2D{13} 2D{14} 2D{15} 2D{0} 2D{1}  
+
+  \end{numeric}%
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  \begin{numeric}{exemple 1 - chronogramme fixe}
+
+    D1 &  20{C}   
+
+    D2 &  [green] 1H1L1L1L1H1L1L1H1L1H1L1H1L1H1L1H  
+
+    D7 &  [black] 1H1L1L1L1H1L1L1H1L1H1L1H1L1H1L1H  
+
+    D8 & 8D5U7U5D 
+
+    D9 & LLL 2{0.1H 0.1L} 0.6H HH 
+
+    D10 & ZZ G ZZ G XX G X 
+
+    D11 & [d] 4{5D{Text}} 0.2D 
+
+    D12 & [L][timing/slope=1.0] HL HL HL HL HL 
+
+  \end{numeric}
+
+</code></pre><hr>
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  \begin{numeric}{Exemple 2 - Chronogramme du compteur 4 bits}
+
+    INPUT &  CC [blue]16{CC} CCC   
+
+    D0 &  HL 8{LHHL} LHL   
+
+    D1 &  H  4{LLLLHHHH} LLLL 
+
+    D2 &  H 2{LLLLLLLLHHHHHHHH} LLLL   
+
+    D3 &  H{LLLLLLLLLLLLLLLLHHHHHHHHHHHHHHHH} LLLL  
+
+    END &  LL [green]14{LL} LHHLLL  
+
+    VALUE & L 2D{0} 2D{1} 2D{2} 2D{3} 2D{4} 2D{5} 2D{6} 2D{7} 2D{8} 2D{9} 2D{10} 2D{11} 2D{12} 2D{13} 2D{14} 2D{15} 2D{0} 2D{1}  
+
+  \end{numeric}%
+
+</code></pre><hr>
+<h3>Création de chronogrammes flottants</h3>
+Notre signal d'horloge (\texttiming{[blue]CCCCCC}) provient d'un oscillateur à quartz.
+
+Notre signal d'horloge (\texttiming[timing/draw grid]{LHLHLHLHLHLHLHL}) provient d'un oscillateur à quartz. 
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  Notre signal d'horloge (\texttiming{[blue]CCCCCC}) provient d'un oscillateur à quartz.
+
+  Notre signal d'horloge (\texttiming[timing/draw grid]{LHLHLHLHLHLHLHL}) provient d'un oscillateur à quartz. 
+
+</code></pre><hr>
+<h3>Création de schémas électriques</h3>
+  
+
+  \begin{schema} {Exemple de schéma électrique}
+
+  
+
+    \addPower{6,5}{power1}{\(+5V\)}
+
+    \addGround{4,0}{gnd1}{}
+
+  
+
+    \setDeviceBackgroundColor{white}
+
+    \setRotate{0}
+
+    \addLogicGate{0,0}{mynor}{nor}{}{A}{B}{G1}
+
+  
+
+    \setDeviceBackgroundColor{green}
+
+    \addLogicGate{0,2}{mynand}{nand}{}{C}{D}{G2}
+
+    \addLogicGate{2,1}{myor}{or}{}{}{}{G3}
+
+    \resetColors
+
+            
+
+    \addTransistor{6,1}{npnA}{nmos}{B}{C}{E}
+
+    \addTransistor{6,3}{pnpA}{pmos}{b}{e}{c}
+
+  
+
+    \resetColors
+
+    \addTransistor{10,2}{npnR}{nmos}{b}{e}{c}
+
+  
+
+    \addWire{mynor.out}{myor.in 2}{\orthogonalWireA}
+
+    \addWire{mynand.out}{myor.in 1}{\orthogonalWireA}
+
+    \addWire{mynand.out}{pnpA.B}{\orthogonalWireA}
+
+    \addWire{pnpA.C}{npnA.C}{\orthogonalWireA}
+
+  
+
+    \addWire{pnpA.E}{power1}{\orthogonalWireA}
+
+  
+
+    \addWire{npnA.E}{gnd1}{\orthogonalWireA}
+
+  
+
+    \addNode{\((pnpA.C)+(1,0)\)}{node1}{}
+
+    \addWire{pnpA.C}{node1}{\orthogonalWireA}
+
+  
+
+    \setDeviceBackgroundColor{red}
+
+    \addLed{myor.out}{\Right}{npnA.B}{\orthogonalWireA}{L1}
+
+    \addResistor{node1}{\Right}{npnR.B}{\orthogonalWireA}
+
+            
+
+  \end{schema}
+
+  
+
+  </br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    \begin{schema} {Exemple de schéma électrique}
+
+  
+
+      \addPower{6,5}{power1}{\(+5V\)}
+
+      \addGround{4,0}{gnd1}{}
+
+    
+
+      \setDeviceBackgroundColor{white}
+
+      \setRotate{0}
+
+      \addLogicGate{0,0}{mynor}{nor}{}{A}{B}{G1}
+
+    
+
+      \setDeviceBackgroundColor{green}
+
+      \addLogicGate{0,2}{mynand}{nand}{}{C}{D}{G2}
+
+      \addLogicGate{2,1}{myor}{or}{}{}{}{G3}
+
+      \resetColors
+
+              
+
+      \addTransistor{6,1}{npnA}{nmos}{B}{C}{E}
+
+      \addTransistor{6,3}{pnpA}{pmos}{b}{e}{c}
+
+    
+
+      \resetColors
+
+      \addTransistor{10,2}{npnR}{nmos}{b}{e}{c}
+
+    
+
+      \addWire{mynor.out}{myor.in 2}{\orthogonalWireA}
+
+      \addWire{mynand.out}{myor.in 1}{\orthogonalWireA}
+
+  
+
+      \addWire{mynand.out}{pnpA.B}{\orthogonalWireA}
+
+      \addWire{pnpA.C}{npnA.C}{\orthogonalWireA}
+
+    
+
+      \addWire{pnpA.E}{power1}{\orthogonalWireA}
+
+    
+
+      \addWire{npnA.E}{gnd1}{\orthogonalWireA}
+
+    
+
+      \addNode{\((pnpA.C)+(1,0)\)}{node1}{}
+
+      \addWire{pnpA.C}{node1}{\orthogonalWireA}
+
+    
+
+      \setDeviceBackgroundColor{red}
+
+      \addLed{myor.out}{\Right}{npnA.B}{\orthogonalWireA}{L1}
+
+      \addResistor{node1}{\Right}{npnR.B}{\orthogonalWireA}
+
+              
+
+    \end{schema}
+
+</code></pre><hr>
+  
+
+La bibliothèque <span class='badge badge-success'>Figures</span> permet de créer des figures et d'afficher la liste des figures dans le document
+<h3>Création d'une figure centrée</h3>
+\createFigure{Figure en exemple}{Ceci est un contenu de figure}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\createFigure{Figure en exemple}{Ceci est un contenu de figure}
+
+</code></pre><hr>
+<h3>Création d'une figure non centrée</h3>
+\createFigure{Figure en exemple}{Ceci est un contenu de figure no centrée}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\createNoCenteredFigure{Figure en exemple}{Ceci est un contenu de figure}
+
+</code></pre><hr>
+<h3>Affichage de la liste des figures</h3>
+</br><span class='badge badge-info'>main.tex</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\displayListOfFigures{Liste des figures}
+
+</code></pre><hr>
+
+La bibliothèque <span class='badge badge-success'>Fonts</span> permet d'intégrer des icons
+<h3>Ajout d'icônes</h3>
+\faGithub
+
+
+<span id='addDef'></span>
+La bibliothèque <span class='badge badge-success'>Glossaries</span> permet de manipuler un glossaire
+<h3>Ajout d'une définition au glossaire</h3>
+</br><span class='badge badge-info'>Make/Glossaries.tex</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\newglossaryentry{Definiton}{name=Identifiant,description={Description}}
+
+</code></pre><hr>
+<h3>Affichage du glossaire</h3>
+Pour afficher le glossaire située dans le dossier <span class='badge badge-light'>Make</span>/<span class='badge badge-primary'>Glossaries.tex</span>, il faut saisir la commande suivante : 
+</br><span class='badge badge-info'>main.tex</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\displayGlossaries{Glossaire}
+
+</code></pre><hr>
+<h4>Rendu du glossaire</h4>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/glossaire.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/glossaire.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Un rendu du glosssaire</figcaption></div></figure>
+
+La bibliothèque <span class='badge badge-success'>Graphic</span> permet de générer des graphiques depuis diverses sources de données.
+<h3>Affichage d'un graphique 2D avec insertion des données depuis un fichier txt (csv)</h3>
+\begin{graphic}{0.8}{0.6}{0}{2.1}{-1.1}{1.1}{t(ms)}{vs}{Oscilloscope}
+
+\addPointsFromCSV{red}{comma}{src_examples/input_1.txt}
+
+\addLegend{voie A}
+
+\end{graphic}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\begin{graphic}{0.8}{0.6}{0}{2.1}{-1.1}{1.1}{t(ms)}{vs}{Oscilloscope}
+
+  \addPointsFromCSV{red}{comma}{src_examples/input_1.txt}
+
+  \addLegend{voie A}
+
+\end{graphic}
+
+</code></pre><hr>
+<h3>Affichage d'un graphique 2D avec insertion des données depuis une liste de points</h3>
+\begin{graphic}{0.8}{0.4}{0}{40}{-1}{6}{t(s)}{Tension (V)}{Signal numérique}
+
+\addPoints{blue}{(0,0)(10,0)(10,5)(15,5)(15,0)(20,0)(20,5)(25,5)(25,0)(30,0)(30,5)(35,5)(35,0)(100,0)}
+
+\addLegend{Tension (V)}
+
+\end{graphic}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\begin{graphic}{0.8}{0.4}{0}{40}{-1}{6}{t(s)}{Tension (V)}{Signal numérique}
+
+  \addPoints{blue}{(0,0)(10,0)(10,5)(15,5)(15,0)(20,0)(20,5)(25,5)(25,0)(30,0)(30,5)(35,5)(35,0)(100,0)}
+
+  \addLegend{Tension (V)}
+
+\end{graphic}
+
+</code></pre><hr>
+<h3>Affichage d'un graphique 2D avec insertion des données depuis une équation</h3>
+\begin{graphicFigure}{0.4}{0.4}{0}{3}{-1}{5}{t(s)}{Tension V}{Signal analogique}
+
+  \addTrace{green}{-10}{10}{sin(x)}
+
+\addLegend{Legende}
+
+\end{graphicFigure}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\begin{graphicFigure}{0.4}{0.4}{0}{3}{-1}{5}{t(s)}{Tension V}{Signal analogique}
+
+  \addTrace{green}{-10}{10}{sin(800*x)}
+
+  \addLegend{Legende}
+
+\end{graphicFigure} 
+
+</code></pre><hr>
+<br>
+
+<h3>Affichage de deux graphiques</h3>
+  \begin{figure}[h!]  
+
+    \centering 
+
+      \begin{subfigure}[b]{0.4\linewidth}
+
+        \begin{graphic}{0.8}{1}{0}{1.2}{-1}{5}{t(s)}{Tension V}{h}
+
+          \addTrace{green}{-10}{10}{sin(x)/x}
+
+          \addLegend{sin(t)}
+
+          \end{graphic}%NO END  LINE HERE
+
+        \caption{Origine} 
+
+      \end{subfigure}
+
+    \begin{subfigure}[b]{0.4\linewidth}
+
+      \begin{graphic}{0.8}{1}{0}{4}{-0.3}{0.3}{t(s)}{Tension V}{g}
+
+        \addPointsFromCSV{blue}{comma}{src_examples/jack01.txt}
+
+        \addLegend{g(t)}
+
+        \end{graphic}%NO END  LINE HERE
+
+    \caption{Bruit}
+
+    \end{subfigure}
+
+    \caption{Les tensions de service}
+
+    \end{figure}  
+
+  
+
+    </br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+      \begin{figure}[h!]  
+
+        \centering 
+
+          \begin{subfigure}[b]{0.4\linewidth}
+
+            \begin{graphic}{0.8}{1}{0}{1.2}{-1}{5}{t(s)}{Tension V}{h}
+
+              \addTrace{green}{-10}{10}{sin(x)/x}
+
+              \addLegend{sin(t)}
+
+              \end{graphic}%NO END  LINE HERE
+
+            \caption{Origine} 
+
+          \end{subfigure}
+
+        \begin{subfigure}[b]{0.4\linewidth}
+
+          \begin{graphic}{0.8}{1}{0}{4}{-0.3}{0.3}{t(s)}{Tension V}{g}
+
+            \addPointsFromCSV{blue}{comma}{src_examples/jack01.txt}
+
+            \addLegend{g(t)}
+
+            \end{graphic}%NO END  LINE HERE
+
+        \caption{Bruit}
+
+        \end{subfigure}
+
+        \caption{Les tensions de service}
+
+        \end{figure}  
+
+</code></pre><hr>
+    
+
+La bibliothèque <span class='badge badge-success'>Header</span> permet de gérer la mise en page globale du document, en particulier : 
+<ul>
+  <li> Le type de page de garde : 
+</li>
+<ul>
+    <li> Page de garde avec une image
+</li>
+    <li> Page de garde sans image
+</li>
+</ul>
+  <li> Créer des parties avec des images (commande <span class='badge badge-success'>part</span> améliorée)</li>
+  <li> Définit l'en-tête et le pied de page
+</li>
+</ul>
+<h3>Mise en forme de la page de garde avec une image</h3>
+</br><span class='badge badge-info'>Header</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\setHeaderImage{Emplacement_image}{0.8}{Titre}{sous-titre}{Auteurs}{\today  \pageref{LastPage} pages}
+
+</code></pre><hr>
+<h3>Mise en forme de la page de garde sans image</h3>
+</br><span class='badge badge-info'>Header</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  \setHeader{Titre}{Auteur 1  Auteur 2}{Date}
+
+</code></pre><hr>
+<h3>Mise en forme de la page des parties</h3>
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+   
+
+</code></pre><hr>
+<h3>Ajout d'un trait entre l'en-tête et le corps de la page</h3>
+</br><span class='badge badge-info'>Header</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  \setHeaderLine{0.2}
+
+</code></pre><hr>
+<h3>Ajout d'un trait entre le corps de la page et le bas de page</h3>
+</br><span class='badge badge-info'>Header</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  \setFooterLine{0.2}
+
+</code></pre><hr>
+<h3>Définition de la présentation globale des pages</h3>
+</br><span class='badge badge-info'>Header</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  \addPresentation
+
+  {Titre} {Centre} {\currentChapter}
+
+  {Gauche} {} {\currentPage}
+
+</code></pre><hr>
+<h3>Redéfinition des titres des chapitres</h3>
+Par défault, l'utilisation du mot clé chapter force à utiliser le mot-clé <b>Chapitre X</b>. Pour utiliser un autre nom, utiliser la commande suivante : 
+</br><span class='badge badge-info'>Header</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  \setAliasChapter{Section}
+
+</code></pre><hr>
+<h3>Mettre le document en pleine page</h3>
+</br><span class='badge badge-info'>Header</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\setFullPage
+
+</code></pre><hr>
+<h3>Récuperer le chapitre courant</h3>
+Le chapitre courant sera en majuscule.
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\currentChapter
+
+</code></pre><hr>
+
+La bibliothèque <span class='badge badge-success'>Images</span> permet d'ajouter des images.
+<h3>Définition de l'espace de nommage</h3>
+<span id='handleImages'></span>
+Lors de l'ajout d'une image, il n'est pas nécessaire de connaitre le nom du dossier courant.
+
+Pour les commandes <span class='badge badge-success'>img</span>, <span class='badge badge-success'>imgr</span> et <span class='badge badge-success'>imgf</span>, l'argument <b>Référence</b> doit être de la forme <b>rootImages+NomImage.extension</b>.
+La macro <span class='badge badge-success'>rootImages</span> prendra lors de la compilation la valeur du dossier courant.
+Par exemple, pour ajouter une image appelée <span class='badge badge-primary'>monImage.png</span> provenant du dossier 
+<span class='badge badge-light'>Images/Part1</span>, il suffit d'écrire : 
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Ma légende</figcaption></div></figure>
+</code></pre><hr>
+<h3>Ajout d'une image non-flottante</h3>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/tux.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/tux.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Légende de l'image</figcaption></div></figure>
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/tux.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/tux.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Légende de l'image</figcaption></div></figure>
+</code></pre><hr>
+<h3>Ajout d'une image non-flottante avec une rotation</h3>
+\imgr{\rootImages/tux.png}{Légende de l'image}{0.5}{45}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\imgr{\rootImages/tux.png}{Légende de l'image}{0.5}{45}
+
+</code></pre><hr>
+<h3>Ajout d'une image flottante</h3>
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut purus elit, vestibulum
+
+ut, placerat ac, adipiscing vitae, felis. Curabitur dictum gravida mauris. Nam arcu li-
+
+bero, nonummy eget, consectetuer id, vulputate a, magna. Donec vehicula augue eu
+
+neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+
+turpis egestas. Mauris ut leo. Cras viverra metus rhoncus sem. Nulla et lectus vestibu-
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/tux.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/tux.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Légende de l'image</figcaption></div></figure>
+lum urna fringilla ultrices. Phasellus eu tellus sit amet tortor gravida placerat. Integer
+
+sapien est, iaculis in, pretium quis, viverra ac, nunc. Praesent eget sem vel leo ultrices
+
+bibendum. Aenean faucibus. Morbi dolor nulla, malesuada eu, pulvinar at, mollis ac,
+
+nulla. Curabitur auctor semper nulla. Donec varius orci eget risus. Duis nibh mi, congue
+
+
+La bibliothèque <span class='badge badge-success'>Items</span> permet de gérer les listes à puce.
+<h3>Création d'un liste</h3>
+<ul>
+    <li> A
+</li>
+    <li> B
+</li>
+    <li> C
+</li>
+</ul>
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+<ul>
+    <li> A
+</li>
+    <li> B
+</li>
+    <li> C
+</li>
+</ul>
+</code></pre><hr>
+<h4>Options</h4>
+<ul>
+    <li> Triangle
+</li>
+    <li> Circle
+</li>
+    <li> Bullet
+</li>
+</ul>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\Triangle
+
+\Bullet 
+
+\Circle
+
+</code></pre><hr>
+
+La bibliothèque <span class='badge badge-success'>Labels</span> permet de créer des labels.
+<h3>Création de labels générique</h3>
+Il est possible d'utiliser les labels génériques : 
+
+<span style='background-color:orange;opacity:60%;color:white;' class='badge badge-pill'>Label</span>  %Label orange
+
+<span style='background-color:red;opacity:60%;color:white;' class='badge badge-pill'>Label</span> %Label rouge 
+
+<span style='background-color:green;opacity:60%;color:white;' class='badge badge-pill'>Label</span> %...
+
+<span style='background-color:magenta;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:purple;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:cyan;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:blue;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:brown;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:yellow;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:black;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:rose;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:darkBlue;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:darkBrown;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:darkRed;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:darkOrange;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:DarkGray;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+<span style='background-color:orange;opacity:60%;color:white;' class='badge badge-pill'>Label</span>  %Label orange
+
+<span style='background-color:red;opacity:60%;color:white;' class='badge badge-pill'>Label</span> %Label rouge 
+
+<span style='background-color:green;opacity:60%;color:white;' class='badge badge-pill'>Label</span> %...
+
+<span style='background-color:magenta;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:purple;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:cyan;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:blue;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:brown;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:yellow;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:black;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:rose;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:darkBlue;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:darkBrown;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:darkRed;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:darkOrange;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+<span style='background-color:DarkGray;opacity:60%;color:white;' class='badge badge-pill'>Label</span>
+
+</code></pre><hr>
+<h3>Création de labels spécifiques</h3>
+<h4>Contenu de fichiers</h4>
+<span class='badge badge-primary'>Fichier</span>
+<span class='badge badge-light'>Dossier</span>
+<a class="alert-link">Lien</a>
+<span class='badge badge-success'>Bibliothèque ou Logiciel</span>
+<span class='badge badge-light'>Raccourci-clavier ou touche</span>
+<h4>Réseaux</h4>
+\ip{Adresse IP}
+
+\mac{Adresse MAC}
+
+\bin{Représentation binaire}
+
+\hexa{Représentation hexadécimale}
+
+<h4>Documentation</h4>
+</br><span class='badge badge-info'>Localisation</span><br>
+\deprecated{Information périmée}
+
+<h4>Electronique</h4>
+\genericPin{Broche générique}
+
+<b>Broche d'entrée</b>
+<b>broche de sortie</b>
+\reg{Registre}
+
+\func{Fonction}
+
+\adr{Addresse}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+<span class='badge badge-primary'>Fichier</span>
+<span class='badge badge-light'>Dossier</span>
+<a class="alert-link">Lien</a>
+<span class='badge badge-success'>Bibliothèque ou Logiciel</span>
+<span class='badge badge-light'>Raccourci-clavier ou touche</span>
+\ip{Adresse IP}
+
+\mac{Adresse MAC}
+
+\bin{Représentation binaire}
+
+\hexa{Représentation hexadécimale}
+
+</br><span class='badge badge-info'>Localisation</span><br>
+\deprecated{Information périmée}
+
+\genericPin{Broche générique}
+
+<b>Broche d'entrée</b>
+<b>broche de sortie</b>
+\reg{Registre}
+
+\func{Fonction}
+
+\adr{Addresse}
+
+</code></pre><hr>
+
+La bibliothèque <span class='badge badge-success'>Layout</span> gère la page de garde et la mise en forme du text (gras, italique...).
+La mise en page est séparée en 4 parties : frontmatter (début du document, numéroation romaine), mainmatter (avant le premier chapitre), appendix (annexes) et backmatter avant les tables et bibliographies
+
+<h3>Mise en gras</h3>
+<b>Texte en gras</b>
+\sn
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+<b>Texte en gras</b>
+</code></pre><hr>
+<h3>Mise en italique</h3>
+<i>Texte en italique</i>
+\sn
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+<i>Texte en gras</i>
+</code></pre><hr>
+<h3>Mise en gras et italique</h3>
+<b><i>Texte en gras et italique</i></b>
+\sn
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+<b><i>Texte en gras et italique</i></b>
+</code></pre><hr>
+<h3>Ajout d'un espace vertical</h3>
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut purus elit, vestibulum
+
+ut, placerat ac, adipiscing vitae, felis. Curabitur dictum gravida mauris. Nam arcu li- \sn
+
+bero, nonummy eget, consectetuer id, vulputate a, magna. Donec vehicula augue eu
+
+neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+
+turpis egestas. Mauris ut leo. Cras viverra metus rhoncus sem. Nulla et lectus vestibu-
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\sn
+
+</code></pre><hr>
+
+La bibliothèque <span class='badge badge-success'>Links</span> gère les métadonnées.
+<h3>Paramétrage des liens et des méta-données</h3>
+</br><span class='badge badge-info'>Header</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+%@input Titre du PDF
+
+%@input Auteur(s)
+
+%@input Sujet du fichier PDF (courte phrase)
+
+%@input Créateur du fichier PDF
+
+%@input Producteur du fichier PDF
+
+%@input Mots-clés (liste)
+
+%@input Couleurs des liens
+
+%@input Couleurs des citations dans la bibliographie
+
+%@input Couleurs des liens de fichier
+
+\setParameters {Tutoriel Latex} {Nicolas Le Guerroué} {Bibliothèque Utils} {Nicolas Le Guerroué}{Latex}{green}{blue}{blue}
+
+    
+
+</code></pre><hr>
+
+La bibliothèque <span class='badge badge-success'>Maths</span> gère les torseurs et matrices.
+<h3>Création d'une matrice 3*3</h3>
+\(\emat{a & b & c}{d & e & f}{g & h & i}  \)
+
+\vskip 0.5cm
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    \(\emat{a & b & c}{d & e & f}{g & h & i}  \)
+
+</code></pre><hr>
+<h3>Création d'un vecteur à trois dimensions</h3>
+\(\evec{a}{b}{c}  \)
+
+\vskip 0.5cm
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    \(\evec{a}{b}{c}  \)
+
+</code></pre><hr>
+<h3>Création d'un torseur à trois dimensions</h3>
+\(\torsor{a & d}{b & e}{c & f}  \)
+
+\vskip 0.5cm
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    \(\torsor{a & d}{b & e}{c & f}  \)
+
+</code></pre><hr>
+
+La bibliothèque <span class='badge badge-success'>MessageBox</span> gère les boites de message pour afficher des informations.
+<h3>Création de boites de dialogues</h3>
+<div class='alert alert-warning' ><h4>Message</h4>Voici un message</div>
+<div class='alert alert-danger' ><h4>Message</h4>Et un autre message</div>
+<div class='alert alert-success' ><h4>Message</h4>bref...</div>
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+<div class='alert alert-warning' ><h4>Message</h4>Voici un message</div>
+</code></pre><hr>
+
+<span id='addNomenclature'></span>
+La Bibliothèque <span class='badge badge-success'>Nomenclature</span> permet de générer des nomenclatures.
+<h3>Ajout d'un élément dans la nomenclature</h3>
+Chaque élément est de la forme 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\nomenclature[category]{\(symbole\)}{définition}
+
+%Par exemple
+
+\nomenclatu\(r\)e[E]{\(r\)}{Rappo\(r\)t cyclique d'un signal pé\(r\)iodique}
+
+</code></pre><hr>
+et doit être rajouté dans le fichier <span class='badge badge-light'>Make</span>/<span class='badge badge-primary'>Nomenclature.tex</span>
+Dans la commande, <b>category</b> indique le type de grandeur. Il y a actuellement 6 types de grandeurs définies dans le fichier <span class='badge badge-light'>Utils</span>/<span class='badge badge-primary'>Nomenclature.sty</span><span title="Cependant, rien ne vous empêche d'en ajouter en modifiant la bibliothèque" style='color:grey;'><sup>[note]</sup></span>: 
+<ul>
+<li> P pour les <b>Constantes physiques</b></li>
+<li> O pour les <b>Autres symboles</b></li>
+<li> N pour les <b>Nombres spéciaux</b></li>
+<li> A pour les <b>Amplificateurs Opérationnels</b></li>
+<li> M pour les <b>Mécanique</b></li>
+<li> E pour les <b>Électronique</b></li>
+</ul>
+<h4>Ajout des unités</h4>
+Pour ajouter une unité, il suffit d'invoquer la commande <span class='badge badge-success'>addUnit</span> à la fin du dernier argument de la commande <span class='badge badge-success'>nomenclature</span>.
+<h4>Ajout d'une unité</h4>
+</br><span class='badge badge-info'>Make/Nomenclature.tex</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\nomenclature[A]{\(\varepsilon\)}{Tension différentielle (\(\varepsilon\) = E_+ - E_-)\addUnit{V}}
+
+</code></pre><hr>
+    
+
+<h4>Exemple de nomenclature</h4>
+La nomenclature est dans le fichier <span class='badge badge-light'>Make</span>/<span class='badge badge-primary'>Nomenclature.tex</span>.
+</br><span class='badge badge-info'>Make/Nomenclature.tex</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\nomenclatu\(r\)e[E]{\(r\)}{Rappo\(r\)t cyclique d'un signal pé\(r\)iodique}
+
+\nomenclature[A]{\(A_d\)}{Coefficient d'amplification, gain différentiel }
+
+\nomenclature[A]{\(\varepsilon\)}{Tension différentielle (\(\varepsilon\) = E_+ - E_-)\addUnit{V}}
+
+\nomenclature[A]{\(E_+\)}{Tension entrée non inverseuse \addUnit{V}}
+
+\nomenclature[A]{\(E_-\)}{Tension entrée inverseuse \addUnit{V}}
+
+\nomenclature[E]{\(\eta\)}{Rendement d'un mécanisme \addUnit{\%}}
+
+\nomenclature[E]{\(\varphi\)}{Déphasage entre deux signaux \addUnit{rad}}
+
+  
+
+</code></pre><hr>
+<h3>Affichage de la nomenclature</h3>
+Pour afficher la nomenclature, il suffit de faire la commande : 
+
+</br><span class='badge badge-info'>main.tex</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\displayNomenclature{Nomenclature}{Make/Nomenclature.tex}
+
+</code></pre><hr>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/nomenclature.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/nomenclature.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Rendu d'une nomenclature</figcaption></div></figure>
+
+La bibliothèque <span class='badge badge-success'>Object3D</span> gère les figures 3D et les graphiques 3D.
+<h3>Affichage d'un graphique 3D avec insertion des données depuis une équation</h3>
+\plot{Titre 3D}{x*y*y}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    \plot{Titre 3D}{x*y*y}
+
+</code></pre><hr>
+<h3>Affichage de sphères en 3D</h3>
+\ball{red}{2}
+
+\ball{green}{3}
+
+\ball{blue}{4}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    \ball{red}{2}
+
+    \ball{green}{3}
+
+    \ball{blue}{4}
+
+</code></pre><hr>
+
+La bibliothèque <span class='badge badge-success'>Pdf</span> gère l'insertion de pages PDF dans le document.
+<h3>Insertion d'un document PDF</h3>
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    \includepdf[page=1,2,3]
+
+</code></pre><hr>
+<h3>Insertion d'un ensemble de pages d'un document PDF</h3>
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    \includepdf[page=1,2,3]
+
+</code></pre><hr>
+
+La bibliothèque <span class='badge badge-success'>Programming</span> gère l'affichage de code source dans le document.
+<h3>Affichage d'un code C/C++ avec titre</h3>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#include <iostream>
+
+#define CONST 1
+
+int var = 1;
+
+float 
+
+int main() {
+
+  
+
+  call();
+
+  return 0;
+
+}//End main
+
+</code></pre><hr>
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+        #include <iostream>
+
+        
+
+        #define CONST 1
+
+        
+
+        int var = 1;
+
+        float 
+
+        
+
+        int main() {
+
+          
+
+          call();
+
+          return 0;
+
+        
+
+        }//End main
+
+        
+
+</code></pre><hr>
+</code></pre><hr>
+<h3>Affichage d'un code C/C++ sans titre</h3>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#include <iostream>
+
+#define CONST 1 #const var
+
+int var = 1;
+
+float g = 2.5;
+
+...
+
+</code></pre><hr>
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+        #include <iostream>
+
+        
+
+        #define CONST 1 #const var
+
+        
+
+        int var = 1;
+
+        float g = 2.5;
+
+        ...
+
+        
+
+</code></pre><hr>
+</code></pre><hr>
+<h3>Affichage d'un code Python avec titre</h3>
+\begin{Python}{Titre du code}
+
+def call(input):
+
+  """docstring"""
+
+  a = input
+
+  for elem in a:
+
+    print(elem) #show
+
+</code></pre><hr>
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  \begin{Python}{Titre du code}
+
+    def call(input):
+
+    
+
+      """docstring"""
+
+      a = input
+
+      for elem in a:
+
+        print(elem) #show
+
+</code></pre><hr>
+</code></pre><hr>
+<h3>Affichage d'un code Python sans titre</h3>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+def call(input):
+
+  """docstring"""
+
+  ...
+
+</code></pre><hr>
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    def call(input):
+
+    
+
+      """docstring"""
+
+      ...
+
+</code></pre><hr>
+</code></pre><hr>
+<h3>Affichage d'un code Bash avec titre</h3>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+sudo apt-get -y update
+
+sudo apt-get -y upgrade
+
+echo -e "content"
+
+</code></pre><hr>
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    sudo apt-get -y update
+
+    sudo apt-get -y upgrade
+
+    echo -e "content"
+
+</code></pre><hr>
+</code></pre><hr>
+<h3>Affichage d'un code bash sans titre</h3>
+<b>Ce type d'affichage n'est pas encore supporté par la bibliothèque.</b>
+
+<h2 >Bibliothèque Quotes</h2>
+La bibliothèque <span class='badge badge-success'>Quotes</span> gère les citations
+<h3>Création d'une citation</h3>
+Il est possible de créer des citations uniquement dans la classe <b>book</b>, <b>report</b> et <b>utils report</b>
+\addQuote{Ceci est une citation}{Nicolas LE GUERROUE}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\addQuote{Nicolas LE GUERROUE}{Ceci est une citation}
+
+</code></pre><hr>
+
+La bibliothèque <span class='badge badge-success'>Table</span> gère les tableaux.
+<h3>Création d'un tableau</h3>
+  
+
+\begin{figure}[!h]
+
+    \centering
+
+  \begin{tabular}{|c|c|c|c|}
+
+    \hline
+
+    \(U_A\) (V) & \(U_B\) (V) & Sens du courant & \(U_A\)-\(U_B\)
+
+    \hline
+
+    10 & 5 & <span style='color:blue;'>De A vers B</span> & 5
+
+    \hline
+
+    5 & 10 & <span style='color:blue;'>de B vers A</span> & -5
+
+    \hline
+
+    5 & 5 & <span style='color:blue;'>Aucun courant ne circule</span> & 0
+
+    \hline
+
+  \end{tabular}
+
+  \caption{Réponse sur le sens du courant en fonction des tensions \(U_A\) et \(U_B\)}
+
+  \end{figure}
+
+  
+
+  </br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    
+
+    \begin{figure}[!h]
+
+        \centering
+
+      \begin{tabular}{|c|c|c|c|}
+
+        \hline
+
+        \(U_A\) (V) & \(U_B\) (V) & Sens du courant & \(U_A\)-\(U_B\)
+
+        \hline
+
+        10 & 5 & <span style='color:blue;'>De A vers B</span> & 5
+
+        \hline
+
+        5 & 10 & <span style='color:blue;'>de B vers A</span> & -5
+
+        \hline
+
+        5 & 5 & <span style='color:blue;'>Aucun courant ne circule</span> & 0
+
+        \hline
+
+      \end{tabular}
+
+      \caption{Réponse sur le sens du courant en fonction des tensions \(U_A\) et \(U_B\)}
+
+      \end{figure}
+
+</code></pre><hr>
+<h3>Affichage de la liste des tables</h3>
+</br><span class='badge badge-info'>main.tex</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  \displayListOfTables{Liste des tables}
+
+</code></pre><hr>
+L'argument passé à la macro est le nom visible sur la page ainsi que dans la table des matière.
+
+
+La bibliothèque <span class='badge badge-success'>TableOfContent</span> gère le sommaire et son affichage.
+<h3>Création d'un tableau</h3>
+  
+
+\begin{figure}[!h]
+
+    \centering
+
+  \begin{tabular}{|c|c|c|c|}
+
+    \hline
+
+    \(U_A\) (V) & \(U_B\) (V) & Sens du courant & \(U_A\)-\(U_B\)
+
+    \hline
+
+    10 & 5 & <span style='color:blue;'>De A vers B</span> & 5
+
+    \hline
+
+    5 & 10 & <span style='color:blue;'>de B vers A</span> & -5
+
+    \hline
+
+    5 & 5 & <span style='color:blue;'>Aucun courant ne circule</span> & 0
+
+    \hline
+
+  \end{tabular}
+
+  \caption{Réponse sur le sens du courant en fonction des tensions \(U_A\) et \(U_B\)}
+
+  \end{figure}
+
+  
+
+  </br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    
+
+    \begin{figure}[!h]
+
+        \centering
+
+      \begin{tabular}{|c|c|c|c|}
+
+        \hline
+
+        \(U_A\) (V) & \(U_B\) (V) & Sens du courant & \(U_A\)-\(U_B\)
+
+        \hline
+
+        10 & 5 & <span style='color:blue;'>De A vers B</span> & 5
+
+        \hline
+
+        5 & 10 & <span style='color:blue;'>de B vers A</span> & -5
+
+        \hline
+
+        5 & 5 & <span style='color:blue;'>Aucun courant ne circule</span> & 0
+
+        \hline
+
+      \end{tabular}
+
+      \caption{Réponse sur le sens du courant en fonction des tensions \(U_A\) et \(U_B\)}
+
+      \end{figure}
+
+</code></pre><hr>
+<h3>Affichage de la liste des tables</h3>
+</br><span class='badge badge-info'>main.tex</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  \displayListOfTables{Liste des tables}
+
+</code></pre><hr>
+L'argument passé à la macro est le nom visible sur la page ainsi que dans la table des matière.
+
+
+La bibliothèque <span class='badge badge-success'>Theorems</span> gère les théorèmes.
+Les Théorèmes sous Latex sont des sections d'informations précises (remarque, question, réponse, propriété\ldots) mais dont la mise en page est transparente tout comme la numérotation.
+
+Par exemple, on souhaite créer une question : 
+
+<h3>Création d'une question</h3>
+\begin{question}
+
+    Quelle heure est-il ?
+
+\end{question}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\begin{question}
+
+    Quelle heure est-il ?
+
+\end{question}
+
+</code></pre><hr>
+L'ajout d'une deuxième question se fait en ajoutant le même code.
+
+\begin{question}
+
+    Quelle est ma deuxième question ?
+
+\end{question}
+
+<h3>Création d'une reponse</h3>
+\begin{reponse}
+
+    il est 18 h.
+
+\end{reponse}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\begin{reponse}
+
+    il est 18 h.
+
+\end{reponse}
+
+</code></pre><hr>
+<h3>Création d'une propriete</h3>
+\begin{propriete}
+
+    Un produit scalaire est commutatif.
+
+\end{propriete}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\begin{propriete}
+
+    Un produit scalaire est commutatif.
+
+\end{propriete}
+
+</code></pre><hr>
+<h3>Création d'une proposition</h3>
+\begin{proposition}
+
+    Les chats sont des mammifères.
+
+\end{proposition}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\begin{proposition}
+
+    Les chats sont des mammifères.
+
+\end{proposition}
+
+</code></pre><hr>
+<h3>Création d'une remarque</h3>
+\begin{remarque}
+
+remarque sur Latex
+
+\end{remarque}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\begin{remarque}
+
+remarque sur Latex
+
+\end{remarque}
+
+</code></pre><hr>
+<h3>Création d'un exemple</h3>
+\begin{exemple}
+
+    Ceci est un exemple d'exemple
+
+\end{exemple}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\begin{exemple}
+
+    Ceci est un exemple d'exemple
+
+\end{exemple}
+
+</code></pre><hr>
+<h3>Création d'une définition</h3>
+\begin{definition}
+
+    Une phrase est un ensemble de mots.
+
+\end{definition}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\begin{definition}
+
+    Une phrase est un ensemble de mots.
+
+\end{definition}
+
+</code></pre><hr>
+<h3>Création d'une solution</h3>
+\begin{solution}
+
+   La solution est triviale
+
+\end{solution}
+
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\begin{solution}
+
+    La solution est triviale
+
+\end{solution}
+
+</code></pre><hr>
+
+La bibliothèque <span class='badge badge-success'>Titles</span> gère les titres.
+<h4>Titre de chapitre</h4>
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  <h2 >Titre</h2>
+</code></pre><hr>
+<h3>Titre de section</h3>
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  <h3>Titre de section</h3>
+</code></pre><hr>
+<h4>Titre de sous-section</h4>
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  <h4>Titre de sous-section</h4>
+</code></pre><hr>
+<h4>Titre de sous-sous-section</h4>
+</br><span class='badge badge-info'>Body</span><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  <h4>Titre de sous-sous-section</h4>
+</code></pre><hr>
+
+La bibliothèque <span class='badge badge-success'>Tree</span> permet de générer des arborescences de dossiers et fichiers.
+<h3>Création d'une arborescence simple</h3>
+\dirtree{%
+
+.1 Root1. 
+
+.2 SubRoot1.
+
+.3 SubSubRoot1.
+
+.3 SubSubRoot2.
+
+.3 SubSubRoot3.
+
+.2 SubRoot2.
+
+.2 SubRoot3.
+
+} 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\dirtree{%
+
+.1 Root1. 
+
+.2 SubRoot1.
+
+.3 SubSubRoot1.
+
+.3 SubSubRoot2.
+
+.3 SubSubRoot3.
+
+.2 SubRoot2.
+
+.2 SubRoot3.
+
+}
+
+</code></pre><hr>
+Le <b>.Numéro</b> représente la profondeur de l'arborescence, c'est à dire le niveau. 
+Chaque fin de ligne doit impérativement se terminer par un point et la ligne <b>dirtree\{</b> doit se terminer par un symbole '\%'.
+<h3>Création  d'une arborescence plus évoluée</h3>
+Avec l'utilisation de la bibliothèque <span class='badge badge-success'>Labels</span>, il est possible de mettre des couleurs très facilement.
+\dirtree{%
+
+.1 <span class='badge badge-light'>Root1</span>. 
+.2 <span class='badge badge-light'>SubRoot1</span>.
+.3 <span class='badge badge-primary'>SubSubRoot1</span>.
+.3 <span class='badge badge-primary'>SubSubRoot2</span>.
+.3 <span class='badge badge-primary'>SubSubRoot3</span>.
+.2 <span class='badge badge-light'>SubRoot2</span>.
+.2 <span class='badge badge-light'>SubRoot3</span>.
+}
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+\dirtree{%
+
+.1 <span class='badge badge-light'>Root1</span>. 
+.2 <span class='badge badge-light'>SubRoot1</span>.
+.3 <span class='badge badge-primary'>SubSubRoot1</span>.
+.3 <span class='badge badge-primary'>SubSubRoot2</span>.
+.3 <span class='badge badge-primary'>SubSubRoot3</span>.
+.2 <span class='badge badge-light'>SubRoot2</span>.
+.2 <span class='badge badge-light'>SubRoot3</span>.
+}
+
+</code></pre><hr>
+<h3>Création  d'une arborescence dans une figure</h3>
+Avec la bibliothèque <span class='badge badge-success'>Figures</span>, on peut intégrer une arborescence au sein d'une figure non centrée.
+Actuellement, on ne peut pas centrer l'arbre sous peine de dégrader le rendu.
+
+\createNoCenteredFigure{Exemple d'arborescence}{
+
+    \dirtree{%
+
+    .1 <span class='badge badge-light'>Root1</span>. 
+    .2 <span class='badge badge-light'>SubRoot1</span>.
+    .3 <span class='badge badge-primary'>SubSubRoot1</span>.
+    .3 <span class='badge badge-primary'>SubSubRoot2</span>.
+    .3 <span class='badge badge-primary'>SubSubRoot3</span>.
+    .2 <span class='badge badge-light'>SubRoot2</span>.
+    .2 <span class='badge badge-light'>SubRoot3</span>.
+    }
+
+}
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    \createNoCenteredFigure{Exemple d'arborescence}{
+
+        \dirtree{%
+
+        .1 <span class='badge badge-light'>Root1</span>. 
+        .2 <span class='badge badge-light'>SubRoot1</span>.
+        .3 <span class='badge badge-primary'>SubSubRoot1</span>.
+        .3 <span class='badge badge-primary'>SubSubRoot2</span>.
+        .3 <span class='badge badge-primary'>SubSubRoot3</span>.
+        .2 <span class='badge badge-light'>SubRoot2</span>.
+        .2 <span class='badge badge-light'>SubRoot3</span>.
+        }
+
+    }
+
+</code></pre><hr>
+    
+
+</body></html>

@@ -1,0 +1,223 @@
+<html><head><style>.cent {  display: block;  margin-left: auto;  margin-right: auto;}</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> </script><body style='margin-left:5%;margin-right:5%;margin-top:1%'><h4>Fichier générer depuis les sources Latex</h4><h5>Auteur : Nicolas Le Guerroué</h5><a href='index.html'><button class='btn btn-success' >Revenir au sommaire</button></a><hr><h1 class=''>Les réseaux</h1>
+<h2 >Les réseaux</h2>
+Un réseau est un ensemble de machines  <span title="Serveurs, PC, Tablettes, téléphones, imprimantes" style='color:grey;'><sup>[note]</sup></span> reliées entre elles. 
+
+Dans notre cas, la liaison sur le réseau se fera en Ethernet ou WiFi.
+
+<span title="Internet Protocol : Adresse d'une machine sur un réseau" style='color:blue;'>IP</span>
+
+Pour communiquer entre elles, il faut définir des adresses (IP<span title="Internet Protocol" style='color:grey;'><sup>[note]</sup></span>) exactement comme une 
+
+adresse postale pour transmettre un courrier.
+
+<h4>Les adresses MAC</h4>
+Une adresse MAC (Medium Access Control)   est une adresse unique qui désigne la machine
+<span title="Plus précisément l'adresse de la carte réseau de la machine" style='color:grey;'><sup>[note]</sup></span>. Elle est de la forme <span style='background-color:orange;opacity:60%;color:white;' class='badge badge-pill'>XX:XX:XX:XX:XX:XX</span> 
+
+(six octets usuellement exprimés et hexadécimal) et reste invariante dans le temps.
+
+Contrairement aux adresses IP <span title="Internet Protocol : Adresse d'une machine sur un réseau" style='color:blue;'>IP</span>  , les adresses MAC ne sont normalement pas attribuées explicitement par 
+configuration ; elles sont au contraire attribuées à la production de la carte réseau par son fabriquant
+
+La table ARP<span title="Address Resolution Protocol" style='color:grey;'><sup>[note]</sup></span> <span title="Address Resolution Protocol : Table qui gère la correspondance entre les adresses IP et MAC" style='color:blue;'>ARP</span>   d'une machine sert à associer des adresses IP à des 
+adresses MAC.
+
+<h4>Les adresse IP</h4>
+Une adresse IP est une adresse donnée à une machine qui rejoint le réseau. 
+
+<h4>A quoi ressemble une adresse IP ?</h4>
+<ul>
+	<li> Version 4 (Ipv4) : Les adresses sont codées sur 32 bits 
+</li>
+		
+
+	\lbl{green}{IP}{192.168.0.1}	= <span style='background-color:orange;opacity:60%;color:white;' class='badge badge-pill'>1100000.10101000.0000000.00000001</span> (En Binaire)
+
+	<li> version 6 (Ipv6)	: les adresses sont codées sur 128 bits 
+</li>
+	<span style='background-color:green;opacity:60%;color:white;' class='badge badge-pill'>FE80:0000:0000:0000:020C:76FF:FE21:1C3B</span>. 
+
+	L’adresse de version 4 (IPv4) est encore actuellement la plus utilisée. 
+
+</ul>
+Dans un réseau, chaque machine possède une adresse IP fixée par l'administrateur du réseau. 
+
+Il est interdit de donner la même adresse à 2 machines différentes sous peine de dysfonctionnement.
+
+Une adresse IPv4 est une suite de 32 bits (4 octets)  notée en général a.b.c.d avec a, b, c, et d des entiers « décimal » 
+
+compris entre 0 et 255.
+
+ Chaque valeur a, b, c ou d représente dans ce cas une suite de 8 bits. 
+
+ \begin{exemple}
+
+Une machine qui a comme adresse IP 134.214.80.12 (En décimal) :
+
+<ul>
+<li> a vaut 134 soit (1000 0110) en binaire.
+</li>
+<li> b vaut 214 soit (1101 0110) en binaire. 
+</li>
+<li> c vaut 80 soit (0101 0000) 
+</li>
+<li> d vaut 12 vaut (00001100).
+</li>
+</ul>
+En binaire, l'adresse IP s'écrit  <span style='background-color:green;opacity:60%;color:white;' class='badge badge-pill'>10000110.1101 0110.0101 0000.0000 1100</span> et puisque le codage se fait sur 
+
+8 bits les valeurs seront obligatoirement comprises entre 0 et 255.
+
+\end{exemple}
+
+<h4>Le net-id et le host-id</h4>
+Au sein d'un même réseau IP, toutes les adresses IP commencent par la même suite de bits.
+
+L’adresse IP d’une machine va en conséquence être composée de 2 parties : 
+
+<ul>
+	<li> Net-id : La partie fixe de l'adresse IP
+</li>
+	<li> Host-id : La partie réservée aux machines qui viennent sur le réseau
+</li>
+</ul>
+<h4>Masque de réseau IP</h4>
+ 
+Le masque du réseau permet de connaître le nombre de bits du net-id. On appelle N ce nombre. Il s’agit d’une suite de 32 bits 
+
+composée en binaire de N bits à 1 suivis de 32-N bits à 0.
+
+C’est le masque du réseau qui définit la taille d’un réseau IP : c’est-à-dire la plage d’adresses assignables aux machines du réseau.
+
+Ainsi, pour connaître le net-id, on va faire un ET (\& ou .) logique entre le masque et l'adresse IP.
+
+\begin{exemple}
+
+	Prenons l'adresse IP \lbl{green}{IP}{192.168.1.0} et le masque <span style='background-color:green;opacity:60%;color:white;' class='badge badge-pill'>255.255.255.0</span>.  Que vaut le net-id ? 
+
+	Pour rappel : 
+
+<ul>
+		<li> 0.0 = 0
+</li>
+		<li> 0.1 = 0
+</li>
+		<li> 1.0 = 0
+</li>
+		<li> 1.1 = 1
+</li>
+</ul>
+\end{exemple}
+
+	
+
+\begin{solution}
+
+	
+
+	L'adresse \lbl{green}{IP}{192.168.1.0} vaut <span style='background-color:orange;opacity:60%;color:white;' class='badge badge-pill'>1100000.10101000.0000000.00000001</span> et 
+
+L'adresse \lbl{green}{MASK}{255.225.255.0} vaut <span style='background-color:orange;opacity:60%;color:white;' class='badge badge-pill'>11111111.11111111.11111111.00000000</span> 
+
+~~~01100000.10101000.00000000.00000001 
+
+ET
+
+~~11111111.11111111.11111111.00000000 
+
+=
+
+~~~01100000.10101000.00000000.00000000 ~~ = ~~<span style='background-color:green;opacity:60%;color:white;' class='badge badge-pill'>01100000.10101000.00000000.00000000</span> 
+
+L'adresse <span style='background-color:green;opacity:60%;color:white;' class='badge badge-pill'>192.168.0.0</span> obtenue représente donc <b>l'adresse du réseau</b>.
+Les autres bits à 0 sont donc réservés aux périphériques du réseau. Étant sur 8 bits, il y a donc \(2^8-2\) adresses 
+
+disponibles sur ce réseau.
+
+\end{solution}
+
+<h4>Les adresses interdites</h4>
+Il est interdit d’attribuer à une machine d’un réseau l’adresse du réseau et l’adresse de broadcast (diffusion)  .
+<h4>L'adresse de diffusion</h4>
+Cette adresse permet à une machine d’envoyer une info à toutes les machines d’un réseau. Cette adresse est celle obtenue en 
+
+mettant tous les bits de l’host-id à 1. 
+
+Dans notre cas c'est l'adresse <span style='background-color:green;opacity:60%;color:white;' class='badge badge-pill'>192.168.0.255</span>
+
+<h4>L'adresse de réseau</h4>
+Cette adresse est celle obtenue après avoir fait le ET entre l'adresse IP et le masque de sous-réseau.
+
+Dans notre cas c'est l'adresse <span style='background-color:green;opacity:60%;color:white;' class='badge badge-pill'>192.168.0.0</span>
+
+<h3>Choix des adresses IP</h3>
+Sur un réseau local, les adresses sont choisies par un serveur DHCP <span title="\bold{DHCP" style='color:grey;'><sup>[note]</sup></span> : Dynamic Host 
+
+Configuration Protocol} <span title="Dynamic Host Configuration Protocol : Serveur qui gère l'attibution des adresses IP sur le serveur" style='color:blue;'>DHCP</span>  .
+Les adresses peuvent être :
+
+<ul>
+	<li> Statiques : Un appareil sur le réseau possède la même adresse après connexion puis déconnexion.
+</li>
+	<li> Dynamiques : l'adresse IP varie dans le temps au bout d'une période d'expiration après une déconnexion 
+</li>
+	(bail d'une journée par exemple)
+
+</ul>
+A de rares exceptions, vous n'êtes pas censé attribuer une adresse IP vous-même à une machine.
+
+<h3>Quelques exemples de type de réseau</h3>
+Un réseau IP peut avoir une taille très variable :
+
+<ul>
+	<li> Une entreprise moyenne aura un réseau comportant une centaine de machines.
+</li>
+	<li> Un campus universitaire aura un réseau comportant de quelques milliers à quelques dizaines de milliers de machines.
+</li>
+	<li> Le réseau d'une multinationale (un grand fournisseur d'accès par exemple) peut comporter des millions de postes.
+</li>
+</ul>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/network.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/network.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Un réseau plus évolué</figcaption></div></figure>
+Il existe 2 types de réseau :
+
+<ul>
+<li> Les réseaux publics Internet où chaque équipement connecté doit posséder une adresse unique et enregistrée au niveau mondial. 
+</li>
+<li> Les réseaux privés, dans ce cas le choix des adresses est libre et ne doivent être uniques que dans ce réseau. 
+</li>
+</ul>
+Si un réseau privé doit être inter-connecté avec le réseau Internet, il faudra alors utiliser des adresses privées qui 
+
+ne puissent correspondre à des adresses publiques utilisées sur Internet. Des plages d’adresses réservées à usage privé 
+
+existent et elles ne sont donc pas acheminées par les routeurs Internet, ce qui supprime tout risque de conflit (cf. document annexe). 
+
+<h3>Récupération des adresse IP</h3>
+Voici 2 commandes pour récupérer l'adresse IP et le masque de sous-réseau.
+
+<h4>Pour Windows</h4>
+Sous un terminal Windows <span title="Saisir \bold{cmd" style='color:grey;'><sup>[note]</sup></span> dans le gestionnaire de programme}
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+ipconfig
+
+</code></pre><hr>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/ipconfig.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/ipconfig.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - La commande ipconfig</figcaption></div></figure>
+	
+
+<h4>Pour Linux</h4>
+Sous un terminal Linux, on peut utiliser la commande <span style='background-color:purple;opacity:60%;color:white;' class='badge badge-pill'>ifconfig</span>\footnote{Si non installée sous Linux, 
+
+saisir <span style='background-color:purple;opacity:60%;color:white;' class='badge badge-pill'>sudo apt-get install net-tools</span>}
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+ifconfig
+
+</code></pre><hr>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/ifconfig.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/ifconfig.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - La commande ipconfig</figcaption></div></figure>
+	
+
+	
+
+
+</body></html>

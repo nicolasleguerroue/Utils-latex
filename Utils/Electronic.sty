@@ -14,6 +14,13 @@
 \RequirePackage{circuitikz}
 \usetikzlibrary{babel}  
 
+\RequirePackage{ifthen}%pour utiliser les booléens, à mettre avec les autres RequirePackage's
+\RequirePackage{xargs}
+
+%Initialisation des booleens 
+\newboolean{boolRaccourcisElec}%création du booléen
+\setboolean{boolRaccourcisElec}{true}%affectation de la valeur true
+
 \RequirePackage{ifthen}   
 \typeout{>>> Utils: Package 'Electronics' loaded !}
 
@@ -79,7 +86,8 @@
     \renewcommand{\deviceBackgroundColor}{white} 
 }
 
-\newcommand{\setDeviceBackgroundColor}[1]{ %Set background color of device #color
+\newcommand{\setDeviceBackgroundColor}[1] %Set background color of device #color
+{ 
     \renewcommand{\deviceBorderColor}{black} 
     \renewcommand{\deviceBackgroundColor}{#1}
 }
@@ -91,30 +99,6 @@
 
 %####################################################################
 %############## draw device #########################################
-
-
-
-%\ifthenelse{\equal{#1}{0}}{A.}{no A.}
-%Init
-
-\begin{comment}
-    @begin
-    @command \addLogicGate
-    @des 
-    Cette commande permet de dessiner une porte logique à double entrée. Pour dessinder une porte inverseuse, utiliser la commande \addNotGate
-    @sed
-    @input Coordonnées de la porte en (x,y) sans parenthèse
-    @input Référence de la porte pour s'accrocher aux entrées et sorties
-    @input Type de la porte [nand, nor, or, and, or, xor]
-    @input Label de sortie (laisser vide si absence de label souhaité)
-    @input Label de l'entrée 1 (laisser vide si absence de label souhaité)
-    @input Label de l'entrée 2 (laisser vide si absence de label souhaité)
-    @input Nom de la porte [NOR1, AND1...]
-    @begin_example 
-    \addLogicGate{5,5}{logicgate}{nand}{S}{A}{B}{L1}
-    @end_example
-    @end
-    \end{comment}
 
 \newcommand{\addLogicGate}[7] {%Add logic gate #coord reference type outputLabel inputLabel1 inputLabel2 name
     \raiseMessage{Adding logic gate device [type=#3]}
@@ -221,9 +205,99 @@
 }
 
 
-\newcounter{datasheetCounter}  
-   
-\newcommand{\addDatasheet}[1]{%Add simple image #filename legend ratio
-    \raiseMessage{Adding datasheet [name=#1]}
-    \addtocounter{datasheetCounter}{1}
+
+\newcommandx*{\thevenin}[4][3=$A$,4=$B$]		{\begin{circuitikz} %Add Thevenin schematic #VoltageName, InternalImpedanceName, HighVoltageNamge, LowVoltageName
+    \draw (0,0)%
+to[short,o-]	(-1.5,0)
+to[V,v=$#1$]	(-1.5,1.5)
+to[R,l=$#2$]	(-1.5,3)
+to[short,-o]	(0,3);
+\node[anchor=north] at (0,3) {#3};
+\node[anchor=south] at (0,0) {#4};
+;\end{circuitikz}
 }
+
+\newcommandx*{\norton}[5][3=$A$,4=$B$,5=-2.5]		{\begin{circuitikz} %Add Norton schematic #VoltageName, InternalImpedanceName, HighVoltageNamge, LowVoltageName
+    \draw (0,0)%
+to[short,o-]	(#5,0)%
+to[I,i=$#1$]	(#5,3)%
+to[short,-o]	(0,3);%
+\draw (-1,0) to[R,l=$#2$,*-*] (-1,3);
+\node[anchor=north] at (0,3) {#3};%
+\node[anchor=south] at (0,0) {#4};%
+    ;\end{circuitikz}%
+}
+
+%Changement des interrupteurs dans circuitikz
+\makeatletter
+% create the shape
+\pgfcircdeclarebipole{}{\ctikzvalof{bipoles/interr/height 2}}{spst}{\ctikzvalof{bipoles/interr/height}}{\ctikzvalof{bipoles/interr/width}}{
+
+\pgfsetlinewidth{\pgfkeysvalueof{/tikz/circuitikz/bipoles/thickness}\pgfstartlinewidth}
+
+\pgfpathmoveto{\pgfpoint{\pgf@circ@res@left}{0pt}}
+\pgfpathlineto{\pgfpoint{.6\pgf@circ@res@right}{\pgf@circ@res@up}}
+\pgfusepath{draw}   
+}
+
+% make the shape accessible with nice syntax
+\def\pgf@circ@spst@path#1{\pgf@circ@bipole@path{spst}{#1}}
+\tikzset{switch/.style = {\circuitikzbasekey, /tikz/to path=\pgf@circ@spst@path, l=#1}}
+\tikzset{spst/.style = {switch = #1}}
+\makeatother
+
+
+
+
+
+
+
+
+% \ctikzset{voltage/european label distance=1.8}
+
+
+
+\newcommandx*{\mcc}[3][1=0,3=]{\begin{scope}[shift={#2}]\begin{scope}[rotate=#1]
+    \draw (0,0) -- (0.5,0);
+    \draw (0.5,-0.25) rectangle (0.75,0.25);
+    \draw (2,0) -- (2.5,0);
+    \draw (1.75,-0.25) rectangle (2,0.25);
+    \draw (1.25,0) circle (0.5);
+    \node[anchor=center] at (1.25,0) {\footnotesize Mcc};
+    \ifthenelse{\equal{#3}{}}
+        {}
+        {\draw[-45] (2.25,0.65) -- (0.25,0.65);
+        \node at (1.25,1) {#3};
+        }
+;\end{scope};\end{scope};
+}
+
+\newcommandx*{\switchOpen}[4][1=0,3=,4=]{\begin{scope}[shift={#2}]\begin{scope}[rotate=#1]
+    \draw (0,0) -- (0.25,0)-- (0.7,0.25);
+    \draw (0.75,0) -- (1,0);
+    \fill[black] (0.25,0) circle (0.05);
+    \fill (0.75,0) circle (0.05);
+    \ifthenelse{\equal{#3}{}}
+        {}
+        {\node[anchor=south] at (0.5,0.5) {#3};}
+    \ifthenelse{\equal{#4}{}}
+        {}
+        {\draw[-triangle 45] (0.8,-0.25) -- (0.2,-0.25);
+        \node[anchor=north] at (0.5,-0.25) {#4};}
+;\end{scope};\end{scope};
+}
+
+\newcommandx*{\switchClosed}[4][1=0,3=,4=]{\begin{scope}[shift={#2}]\begin{scope}[rotate=#1]
+    \draw (0,0) -- (1,0);
+    \fill[black] (0.25,0) circle (0.05);
+    \fill (0.75,0) circle (0.05);
+    \ifthenelse{\equal{#3}{}}
+        {}
+        {\node[anchor=south] at (0.5,0.25) {#3};}
+    \ifthenelse{\equal{#4}{}}
+        {}
+        {\draw[-triangle 45] (0.8,-0.25) -- (0.2,-0.25);
+        \node[anchor=north] at (0.5,-0.25) {#4};}
+;\end{scope};\end{scope};
+}
+

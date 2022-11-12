@@ -64,9 +64,9 @@ Voici les bibliothèques disponibles:
 
 ## Installation
 
-Latex est un logiciel assez volumineux - Environ 1.5Go dans les dépots Debian/Ubuntu - mais l'installation complète ne nécéssite pas d'ajout de paquet supplémentaires.
+Latex est un logiciel assez volumineux - Environ 1.5Go dans les dépôts Debian/Ubuntu - mais l'installation complète ne nécessite pas d'ajout de paquet supplémentaires.
 
-Il est disponible dans les dépots ```Debian/Ubuntu``` avec les commandes suivantes :
+Il est disponible dans les dépôts ```Debian/Ubuntu``` avec les commandes suivantes :
 
 ```
 sudo apt-get update
@@ -96,7 +96,7 @@ sudo apt-get install php
 
 ## Organisation du projet
 
-Le projet est consitué de 6 dossiers et de 3 fichiers situés à la racine du projet.
+Le projet est constitué de 6 dossiers et de 3 fichiers situés à la racine du projet.
 
 
 - Le dossier ```Images``` contient l'ensemble des images du projet.
@@ -108,7 +108,7 @@ Le projet est consitué de 6 dossiers et de 3 fichiers situés à la racine du p
     - Le fichier ```Bibliography.tex``` recense les bibliographies du projet. Le format Zotéro est compatible.
     - Le fichier ```Contacts.tex``` est une page pour contacter l'auteur et contient les informations sur les droits et les licences du projet.
     - Le fichier ```Versions.tex``` contient les différentes versions du projet.
-    - Le fichier ```Glossaries.tex``` contient le glosssaire.
+    - Le fichier ```Glossaries.tex``` contient le glossaire.
     - Le fichier ```Index.tex``` contient l'index.
     - Le fichier ```Nomenclature.tex``` contient la nomenclature\footnote{Les unités et grandeurs physiques par exemple
     - Le fichier ```Rules.tex``` contient les conventions pour le projet. Il peut contenir les types de commandes, les conventions de nommage du projet..
@@ -142,7 +142,7 @@ Pour fusionner deux projets, il suffit de copier-coller le contenu du dossier ``
 ### Première compilation
 
 La compilation du projet se fait grâce au fichier ```make``` situé à la racine du projet.
-Avant de faire la toute première compilation, il convient de rendre éxécutable le fichier ```make``` en saissisant la commande suivante : 
+Avant de faire la toute première compilation, il convient de rendre exécutable le fichier ```make``` en saissisant la commande suivante : 
     
 #### Don des droits d'éxécution sur le fichier ```make```
 ```
@@ -200,7 +200,7 @@ Les commandes sont à saisir au clavier (**Ctrl+I** pour ignorer le mot par exem
 
 ### Mise à jour Git
 
-Pour les projets Latex étant sur Git, il est possible de mettre à jour le dépot en saississant la commande suivante : 
+Pour les projets Latex étant sur Git, il est possible de mettre à jour le dépôts en saisissant la commande suivante : 
 ```
 ./make --git
 ```
@@ -230,5 +230,5 @@ code .
 ```
 
 
-L'ensemble des commandes et outils sont disponibles en saissisant le raccourci **CTRT+SHIFT+B** 
+L'ensemble des commandes et outils sont disponibles en saisissant le raccourci **CTRT+SHIFT+B** 
 

@@ -18,68 +18,16 @@
 \typeout{>>> Utils: Package 'Header' loaded !}
 %############################################################
 
-\begin{comment}
-@begin
-@command \setHeader
-@des 
-Cette commande permet de créer une page de garde minimaliste
-@sed
-@input Titre du document
-@input Auteur(s) - Les retours à la ligne se font en utilisant la commande \\
-@input La date
-@begin_example 
-\setHeader{Titre}{Auteur 1 \\ Auteur 2}{XX/XX/XXXX}
-@end_example
-@end
-\end{comment}
-
 \newcommand{\setHeader}[3]{  %Set minimal page header #title author date 
-\title{#1}
-\author{#2}
-\date{#3}
-\maketitle
+  \title{#1}
+  \author{#2}
+  \date{#3}
+  \maketitle
 }
 
-
-
-
-
-
-%###############################################################
-\begin{comment}
-@begin
-@command \partImg
-@des 
-Cette commande permet de créer une page de partie avec une image
-@sed
-@input Titre de la partie
-@input Source de l'image \\
-@input Ratio
-@begin_example 
-\partImg{Partie}{Images/file.png}{0.2}
-@end_example
-@end
-\end{comment}
 \newcommand{\partImg}[3]{  %Set minimal part page with image #subtitle imgSource ratio
     \part[#1]{#1 \\ \vspace*{2cm} \makebox{\centering \includegraphics[width=#3\textwidth]{#2}}}
 }
-
-
-%###############################################################
-\begin{comment}
-@begin
-@command \setHeaderImage
-@des 
-Cette commande permet de créer une page de garde avec une image centrée, un titre, sous titre en plus
-@sed
-@input Titre du document
-@input Auteur(s) - Les retours à la ligne se font en utilisant la commande \\
-@input La date
-@begin_example 
-\setHeaderImage{Titre}{Auteur 1 \\ Auteur 2}{XX/XX/XXXX}
-@end_example
-@end
-\end{comment}
 
 \newcommand{\setHeaderImage}[6]{ %Set header with image #imagePath Title subtitle authors info
 \begin{titlepage}

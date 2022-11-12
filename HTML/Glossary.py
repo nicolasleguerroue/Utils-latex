@@ -13,7 +13,7 @@ class Glossary():
        
         #\addGlossaryInput{SS}{Slave Select}{Broche de contrôle SPI}
         file = open(self.__filename, "r")
-
+        print("Glossary")
         line = file.readline()
        
         regexCommand = r".*\\addGlossaryInput\{(.*)\}\{(.*)\}\{(.*)\}"

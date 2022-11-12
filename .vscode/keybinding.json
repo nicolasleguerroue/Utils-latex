@@ -1,0 +1,6 @@
+[
+    {
+        "key": "F5",  // or any other combo
+        "command": "editor.action.insertSnippet",
+    }
+]

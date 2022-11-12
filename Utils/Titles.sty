@@ -4,14 +4,75 @@
 %###### Author  : Nicolas LE GUERROUE
 %###### Contact : nicolasleguerroue@gmail.com
 %############################################################
-%\RequirePackage[explicit]{titlesec} 
+\RequirePackage[explicit]{titlesec} 
 %################################################################
 \typeout{>>> Utils: Package 'Titles' loaded !}
 % \@ifclassloaded{report}{
+%     \typeout{>>> Utils: CHAPTER!}
 %     \titleformat{\chapter}[display] {\fontsize{17pt}{12pt}\selectfont \bfseries}{\textcolor{blue} {\chaptertitlename\ \thechapter: #1}}{20pt}{\Huge}
 % }
 
-% \titleformat{\section}[display] {\fontsize{17pt}{12pt}\selectfont \bfseries}{\textcolor{darkBlue} {#1}}{20pt}{\Huge}
-% \titleformat{\subsection}[display] {\fontsize{15pt}{12pt}\selectfont \bfseries}{\textcolor{orange} {#1}}{20pt}{\large}
-% \titlespacing*{\section}{0pt}{20pt}{-30pt}
-% \titlespacing*{\subsection}{0pt}{20pt}{-20pt}
+
+%Default part \newcommand{part} #partName
+%Default chapter \newcommand{chapter} #chapterName
+%Default section \newcommand{section} #sectionName
+%Default subsection \newcommand{subsection} #subSectionName
+%Default subsubsection \newcommand{subsubsection} #subSubSectionName
+
+\newcommand{\prefixSection} %Content of prefix section # 
+{\thesection}  
+
+\newcommand{\enableSectionPrefix}{ %Enable section prefix #
+    \renewcommand{\prefixSection}{\thesection}  
+}
+\newcommand{\disableSectionPrefix}{ %Disable section prefix #
+    \renewcommand{\prefixSection}{}  
+}
+
+
+
+\newcommand{\prefixSubSection} %Content of prefix subsection # 
+{\thesubsection}  
+
+\newcommand{\enableSubSectionPrefix}{
+    \renewcommand{\prefixSubSection}{\thesubsection}  
+}
+\newcommand{\disableSubSectionPrefix}{
+    \renewcommand{\prefixSubSection}{}  
+}
+
+\newcommand{\sectionColor}
+{darkBlue}  
+
+\newcommand{\setSectionColor}[1]{ %Set section color #color
+    \renewcommand{\sectionColor}{#1}  
+}
+
+\newcommand{\subSectionColor} 
+{orange}  
+\newcommand{\setSubSectionColor}[1]{    %Set subsection color #color
+    \renewcommand{\subSectionColor}{#1}  
+}
+
+\titleformat{\section}[display] {\fontsize{17pt}{12pt}\selectfont \bfseries}{\textcolor{\sectionColor} {\prefixSection~#1}}{20pt}{\Huge}
+\titleformat{\subsection}[display] {\fontsize{15pt}{12pt}\selectfont \bfseries}{\textcolor{\subSectionColor} {\prefixSubSection~#1}}{20pt}{\large}
+
+\titlespacing*{\section}{0pt}{20pt}{-30pt}
+\titlespacing*{\subsection}{0pt}{20pt}{-20pt}
+
+
+\newcommand{\hsp}{\hspace{20pt}}
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hsp\textcolor{red}{|}\hsp}{0pt}{\Huge\bfseries}
+
+\newcommand{\titleRef}[1] %Get number of title #titleRef
+{
+    \ref{#1}
+}
+
+\newcommand{\titleName}[1] %Get content of title #titleRef
+{
+    \nameref{#1}
+}
+
+
+

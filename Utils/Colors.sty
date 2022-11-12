@@ -8,15 +8,17 @@
 \typeout{>>> Utils: Package 'Colors' loaded !}
 %################################################################
 
-\definecolor{rose}{rgb}{0.858, 0.188, 0.478}
-\definecolor{darkBlue}{RGB}{36, 100, 176} %Titles
-\definecolor{darkBrown}{rgb}{0.6,0.07,0.3}
-\definecolor{darkRed}{rgb}{0.6,0,0}
-\definecolor{darkOrange}{rgb}{0.85,0.6,0.6}
-\definecolor{DarkGray}{gray}{.172}
+\IfFileExists{Make/Colors.tex}
+{
+    \input{Make/Colors.tex}
+}
+{
+    \raiseWarning{Colors file 'Make/Colors.tex' no loaded}
+}
 
-
+%Default command to set content color newcommand{color}[2]  #color content
 \newcommand{\colors}[2]{%Display content in color #color content
-{\color{#1}{#2}}
+{
+    \color{#1}{#2}}
 }
 

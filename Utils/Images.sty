@@ -6,43 +6,98 @@
 %############################################################
 \RequirePackage{lmodern}
 \RequirePackage{graphicx}           %Images
-\RequirePackage{caption}            %légende
+\RequirePackage{caption}            %Legend
 \RequirePackage{float}              %image floating
 \RequirePackage{wrapfig}
 \RequirePackage{subcaption}         %Subcaption
-
 %################################################################
+\RequirePackage{animate}
+\RequirePackage{media9}
 
+\DeclareGraphicsExtensions{.png,.pdf,.jpeg,.jpg,.gif}
+\newcounter{imgCounter}  %Create new counter
 
-\newcounter{imgCounter}  
+\newcommand{\rootImages} %Dynamic source of image #
+{Images/empty}
 
-    
-\newcommand{\img}[3]{%Add simple image #filename legend ratio
-    \IfFileExists{#1}{\begin{figure}[H]\centering\ \includegraphics[scale=#3]{#1}\caption{#2}\end{figure} \addtocounter{imgCounter}{1} \raiseMessage{Image '#1' [size=#3,id \arabic{imgCounter}] loaded !} 
-    }{\raiseWarning{Image '#1' no loaded}}
+\newcommand{\imgHeader}[3]{%Add simple image on header page #filename legend ratio
+    \IfFileExists{#1}
+    {
+        \includegraphics[scale=#3]{#1} 
+        \addtocounter{imgCounter}{1} 
+    }
+    {
+        \raiseWarning{Image '#1' no loaded}
+    }
 }
 
-\newcommand{\imgn}[4]{%Add simple image with reference name #filename legend ratio reference
-    \IfFileExists{#1}{\begin{figure}[H]\centering\
-    \includegraphics[scale=#3]{#1}\caption{#2}\label{#4}\end{figure} \addtocounter{imgCounter}{1} \raiseMessage{Image '#1' [size=#3,id \arabic{imgCounter}] loaded !} 
-    }{\raiseWarning{Image '#1' no loaded}}
+\newcommand{\img}[3]{%Add simple image #\\rootImages legend ratio
+    \IfFileExists{#1}
+    {
+        \begin{figure}[H] 
+            \centering\ 
+            \includegraphics[scale=#3]{#1}
+            \caption{#2}
+        \end{figure} 
+        \addtocounter{imgCounter}{1} 
+        \raiseMessage{Image '#1' [size=#3,id=\arabic{imgCounter}] loaded !} 
+    }
+    {
+        \raiseWarning{Image '#1' no loaded}
+    }
+}
+
+\newcommand{\imgr}[4]{%Add simple image with rotation #\\rootImages legend ratio angle
+    \IfFileExists{#1}
+    {
+        \begin{figure}[H]
+            \centering\ 
+            \includegraphics[scale=#3,angle=#4]{#1}\caption{#2}
+        \end{figure} 
+        \addtocounter{imgCounter}{1} 
+        \raiseMessage{Image '#1' [size=#3,id=\arabic{imgCounter},angle=#4] loaded !} 
+    }
+    {
+        \raiseWarning{Image '#1' no loaded}
+    }
+}
+
+\newcommand{\imgf}[6]{%Add simple floating image #\\rootImages legend ratioImage ratioPage side numberOfLines
+    \IfFileExists{#1}
+    {
+        \begin{wrapfigure}[#6]{#5}{#4\textwidth}
+            \centering\ 
+            \includegraphics[scale=#3]{#1}
+            \caption{#2}
+        \end{wrapfigure} 
+        \addtocounter{imgCounter}{1} 
+        \raiseMessage{Image '#1' [size=#3,id=\arabic{imgCounter},side=#5] loaded !} 
+    }
+    {
+        \raiseWarning{Image '#1' no loaded}
+    }
+}
+
+\newcommand{\imgn}[4]{  %Add simple image with reference name #\\rootImages legend ratio reference
+    \IfFileExists{#1}
+    {
+        \begin{figure}[H]
+            \centering\
+            \includegraphics[scale=#3]{#1}\caption{#2}
+            \label{#4}
+        \end{figure} 
+        \addtocounter{imgCounter}{1} 
+        \raiseMessage{Image '#1' [size=#3,id=\arabic{imgCounter}] loaded !} 
+    }
+    {
+        \raiseWarning{Image '#1' no loaded}
+    }
 }
 
 
-\newcommand{\imgHeader}[3]{%Add simple image #filename legend ratio
-    \IfFileExists{#1}{\includegraphics[scale=#3]{#1} \addtocounter{imgCounter}{1} %\raiseMessage{Image '#1' [size=#3,id \arabic{imgCounter}] loaded !}  
-    }{\raiseWarning{Image '#1' no loaded}}
-}
-
-\newcommand{\imgr}[4]{%Add simple image with rotation #filename legend ratio angle
-    \IfFileExists{#1}{\begin{figure}[H]\centering\ \includegraphics[scale=#3,angle=#4]{#1}\caption{#2}\end{figure} \addtocounter{imgCounter}{1} \raiseMessage{Image '#1' [size=#3,id \arabic{imgCounter},angle=#4] loaded !} }{\raiseWarning{Image '#1' no loaded}}
-}
 
 
-\newcommand{\imgf}[6]{%Add simple floating image #filename legend ratioImage ratioPage side numberOfLines
-    \IfFileExists{#1}{
-    \begin{wrapfigure}[#6]{#5}{#4\textwidth}\centering\ \includegraphics[scale=#3]{#1}\caption{#2}\end{wrapfigure} \addtocounter{imgCounter}{1} \raiseMessage{Image '#1' [size=#3,id \arabic{imgCounter},side=#5] loaded !} }{\raiseWarning{Image '#1' no loaded}}
-}
+
 
   
     

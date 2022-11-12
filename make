@@ -34,7 +34,6 @@ renderReportLog=".render_report_log.txt"
 ## Files
 #################################################
 
-setting_file="Settings.tex" 					#Settings file
 main_file="main.tex" 							#main file
 standlone="standlone.tex"						#standlone file -> compiling without any other file
 version="Versions.tex"
@@ -95,14 +94,7 @@ function pdfLatex {
 #####################################################################################
 if [ "$1" == "--snippet" ];then
 
-	#################################################
-	## Checking arguments
-	#################################################
-
-	#################################################
-	## Saving git
-	#################################################	
-	php $vscode_dir/generateSnippets.php
+	python3 Utils-latex/tools/generateSnippets.py
 	exit
 fi
 
@@ -264,7 +256,6 @@ fi
 #################################################	
 createDirectory $img_dir
 createDirectory $utils_dir
-createDirectory $utils_dir
 createDirectory $part_dir
 createDirectory $output_dir
 
@@ -365,9 +356,6 @@ echo -e "" >> $output_dir/add_content.tex
 #################################################
 ## Images
 #################################################	
-echo -n "\newcommand{\rootImages}{Images/empty}" >> $output_dir/add_content.tex
-#echo -e "" >> $output_dir/add_content.tex
-
 tmp_content=""
 for item in $parts_dir/*
 do	
@@ -457,13 +445,13 @@ echo -e "$orange"
 mv $output_dir/$main.pdf $main.pdf >> $renderReportFile
 echo -e "$green"
 echo -e "[Step $count_step / $count_sum_full] >>> Moving of $main.pdf to root folder..."
-echo -e "$orange"
-echo -e ">>> Warnings : "
-echo "`cat $renderReportLog | grep "Package Utils"`"
-echo -e "$default"
 echo -e "$blue"
 echo -e ">>> Messages : "
 echo "`cat $renderReportLog | grep ">>> Utils"`"
+echo -e "$default"
+echo -e "$orange"
+echo -e ">>> Warnings : "
+echo "`cat $renderReportLog | grep "Package Utils"`"
 echo -e "$default"
 end=`date +"%s"`
 time=`expr $end - $begin`

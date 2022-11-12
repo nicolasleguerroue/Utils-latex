@@ -92,11 +92,21 @@ echo "\input{Settings/DocumentClass}" >> $settings/Includes.tex
 echo "\input{Settings/ChapterAlias}" >> $settings/Includes.tex
 echo "\input{Settings/FHeaderLine}" >> $settings/Includes.tex
 echo "\input{Settings/Fonts}" >> $settings/Includes.tex
+echo "\input{Settings/Header}" >> $settings/Includes.tex
 echo "\input{Settings/Hyperref}" >> $settings/Includes.tex
+echo "\input{Settings/ListMargin}" >> $settings/Includes.tex
 echo "\input{Settings/Margins}" >> $settings/Includes.tex
 echo "\input{Settings/NomenclatureName}" >> $settings/Includes.tex
+echo "\input{Settings/SectionColor}" >> $settings/Includes.tex
+echo "\input{Settings/SubSectionColor}" >> $settings/Includes.tex
 echo "\input{Settings/Theme}" >> $settings/Includes.tex
+echo "\input{Settings/TitlePrefix}" >> $settings/Includes.tex
 echo "\input{Settings/TocDepth}">> $settings/Includes.tex
+echo "\input{Settings/TocSize}" >> $settings/Includes.tex
+echo "%Automatic import">> $settings/Includes.tex
+echo "\input{Make/Glossaries}">> $settings/Includes.tex
+echo "\input{Make/Index}" >> $settings/Includes.tex
+
 
 echo -e ">>> Initialisation of settings file : [$green OK $default] "
 

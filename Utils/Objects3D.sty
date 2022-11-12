@@ -27,25 +27,7 @@
     ball color=#1] circle (#2mm);
 }
 
-
-
-
-
 %############################################################
-\begin{comment}
-    @begin
-    @command plot
-    @des 
-    Cette commande permet de tracer des surfaces 3D
-    @sed
-    @input Iitre du graphique
-    @input Equation à deux variables (x et y)
-    @begin_example 
-    \plot{Titre}{x*x+y*5}
-    @end_example
-    @end
-    \end{comment}   
-        
     \newcommand{\plot}[2]{%Create a 3D plot #title equation
         \raiseMessage{Creating new plot [title='#1']}
     \begin{tikzpicture}

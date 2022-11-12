@@ -1,0 +1,730 @@
+<html><head><style>.cent {  display: block;  margin-left: auto;  margin-right: auto;}</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> </script><body style='margin-left:5%;margin-right:5%;margin-top:1%'><h4>Fichier générer depuis les sources Latex</h4><h5>Auteur : Nicolas Le Guerroué</h5><a href='index.html'><button class='btn btn-success' >Revenir au sommaire</button></a><hr> <h2 >Les broches d'interruptions</h2>
+  
+ Dans certains cas, il est souhaitable de récupérer la valeur d'une broche à tout moment du programme, même quand celui ci est occupé dans une tâche et même dans une fonction de temporisation <span title="Voir delay(), delayMicroseconds()" style='color:grey;'><sup>[note]</sup></span>. 
+
+ 
+
+ Pour remédier à ce problème, on peut utiliser les <span style='color:blue;'>broches d'interruption</span> qui permettent de récupérer la main sur l'ensemble du programme lorsque'un évènement survient sur une broche.
+
+ 
+
+ Concrètement, lorsque un évènement  <b>e</b> survient sur la broche <b>b</b>, la fonction <b>f</b> est appelée, quelque soit l'état du programme principal. 
+ 
+
+ Prenons le cas d'un bouton qui doit changer l'état d'une LED à n'importe quel moment du programme.
+
+ 
+
+ 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+ 
+
+     int ledPin = 13;    //Led interne
+
+     int BOUTON = 2;  //Bouton relié à la broche 2 avec une résistance de charge
+
+     
+
+     volatile int state = LOW;  //Etat courant de la LED
+
+     
+
+     void setup() {
+
+       
+
+       Serial.begin(9600);//Vitesse de communication à 9600 bit/s
+
+       
+
+       pinMode(ledPin, OUTPUT);                //Led mise en sortie
+
+       pinMode(BOUTON, INPUT_PULLUP);    //Bouton mis en entrée
+
+       
+
+       attachInterrupt(digitalPinToInterrupt(BOUTON), onEvent, CHANGE);  //Appel de la fonction onEvent à chaque changement de front du bouton
+
+       Serial.println("Init");
+
+     }
+
+     
+
+     void loop() {
+
+       
+
+      delay(5000); //Pause du programme principal
+
+       
+
+     }
+
+     
+
+     void onEvent() {
+
+       
+
+       state = !state; //Inverse l'état de la LED
+
+       
+
+       if(state){
+
+         Serial.println("ON");
+
+       }else{
+
+         Serial.println("OFF");
+
+       }
+
+        digitalWrite(ledPin, state); //Met à jour l'état de la LED
+
+     }
+
+     
+
+</code></pre><hr>
+ 
+
+ 
+
+ Ici, quelque soit l'action effectuée dans la fonction loop, dès qu'un front montant est détecté sur la broche BOUTON (2), la fonction onEvent() sera exécutée et changera l'état de la LED à chaque front.
+
+ 
+
+ 
+
+ 
+
+ <h4>Mode d'interruption</h4>
+ 
+
+ Il existe différents modes pour les broches :
+
+ 
+
+<ul>
+     <li> RISING: front montant
+</li>
+     <li> FALLING: Front descendant
+</li>
+     <li> CHANGE: Front montant et descendant
+</li>
+</ul>
+ 
+
+ <h4>Chronogrammes d'interruption</h4>
+ 
+
+ 
+
+ \begin{numeric}{Exemple avec mode RISING}
+
+     BOUTON & LLLLLLLHLLLLLLLLLL 
+
+     loop &  7D{EXECUTION} 6D{PAUSE} 7D{REPRISE} 
+
+     onEvent & 7D{INACTIVE} 6D{\bold{EXECUTION}} 7D{INACTIVE} 
+
+ \end{numeric}
+
+ 
+
+ 
+
+ \begin{numeric}{Exemple avec mode FALLING}
+
+     BOUTON & LLLLLLLHLLLLLLLLLL 
+
+     loop &  8D{EXECUTION} 6D{PAUSE} 6D{REPRISE} 
+
+     onEvent & 8D{INACTIVE} 6D{\bold{APPEL}} 6D{INACTIVE} 
+
+     \end{numeric}
+
+ 
+
+ 
+
+ 
+
+ \begin{numeric}{Exemple avec mode CHANGE}
+
+     BOUTON & LLLLLLLHHHHHHHHHHHHHHLLLLLLLLLLLLLL 
+
+     loop &  7D{EXECUTION} 8D{PAUSE} 6D{REPRISE} 8D{PAUSE} 6D{REPRISE}  
+
+     onEvent & 7D{INACTIVE} 8D{\bold{EXECUTION}} 6D{INACTIVE} 8D{\bold{EXECUTION}} 6D{INACTIVE}
+
+     \end{numeric}
+
+ 
+
+     Par exemple, on souhaite réagir prioritairement à un capteur PIR quel que soit l'état du programme.
+
+     <h4>Exemple avec les capteur PIR</h4>
+     
+
+     Les capteurs <span title="Passive-Infra-Red : Capteur de présence" style='color:blue;'>PIR</span> (Passive-Infra-Red) détectent les rayonnements infrarouges émis par un objet.
+
+     Puisque tout objet émet un rayonnement infrarouge, le capteur PIR est muni de deux cellules sensibles aux infrarouges qui vont détecter ces rayons infrarouges réfléchit ou émit par l'objet. 
+
+     
+
+     Lorsqu’il n’y a pas de mouvement, le niveau d’infrarouge reçu est le même pour les deux cellules. 
+
+     Lors du passage d’un objet, l’émission de ces rayons va être modifiée sur une cellule puis sur l’autre ce qui va permettre de détecter le mouvement. 
+
+     
+
+     Le cache blanc, qui couvre et protège généralement le capteur, est une lentille de Fresnel avec plusieurs facettes qui permet de concentrer le rayonnement infrarouge sur les cellules.
+
+     
+
+     <h4>Utilisation</h4>
+     
+
+     Ces capteurs possèdent une broche de sortie qui est mise à l'état HAUT pendent une certaine durée
+
+     <span title="Cette durée est réglable avec le potentiomètre sur le capteur" style='color:grey;'><sup>[note]</sup></span> lorsqu'il y a détection d'un mouvement.
+
+     
+
+     
+
+     \begin{numeric}{Diagramme temporel du capteur}
+
+         Présence & [green] LLLLLLHHHHHHHLLLLLLHHHLLLLLLLLLLLLHHHHHHLLLLL 
+
+         OUT & [blue] LLLLLLLHHHHHHHHLLLLLHHHHHHHHLLLLLLLHHHHHHHHLL 
+
+     \end{numeric}
+
+     
+
+     
+
+<h4>Code sans interruption</h4>
+Voici un code d'exemple pour réagir dès qu'une présence est détectée.
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#define LED 13    //Broche de la LED
+
+#define OUT 2     //Broche du capteur PIR
+
+    
+
+void setup() 
+
+{
+
+      
+
+  pinMode(LED, OUTPUT); //LED en sortie
+
+  pinMode(OUT, INPUT);  //Broche du capteur en entrée
+
+  Serial.begin(9600);   //Vitesse de communication à 9600 bauds
+
+}//End setup
+
+    
+
+void loop(){
+
+    
+
+  outValue = digitalRead(OUT);          //Lire létat du capteur
+
+        
+
+    if (outValue == HIGH)                 //Détection d'un mouvement
+
+    {
+
+        Serial.println("Detection");
+
+    }//End else
+
+}//End loop
+
+</code></pre><hr>
+Maintenant, supposons que la carte exécute un programme qui prend plusieurs secondes. Comment faire ?
+
+On peut utiliser une interruption externe
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+ 
+
+    #define LED 13    //Broche de la LED
+
+    #define OUT 2     //Broche du capteur PIR
+
+       
+
+    void setup() {
+
+      
+
+      Serial.begin(9600);//Vitesse de communication à 9600 bit/s
+
+      
+
+      pinMode(LED, OUTPUT); //LED en sortie
+
+      pinMode(OUT, INPUT);  //Broche du capteur en entrée
+
+      
+
+      attachInterrupt(digitalPinToInterrupt(OUT), presence, RISING);  //Appel de la fonction presence à chaque changement de front du bouton
+
+      Serial.println("Init");
+
+    }
+
+    
+
+    void loop() {
+
+      
+
+     delay(5000); //Pause du programme principal
+
+      
+
+    }
+
+    
+
+    void presence() {
+
+      
+
+      Serial.println("Presence !");
+
+    }
+
+    
+
+</code></pre><hr>
+<h4>Les modules de communication sans fil</h4>
+<h1 class=''>Les modules de communication</h1>
+<h2 >Principes et théorie</h2>
+<h3>Objectifs</h3>
+Ce chapitre a pour but de faire un petit tour d'horizon des différents modules de communication et les technologies associées.
+
+<h3>Les différents modules</h3>
+Il existe une multitude de modules: 
+
+<ul>
+    <li> Modules Infrarouge
+</li>
+    <li> Modules Radio basses fréquence (433MHz) 
+</li>
+    <li> Modules Radio hautes fréquences (Wifi, Bluetooth) à 2.4 GHz
+</li>
+</ul>
+Les deux derniers modules se déclinent en une multitude de modules : 
+
+<ul>
+    <li> Modules Lora
+</li>
+    <li> Modules Xbee
+</li>
+    <li> Modules HC-04 ou HC-05\footnote{Les modules HC-05 sont configurables en mode maître ou esclave et les modules HC-06 en 
+</li>
+    mode esclave uniquement.}
+
+    <li> Modules Crius
+</li>
+</ul>
+<h3>Les modules Bluetooth</h3>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Un module Bluetooth</figcaption></div></figure>
+La plupart des modules Bluetooth communiquent en liaison série (broche RX et TX) et se configurent avec les commandes AT.
+
+<h4>Configuration</h4>
+Il s'agit d'un jeu d'instruction pour gérer les paramètres des modules comme l'identifiant, le nom, la vitesse de communication, etc.
+
+Ces commandes étaient utilisée à l'origine pour les modem Hayes Smartmodem 300 et sont donc également appelées <b>commandes Hayes</b>.
+Chaque commande est envoyée sous la forme d'une ligne de texte encodée en ASCII, débutant par le mot <b>AT</b> et se terminant par le caractère \r seul (code ASCII 13). 
+Le module retourne une réponse sous la forme d'une ou plusieurs lignes selon la commande envoyée, chaque ligne se terminant par les caractères \r suivi de \n (codes ASCII 13 et 10).
+
+<h4>Branchements</h4>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/arduino_hc_06.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/arduino_hc_06.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Branchements du module Bluetooth</figcaption></div></figure>
+Pour l'exemple, nous nous baserons sur un module HC-06 ou HC-05.
+
+il faut relier le « +5V » du module au  5 Volts de la carte Arduino et la masse du module à celle de la carte.
+
+Ensuite, nous allons relier la broche TX du module à la broche 12 de la carte et la broche RX à la broche 10. 
+
+<h4>Code Arduino</h4>
+<div class='alert alert-warning' ><h4>Point-clé</h4>Afin de lire les données du module, nous allons "émuler" une voie série, en l’occurrence les broches 3 et 2. C'est-à-dire que nous allons déclarer que ces broches recevront et enverront des données.</div>
+Pour cela, il faut utiliser la bibliothèque <b>SoftwareSerial</b>.
+Dans le logiciel Arduino, allez dans <b>croquis</b> puis <b>inclure une bibliothèque</b>  et sélectionnez <b>SotfwareSerial</b>.
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/software.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/software.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Inclusion de la bibliothèque SoftwareSerial</figcaption></div></figure>
+Maintenant, nous allons définir les broches du module : :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+const int RX = 3; //RX du module
+
+const int TX = 2;
+
+</code></pre><hr>
+Après ceci, il faut déclarer un objet <b>SoftwareSerial</b>  qui prendra en argument respectivement les broches TX et Rx, un peu comme lors de la déclaration d'un écran LCD (« LiquidCrystal lcd (RS,E,D4,D5,D6,D7); »).
+On obtient donc :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#include <SoftwareSerial.h>
+
+const int RX = 3; //RX du module
+
+const int TX = 2;
+
+SoftwareSerial device(RX,TX);
+
+</code></pre><hr>
+Bien entendu, "device" peut être remplacé par ce que vous voulez. 
+
+Ensuite, on déclare que la communication carte-module peut débuter  avec "device.begin(9600) ;"
+
+Où 115200 correspond à la vitesse de transmission en bauds (comme "Serial.begin(9600);") ;
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+SoftwareSerial device(RX,TX);
+
+void setup() {
+
+    device.begin(9600);
+
+}
+
+</code></pre><hr>
+<div class='alert alert-danger' ><h4>Remarque importante</h4>Par la suite, en cas d'erreurs de transmission Bluetooth (pas de données...), il conviendra de vérifier le branchement des broches RX et TX (essayer de les intervertir) et d'éventuellement changer la vitesse de communication  car certains modules communiquent à 115200 bauds !</div>
+Pour lire les données du module, ce sont les mêmes fonctions que pour le port série : 
+
+En effet : 
+
+Pour le port série :		
+
+<ul>
+    <li> Serial,begin(115200);
+</li>
+    <li> Serial.available();
+</li>
+    <li> Serial.read();	
+</li>
+    <li> Serial.print();
+</li>
+    <li> Serial.println();
+</li>
+</ul>
+Pour le module Bluetooth : 
+
+<ul>
+    <li> crius.begin(115200);
+</li>
+    <li> device.available();
+</li>
+    <li> device.read();	
+</li>
+    <li> device.print();
+</li>
+    <li> device.println();
+</li>
+</ul>
+Tant que des données (caractères) sont disponibles, nous allons les assembler en une chaîne de caractère (concaténation). 
+
+Ensuite, avec un <b>if</b>, nous allons voir si cette chaîne en question correspond par exemple à "a".  
+Il faut donc définir un caractère x et une chaîne de caractère.
+
+Donc dans le programme Arduino, avant la fonction <b>setup</b>, on rajoute :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#include <SoftwareSerial.h>
+
+const int RX = 3; //RX du module
+
+const int TX = 2;
+
+char c;
+
+String message;
+
+</code></pre><hr>
+La boucle while va permettre de lire les données : 
+
+Dans la boucle <b>loop</b> : on écrit :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+ void loop() {
+
+ 
+
+    while() {
+
+    
+
+    }//Fin while
+
+ }//Fin void loop
+
+</code></pre><hr>
+Maintenant que la boucle va attendre des données, il suffit de les lire et de les transformer en chaîne de caractère. 
+
+Pour cela : 
+
+<ul>
+    <li> on lit le premier caractère c
+</li>
+    <li> on définit que la chaîne message = message + c 
+</li>
+</ul>
+On obtient :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+ void loop() {
+
+ 
+
+    while(device.available()>0) {
+
+    
+
+        c = device.read();
+
+        message = message + c;
+
+    }//Fin while
+
+ }//Fin void loop
+
+</code></pre><hr>
+La structure conditionnelle est très simple : 
+
+Après la boucle « while », mettez : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+ void loop() {
+
+ 
+
+    while(device.available()>0) {
+
+    
+
+        c = device.read();
+
+        message = message + c;
+
+    }//Fin while
+
+    
+
+    if(message=="c") {
+
+    
+
+        Serial.println("C);
+
+    }//Fin if message=="c"
+
+ }//Fin void loop
+
+</code></pre><hr>
+<h3>Les modules radio </h3>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/radio.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/radio.jpg' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Un module receveur et émetteur</figcaption></div></figure>
+<h4>Choix de l'antenne</h4>
+La plupart du temps, on utilise une antenne <b>quart d'onde</b> ou <b>demi-onde</b>.
+La fréquence vaut :
+
+\( \lambda = \frac{c}{\nu}\)
+
+ ave\(c\) \(\lambda\) la longueur d'onde en mètre, \(c\) la vitesse de l'onde en m(c\)dot s^-1  et  \(\nu \) la fréquen\(c\)e de l'onde en Hz
+
+ D'ou : 
+
+ \( \lambda = \frac{3\cdot 10^{8}}{433\cdot 10^{6}} = 0.69 ~m \)
+
+ Or on prend une antenne valant le quart du résultat, c'est à dire 17 cm.
+
+ <h4>Branchements</h4>
+ <h4>Module émetteur</h4>
+<ul>
+    <li> <b>VCC</b> sur le <b>+5V</b> de l'Arduino</li>
+    <li> <b>GND</b> sur le <b>GND</b> de l'Arduino</li>
+    <li> <b>Data</b> sur la broche <b>D12</b> de l'Arduino</li>
+</ul>
+ <h4>Module receveur</h4>
+<ul>
+    <li> <b>VCC</b> sur le <b>+5V</b> de l'Arduino</li>
+    <li> <b>GND</b> sur le <b>GND</b> de l'Arduino</li>
+    <li> <b>Data</b> sur la broche <b>D11</b> de l'Arduino</li>
+</ul>
+ <h3>Les modules Xbee </h3>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Un module Xbee</figcaption></div></figure>
+ Ce module communique via une liaison série. L'un des inconvénient de ce module est l'espacement des broches de 2mm et non de 2.54 mm.
+
+ Il faut donc utiliser un shield adapté.
+
+ La fréquence de communication est cette fois ci de 2.4GHz.
+
+ <h2 >Introduction au projet MySensors</h2>
+<h3>Présentation</h3>
+Ce chapitre a pour but d'introduire la mise en place d'une passerelle et d'une sonde MySensors dans un projet de domotique
+
+<h4>Organigramme</h4>
+\begin{figure}[h]
+
+  \centering
+
+\begin{tikzpicture}[node distance={30mm}, thick, main/.style = {draw, circle}]
+
+  \node[main] (1) [color=green] {\(Sonde\)}; 
+
+  \node[main] (2) [above right of=1, color=cyan] {\(Passerelle\)}; 
+
+  \node[main] (3) [left of=1] {\(DHT\)}; 
+
+  \node[main] (4) [below of=3] {\(Capteur_2\)}; 
+
+  \node[main] (5) [below of=1] {\(Capteur_3\)}; 
+
+  \node[main] (6) [right of=2, color=blue] {\(Domoticz\)};
+
+  
+
+  \draw[->] (3) -- (1);
+
+  \draw[->] (4) -- (1);
+
+  \draw[->] (5) -- (1);
+
+  \draw[->] (1) -- (2);
+
+  \draw[->] (2) -- (6);
+
+\end{tikzpicture} 
+
+\caption{Les différents composants du projet}
+
+\end{figure}
+
+  <h4>Principe</h4>
+  Les capteurs vont être analysés par la sonde MySensors.
+
+  Cette dernière enverra à distance les informations vers la passerelle qui se chargera d'envoyer les informations au serveur Domoticz via une liaison USB.
+
+  Une sonde représente un endroit physique, un lieu de mesure. 
+
+  Si vous souhaitez par la suite faire d'autres relevés dans un endroit différent, il suffira d'ajouter une sonde et de garder la passerelle.
+
+  Chaque sonde est caractérisée par un identifiant de noeud (NODE ID) et chaque capteur possède un identifiant enfant sur la sonde qui lui est rattachée (CHILD ID)
+
+  \begin{figure}[h]
+
+    \centering
+
+  \begin{tikzpicture}[node distance={30mm}, thick, main/.style = {draw, circle}]
+
+    \node[main] (1) {\(Passerelle\)}; 
+
+    \node[main] (2) [below left of=1] {\(Sonde_1\)}; 
+
+    \node[main] (3) [left of=1] {\(Sonde_2\)}; 
+
+    \node[main] (4) [above left of=1] {\(Sonde_3\)}; 
+
+    \node[main] (5) [right of=1] {\(Domoticz\)};
+
+    
+
+    \draw[->] (2) -- (1);
+
+    \draw[->] (3) -- (1);
+
+    \draw[->] (4) -- (1);
+
+  
+
+    \draw[->] (1) -- (5);
+
+    \end{tikzpicture} 
+
+    \caption{Une extension possible}
+
+  \end{figure}
+
+  <h3>Présentation de la passerelle</h3>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/pin.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/pin.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Circuit imprimé vu de dessus, coté composants</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/side.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/side.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Vue de coté</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/passerelle_emetteur.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/passerelle_emetteur.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Vue de la passerelle et de l'émetteur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/dessus.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/dessus.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Vue de dessus</figcaption></div></figure>
+  <h3>Présentation de la sonde</h3>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/pcb.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/pcb.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Circuit imprimé vu de dessus, coté composants</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/s4.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/s4.jpg' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Sonde vue de dessus sans la nappe</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/s3.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/s3.jpg' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Sonde vue de dessus avec la nappe</figcaption></div></figure>
+  
+
+  
+
+  
+
+<h2 >Configuration de Domoticz</h2>
+Une fois que la passerelle est fonctionnelle, nous allons configurer Domoticz pour que la plateforme reçoive les données en provenance de la passerelle.
+
+<h3>Ajout de la passerelle</h3>
+Tout d'abord, allez dans la section <b>Configuration > Matériel</b>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/hardware.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/hardware.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Emplacement du matériel</figcaption></div></figure>
+Ensuite, saisissez les informations suivantes :
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/add_gateway.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/add_gateway.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Paramétrage de la passerelle</figcaption></div></figure>
+Le port série sélectionné sera celui où est raccordé la passerelle en liaison USB.
+
+Il ne faut pas prendre les noms simplifiés des ports USB (<i>COM XXX</i>) mais le nom le plus complet.
+Pour plus de simplicité, veuillez déconnectez tous les autres périphériques du Raspberry-Pi.
+
+S'il s'agit d'un autre capteur (température...) il suffit de parcourir la liste pour le trouver?
+
+<h3>Recherche des capteurs</h3>
+Visualisons les données en provenance de la sonde en allant dans 
+
+<b>Configuration > Matériel</b>.
+L'ensemble de vos dispositif apparaît. En cas de liste trop longue, saisissez <b>Gateway</b> dans la barre de recherche.
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/search.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/search.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Recherche de la passerelle</figcaption></div></figure>
+<div class='alert alert-warning' ><h4>Remarque</h4>Si le dispositif n'apparaît pas immédiatement, patientez quelques instants.</div>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/gateway.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/gateway.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - La passerelle est détectée</figcaption></div></figure>
+Pour visualisez les valeurs des capteurs, il faut sélectionner la passerelle avec l'ID de la sonde (ici, 30).
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/nodes.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/nodes.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Sélection de la passerelle</figcaption></div></figure>
+En cliquant dessus, on voit que la partie <b>Enfants</b> est mise à jour et contient les 3 capteurs avec les ID définis dans le programme de la sonde (31,32 et 33 en ce qui me concerne)
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enfants.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enfants.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Visualisation des enfants</figcaption></div></figure>
+<h3>Visualisation des données</h3>
+Maintenant que nous savons que la sonde envoi les bonnes données, nous allons ajouter les capteurs dans les dispositifs.
+
+Pour cela, allez dans <b>Configuration > Dispositifs</b>, les 3 capteurs de la sonde (Tension batterie, humidité et température) apparaissent dans la liste.
+Si vous ne les trouvez pas, vous pouvez nettoyer la page des capteurs en sélectionnant les capteurs non-utilisés et en le mettant à la poubelle.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/disp.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/disp.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Visualisation des capteurs</figcaption></div></figure>
+Les capteurs apparaissent sous les 3 noms suivants : 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/names.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/names.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Nom des capteurs</figcaption></div></figure>
+Pour ajouter un dispositif, il suffit de cliquer sur la flèche verte et de choisir le nom du dispositif.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/fleche.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/fleche.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Ajout des dispositifs</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/voltage.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/voltage.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Ajout des dispositifs - Sélection du nom</figcaption></div></figure>
+Il suffit de cliquer dans le menu <b>Mesures</b>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/mesure.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/mesure.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Mesures</figcaption></div></figure>
+Et apparaît la tension de la batterie.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/volt.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/volt.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - tension de la batterie</figcaption></div></figure>
+On procède de même pour l'humidité et la température, les dispositifs seront mis dans l'onglet  <b>Température</b>.
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/temp.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/temp.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Mesures de l'humidité et de la température</figcaption></div></figure>
+Pour visualiser les données, il suffit de cliquer sur le bouton <b>logs</b>
+<h3>Conclusion</h3>
+Nous avons vu une utilisation de Domoticz via les sondes MySensors mais énormément de dispositifs domotiques existent sur Domoticz.
+
+
+</body></html>

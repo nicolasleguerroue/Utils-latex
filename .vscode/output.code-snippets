@@ -1,835 +1,1475 @@
 {
-		"Create badge ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\badge",
-        	"body": [
-			"\\badge{${1:txtColor(blue,red,green...)}}{${2:backgroundColor(blue,red,green...)}}{${3:text}}"
-			],
-		"description": "Create badge "},
-		"Display the bibliography ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\displayBibliography",
-        	"body": [
-			"\\displayBibliography{${1:tocName}}{${2:filename(without.bib)}}{${3:}}"
-			],
-		"description": "Display the bibliography "},
-		"Display content in color ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\colors",
-        	"body": [
-			"\\colors{${1:color}}{${2:content}}"
-			],
-		"description": "Display content in color "},
-		"Add update version ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addUpdate",
-        	"body": [
-			"\\addUpdate{${1:date}}{${2:content}}"
-			],
-		"description": "Add update version "},
-		"Componant Direction to up ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\Up",
-        	"body": [
-			"\\Up{${1:}}"
-			],
-		"description": "Componant Direction to up "},
-		"Componant Direction to down ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\Down",
-        	"body": [
-			"\\Down{${1:}}"
-			],
-		"description": "Componant Direction to down "},
-		"Componant Direction to right ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\Right",
-        	"body": [
-			"\\Right{${1:}}"
-			],
-		"description": "Componant Direction to right "},
-		"Componant Direction to left ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\Left",
-        	"body": [
-			"\\Left{${1:}}"
-			],
-		"description": "Componant Direction to left "},
-		"Default size of components ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\bipolesLength",
-        	"body": [
-			"\\bipolesLength{${1:1cm}%Default}}{${2:size}}{${3:of}}{${4:components}}{${5:}}"
-			],
-		"description": "Default size of components "},
-		"Set default size of components ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setBipolesLength",
-        	"body": [
-			"\\setBipolesLength{${1:size}}"
-			],
-		"description": "Set default size of components "},
-		"Mirror rotate of component ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\Mirror",
-        	"body": [
-			"\\Mirror{${1:}}"
-			],
-		"description": "Mirror rotate of component "},
-		"Invert rotate of component ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\Invert",
-        	"body": [
-			"\\Invert{${1:}}"
-			],
-		"description": "Invert rotate of component "},
-		"Set mirror ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setMirror",
-        	"body": [
-			"\\setMirror{${1:}}"
-			],
-		"description": "Set mirror "},
-		"Set no mirror ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setNoMirror",
-        	"body": [
-			"\\setNoMirror{${1:}}"
-			],
-		"description": "Set no mirror "},
-		"Set invert ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setInvert",
-        	"body": [
-			"\\setInvert{${1:}}"
-			],
-		"description": "Set invert "},
-		"Set no invert ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setNoInvert",
-        	"body": [
-			"\\setNoInvert{${1:}}"
-			],
-		"description": "Set no invert "},
-		"default rotate value ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\rotate",
-        	"body": [
-			"\\rotate{${1:}}"
-			],
-		"description": "default rotate value "},
-		"Set rotate value ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setRotate",
-        	"body": [
-			"\\setRotate{${1:angle}}"
-			],
-		"description": "Set rotate value "},
-		"Default colors of border color ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\deviceBorderColor",
-        	"body": [
-			"\\deviceBorderColor{${1:}}"
-			],
-		"description": "Default colors of border color "},
-		"default colors of background color ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\deviceBackgroundColor",
-        	"body": [
-			"\\deviceBackgroundColor{${1:}}"
-			],
-		"description": "default colors of background color "},
-		"Set color of device ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setDeviceBorderColor",
-        	"body": [
-			"\\setDeviceBorderColor{${1:color}}"
-			],
-		"description": "Set color of device "},
-		"Set background color of device ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setDeviceBackgroundColor",
-        	"body": [
-			"\\setDeviceBackgroundColor{${1:color}}"
-			],
-		"description": "Set background color of device "},
-		"Reset colors ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\resetColors",
-        	"body": [
-			"\\resetColors{${1:}}"
-			],
-		"description": "Reset colors "},
-		"Add logic gate ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addLogicGate",
-        	"body": [
-			"\\addLogicGate{${1:coord}}{${2:reference}}{${3:type}}{${4:outputLabel}}{${5:inputLabel1}}{${6:inputLabel2}}{${7:name}}"
-			],
-		"description": "Add logic gate "},
-		"Create newt schema ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\schema",
-        	"body": [
-			"\\schema{${1:name}}"
-			],
-		"description": "Create newt schema "},
-		"Print title schema ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\TitleSchema",
-        	"body": [
-			"\\TitleSchema{${1:}}"
-			],
-		"description": "Print title schema "},
-		"create new chronogram ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\numeric",
-        	"body": [
-			"\\numeric{${1:name}}"
-			],
-		"description": "create new chronogram "},
-		"use var to print title ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\TitleNumeric",
-        	"body": [
-			"\\TitleNumeric{${1:}}"
-			],
-		"description": "use var to print title "},
-		"add transistor ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addTransistor",
-        	"body": [
-			"\\addTransistor{${1:coord}}{${2:name}}{${3:type}}{${4:B}}{${5:C}}{${6:E}}"
-			],
-		"description": "add transistor "},
-		"Add wire ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addWire",
-        	"body": [
-			"\\addWire{${1:node1}}{${2:node2}}{${3:direction}}"
-			],
-		"description": "Add wire "},
-		"Set wire vertical direction 1": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\orthogonalWireA",
-        	"body": [
-			"\\orthogonalWireA{${1:}}"
-			],
-		"description": "Set wire vertical direction 1"},
-		"Set wire vetical direction 2": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\orthogonalWireB",
-        	"body": [
-			"\\orthogonalWireB{${1:}}"
-			],
-		"description": "Set wire vetical direction 2"},
-		"Set wire hrizontal direction ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\directWire",
-        	"body": [
-			"\\directWire{${1:}}"
-			],
-		"description": "Set wire hrizontal direction "},
-		"Add node ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addNode",
-        	"body": [
-			"\\addNode{${1:coord}}{${2:label}}{${3:value}}"
-			],
-		"description": "Add node "},
-		"Add point ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addPoint",
-        	"body": [
-			"\\addPoint{${1:coord}}{${2:color}}{${3:width}}"
-			],
-		"description": "Add point "},
-		"Add power supply ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addPower",
-        	"body": [
-			"\\addPower{${1:coord}}{${2:name}}{${3:value}}"
-			],
-		"description": "Add power supply "},
-		"Add ground ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addGround",
-        	"body": [
-			"\\addGround{${1:coord}}{${2:name}}{${3:value}}"
-			],
-		"description": "Add ground "},
-		"Create resistor ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addResistor",
-        	"body": [
-			"\\addResistor{${1:beginCoord}}{${2:orientation}}{${3:endCoord}}"
-			],
-		"description": "Create resistor "},
-		"Create led ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addLed",
-        	"body": [
-			"\\addLed{${1:beginCoord}}{${2:orientation}}{${3:endCoord}}{${4:type}}{${5:name}}"
-			],
-		"description": "Create led "},
-		"Display the listOfFigures ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\displayListOfFigures",
-        	"body": [
-			"\\displayListOfFigures{${1:tocName}}"
-			],
-		"description": "Display the listOfFigures "},
-		"Create new figure ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\createFigure",
-        	"body": [
-			"\\createFigure{${1:name}}{${2:}}"
-			],
-		"description": "Create new figure "},
-		"Create new figure without centering ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\createNoCenteredFigure",
-        	"body": [
-			"\\createNoCenteredFigure{${1:name}}{${2:}}"
-			],
-		"description": "Create new figure without centering "},
-		"display glossarie ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\glossary",
-        	"body": [
-			"\\glossary{${1:filename}}"
-			],
-		"description": "display glossarie "},
-		"Display the glossaries ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\displayGlossaries",
-        	"body": [
-			"\\displayGlossaries{${1:tocName}}"
-			],
-		"description": "Display the glossaries "},
-		"Internal command to display graphics ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setGraphic",
-        	"body": [
-			"\\setGraphic{${1:}}"
-			],
-		"description": "Internal command to display graphics "},
-		"Internal command to display graphics ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setGraphic",
-        	"body": [
-			"\\setGraphic{${1:}}"
-			],
-		"description": "Internal command to display graphics "},
-		"Display graphe inside figure ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\graphicFigure",
-        	"body": [
-			"\\graphicFigure{${1:widht}}{${2:height}}{${3:minAbs}}{${4:maxAbs}}{${5:minOrd}}{${6:maxOrd}}{${7:xLegend}}{${8:yLegend}}{${9:title}}"
-			],
-		"description": "Display graphe inside figure "},
-		"Internal command to display title graphic ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\TitleGraphic",
-        	"body": [
-			"\\TitleGraphic{${1:}}{${2:}}"
-			],
-		"description": "Internal command to display title graphic "},
-		"Display graphe without figure ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\graphic",
-        	"body": [
-			"\\graphic{${1:widht}}{${2:height}}{${3:minAbs}}{${4:maxAbs}}{${5:minOrd}}{${6:maxOrd}}{${7:xLegend}}{${8:yLegend}}{${9:title}}"
-			],
-		"description": "Display graphe without figure "},
-		"Internal command to display title graphic ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\TitleGraphic",
-        	"body": [
-			"\\TitleGraphic{${1:}}{${2:}}"
-			],
-		"description": "Internal command to display title graphic "},
-		"Add points in graph ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addPoints",
-        	"body": [
-			"\\addPoints{${1:color}}{${2:coords}}"
-			],
-		"description": "Add points in graph "},
-		"Display equation ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addTrace",
-        	"body": [
-			"\\addTrace{${1:color}}{${2:xBegin}}{${3:xEnd}}{${4:equation}}"
-			],
-		"description": "Display equation "},
-		"Add points on graphe from CSV ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addPointsFromCSV",
-        	"body": [
-			"\\addPointsFromCSV{${1:color}}{${2:delimitor}}{${3:filename}}"
-			],
-		"description": "Add points on graphe from CSV "},
-		"Add legend on graphe ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addLegend",
-        	"body": [
-			"\\addLegend{${1:legend}}"
-			],
-		"description": "Add legend on graphe "},
-		"Display graphe without figure ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\graphic3D",
-        	"body": [
-			"\\graphic3D{${1:title}}"
-			],
-		"description": "Display graphe without figure "},
-		"Internal command to display title graphic ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\TitleGraphic",
-        	"body": [
-			"\\TitleGraphic{${1:}}{${2:}}"
-			],
-		"description": "Internal command to display title graphic "},
-		"Set minimal page header ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setHeader",
-        	"body": [
-			"\\setHeader{${1:title}}{${2:author}}{${3:date}}{${4:}}"
-			],
-		"description": "Set minimal page header "},
-		"Set minimal part page with image ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\partImg",
-        	"body": [
-			"\\partImg{${1:subtitle}}{${2:imgSource}}{${3:ratio}}"
-			],
-		"description": "Set minimal part page with image "},
-		"Set header with image ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setHeaderImage",
-        	"body": [
-			"\\setHeaderImage{${1:imagePath}}{${2:Title}}{${3:subtitle}}{${4:authors}}{${5:info}}"
-			],
-		"description": "Set header with image "},
-		"Set document presentation (header and footer) ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addPresentation",
-        	"body": [
-			"\\addPresentation{${1:rightHeaderContent}}{${2:centerHeaderContent}}{${3:leftHeaderContent}}{${4:rightFooterContent}}{${5:centerFooterContent}}{${6:leftFooterContent}}"
-			],
-		"description": "Set document presentation (header and footer) "},
-		"Set right header content ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setRightHeader",
-        	"body": [
-			"\\setRightHeader{${1:1}}}}{${2:%Set}}{${3:right}}{${4:header}}{${5:content}}{${6:}}"
-			],
-		"description": "Set right header content "},
-		"Set center header content ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setCenterHeader",
-        	"body": [
-			"\\setCenterHeader{${1:1}}}}{${2:%Set}}{${3:center}}{${4:header}}{${5:content}}{${6:}}"
-			],
-		"description": "Set center header content "},
-		"": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setLeftHeader",
-        	"body": [
-			"\\setLeftHeader{${1:1}}}}{${2:%Set}}{${3:left}}{${4:header}}{${5:content}}"
-			],
-		"description": ""},
-		"Set right footer content ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setRightFooter",
-        	"body": [
-			"\\setRightFooter{${1:1}}}}{${2:%Set}}{${3:right}}{${4:footer}}{${5:content}}{${6:}}"
-			],
-		"description": "Set right footer content "},
-		"Set center footer content ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setCenterFooter",
-        	"body": [
-			"\\setCenterFooter{${1:1}}}}{${2:%Set}}{${3:center}}{${4:footer}}{${5:content}}{${6:}}"
-			],
-		"description": "Set center footer content "},
-		"Set left footer content ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setLeftFooter",
-        	"body": [
-			"\\setLeftFooter{${1:1}}}}{${2:%Set}}{${3:left}}{${4:footer}}{${5:content}}{${6:}}"
-			],
-		"description": "Set left footer content "},
-		"Enable header line (disable with arg to 0) ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setHeaderLine",
-        	"body": [
-			"\\setHeaderLine{${1:width}}"
-			],
-		"description": "Enable header line (disable with arg to 0) "},
-		"Enable footer line (disable with arg to 0) ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setFooterLine",
-        	"body": [
-			"\\setFooterLine{${1:width}}"
-			],
-		"description": "Enable footer line (disable with arg to 0) "},
-		"Get current chapter name ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\currentChapter",
-        	"body": [
-			"\\currentChapter{${1:}}"
-			],
-		"description": "Get current chapter name "},
-		"create alias chapter ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setAliasChapter",
-        	"body": [
-			"\\setAliasChapter{${1:name}}"
-			],
-		"description": "create alias chapter "},
-		"Get current page number on total ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\currentPage",
-        	"body": [
-			"\\currentPage{${1:}}"
-			],
-		"description": "Get current page number on total "},
-		"": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\italic",
-        	"body": [
-			"\\italic{${1:1}}}}{${2:%fonction}}"
-			],
-		"description": ""},
-		"": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\lib",
-        	"body": [
-			"\\lib{${1:1}}}}}{${2:%module}}"
-			],
-		"description": ""},
-		"Add simple image ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\img",
-        	"body": [
-			"\\img{${1:\\rootImages/}}{${2:legend}}{${3:0.5}}"
-			],
-		"description": "Add simple image "},
-		"Add simple image with rotation ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\imgr",
-        	"body": [
-			"\\imgr{${1:\\rootImages/}}{${2:legend}}{${3:0.5}}{${4:0}}"
-			],
-		"description": "Add simple image with rotation "},
-		"Get root of all Images ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\rootImages",
-        	"body": [
-			"\\rootImages{${1:}}"
-			],
-		"description": "Get root of all Images "},
-		"Set default display by triangle in list ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setTriangleList",
-        	"body": [
-			"\\setTriangleList{${1:}}"
-			],
-		"description": "Set default display by triangle in list "},
-		"Set default display by circle in list ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setCircleList",
-        	"body": [
-			"\\setCircleList{${1:}}"
-			],
-		"description": "Set default display by circle in list "},
-		"Set default display by bullet in list ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setBulletList",
-        	"body": [
-			"\\setBulletList{${1:}}"
-			],
-		"description": "Set default display by bullet in list "},
-		"Display triangle in item list ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\Triangle",
-        	"body": [
-			"\\Triangle{${1:}}"
-			],
-		"description": "Display triangle in item list "},
-		"Display circle in item list ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\Circle",
-        	"body": [
-			"\\Circle{${1:}}"
-			],
-		"description": "Display circle in item list "},
-		"Display bullet in item list ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\Bullet",
-        	"body": [
-			"\\Bullet{${1:}}"
-			],
-		"description": "Display bullet in item list "},
-		"Create list ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\items",
-        	"body": [
-			"\\items{${1:color}}{${2:labelForm}}"
-			],
-		"description": "Create list "},
-		"Create generic label ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\lbl",
-        	"body": [
-			"\\lbl{${1:color}}{${2:title}}{${3:content}}"
-			],
-		"description": "Create generic label "},
-		"Create green label ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\lgreen",
-        	"body": [
-			"\\lgreen{${1:title}}{${2:content}}"
-			],
-		"description": "Create green label "},
-		"Create magenta label ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\lmagenta",
-        	"body": [
-			"\\lmagenta{${1:title}}{${2:content}}"
-			],
-		"description": "Create magenta label "},
-		"Create purple label ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\lpurple",
-        	"body": [
-			"\\lpurple{${1:title}}{${2:content}}"
-			],
-		"description": "Create purple label "},
-		"Create blue label ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\lblue",
-        	"body": [
-			"\\lblue{${1:title}}{${2:content}}"
-			],
-		"description": "Create blue label "},
-		"Create cyan label ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\lcyan",
-        	"body": [
-			"\\lcyan{${1:title}}{${2:content}}"
-			],
-		"description": "Create cyan label "},
-		"Create brown label ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\lbrown",
-        	"body": [
-			"\\lbrown{${1:title}}{${2:content}}"
-			],
-		"description": "Create brown label "},
-		"Create yellow label ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\lyellow",
-        	"body": [
-			"\\lyellow{${1:title}}{${2:content}}"
-			],
-		"description": "Create yellow label "},
-		"Create black label ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\lblack",
-        	"body": [
-			"\\lblack{${1:title}}{${2:content}}"
-			],
-		"description": "Create black label "},
-		"Set text in bold ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\bold",
-        	"body": [
-			"\\bold{${1:content}}"
-			],
-		"description": "Set text in bold "},
-		"Set text in italic ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\italic",
-        	"body": [
-			"\\italic{${1:content}}"
-			],
-		"description": "Set text in italic "},
-		"Set text in italic and bold ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\ib",
-        	"body": [
-			"\\ib{${1:content}}"
-			],
-		"description": "Set text in italic and bold "},
-		"Set text in italic and bold ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\bi",
-        	"body": [
-			"\\bi{${1:content}}"
-			],
-		"description": "Set text in italic and bold "},
-		"Add newline ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\n",
-        	"body": [
-			"\\n{${1:}}"
-			],
-		"description": "Add newline "},
-		"Set small vertical space ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\sn",
-        	"body": [
-			"\\sn{${1:}}"
-			],
-		"description": "Set small vertical space "},
-		"Set document settings ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\setParameters",
-        	"body": [
-			"\\setParameters{${1:title}}{${2:author}}{${3:subject}}{${4:creator}}{${5:keyword}}{${6:linkColor}}{${7:bibLinkColor}}{${8:linkFileColor}}"
-			],
-		"description": "Set document settings "},
-		"Set 3D vector ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\evec",
-        	"body": [
-			"\\evec{${1:x}}{${2:y}}{${3:z}}"
-			],
-		"description": "Set 3D vector "},
-		"Set 3D matrix ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\emat",
-        	"body": [
-			"\\emat{${1:x}}{${2:y}}{${3:z}}"
-			],
-		"description": "Set 3D matrix "},
-		"Set 3D torsor ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\torsor",
-        	"body": [
-			"\\torsor{${1:x}}{${2:y}}{${3:z}}"
-			],
-		"description": "Set 3D torsor "},
-		"Display message box ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\messageBox",
-        	"body": [
-			"\\messageBox{${1:title}}{${2:colorframe}}{${3:backgroundColor}}{${4:content}}{${5:titleColor}}"
-			],
-		"description": "Display message box "},
-		"Set nomenclature ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\nomgroup",
-        	"body": [
-			"\\nomgroup{${1:nomenclatureName}}"
-			],
-		"description": "Set nomenclature "},
-		"Add unit in nomenclature ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addUnit",
-        	"body": [
-			"\\addUnit{${1:unit}}"
-			],
-		"description": "Add unit in nomenclature "},
-		"Display the nomenclature ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\displayNomenclature",
-        	"body": [
-			"\\displayNomenclature{${1:tocName}}{${2:}}"
-			],
-		"description": "Display the nomenclature "},
-		"create a 3D ball ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\ball",
-        	"body": [
-			"\\ball{${1:color}}{${2:size}}"
-			],
-		"description": "create a 3D ball "},
-		"Create a 3D plot ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\plot",
-        	"body": [
-			"\\plot{${1:title}}{${2:equation}}"
-			],
-		"description": "Create a 3D plot "},
-		"Add text in part page (must be placed before part command) ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addPartText",
-        	"body": [
-			"\\addPartText{${1:1}}}}{${2:%Add}}{${3:text}}{${4:in}}{${5:part}}{${6:page}}{${7:(must}}{${8:be}}{${9:placed}}{${10:before}}{${11:part}}{${12:command)}}{${13:}}"
-			],
-		"description": "Add text in part page (must be placed before part command) "},
-		"Create quote ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\addQuote",
-        	"body": [
-			"\\addQuote{${1:content}}{${2:author}}"
-			],
-		"description": "Create quote "},
-		"Display the listOfTables ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\displayListOfTables",
-        	"body": [
-			"\\displayListOfTables{${1:tocName}}"
-			],
-		"description": "Display the listOfTables "},
-		"new question ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\question",
-        	"body": [
-			"\\begin{question}\n${1:content}\n\\end{question}"
-			],
-		"description": "new question "},
-		"new answer ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\reponse",
-        	"body": [
-			"\\begin{reponse}\n${1:content}\n\\end{reponse}"
-			],
-		"description": "new answer "},
-		"new property ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\propriete",
-        	"body": [
-			"\\begin{propriete}\n${1:content}\n\\end{propriete}"
-			],
-		"description": "new property "},
-		"new preposition ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\proposition",
-        	"body": [
-			"\\begin{proposition}\n${1:content}\n\\end{proposition}"
-			],
-		"description": "new preposition "},
-		"new remarque ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\remarque",
-        	"body": [
-			"\\begin{remarque}\n${1:content}\n\\end{remarque}"
-			],
-		"description": "new remarque "},
-		"new example ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\exemple",
-        	"body": [
-			"\\begin{exemple}\n${1:content}\n\\end{exemple}"
-			],
-		"description": "new example "},
-		"new definition ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\definition",
-        	"body": [
-			"\\begin{definition}\n${1:content}\n\\end{definition}"
-			],
-		"description": "new definition "},
-		"new definition ": { 
-        	"scope": "tex, latex",
-        	"prefix": "\\solution",
-        	"body": [
-			"\\begin{solution}\n${1:content}\n\\end{solution}"
-			],
-		"description": "new definition "},
+"Display message box ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.MessageBox.messageBox",
+	 "body" : [
+	 "\\messageBox{${1:title}}{${2:colorframe}}{${3:backgroundColor}}{${4:content}}{${5:titleColor}}"
+	 ], 
+	 "description" : "Display message box ",
+},
+"Get GitHub logo ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Favicons.faviconGithub",
+	 "body" : [
+	 "\\faviconGithub"
+	 ], 
+	 "description" : "Get GitHub logo ",
+},
+"Get Check logo ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Favicons.faviconCheck",
+	 "body" : [
+	 "\\faviconCheck"
+	 ], 
+	 "description" : "Get Check logo ",
+},
+"Get Bookmark logo ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Favicons.faviconBookmark",
+	 "body" : [
+	 "\\faviconBookmark"
+	 ], 
+	 "description" : "Get Bookmark logo ",
+},
+"Get leaf logo ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Favicons.faviconLeaf",
+	 "body" : [
+	 "\\faviconLeaf"
+	 ], 
+	 "description" : "Get leaf logo ",
+},
+"Get File logo ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Favicons.faviconFile",
+	 "body" : [
+	 "\\faviconFile"
+	 ], 
+	 "description" : "Get File logo ",
+},
+"Get Gear logo ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Favicons.faviconGear",
+	 "body" : [
+	 "\\faviconGear"
+	 ], 
+	 "description" : "Get Gear logo ",
+},
+"Get Close logo ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Favicons.faviconClose",
+	 "body" : [
+	 "\\faviconClose"
+	 ], 
+	 "description" : "Get Close logo ",
+},
+"Center element newenvironment{center}  ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Layout.center",
+	 "body" : [
+	 "\\begin{center}\n\\end{center}"	 
+], 
+	 "description" : "Center element newenvironment{center}  ",
+},
+"Use default command to set bold newcommand{\textbf} ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Layout.textbf",
+	 "body" : [
+	 "\\textbf{${1:content}}"
+	 ], 
+	 "description" : "Use default command to set bold newcommand{\textbf} ",
+},
+"Set text in bold ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Layout.bold",
+	 "body" : [
+	 "\\bold{${1:content}}"
+	 ], 
+	 "description" : "Set text in bold ",
+},
+"Use default command to set italic newcommand{\textit} ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Layout.textit",
+	 "body" : [
+	 "\\textit{${1:content}}"
+	 ], 
+	 "description" : "Use default command to set italic newcommand{\textit} ",
+},
+"Set text in italic ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Layout.italic",
+	 "body" : [
+	 "\\italic{${1:content}}"
+	 ], 
+	 "description" : "Set text in italic ",
+},
+"Set text in italic and bold ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Layout.ib",
+	 "body" : [
+	 "\\ib{${1:content}}"
+	 ], 
+	 "description" : "Set text in italic and bold ",
+},
+"Set text in bold and italic ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Layout.bi",
+	 "body" : [
+	 "\\bi{${1:content}}"
+	 ], 
+	 "description" : "Set text in bold and italic ",
+},
+"Add newline ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Layout.n",
+	 "body" : [
+	 "\\n"
+	 ], 
+	 "description" : "Add newline ",
+},
+"Set small vertical space ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Layout.sn",
+	 "body" : [
+	 "\\sn"
+	 ], 
+	 "description" : "Set small vertical space ",
+},
+"Componant Direction to up ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.Up",
+	 "body" : [
+	 "\\Up"
+	 ], 
+	 "description" : "Componant Direction to up ",
+},
+"Componant Direction to down ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.Down",
+	 "body" : [
+	 "\\Down"
+	 ], 
+	 "description" : "Componant Direction to down ",
+},
+"Componant Direction to right ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.Right",
+	 "body" : [
+	 "\\Right"
+	 ], 
+	 "description" : "Componant Direction to right ",
+},
+"Componant Direction to left ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.Left",
+	 "body" : [
+	 "\\Left"
+	 ], 
+	 "description" : "Componant Direction to left ",
+},
+"Default size of components ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.bipolesLength",
+	 "body" : [
+	 "\\bipolesLength{${1:1cm}%Default}}{${2:size}}{${3:of}}{${4:components}}"
+	 ], 
+	 "description" : "Default size of components ",
+},
+"Set default size of components ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.setBipolesLength",
+	 "body" : [
+	 "\\setBipolesLength{${1:size}}"
+	 ], 
+	 "description" : "Set default size of components ",
+},
+"Mirror rotate of component ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.Mirror",
+	 "body" : [
+	 "\\Mirror"
+	 ], 
+	 "description" : "Mirror rotate of component ",
+},
+"Invert rotate of component ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.Invert",
+	 "body" : [
+	 "\\Invert"
+	 ], 
+	 "description" : "Invert rotate of component ",
+},
+"Set mirror ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.setMirror",
+	 "body" : [
+	 "\\setMirror"
+	 ], 
+	 "description" : "Set mirror ",
+},
+"Set no mirror ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.setNoMirror",
+	 "body" : [
+	 "\\setNoMirror"
+	 ], 
+	 "description" : "Set no mirror ",
+},
+"Set invert ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.setInvert",
+	 "body" : [
+	 "\\setInvert"
+	 ], 
+	 "description" : "Set invert ",
+},
+"Set no invert ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.setNoInvert",
+	 "body" : [
+	 "\\setNoInvert"
+	 ], 
+	 "description" : "Set no invert ",
+},
+"default rotate value ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.rotate",
+	 "body" : [
+	 "\\rotate"
+	 ], 
+	 "description" : "default rotate value ",
+},
+"Set rotate value ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.setRotate",
+	 "body" : [
+	 "\\setRotate{${1:angle}}"
+	 ], 
+	 "description" : "Set rotate value ",
+},
+"Default colors of border color ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.deviceBorderColor",
+	 "body" : [
+	 "\\deviceBorderColor"
+	 ], 
+	 "description" : "Default colors of border color ",
+},
+"default colors of background color ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.deviceBackgroundColor",
+	 "body" : [
+	 "\\deviceBackgroundColor"
+	 ], 
+	 "description" : "default colors of background color ",
+},
+"Set color of device ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.setDeviceBorderColor",
+	 "body" : [
+	 "\\setDeviceBorderColor{${1:color}}"
+	 ], 
+	 "description" : "Set color of device ",
+},
+"Set background color of device ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.setDeviceBackgroundColor",
+	 "body" : [
+	 "\\setDeviceBackgroundColor{${1:color}}"
+	 ], 
+	 "description" : "Set background color of device ",
+},
+"Reset colors ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.resetColors",
+	 "body" : [
+	 "\\resetColors"
+	 ], 
+	 "description" : "Reset colors ",
+},
+"Add logic gate ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.addLogicGate",
+	 "body" : [
+	 "\\addLogicGate{${1:coord}}{${2:reference}}{${3:type}}{${4:outputLabel}}{${5:inputLabel1}}{${6:inputLabel2}}{${7:name}}"
+	 ], 
+	 "description" : "Add logic gate ",
+},
+"Create newt schema ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.schema",
+	 "body" : [
+	 "\\begin{schema}{${1:name}}\n\\end{schema}"	 
+], 
+	 "description" : "Create newt schema ",
+},
+"Print title schema ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.TitleSchema",
+	 "body" : [
+	 "\\TitleSchema"
+	 ], 
+	 "description" : "Print title schema ",
+},
+"create new chronogram ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.numeric",
+	 "body" : [
+	 "\\begin{numeric}{${1:name}}\n\\end{numeric}"	 
+], 
+	 "description" : "create new chronogram ",
+},
+"use var to print title ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.TitleNumeric",
+	 "body" : [
+	 "\\TitleNumeric"
+	 ], 
+	 "description" : "use var to print title ",
+},
+"add transistor ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.addTransistor",
+	 "body" : [
+	 "\\addTransistor{${1:coord}}{${2:name}}{${3:type}}{${4:B}}{${5:C}}{${6:E}}"
+	 ], 
+	 "description" : "add transistor ",
+},
+"Add wire ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.addWire",
+	 "body" : [
+	 "\\addWire{${1:node1}}{${2:node2}}{${3:direction}}"
+	 ], 
+	 "description" : "Add wire ",
+},
+"Set wire vertical direction 1": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.orthogonalWireA",
+	 "body" : [
+	 "\\orthogonalWireA"
+	 ], 
+	 "description" : "Set wire vertical direction 1",
+},
+"Set wire vetical direction 2": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.orthogonalWireB",
+	 "body" : [
+	 "\\orthogonalWireB"
+	 ], 
+	 "description" : "Set wire vetical direction 2",
+},
+"Set wire hrizontal direction ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.directWire",
+	 "body" : [
+	 "\\directWire"
+	 ], 
+	 "description" : "Set wire hrizontal direction ",
+},
+"Add node ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.addNode",
+	 "body" : [
+	 "\\addNode{${1:coord}}{${2:label}}{${3:value}}"
+	 ], 
+	 "description" : "Add node ",
+},
+"Add point ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.addPoint",
+	 "body" : [
+	 "\\addPoint{${1:coord}}{${2:color}}{${3:width}}"
+	 ], 
+	 "description" : "Add point ",
+},
+"Add power supply ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.addPower",
+	 "body" : [
+	 "\\addPower{${1:coord}}{${2:name}}{${3:value}}"
+	 ], 
+	 "description" : "Add power supply ",
+},
+"Add ground ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.addGround",
+	 "body" : [
+	 "\\addGround{${1:coord}}{${2:name}}{${3:value}}"
+	 ], 
+	 "description" : "Add ground ",
+},
+"Create resistor ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.addResistor",
+	 "body" : [
+	 "\\addResistor{${1:beginCoord}}{${2:orientation}}{${3:endCoord}}"
+	 ], 
+	 "description" : "Create resistor ",
+},
+"Create led ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.addLed",
+	 "body" : [
+	 "\\addLed{${1:beginCoord}}{${2:orientation}}{${3:endCoord}}{${4:type}}{${5:name}}"
+	 ], 
+	 "description" : "Create led ",
+},
+"Add Thevenin schematic ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.thevenin",
+	 "body" : [
+	 "\\thevenin{${1:VoltageName,}}{${2:InternalImpedanceName,}}{${3:HighVoltageNamge,}}{${4:LowVoltageName}}"
+	 ], 
+	 "description" : "Add Thevenin schematic ",
+},
+"Add Norton schematic ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.norton",
+	 "body" : [
+	 "\\norton{${1:VoltageName,}}{${2:InternalImpedanceName,}}{${3:HighVoltageNamge,}}{${4:LowVoltageName}}"
+	 ], 
+	 "description" : "Add Norton schematic ",
+},
+"Add update version ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Debug.addUpdate",
+	 "body" : [
+	 "\\addUpdate{${1:date}}{${2:content}}"
+	 ], 
+	 "description" : "Add update version ",
+},
+"\newcommand{\raiseMessage} ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Debug.raiseMessage",
+	 "body" : [
+	 "\\raiseMessage{${1:message}}"
+	 ], 
+	 "description" : "\newcommand{\raiseMessage} ",
+},
+"\newcommand{\raisewarning} ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Debug.raisewarning",
+	 "body" : [
+	 "\\raisewarning{${1:message}}"
+	 ], 
+	 "description" : "\newcommand{\raisewarning} ",
+},
+"\newcommand{\raiseError} ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Debug.raiseError",
+	 "body" : [
+	 "\\raiseError{${1:message}}"
+	 ], 
+	 "description" : "\newcommand{\raiseError} ",
+},
+"Dynamic source of image ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Images.rootImages",
+	 "body" : [
+	 "\\rootImages"
+	 ], 
+	 "description" : "Dynamic source of image ",
+},
+"Add simple image on header page ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Images.imgHeader",
+	 "body" : [
+	 "\\imgHeader{${1:filename}}{${2:legend}}{${3:ratio}}"
+	 ], 
+	 "description" : "Add simple image on header page ",
+},
+"Add simple image ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Images.img",
+	 "body" : [
+	 "\\img{${1:\\rootImages}}{${2:legend}}{${3:ratio}}"
+	 ], 
+	 "description" : "Add simple image ",
+},
+"Add simple image with rotation ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Images.imgr",
+	 "body" : [
+	 "\\imgr{${1:\\rootImages}}{${2:legend}}{${3:ratio}}{${4:angle}}"
+	 ], 
+	 "description" : "Add simple image with rotation ",
+},
+"Add simple floating image ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Images.imgf",
+	 "body" : [
+	 "\\imgf{${1:\\rootImages}}{${2:legend}}{${3:ratioImage}}{${4:ratioPage}}{${5:side}}{${6:numberOfLines}}"
+	 ], 
+	 "description" : "Add simple floating image ",
+},
+"Add simple image with reference name ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Images.imgn",
+	 "body" : [
+	 "\\imgn{${1:\\rootImages}}{${2:legend}}{${3:ratio}}{${4:reference}}"
+	 ], 
+	 "description" : "Add simple image with reference name ",
+},
+"Default command to set content color newcommand{color}[2]  ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Colors.color",
+	 "body" : [
+	 "\\color{${1:color}}{${2:content}}"
+	 ], 
+	 "description" : "Default command to set content color newcommand{color}[2]  ",
+},
+"Display content in color ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Colors.colors",
+	 "body" : [
+	 "\\colors{${1:color}}{${2:content}}"
+	 ], 
+	 "description" : "Display content in color ",
+},
+"create a 3D ball ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Objects3D.ball",
+	 "body" : [
+	 "\\ball{${1:color}}{${2:size}}"
+	 ], 
+	 "description" : "create a 3D ball ",
+},
+"Create a 3D plot ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Objects3D.plot",
+	 "body" : [
+	 "\\plot{${1:title}}{${2:equation}}"
+	 ], 
+	 "description" : "Create a 3D plot ",
+},
+"Display the index ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Index.displayIndex",
+	 "body" : [
+	 "\\displayIndex{${1:tocName}}"
+	 ], 
+	 "description" : "Display the index ",
+},
+"Set document settings ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Links.setParameters",
+	 "body" : [
+	 "\\setParameters{${1:title}}{${2:author}}{${3:subject}}{${4:creator}}{${5:keyword}}{${6:linkColor}}{${7:bibLinkColor}}{${8:linkFileColor}}"
+	 ], 
+	 "description" : "Set document settings ",
+},
+"Reduce the size of Table Of Content ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.TableOfContent.smallTableOfContent",
+	 "body" : [
+	 "\\smallTableOfContent"
+	 ], 
+	 "description" : "Reduce the size of Table Of Content ",
+},
+"No reduce the size of Table Of Content ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.TableOfContent.classicalTableOfContent",
+	 "body" : [
+	 "\\classicalTableOfContent"
+	 ], 
+	 "description" : "No reduce the size of Table Of Content ",
+},
+"Display the table of content ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.TableOfContent.displayTableOfContent",
+	 "body" : [
+	 "\\displayTableOfContent{${1:tocName}}"
+	 ], 
+	 "description" : "Display the table of content ",
+},
+"Display the lisy of tables ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Tables.displayListOfTables",
+	 "body" : [
+	 "\\displayListOfTables{${1:tocName}}"
+	 ], 
+	 "description" : "Display the lisy of tables ",
+},
+" Default table newenvironment{\tabular}[1] ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Tables.tabular",
+	 "body" : [
+	 "\\begin{tabular}{|c|c|c|}\\hline\n Header1 & Header2 & header\\\\\\ \\hline\nA & B & C\\\\\\\nD & E & F\\\\\\ \\hline\n\\end{tabular}"	 
+], 
+	 "description" : " Default table newenvironment{\tabular}[1] ",
+},
+"Array of data ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Tables.Array",
+	 "body" : [
+	 "\\begin{Array}{|c|c|c|}\\hline\n Header1 & Header2 & header\\\\\\ \\hline\nA & B & C\\\\\\\nD & E & F\\\\\\ \\hline\n\\end{Array}"	 
+], 
+	 "description" : "Array of data ",
+},
+"Use default list  newenvironment{itemize} ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Items.itemize",
+	 "body" : [
+	 "\\begin{itemize}\n\\item\n\\item\n\\end{itemize}"	 
+], 
+	 "description" : "Use default list  newenvironment{itemize} ",
+},
+"Use default numeroted list newenvironment{enumerate} ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Items.enumerate",
+	 "body" : [
+	 "\\begin{enumerate}\n\\item\n\\item\n\\end{enumerate}"	 
+], 
+	 "description" : "Use default numeroted list newenvironment{enumerate} ",
+},
+"Set default display by bullet in list ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Items.setBulletList",
+	 "body" : [
+	 "\\setBulletList"
+	 ], 
+	 "description" : "Set default display by bullet in list ",
+},
+"Display triangle in item list ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Items.Triangle",
+	 "body" : [
+	 "\\Triangle"
+	 ], 
+	 "description" : "Display triangle in item list ",
+},
+"Display circle in item list ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Items.Circle",
+	 "body" : [
+	 "\\Circle"
+	 ], 
+	 "description" : "Display circle in item list ",
+},
+"Display bullet in item list ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Items.Bullet",
+	 "body" : [
+	 "\\Bullet"
+	 ], 
+	 "description" : "Display bullet in item list ",
+},
+"Create list (items) ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Items.items",
+	 "body" : [
+	 "\\begin{items}{${1:color}}{${2:labelForm}}\n\\item\n\\item\n\\end{items}"	 
+], 
+	 "description" : "Create list (items) ",
+},
+"Create list (List)": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Items.List",
+	 "body" : [
+	 "\\begin{List}{${1:color}}{${2:labelForm}}\n\\item\n\\item\n\\end{List}"	 
+], 
+	 "description" : "Create list (List)",
+},
+"Set nomenclature ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Nomenclature.nomgroup",
+	 "body" : [
+	 "\\nomgroup{${1:nomenclatureName}}"
+	 ], 
+	 "description" : "Set nomenclature ",
+},
+"Add unit in nomenclature ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Nomenclature.addUnit",
+	 "body" : [
+	 "\\addUnit{${1:unit}}"
+	 ], 
+	 "description" : "Add unit in nomenclature ",
+},
+"Display the nomenclature ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Nomenclature.displayNomenclature",
+	 "body" : [
+	 "\\displayNomenclature{${1:tocName}}"
+	 ], 
+	 "description" : "Display the nomenclature ",
+},
+"Set 3D vector ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Maths.evec",
+	 "body" : [
+	 "\\evec{${1:x}}{${2:y}}{${3:z}}"
+	 ], 
+	 "description" : "Set 3D vector ",
+},
+"Set 3D matrix ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Maths.emat",
+	 "body" : [
+	 "\\emat{${1:x}}{${2:y}}{${3:z}}"
+	 ], 
+	 "description" : "Set 3D matrix ",
+},
+"Set 3D torsor ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Maths.torsor",
+	 "body" : [
+	 "\\torsor{${1:x}}{${2:y}}{${3:z}}"
+	 ], 
+	 "description" : "Set 3D torsor ",
+},
+"create fraction ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Maths.f",
+	 "body" : [
+	 "\\f{${1:num}}{${2:denom}}"
+	 ], 
+	 "description" : "create fraction ",
+},
+"Default part \newcommand{part} ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Titles.part",
+	 "body" : [
+	 "\\part{${1:partName}}"
+	 ], 
+	 "description" : "Default part \newcommand{part} ",
+},
+"Default chapter \newcommand{chapter} ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Titles.chapter",
+	 "body" : [
+	 "\\chapter{${1:chapterName}}"
+	 ], 
+	 "description" : "Default chapter \newcommand{chapter} ",
+},
+"Default section \newcommand{section} ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Titles.section",
+	 "body" : [
+	 "\\section{${1:sectionName}}"
+	 ], 
+	 "description" : "Default section \newcommand{section} ",
+},
+"Default subsection \newcommand{subsection} ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Titles.subsection",
+	 "body" : [
+	 "\\subsection{${1:subSectionName}}"
+	 ], 
+	 "description" : "Default subsection \newcommand{subsection} ",
+},
+"Default subsubsection \newcommand{subsubsection} ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Titles.subsubsection",
+	 "body" : [
+	 "\\subsubsection{${1:subSubSectionName}}"
+	 ], 
+	 "description" : "Default subsubsection \newcommand{subsubsection} ",
+},
+"Content of prefix section ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Titles.prefixSection",
+	 "body" : [
+	 "\\prefixSection"
+	 ], 
+	 "description" : "Content of prefix section ",
+},
+"Enable section prefix ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Titles.enableSectionPrefix",
+	 "body" : [
+	 "\\enableSectionPrefix"
+	 ], 
+	 "description" : "Enable section prefix ",
+},
+"Disable section prefix ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Titles.disableSectionPrefix",
+	 "body" : [
+	 "\\disableSectionPrefix"
+	 ], 
+	 "description" : "Disable section prefix ",
+},
+"Content of prefix subsection ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Titles.prefixSubSection",
+	 "body" : [
+	 "\\prefixSubSection"
+	 ], 
+	 "description" : "Content of prefix subsection ",
+},
+"Set section color ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Titles.setSectionColor",
+	 "body" : [
+	 "\\setSectionColor{${1:color}}"
+	 ], 
+	 "description" : "Set section color ",
+},
+"Set subsection color ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Titles.setSubSectionColor",
+	 "body" : [
+	 "\\setSubSectionColor{${1:color}}"
+	 ], 
+	 "description" : "Set subsection color ",
+},
+"Get number of title ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Titles.titleRef",
+	 "body" : [
+	 "\\titleRef{${1:titleRef}}"
+	 ], 
+	 "description" : "Get number of title ",
+},
+"Get content of title ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Titles.titleName",
+	 "body" : [
+	 "\\titleName{${1:titleRef}}"
+	 ], 
+	 "description" : "Get content of title ",
+},
+"Set minimal page header ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Header.setHeader",
+	 "body" : [
+	 "\\setHeader{${1:title}}{${2:author}}{${3:date}}"
+	 ], 
+	 "description" : "Set minimal page header ",
+},
+"Set minimal part page with image ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Header.partImg",
+	 "body" : [
+	 "\\partImg{${1:subtitle}}{${2:imgSource}}{${3:ratio}}"
+	 ], 
+	 "description" : "Set minimal part page with image ",
+},
+"Set header with image ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Header.setHeaderImage",
+	 "body" : [
+	 "\\setHeaderImage{${1:imagePath}}{${2:Title}}{${3:subtitle}}{${4:authors}}{${5:info}}"
+	 ], 
+	 "description" : "Set header with image ",
+},
+"Set document presentation (header and footer) ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Header.addPresentation",
+	 "body" : [
+	 "\\addPresentation{${1:rightHeaderContent}}{${2:centerHeaderContent}}{${3:leftHeaderContent}}{${4:rightFooterContent}}{${5:centerFooterContent}}{${6:leftFooterContent}}"
+	 ], 
+	 "description" : "Set document presentation (header and footer) ",
+},
+"Set right header content ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Header.setRightHeader",
+	 "body" : [
+	 "\\setRightHeader{${1:1}}}}{${2:%Set}}{${3:right}}{${4:header}}{${5:content}}"
+	 ], 
+	 "description" : "Set right header content ",
+},
+"Set center header content ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Header.setCenterHeader",
+	 "body" : [
+	 "\\setCenterHeader{${1:1}}}}{${2:%Set}}{${3:center}}{${4:header}}{${5:content}}"
+	 ], 
+	 "description" : "Set center header content ",
+},
+"Set left header content ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Header.setLeftHeader",
+	 "body" : [
+	 "\\setLeftHeader{${1:1}}}}{${2:%Set}}{${3:left}}{${4:header}}{${5:content}}"
+	 ], 
+	 "description" : "Set left header content ",
+},
+"Set right footer content ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Header.setRightFooter",
+	 "body" : [
+	 "\\setRightFooter{${1:1}}}}{${2:%Set}}{${3:right}}{${4:footer}}{${5:content}}"
+	 ], 
+	 "description" : "Set right footer content ",
+},
+"Set center footer content ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Header.setCenterFooter",
+	 "body" : [
+	 "\\setCenterFooter{${1:1}}}}{${2:%Set}}{${3:center}}{${4:footer}}{${5:content}}"
+	 ], 
+	 "description" : "Set center footer content ",
+},
+"Set left footer content ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Header.setLeftFooter",
+	 "body" : [
+	 "\\setLeftFooter{${1:1}}}}{${2:%Set}}{${3:left}}{${4:footer}}{${5:content}}"
+	 ], 
+	 "description" : "Set left footer content ",
+},
+"Enable header line (disable with arg to 0) ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Header.setHeaderLine",
+	 "body" : [
+	 "\\setHeaderLine{${1:width}}"
+	 ], 
+	 "description" : "Enable header line (disable with arg to 0) ",
+},
+"Enable footer line (disable with arg to 0) ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Header.setFooterLine",
+	 "body" : [
+	 "\\setFooterLine{${1:width}}"
+	 ], 
+	 "description" : "Enable footer line (disable with arg to 0) ",
+},
+"Get current chapter name ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Header.currentChapter",
+	 "body" : [
+	 "\\currentChapter"
+	 ], 
+	 "description" : "Get current chapter name ",
+},
+"create alias chapter ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Header.setAliasChapter",
+	 "body" : [
+	 "\\setAliasChapter{${1:name}}"
+	 ], 
+	 "description" : "create alias chapter ",
+},
+"Get current page number on total ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Header.currentPage",
+	 "body" : [
+	 "\\currentPage"
+	 ], 
+	 "description" : "Get current page number on total ",
+},
+"Display the bibliography ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Bibliography.displayBibliography",
+	 "body" : [
+	 "\\displayBibliography{${1:tocName}}{${2:filename(without.bib)}}"
+	 ], 
+	 "description" : "Display the bibliography ",
+},
+"Create env Python ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Programming.Python",
+	 "body" : [
+	 "\\begin{Python}{${1:title}}\n\\end{Python}"	 
+], 
+	 "description" : "Create env Python ",
+},
+"New code Cpp ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Programming.Cpp",
+	 "body" : [
+	 "\\begin{Cpp}{${1:FigureName}}\n\\end{Cpp}"	 
+], 
+	 "description" : "New code Cpp ",
+},
+"New code Bash ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Programming.Bash",
+	 "body" : [
+	 "\\begin{Bash}{${1:title}}\n\\end{Bash}"	 
+], 
+	 "description" : "New code Bash ",
+},
+"New code Latex ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Programming.Latex",
+	 "body" : [
+	 "\\begin{Latex}{${1:title}}\n\\end{Latex}"	 
+], 
+	 "description" : "New code Latex ",
+},
+"Display the listOfFigures ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Figures.displayListOfFigures",
+	 "body" : [
+	 "\\displayListOfFigures{${1:tocName}}"
+	 ], 
+	 "description" : "Display the listOfFigures ",
+},
+"Create new figure ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Figures.createFigure",
+	 "body" : [
+	 "\\createFigure{${1:name}}{${2:content}}"
+	 ], 
+	 "description" : "Create new figure ",
+},
+"create Figure ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Figures.Figure",
+	 "body" : [
+	 "\\begin{Figure}{${1:title}}{${2:ref}}\n\\end{Figure}"	 
+], 
+	 "description" : "create Figure ",
+},
+"Create new figure with ref ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Figures.createFigureRef",
+	 "body" : [
+	 "\\createFigureRef{${1:name}}"
+	 ], 
+	 "description" : "Create new figure with ref ",
+},
+"Create new figure without centering ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Figures.createNoCenteredFigure",
+	 "body" : [
+	 "\\createNoCenteredFigure{${1:name}}"
+	 ], 
+	 "description" : "Create new figure without centering ",
+},
+"Display number of fugure with '(Figure X.X)' format ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Figures.figureRef",
+	 "body" : [
+	 "\\figureRef{${1:figureReference}}"
+	 ], 
+	 "description" : "Display number of fugure with '(Figure X.X)' format ",
+},
+"Display number of fugure with 'figure X.X' format ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Figures.figureName",
+	 "body" : [
+	 "\\figureName{${1:figureReference}}"
+	 ], 
+	 "description" : "Display number of fugure with 'figure X.X' format ",
+},
+" Default command for glossary (renewcommand) {gls}[1] ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Glossaries.gls",
+	 "body" : [
+	 "\\gls{${1:content}}"
+	 ], 
+	 "description" : " Default command for glossary (renewcommand) {gls}[1] ",
+},
+"display glossarie ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Glossaries.glossary",
+	 "body" : [
+	 "\\glossary{${1:filename}}"
+	 ], 
+	 "description" : "display glossarie ",
+},
+"Display the glossaries ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Glossaries.displayGlossaries",
+	 "body" : [
+	 "\\displayGlossaries{${1:tocName}}"
+	 ], 
+	 "description" : "Display the glossaries ",
+},
+"Add glossary input ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Glossaries.addGlossaryInput",
+	 "body" : [
+	 "\\addGlossaryInput{${1:name}}{${2:description}}{${3:meaning}}"
+	 ], 
+	 "description" : "Add glossary input ",
+},
+"Internal command to display graphics ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.setGraphic",
+	 "body" : [
+	 "\\setGraphic"
+	 ], 
+	 "description" : "Internal command to display graphics ",
+},
+"Internal command to display graphics __internal__2 ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.setGraphic",
+	 "body" : [
+	 "\\setGraphic"
+	 ], 
+	 "description" : "Internal command to display graphics __internal__2 ",
+},
+"Display graphe inside figure ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.graphicFigure",
+	 "body" : [
+	 "\\begin{graphicFigure}{${1:widht}}{${2:height}}{${3:minAbs}}{${4:maxAbs}}{${5:minOrd}}{${6:maxOrd}}{${7:xLegend}}{${8:yLegend}}{${9:title}}\n\\end{graphicFigure}"	 
+], 
+	 "description" : "Display graphe inside figure ",
+},
+"Internal command to display title graphic (Figure)": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.TitleGraphic",
+	 "body" : [
+	 "\\TitleGraphic"
+	 ], 
+	 "description" : "Internal command to display title graphic (Figure)",
+},
+"Display graphe without figure ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.graphic",
+	 "body" : [
+	 "\\begin{graphic}{${1:widht}}{${2:height}}{${3:minAbs}}{${4:maxAbs}}{${5:minOrd}}{${6:maxOrd}}{${7:xLegend}}{${8:yLegend}}{${9:title}}\n\\end{graphic}"	 
+], 
+	 "description" : "Display graphe without figure ",
+},
+"Internal command to display title graphic (No figure) ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.TitleGraphic",
+	 "body" : [
+	 "\\TitleGraphic"
+	 ], 
+	 "description" : "Internal command to display title graphic (No figure) ",
+},
+"Add points in graph ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.addPoints",
+	 "body" : [
+	 "\\addPoints{${1:color}}{${2:coords}}"
+	 ], 
+	 "description" : "Add points in graph ",
+},
+"Display equation ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.addTrace",
+	 "body" : [
+	 "\\addTrace{${1:color}}{${2:xBegin}}{${3:xEnd}}{${4:equation}}"
+	 ], 
+	 "description" : "Display equation ",
+},
+"Add points on graphe from CSV ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.addPointsFromCSV",
+	 "body" : [
+	 "\\addPointsFromCSV{${1:color}}{${2:delimitor}}{${3:filename}}"
+	 ], 
+	 "description" : "Add points on graphe from CSV ",
+},
+"Add legend on graphe ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.addLegend",
+	 "body" : [
+	 "\\addLegend{${1:legend}}"
+	 ], 
+	 "description" : "Add legend on graphe ",
+},
+"Display graphe without figure (3D) ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.graphic3D",
+	 "body" : [
+	 "\\begin{graphic3D}{${1:title}}\n\\end{graphic3D}"	 
+], 
+	 "description" : "Display graphe without figure (3D) ",
+},
+"Internal command to display title graphic ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.TitleGraphic",
+	 "body" : [
+	 "\\TitleGraphic"
+	 ], 
+	 "description" : "Internal command to display title graphic ",
+},
+"new question ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Theorems.question",
+	 "body" : [
+	 "\\begin{question}\n\\end{question}"	 
+], 
+	 "description" : "new question ",
+},
+"new answer ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Theorems.reponse",
+	 "body" : [
+	 "\\begin{reponse}\n\\end{reponse}"	 
+], 
+	 "description" : "new answer ",
+},
+"new property ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Theorems.propriete",
+	 "body" : [
+	 "\\begin{propriete}\n\\end{propriete}"	 
+], 
+	 "description" : "new property ",
+},
+"new preposition ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Theorems.proposition",
+	 "body" : [
+	 "\\begin{proposition}\n\\end{proposition}"	 
+], 
+	 "description" : "new preposition ",
+},
+"new remarque ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Theorems.remarque",
+	 "body" : [
+	 "\\begin{remarque}\n\\end{remarque}"	 
+], 
+	 "description" : "new remarque ",
+},
+"new example ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Theorems.exemple",
+	 "body" : [
+	 "\\begin{exemple}\n\\end{exemple}"	 
+], 
+	 "description" : "new example ",
+},
+"new definition ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Theorems.definition",
+	 "body" : [
+	 "\\begin{definition}\n\\end{definition}"	 
+], 
+	 "description" : "new definition ",
+},
+"new solution ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Theorems.solution",
+	 "body" : [
+	 "\\begin{solution}\n\\end{solution}"	 
+], 
+	 "description" : "new solution ",
+},
+"Add question ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Theorems.Question",
+	 "body" : [
+	 "\\Question{${1:question}}"
+	 ], 
+	 "description" : "Add question ",
+},
+"Add answer ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Theorems.Reponse",
+	 "body" : [
+	 "\\Reponse{${1:question}}"
+	 ], 
+	 "description" : "Add answer ",
+},
+"Create badge ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Badges.badge",
+	 "body" : [
+	 "\\badge{${1:txtColor(blue,red,green...)}}{${2:backgroundColor(blue,red,green...)}}{${3:text}}"
+	 ], 
+	 "description" : "Create badge ",
+},
+"Create generic label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.lbl",
+	 "body" : [
+	 "\\lbl{${1:color}}{${2:title}}{${3:content}}"
+	 ], 
+	 "description" : "Create generic label ",
+},
+"Create File label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.file",
+	 "body" : [
+	 "\\file{${1:filename}}"
+	 ], 
+	 "description" : "Create File label ",
+},
+"Create Directory label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.dir",
+	 "body" : [
+	 "\\dir{${1:directory}}"
+	 ], 
+	 "description" : "Create Directory label ",
+},
+"create Link label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.link",
+	 "body" : [
+	 "\\link{${1:link}}"
+	 ], 
+	 "description" : "create Link label ",
+},
+"Create Library label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.lib",
+	 "body" : [
+	 "\\lib{${1:library}}"
+	 ], 
+	 "description" : "Create Library label ",
+},
+"Create shortcut label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.shortcut",
+	 "body" : [
+	 "\\shortcut{${1:shortcul}}"
+	 ], 
+	 "description" : "Create shortcut label ",
+},
+"Create Symbolic label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.sym",
+	 "body" : [
+	 "\\sym{${1:symbolic}}"
+	 ], 
+	 "description" : "Create Symbolic label ",
+},
+"Create IP lable ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.ip",
+	 "body" : [
+	 "\\ip{${1:IPAdress}}"
+	 ], 
+	 "description" : "Create IP lable ",
+},
+"create MAC label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.mac",
+	 "body" : [
+	 "\\mac{${1:macAddress}}"
+	 ], 
+	 "description" : "create MAC label ",
+},
+"create Bianry label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.bin",
+	 "body" : [
+	 "\\bin{${1:binaryValue}}"
+	 ], 
+	 "description" : "create Bianry label ",
+},
+"Create Heax value label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.hexa",
+	 "body" : [
+	 "\\hexa{${1:hexaValue}}"
+	 ], 
+	 "description" : "Create Heax value label ",
+},
+"create generic Pin ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.genericPin",
+	 "body" : [
+	 "\\genericPin{${1:pinName}}"
+	 ], 
+	 "description" : "create generic Pin ",
+},
+"create input Pin ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.inputPin",
+	 "body" : [
+	 "\\inputPin{${1:pinName}}"
+	 ], 
+	 "description" : "create input Pin ",
+},
+"create output Pin ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.outputPin",
+	 "body" : [
+	 "\\outputPin{${1:pinName}}"
+	 ], 
+	 "description" : "create output Pin ",
+},
+"Create register label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.reg",
+	 "body" : [
+	 "\\reg{${1:register}}"
+	 ], 
+	 "description" : "Create register label ",
+},
+"create function label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.func",
+	 "body" : [
+	 "\\func"
+	 ], 
+	 "description" : "create function label ",
+},
+"create address label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.adr",
+	 "body" : [
+	 "\\adr{${1:address}}"
+	 ], 
+	 "description" : "create address label ",
+},
+"Create greenUUU label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.lgreen",
+	 "body" : [
+	 "\\lgreen{${1:title}}{${2:content}}"
+	 ], 
+	 "description" : "Create greenUUU label ",
+},
+"Create magenta label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.lmagenta",
+	 "body" : [
+	 "\\lmagenta{${1:title}}{${2:content}}"
+	 ], 
+	 "description" : "Create magenta label ",
+},
+"Create purple label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.lpurple",
+	 "body" : [
+	 "\\lpurple{${1:title}}{${2:content}}"
+	 ], 
+	 "description" : "Create purple label ",
+},
+"Create blue label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.lblue",
+	 "body" : [
+	 "\\lblue{${1:title}}{${2:content}}"
+	 ], 
+	 "description" : "Create blue label ",
+},
+"Create cyan label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.lcyan",
+	 "body" : [
+	 "\\lcyan{${1:title}}{${2:content}}"
+	 ], 
+	 "description" : "Create cyan label ",
+},
+"Create brown label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.lbrown",
+	 "body" : [
+	 "\\lbrown{${1:title}}{${2:content}}"
+	 ], 
+	 "description" : "Create brown label ",
+},
+"Create yellow label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.lyellow",
+	 "body" : [
+	 "\\lyellow{${1:title}}{${2:content}}"
+	 ], 
+	 "description" : "Create yellow label ",
+},
+"Create black label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.lblack",
+	 "body" : [
+	 "\\lblack{${1:title}}{${2:content}}"
+	 ], 
+	 "description" : "Create black label ",
+},
+"Create quote ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Quotes.addQuote",
+	 "body" : [
+	 "\\addQuote{${1:content}}{${2:author}}"
+	 ], 
+	 "description" : "Create quote ",
+},
+
 }

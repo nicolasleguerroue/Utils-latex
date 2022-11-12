@@ -1,0 +1,14 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+          {
+            "label": "ABC",
+            "type": "shell",
+            "group": "build",
+            "command": "echo",
+            "args": [ "List" ],
+            "problemMatcher": []
+          }
+        ]
+
+}

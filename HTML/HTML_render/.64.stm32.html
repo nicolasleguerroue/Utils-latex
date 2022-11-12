@@ -1,0 +1,2464 @@
+<html><head><style>.cent {  display: block;  margin-left: auto;  margin-right: auto;}</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> </script><body style='margin-left:5%;margin-right:5%;margin-top:1%'><h4>Fichier générer depuis les sources Latex</h4><h5>Auteur : Nicolas Le Guerroué</h5><a href='index.html'><button class='btn btn-success' >Revenir au sommaire</button></a><hr><h3>UART</h3>
+Interruptions disponibles pour le niveau de réception FIFO atteint, niveau de transmission FIFO atteint, FIFO 
+
+dépassement ou sous-débit, ralenti de l’émetteur, changement de détection de coupure du récepteur, cadrage 
+
+erreur, erreur de parité, détection Delta CTS, et le bruit d’échantillon de récepteur détecté (parmi 
+
+autres). 
+
+<h3>Choix de la fréquence d'horloge</h3>
+Il faut sélectionner le bloc fonctionnel dans le  <b>functionnal block</b>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/select.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/select.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Choix de la fréquence d'horloge</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - legend</figcaption></div></figure>
+<h3>Localisation des horloges</h3>
+Aller dans <b>ConfigTools > Clocks</b>
+puis vérifier que vous êtes dans l'onglet <b>Clock diagramm</b>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/clock_diagramm.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/clock_diagramm.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Onglet du diagramme d'horloge</figcaption></div></figure>
+Il faut chercher sur le diagramme le nom de l'horloge correspondante et faire un click-gauche dessus: 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/select_clock.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/select_clock.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Selection de la clock</figcaption></div></figure>
+Dans le menu latéral droit, il faut cliquer sur None et sélectionner l'horloge 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/none.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/none.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Selection de l'horloge à rattacher</figcaption></div></figure>
+Il ne reste plus qu'à mettre à jour le code avec le bouton <b>Update</b>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/upadte.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/upadte.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Mise à jour du code</figcaption></div></figure>
+<h3>UART</h3>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Principe UART</figcaption></div></figure>
+<h3>Code ANSI</h3>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - commande code ANSI</figcaption></div></figure>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+void clear(USART_Type *base)
+
+{
+
+	unsigned char buf[]="\x1B[2J\x1B[17;1H";
+
+	USART_WriteBlocking(base, buf, sizeof(buf) - 1);
+
+}
+
+</code></pre><hr>
+<h3>IRQ Number</h3>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+EnableIRQ(FLEXCOMM0_IRQn);
+
+</code></pre><hr>
+Pour trouver le "tableau" des IRQ Number, il faut aller dans le fichier LPC55S69 cm33 core0.
+
+<h3>Mode interruption</h3>
+<h4>Question 1</h4>
+<h4>Question 2</h4>
+<h4>Question 3</h4>
+la variable <b>demoRingBuffer</b> est un tableau qui stocke les caractères reçus par interruption.
+Lorsque le tableau est plein, les caractères suivants sont stockés au début du tableau.
+
+La variable <b>txIndex</b> permet de parcourir le tableau demoRingBuffer. 
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+void FLEXCOMM0_IRQHandler(void) {
+
+    uint8_t data;
+
+    /* If new data arrived. */
+
+    if ((kUSART_RxFifoNotEmptyFlag | kUSART_RxError) & USART_GetStatusFlags(USART0)) {
+
+        data = USART_ReadByte(USART0);
+
+        /* If ring buffer is not full, add data to ring buffer. */
+
+        if (((rxIndex + 1) \% DEMO_RING_BUFFER_SIZE) != txIndex) {
+
+            demoRingBuffer[rxIndex] = data;
+
+            rxIndex++;
+
+            rxIndex \%= DEMO_RING_BUFFER_SIZE;
+
+        }
+
+    }
+
+}
+
+</code></pre><hr>
+<h4>Question 4</h4>
+demoRingBuffer[rxIndex] 
+
+La variable txIndex représente l'index de la donnée à envoyer et rxIndex représente l'adresse de stockage de la donnée reçue.
+
+Le mot clé volatile signifie que la variable est accessible depuis n'importe où (variable globale).
+
+Identifier sur cet exemple le moyen qui a été utilisé pour synchroniser l'envoi de la donnée avec le code principal ?
+
+On utilise une interruption pour sortir d'une boucle et continuer le code.
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+USART_TransferCreateHandle(USART1, &g_usartHandle, USART_UserCallback, NULL);
+
+...
+
+while (!txFinished)
+
+{
+
+}
+
+</code></pre><hr>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+void USART_UserCallback(usart_handle_t *handle, status_t status, void *userData)
+
+{
+
+    userData = userData;
+
+    if (kStatus_USART_TxIdle == status)
+
+    {
+
+        txFinished = true;
+
+    }
+
+    if (kStatus_USART_RxIdle == status)
+
+    {
+
+        rxFinished = true;
+
+    }
+
+}
+
+</code></pre><hr>
+
+ <h3>Question 1</h3>
+<h4>1.a</h4>
+Les broches LEDs 
+
+<ul>
+  <li> LED RED : <b>OUTPUT</b> sur la broche \genericPin{PB4}</li>
+  <li> LED BLUE : <b>OUTPUT</b> sur la broche \genericPin{PA9}</li>
+  <li> LED GREEN : <b>OUTPUT</b> sur la broche \genericPin{PC7}</li>
+</ul>
+Les broche des interrupteurs 
+
+<ul>
+  <li> SW UP : <b>INPUT</b> sur la broche \genericPin{PA4}</li>
+  <li> SW DOWN : <b>INPUT</b> sur la broche \genericPin{PB0}</li>
+  <li> SW LEFT : <b>INPUT</b> sur la broche \genericPin{PC1}</li>
+  <li> SW RIGHT : <b>INPUT</b> sur la broche \genericPin{PC0}</li>
+  <li> SW CENTER : <b>INPUT</b> sur la broche \genericPin{PB5}</li>
+</ul>
+<h4>1.b</h4>
+Étant donné que les LEDs sont configurées en mode <b>anode commune</b>, 
+il convient de mettre un niveau logique bas pour activer ces dernières. 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Schéma des LEDs</figcaption></div></figure>
+Un niveau logique haut ne créé pas de différence de potentiel aux bornes des LEDs, de ce fait, aucun courant ne circule.
+
+  
+
+<h4>1.c</h4>
+Lors d'un appui sur un interrupteur, le niveau logique associé est un niveau haut (3.3V). 
+
+Ce niveau se justifie par le type de montage. En effet, nous distinguons un montage en mode <b>Pull-down</b> 
+avec la résistance à la masse, ce qui implique que lors d'un appui, le courant circule dans
+
+la résistance et toute la tension est au borne de la résistance.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Schéma des interrupteurs</figcaption></div></figure>
+<h3>Question 2</h3>
+<h4>2.a)</h4>
+\subsubsection*{Instruction}
+
+L'adresse du registre \reg{RCC AHB1ENR} est \adr{0x40023830}
+
+<h4>Instruction</h4>
+L'instruction est la suivante : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#define PORT_C 2
+
+RCC->AHB1ENR |= 1u << PORT_C;	
+
+</code></pre><hr>
+<h4>Justification de l'instruction</h4>
+Le registre \reg{RCC AHB1ENR} est de la forme suivante (Avec GPIOAEN le bit de poids faible): 
+
+\bitred{RESERVED} \bitgreen{GPIODEN} \bitgreen{GPIOCEN} \bitgreen{GPIOBEN} \bitgreen{GPIOAEN} 
+
+\bitblue{X}\bitblue{X}\bitblue{X}\bitblue{X}\bitblue{X}\bitblue{X}    \quad\quad \quad\quad \bitgreen{X}   \quad\quad \quad\quad          \bitgreen{X}    \quad\quad \quad\quad  \bitgreen{X}    \quad\quad \quad\quad\bitgreen{X}
+
+Pour synchroniser l'horloge au port voulue, il suffit de mettre à 1 le bit du port C.
+
+Pour cela, on commence par placer un '1' devant le bon bit, dans notre cas sur <b>GPIOCEN</b>. On utilise l'opérateur de décalage à gauche.
+\(1 << 2\) revient à écrire \bin{100} puis en faisant ou <b>OU</b> logique, cela permet de passer le bit à 1 si ce dernier est à 0 et de ne rien changer si il est déja à 1.
+Le fait de faire un <b>OU</b> permet de ne pas affecter les autres bits du registre, ce qui est souhaité. 
+<h4>Exemple</h4>
+Prenons en considération les 4 premiers bits de notre registre \reg{RCC AHB1ENR} et observons le résultat avec notre opération.
+
+Ici, le port B et A sont déja activés (LSB).
+
+\begin{tabular}{rl|l}
+
+  Opérateur & Données & Information 
+
+\hline
+
+    & 0011 & (RCC AHB1ENR tronqué)
+
+   | & 0100 & (\(1 << pin\))
+
+   \hline
+
+   = & 0111 & (RCC AHB1ENR tronqué)
+
+  
+
+\end{tabular} 
+
+On constate que le port C est bien relié à l'horloge et que les autres ports n'ont pas été affectés.
+
+<h4>2.b)</h4>
+<ul>
+<li> \reg{GPIOC MODER} : Ce registre permet de définir le mode de la broche. Il existe 4 modes.
+</li>
+<ul>
+    <li> 00 : entrée  (mode par défaut)
+</li>
+    <li> 01 : sortie
+</li>
+    <li> 10 : broches alternatives (SPI, I2C, UART...)
+</li>
+    <li> 11 : analogique
+</li>
+</ul>
+ <li> \reg{GPIOC PUPDR} : Ce registre permet de définir les éventulles résistances de rappel. Il existe 4 modes.
+</li>
+<ul>
+    <li> 00 : aucune résistance de rappel
+</li>
+    <li> 01 : mode Pull-Up
+</li>
+    <li> 10 : mode Pull-Down
+</li>
+    <li> 11 : mode réservé
+</li>
+</ul>
+  Dans notre cas, les broches <b>PC0</b> et <b>PC1</b> sont en entrée <b>sans résistance de pull-up/pull-down</b>.
+</ul>
+<h4>Instructions</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  int pc0 = 0;                //Broche associée au port
+
+  int pc1 = 1;                //Broche associée au port
+
+  int upDown = 0b00;   //Aucune résistance de rappel
+
+  int input = 0b00     //broche en entrée
+
+  //Etat de la broche
+
+  GPIOC->MODER=GPIOC->MODER & ~(0b11 << (pc0*2) ) | input << (pc0*2); 
+
+  GPIOC->MODER=GPIOC->MODER & ~(0b11 << (pc1*2) ) | input << (pc1*2);
+
+  //pull-up/pull-down ?
+
+  GPIOC->PUPDR=GPIOC->PUPDR & ~(0b11 << (pc0*2) ) | upDown << (pc0*2);
+
+  GPIOC->PUPDR=GPIOC->PUPDR & ~(0b11 << (pc1*2) ) | upDown << (pc1*2);
+
+</code></pre><hr>
+<h4>Justification de l'instruction</h4>
+Le registre \reg{GPIOC MODER} est de la forme suivante, de manière tronquée (Avec MODER0 les 2 bits de poids les plus faibles): 
+
+\bitgreen{MODER3} \bitgreen{MODER2} \bitgreen{MODER1} \bitgreen{MODER0}
+
+\quad\quad\quad\bitgreen{X}\bitgreen{X} \quad\quad\quad\bitgreen{X}\bitgreen{X}\quad\quad\quad\bitgreen{X}\bitgreen{X}    \quad\quad\bitgreen{X}\bitgreen{X}
+
+Où \bitgreen{XX} represente l'état de la broche.
+
+On souhaite mettre nos deux broches en entrée. Pour cela, on va utiliser l'opérateur de décalage pour sélectionner le duo de bits voulus (en fonction du numéro de la broche). 
+
+Cependant, on souhaite écraser la paire de bits car si on utilise la technique précédente, si on veut passer du mode  <b>11</b> au mode <b>00</b><span title="Ce mode ne sera pas utilisé mais cela permet de rendre l'opération générique pour tous les modes" style='color:grey;'><sup>[note]</sup></span>, le bit de droite ne sera pas affecté.
+On va donc réinitialiser les deux bits en faisant un complément de la valeur <b>0x3</b> avec un décalage de <b>\(2\) fois le numéro de la broche.</b> 
+Ce coefficient est justifié par le fait que l'état de chaque broche est défini sur 2 bits. 
+
+Ensuite, il ne nous reste plus qu'à faire un <b>ET</b> avec le registre pour ne pas modifier les autres broches puis faire un <b>OU</b> avec notre mode souhaité. 
+Il est impératif que le mode soit exprimé en valeur hexadécimal.
+
+<h4>Exemple</h4>
+Prenons en considération les 8 premiers bits de poids faibles (4 premières broches du port) de notre registre \reg{GPIOC MODER} et observons le résultat avec notre opération.
+
+On souhaite mettre la broche 4 au mode <b>00</b> 
+\begin{tabular}{rl|l}
+
+  Opérateur & Données & Information 
+
+\hline
+
+    & 10110011 & (GPIOC MODER)
+
+  \& & 00111111 & not(0b11 \(<< 2*\) pin) 
+
+  \hline
+
+  = & 00110011 &  
+
+  | & 00000000 & (<b>0b00</b>\(<<2*\) pin)  
+  \hline
+
+   = & 00110011 & (GPIOC MODER)  
+
+\end{tabular} 
+
+Le registre \reg{GPIOC PUPDR} est modifié de la même façon que 
+
+le registre \reg{GPIOC MODER}.
+
+<h4>2.c)</h4>
+<ul>
+<li> \reg{GPIOC MODER} : Voir question précédente
+</li>
+ <li> \reg{GPIOC OTYPER} : Ce registre permet de définir le type de configuration de sortie. Il existe 2 modes.
+</li>
+<ul>
+    <li> 0 : sortie push pull
+</li>
+    <li> 1 : sortie à drain ouvert
+</li>
+</ul>
+<li> \reg{GPIOC OSPEEDR} : Ce registre permet de définir la vitesse des broches de sortie. Il existe 4 modes.
+</li>
+<ul>
+    <li> 00 : Vitesse faible
+</li>
+    <li> 01 : Vitesse intermédiaire
+</li>
+    <li> 10 : Vitesse elevée
+</li>
+    <li> 11 : Vitesse maximale
+</li>
+</ul>
+</ul>
+<h4>Instructions</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  int pc7 = 0;   //Broche associée au port
+
+  
+
+  int output_type = 0x0;   //sortie push-pull
+
+  int speed = 0b01;        //vitesse medium
+
+  int upDown = 0b00;       //Aucune résistance de rappel
+
+  //Type de sortie
+
+  GPIOC->OTYPER = GPIOC->OTYPER & ~(0b1 << pc7 ) | output_type << pc7; 
+
+  //Vitesse
+
+  GPIOC->OSPEED=GPIOC->OSPEED & ~(0b11 << (pc7*2) ) | speed << (pc7*2);
+
+  //Pullup-down ?
+
+  GPIOC->PUPDR=GPIOC->PUPDR & ~(0b11 << (pc7*2) ) | upDown << (pc7*2);
+
+</code></pre><hr>
+<h4>Présentation</h4>
+Les registres \reg{GPIOC OTYPE} et \reg{GPIOC SPEEDR} sont modifiés de la même façon que le registre \reg{GPIOC MODER}  si ce n'est que le registre 
+
+\reg{GPIOC OTYPER} ne nécéssite pas de décaler de deux fois le numéro de la broche car chaque information sur le type de sortie est stockée dans un bit et non deux.
+
+<h3>Question 3</h3>
+<h4>a)</h4>
+<h4>Instructions BSRR</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  
+
+  #define pin 7 //Broche de la led sur le port C
+
+  void green_led(uint32_t state) {
+
+    GPIOC->BSRR = (state)?  1u << pin  :  0b1 <<(16u)<<pin;
+
+    
+
+  }
+
+  
+
+</code></pre><hr>
+<h4>Justification de l'instruction BSRR</h4>
+Ce registre utilise les 16 premiers bits de poids les plus faibles pour mettre la sortie à 1 et 
+
+les 16 bits suivants pour mettre la sortie à 0. 
+
+Lorsque <b>state</b> est à 0, on veut donc écrire dans le bit BR7 qui force la broche à 0. 
+D'ou le décalage de la valeur 1 de 16 bits puis du décalage de la pin. 
+
+On peut écrire la valeur brute dans le registre sans faire de masque dans la mesure où 
+
+les changements d'états se font dès qu'un <b>1</b> est présent. Au tour d'horloge suivant, les bits sont réinitialisés à 0.
+Lorsque <b>state</b> est à 1, on veut donc écrire dans le bit BS7 qui force la broche à 1. 
+D'ou le décalage de la pin uniquement. 
+
+<h4>Instructions ODR</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  
+
+  #define pin 7 //Broche de la led sur le port C
+
+  void green_led(uint32_t state) {
+
+    GPIOC->ODR = (state) ? GPIOC->ODR | (0b1 <<pin) : GPIOC->ODR & ~(0b1 <<pin);
+
+     
+
+  }
+
+  
+
+</code></pre><hr>
+<h4>Justification de l'instruction ODR</h4>
+Ce registre utilise les 16 premiers bits de poids les plus faibles pour mettre la sortie à 1 ou 0.
+
+Lorsque <b>state</b> est à 1, on veut donc écrire dans le bit ODR7 qui force la broche à 1. D'ou le décalage de la valeur 1 de la pin puis le <b>OU</b> pour ne pas affecter les autres sorties. 
+Lorsque <b>state</b> est à 0, on veut donc écrire dans le bit ODR7 qui force la broche à 0. 
+Il suffit de réinitialiser le bit en le mettant à 0 avec un décalage du port d'un bit complémenté et en faisant un <b>ET</b>
+avec la valeur actuelle du registre.
+
+<h4>b)</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+uint32_t input() {
+
+    uint32_t output;
+
+    output = GPIOC->IDR & (0b1 << 0);  //Right
+
+    output |= _GPIOC->IDR & (0b1 << 1); //Left
+
+    
+
+    return output;
+
+}
+
+</code></pre><hr>
+<h4>Justification de l'instruction input</h4>
+Le registre \reg{GPIOC->IDR} est accessible en lecture seule.
+
+Il suffit de faire un <b>ET</b> avec la valeur 1 décalé de la valeur de la broche et de mettre le résulat dans une variable.
+On effectue la même opération si ce n'est que l'on fait un <b>OU</b> avec la variable <b>output</b> afin de ne pas écraser le bit lu précédemment.
+<h4>c) Code final</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  #define LED 7
+
+  
+
+  void green_led(uint32_t state){
+
+    GPIOC->BSRR = (state)? 0b1 << LED : 0b1 << (16u) << LED;
+
+  }//End green_led
+
+  #define SW_RIGHT (1u)
+
+  #define SW_LEFT (1u<<1)
+
+  uint32_t input(){
+
+    uint32_t output;
+
+    output = _GPIOC->IDR & (0b1)); //Right
+
+    output |= _GPIOC->IDR & (0b1 << 1); //Left
+
+  
+
+    return output;
+
+  }//End input
+
+  int main(){
+
+  
+
+    _RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN; //Clock
+
+    //Settings LED
+
+    //Output
+
+    GPIOC->MODER=GPIOC->MODER & ~(0b11 << (LED*2) ) | 0b01 << (LED*2); 
+
+    //Type of output
+
+    GPIOC->OTYPER = GPIOC->OTYPER & ~(0b1 << LED ) | 0b0 << LED; 
+
+    //Medium speed
+
+    GPIOC->OSPEED=GPIOC->OSPEED & ~(0b11 << (LED*2) ) | 0b01 << (LED*2);
+
+    //no Pullup-down
+
+    GPIOC->PUPDR=GPIOC->PUPDR & ~(0b11 << (LED*2) ) | 0b00 << (LED*2);
+
+    //Settings buttons SW_LEFT (PC1) and SW_RIGHT (PC0)
+
+    //Right button
+
+    GPIOC->MODER=GPIOC->MODER & ~(0b11 << (0*2) ) | 0b00 << (0*2); 
+
+    GPIOC->PUPDR=GPIOC->PUPDR & ~(0b11 << (0*2) ) | 0b00 << (0*2);
+
+    //Left buttons
+
+    GPIOC->MODER=GPIOC->MODER & ~(0b11 << (1*2) ) | 0b00 << (1*2); 
+
+    GPIOC->PUPDR=GPIOC->PUPDR & ~(0b11 << (1*2) ) | 0b00 << (1*2);
+
+  
+
+    while (true){
+
+  
+
+      uint32_t button_value = input();
+
+  
+
+      if(button_value & (1u)){
+
+  
+
+        green_led(0);
+
+  
+
+      }//End if
+
+  
+
+      else if(button_value & (1u << 1) ){
+
+      
+
+        green_led(1u);
+
+      }//End else if
+
+    }//End while
+
+  return 0;
+
+  }//End main
+
+</code></pre><hr>
+
+<h2 >Présentation</h2>
+L'objectif de ce laboratoire est d'abord de développer une API (fichiers timer.h/.c) afin de gérer les timers (TIM2 à TIM5) du microcontrôleur STM32F411.
+
+Dans un deuxième temps, on utilisera ces fonctions afin de détecter un appui long ou un appui court sur un bouton poussoir. Si l'appui est court, la couleur de la led RGB sera changée ; si l'appui est long la led RGB sera allumée ou éteinte selon un fonctionnement de type "flip-flop". La durée de l'appui sera affichée, pour information, sur l'afficheur LCD de la carte d'extension Appshield. 
+
+Une partie de la préparation de ce laboratoire a été faite en TD. Les interruptions ne sont pas utilisées dans ce laboratoire. 
+
+Les API permettant d'utiliser la led RGB, le joystick et l'afficheur LCD sont fournies
+
+précompilées. Consulter leur fichier d'en-tête *.h pour prendre connaissance des fonctions de l'API disponibles.
+
+Les documentations relatives à l'utilisation du microcontrôleur STM32F411 sont disponibles
+
+sur les postes de travail et en ligne (Moodle).
+
+<h2 >API timer.h/.c</h2>
+<h3>II.1 Fonctions d'attente</h3>
+<h4>a) Fonction timer wait us</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+int timer_wait_us(TIM_t *tmr, uint32_t us, OnTick cb);
+
+</code></pre><hr>
+La fonction utilise le timer tmr pour générer une attente de us microsecondes. Le paramètre cb n'est pas utilisé ici car nous n'utilisons pas d'interruption.
+
+La fonction retourne 0 à la fin d'une exécution sans erreur. 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+int timer_wait_us(TIM_t *tmr, uint32_t us, OnTick cb) 
+
+{
+
+tmr -> ARR = us;			//End of timer at us   Auto Reload Register
+
+		
+
+tmr->SR = 0; 														//No update interrupt flag
+
+tmr->CR1 |=  (1u << ONE_PULSE_MODE) | (1u << AUTO_RELOAD_MODE);		//One pulse-mode and Auto-reload preload enable
+
+timer_start(tmr);
+
+while (tmr->CR1 & 0x1){};//Tant que le compteur n'a pas fini de compter jusqu'à ARR
+
+return 0;
+
+}
+
+</code></pre><hr>
+Que fait-on ? Dans un premier temps on écrit la valeur de us dans le registre \reg{ARR} (Auto-Reload Register).
+
+Cela veut dire que le compteur va aller de 0 à la valeur de notre registre \reg{ARR}.
+
+Cela est vrai si on est en Upcounting mode, il existe 3 modes : 
+
+<ul>
+<li> Upcounting mode : comptage de 0 à ARR (par default)
+</li>
+<li> Downcounting mode : comptage de ARR à 0 
+</li>
+<li> Center-align mode : comptage de 0 à ARR puis de ARR à 1.
+</li>
+</ul>
+On indique ensuite que nous ne mettrons pas à jour les drapeaux d'interruptions. Pour cela, on écrit <b>0</b> dans le registre \reg{SR}
+Il faut ensuite dire au compteur qu'il ne va compter que une fois, pour cela on utilise le One-Pulse-Mode en changeant le bits numéro 3 du registre \reg{CR1} 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - fonctionnement du mode OPM</figcaption></div></figure>
+On utilise l'Auto-Reload Preload Enable <b>ARPE</b> mode qui permet au compteur de s'arrêter à la valeur indiquée dans le registre \reg{ARR}
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - fonctionnement du mode ARPE</figcaption></div></figure>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#define ONE_PULSE_MODE 0x3 //One Pulse Mode in CR1
+
+#define AUTO_RELOAD_MODE 0x7 //ARPE
+
+//...
+
+tmr->CR1 |=  (1u << ONE_PULSE_MODE) | (1u << AUTO_RELOAD_MODE);		//One pulse-mode and Auto-reload preload enable
+
+</code></pre><hr>
+Le registre \reg{CR1} (Control Register) est le registre qui permet de paramétrer le compteur, il contient notamment le bit One Pulse Mode, le bit Auto Reload et le bit <b>CEN</b>.
+Ce bit permet de lancer le comptage et de savoir si le comptage est terminé (valeur de \reg{ARR} atteinte)
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - éléments du registre CR1</figcaption></div></figure>
+<br>
+
+<h4>Registre PSC</h4>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Fonctionnement du registre PSC</figcaption></div></figure>
+La valeur de notre horloge est de 84MHz, mais étant donné que la valeur de notre prescalaire est codée sur 16 bits, il peut prendre une valeur allant de 0 à 65535 (2**16 possibilités). 
+
+84MHz correspond à une période de 11,9ns. On cherche à mettre en entrée de notre compteur principal une période de 1 microseconde
+
+Le compteur va donc réagir toutes les microsecondes.
+
+Notre période d'horloge peut donc atteindre au maximum une valeur de 78ms. En effet, on divise notre fréquence d'horloge par 65535. 
+
+On obtient la fréquence min que l'on a pour notre compteur, soit 65535/84*10**6 = 78ms.
+
+On se rend donc compte de la limite de notre prescalaire.
+
+La valeur de notre préscalaire vaut : 
+
+\begin{equation}
+
+PSC = TCK CNT*FCK PSC-1
+
+\end{equation}
+
+En choisissant une base de temps de 1 \(\mu s\), on obtient un préscalaire valant 83.
+
+<br>
+
+<h4>b) Fonction\func{timer wait ms</h4>}
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+int timer_wait_ms(TIM_t *tmr, uint32_t ms, OnTick cb);
+
+</code></pre><hr>
+La fonction utilise le timer tmr pour générer une attente de ms millisecondes. Le paramètre cb n'est pas utilisé ici car il n'y a pas d'interruption. La fonction retourne 0 à la fin d'une exécution sans erreur.
+
+Pour que le timer attende en ms, nous utilisons une boucle for qui va répéter ms fois la fonction \func{timer wait us} basée sur une attente de 1000 \(\mu s\) 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+int timer_wait_ms(TIM_t *tmr, uint32_t ms, OnTick cb) 
+
+{
+
+		for (uint32_t i = 0; i < ms; i++)
+
+		{
+
+			timer_wait_us(tmr, 1000, NULL);
+
+		}//End for
+
+	    return 0;
+
+}
+
+</code></pre><hr>
+<br>
+
+<h4>II.2 Tests : MAIN1</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#define wait_us           1000*1000   //us
+
+int main()
+
+{    
+
+    leds_init();
+
+    leds(0);
+
+    timer_count_init(_TIM2,1);//timebase of 1 micro-seconde
+
+    while(1)
+
+    {
+
+        red_led(1);
+
+        timer_wait_ms(_TIM2, 1000, NULL);
+
+        red_led(0);
+
+        timer_wait_ms(_TIM2, 1000, NULL);
+
+    }        
+
+}   
+
+</code></pre><hr>
+Le MAIN1 allume la led rouge pendant 1s, l'éteint pendant 1s et ce de manière périodique.
+
+<br>
+
+<h4>II.3 Autres fonctions</h4>
+<h4>a) Fonction\func{timer count init</h4>}
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+int timer_count_init(TIM_t *tmr, uint32_t timebase_us);
+
+</code></pre><hr>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+int timer_count_init(TIM_t *tmr, uint32_t timebase_us)  {
+
+		//select timer
+
+		if(tmr==_TIM2) {
+
+			_RCC->APB1ENR |= (1u<<0);	
+
+		}//End if
+
+		else if (tmr==_TIM3) {
+
+			_RCC->APB1ENR |= (1u<<1);
+
+		}//End else if
+
+		else if (tmr==_TIM4) {
+
+			_RCC->APB1ENR |= (1u<<2);
+
+		}//End else if		
+
+		else if (tmr==_TIM4) {
+
+			_RCC->APB1ENR |= (1u<<3);
+
+		}//End else if	
+
+        
+
+    	tmr->SR = 0; 														//No update interrupt flag
+
+    	tmr->CR1 |=  (1u << ONE_PULSE_MODE) | (1u << AUTO_RELOAD_MODE);		//One pulse-mode and Auto-reload preload enable
+
+		/*Computing timebase
+
+		//PSC = TCK_CNT*FCK_PSC-1 = 1*10(^-6)*84*10(^6)-1 = 83
+
+		*/
+
+		tmr->PSC = (uint32_t) (timebase_us*0.000001*84000000)-1; 
+
+		return 0;
+
+}
+
+</code></pre><hr>
+Dans un premier temps cette fonction relie le timer passé en argument(tmr) à la clock correspondante. Pour cela on utilise le registre \reg{APB1ENR} présenté si dessous.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Espace du registre RCC->APB1ENR</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Bits respectifs d'activation</figcaption></div></figure>
+Ensuite on met le registre \reg{SR} à zéro car il n'y a pas d'interruption.
+
+Puis \reg{CR1} en One Pulse Mode et Auto Reload Mode.
+
+(expliqué avant)
+
+<br>
+
+<h4>b) Fonction\func{timer start</h4>}
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+void timer_start(TIM_t *tmr);
+
+</code></pre><hr>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+void timer_start(TIM_t *tmr) {
+
+		//Re-initialize the counter and generates an update of the registers
+
+		tmr->EGR = 0x1;		// reset
+
+		//Enable timer
+
+		tmr->CR1 |= 0x1; 
+
+}
+
+</code></pre><hr>
+Comme expliqué dans le commentaire il faut mettre à 1 le premier bit de \reg{EGR} pour remettre le compteur "à zéros" et commencer correctement grâce au bit 0 de \reg{CR1} : CEN (Counter ENnable) qui <b>doit être mis à 1 pour démarrer le comptage</b>.
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Emplacement EGR</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Bit UG</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Activation du compteur</figcaption></div></figure>
+<h4>c) Fonction\func{timer stop</h4>}
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+void timer_stop(TIM_t *tmr);
+
+</code></pre><hr>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+void timer_stop(TIM_t *tmr) {
+
+    tmr->CR1 &= ~(0x1);  //we put the bit 0 at 0 
+
+}
+
+</code></pre><hr>
+On utilise un \&= \~{}(0x1) pour mettre le bit 0 à 0 et uniquement celui là.
+
+\~{}(0x1) donne (0x111..1110)
+
+<h4>d) Fonction \func{read timer</h4>}
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+uint32_t read_timer(TIM_t *tmr);
+
+</code></pre><hr>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+uint32_t read_timer(TIM_t *tmr) {
+
+	return tmr->CNT ;	//current value
+
+}
+
+</code></pre><hr>
+Le registre \reg{CTN} représente la valeur du compteur. On rappel qu'en fonction du timer utilisé, la capacité du compteur change (32bits ou 16bits).
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - registre CNT</figcaption></div></figure>
+<br>
+
+<h4>II.4 : MAIN2</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#define sampling_period 100         //us
+
+#define timebase_us     10
+
+int main()
+
+{
+
+    uint32_t delay = 0;
+
+    
+
+    sw_init();
+
+    timer_count_init(_TIM3, timebase_us);
+
+    timer_count_init(_TIM2, 1);
+
+    lcd_reset();    
+
+    
+
+    while(1)
+
+    {
+
+        //TIM3 used for sampling button states
+
+        timer_wait_us(_TIM3, sampling_period, NULL);
+
+        if(sw_center())
+
+        {
+
+            //TIM2 used for delay measurement
+
+            timer_start(_TIM2);
+
+            while(sw_input() & SW_CENTER);
+
+            timer_stop(_TIM2);
+
+            delay = read_timer(_TIM2);
+
+            cls();
+
+            lcd_printf("duree appui : %d ms\r\n", delay/(1000));
+
+        }
+
+    }        
+
+}
+
+</code></pre><hr>
+Cette fonction nous indique combien de temps nous sommes restés appuyé sur la touche centrale du joystick.
+
+Explication du code :
+
+Si on appui sur la touche centrale du joystick, on lance le timer 2.
+
+Tant que la touche centrale du joystick est appuyée, le timer 2 continue de s'incrémenter.
+
+Une fois que l'appui est relaché, on arrête le timer 2.
+
+On lit la valeur du timer 2 et on affiche sa valeur divisée par 1000 (car la fonction read timer retourne une valeur en microsecondes). On obtient donc le temps que l'on est resté appuyé en millisecondes. 
+
+<br>
+
+<h3>III Programme complet : MAIN 3</h3>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#define sampling_period 100         //us
+
+#define timebase_us     100
+
+#define long_delay      1000        //ms
+
+#define LONG_DELAY 1000
+
+#define SHORT_DELAY 50
+
+int main()
+
+{
+
+    uint32_t delay = 0;
+
+    uint8_t color = 1;  //color from 1 to 7
+
+    uint8_t leds_state = 1;
+
+    
+
+    leds_init();
+
+    leds(color);
+
+    sw_init();
+
+    lcd_reset();
+
+    
+
+    //initialisation timer
+
+    timer_count_init(_TIM3, timebase_us);
+
+    timer_count_init(_TIM2, 1);
+
+    
+
+    while(1)
+
+    {
+
+        if(sw_center())
+
+        {
+
+            //TIM2 used for delay measurement
+
+            timer_start(_TIM2);
+
+            while(sw_input() & SW_CENTER);
+
+            timer_stop(_TIM2);
+
+            delay = read_timer(_TIM2);
+
+            cls();
+
+            lcd_printf("duree appui : %d ms\r\n", delay/(1000));
+
+            if( (delay/1000)>LONG_DELAY) {
+
+                leds_state= (leds_state) ? 0 : 1 ;
+
+                if(leds_state) {
+
+                    leds(color);
+
+                }
+
+                //set led
+
+                else {
+
+                    leds(0);
+
+                }
+
+            }//End if long_delay
+
+            if( ((delay/1000)<LONG_DELAY) && ((delay/1000)>SHORT_DELAY)) {
+
+                color = (color == 7) ? 1: color+1;
+
+                if(leds_state) {
+
+                    leds(color);
+
+                }
+
+                else {
+
+                    leds(0);
+
+                }
+
+  
+
+            }//End if long_delay
+
+           lcd_printf("Couleur : %d", color);
+
+        }
+
+    }        
+
+}
+
+</code></pre><hr>
+Le MAIN3 sert à changer la couleur de la LED si on fait un appui court sur le joystick. Mais également à éteindre ou allumer cette même LED (en fonction de son état) si on fait un appui long.
+
+Si on appui sur la touche centrale du joystick on déclenche le timer 2.
+
+Tant que la touche est maintenu enfoncée, le timer 2 continu à s'incrémenter.
+
+Une fois que l'on relache la touche, le timer 2 s'arrête.
+
+On affiche le temps que l'on est resté appuyé.
+
+Si ce délai est inférieur à LONG DELAY (qui est une variable que l'on a fixée) mais supérieur à SHORT DELAY, on change la couleur de la led.
+
+Si on appui pendant plus de LONG DELAY ms, on inverse l'état de la LED.
+
+
+<h2 >Présentation</h2>
+L'objectif de ce laboratoire est d'abord de développer une application utilisant les interruptions générées par un timer et par des boutons poussoirs. 
+
+L'API du timer est partiellement fournie sous forme pré-compilée, certaines fonctions sont à compléter.
+
+Le bouton poussoir utilise les entrées d'interruptions extérieures (EXTI). 
+
+Une partie de la préparation de ce laboratoire a été
+
+faite en TD. Les API permettant d'utiliser la led RGB, le joystick et l'afficheur LCD sont fournies précompilées. Consulter leur fichier d'en-tête *.h pour prendre connaissance des fonctions de l'API disponibles. 
+
+Les documentations relatives à l'utilisation du microcontrôleur STM32F411 sont disponibles sur les postes de travail et en ligne (Moodle).
+
+<h2 >Interruptions générées par le timer</h2>
+<h3>Génération d'une interruption périodique</h3>
+<h4>a) io configure</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#define IO_CFG_LED_RED  PIN_MODE_OUTPUT|PIN_OPT_OUTPUT_SPEED_MEDIUM|PIN_OPT_RESISTOR_NONE|PIN_OPT_OUTPUT_PUSHPULL
+
+io_configure(_GPIOB,PIN_4,IO_CFG_LED_RED,NULL); //On initialise la led rouge
+
+    
+
+    
+
+</code></pre><hr>
+<h4>b) timer tick init</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+Les explciations détaillées sont dans le code source ci-dessous : 
+
+int timer_tick_init(TIM_t *tmr, uint32_t tick_ms, OnTick cb)
+
+{
+
+	IRQn_t	 irqn;
+
+	uint32_t irq_priority, clk;
+
+	if (tmr == _TIM2) {
+
+	
+
+    callback2 = cb;     //Store callback function associated to TIMER2
+
+		irqn = 28;          //Set IRQ Number from Table vector
+
+		irq_priority = 35;  //Set IRQ priority level
+
+		// enable timer clocking
+
+    _RCC->APB1ENR |= 0x1; //Clock on
+
+        
+
+	} else if (tmr == _TIM3) {
+
+	
+
+	    //Indications are same as if(tmr==_TIM2)
+
+	
+
+		callback3 = cb;
+
+		irqn = 29;
+
+		irq_priority = 36;
+
+		_RCC->APB1ENR |= (0x1<<1); //Clock on
+
+		
+
+	
+
+	} else if (tmr == _TIM4) {
+
+	
+
+	    //Indications are same as if(tmr==_TIM2)
+
+	    
+
+		callback4 = cb;
+
+		irqn = 30;
+
+		irq_priority = 37;
+
+		_RCC->APB1ENR |= (0x1<<2); //Clock on
+
+	
+
+	} else if (tmr == _TIM5) {
+
+		
+
+		//Indications are same as if(tmr==_TIM2)
+
+		
+
+		callback5 = cb;
+
+		irqn = 50;
+
+		irq_priority = 38;
+
+		_RCC->APB1ENR |= (0x1<<3); //Clock on
+
+	
+
+	} else {
+
+		return -1;
+
+	}
+
+	
+
+	// clear pending interrupts
+
+	tmr->SR &= ~0x1F;
+
+	
+
+	//Set mode
+
+	tmr->CR1 |= (1u << 7);          //Auto-reload enable
+
+	tmr->DIER |= 0x3;               //(...00011)
+
+	
+
+	// set prescaler 100us
+
+	tmr->PSC = (uint32_t) (100*0.000001*84000000)-1; //100 micros secondes
+
+	
+
+	// set period
+
+	timer_tick_period(tmr,tick_ms);
+
+	
+
+	if (cb) {
+
+		NVIC_ClearPendingIRQ(irqn);  //remove interupt in waiting 
+
+		NVIC_EnableIRQ(irqn);  			//Activate IRQ
+
+		NVIC_SetPriority(irqn,irq_priority);  //set priority
+
+	}
+
+	
+
+    return 0;
+
+}
+
+</code></pre><hr>
+Dans notre fonction \func{timer tick init}
+
+<h4>c) timer start</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+/* timer_start
+
+ *   reset & enable counting
+
+ */
+
+void timer_start(TIM_t *tmr)
+
+{
+
+	// force update to reset counter and prescaler
+
+	tmr->EGR = 0x1;		// reset
+
+	
+
+	// enable counting
+
+	tmr->CR1 |= 0x1; 	
+
+}
+
+</code></pre><hr>
+Comme expliqué dans le commentaire il faut mettre à 1 le premier bit de \reg{EGR} pour remettre le compteur "à zéros" et commencer correctement grâce au bit 0 de \reg{CR1} : CEN (Counter ENnable) qui <b>doit être mis à 1 pour démarrer le comptage</b>.
+<h4>d) timer tick period</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+int timer_tick_period(TIM_t *tmr, uint32_t tick_ms)
+
+{
+
+    // set period
+
+	tmr -> ARR = tick_ms;//End of timer at us  
+
+    
+
+    // force update to reset counter and prescaler
+
+	tmr -> EGR |= 0x1;
+
+	tmr->PSC = (uint32_t) (100*0.000001*84000000)-1; //100 micros secondes
+
+	return 1;
+
+}
+
+</code></pre><hr>
+On est obligé de redéfinir PSC car quand on effectue un reset, c'est à dire mettre le bit 0 de EGR à 1 le prescaler est aussi reset.
+
+<br>
+
+<h4>e) timer stop</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+/* timer_stop
+
+ *   stop counting
+
+ */
+
+void timer_stop(TIM_t *tmr)
+
+{
+
+	// disable counting
+
+	tmr->CR1 &= ~(0x1);
+
+}
+
+</code></pre><hr>
+On utilise un \&= \~{}(0x1) pour mettre le bit 0 à 0 et uniquement celui là.
+
+\~{}(0x1) donne (0x111..1110)
+
+<br>
+
+<h3>Test</h3>
+<h4>MAIN1</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#define MAIN1
+
+#ifdef MAIN1
+
+#define IO_CFG_LED_RED  PIN_MODE_OUTPUT|PIN_OPT_OUTPUT_SPEED_MEDIUM|PIN_OPT_RESISTOR_NONE|PIN_OPT_OUTPUT_PUSHPULL
+
+#define BLINK_SPEED_BASE    1000
+
+void tmr_cb()
+
+{
+
+    static uint32_t led_state = 0;
+
+    led_state = !led_state;
+
+	red_led(led_state);
+
+}
+
+int main()
+
+{
+
+    // Configure output LED_RED   --> PB4
+
+	io_configure(_GPIOB,PIN_4,IO_CFG_LED_RED,NULL); //On initialise la led rouge
+
+    red_led(0); // on reset la led
+
+	timer_tick_init(_TIM2, BLINK_SPEED_BASE, tmr_cb);//On initialise le timer 2
+
+	timer_start(_TIM2);//On commence 
+
+	
+
+	while(1){;}
+
+    
+
+	return 0;
+
+}
+
+#endif /* MAIN1 */
+
+</code></pre><hr>
+On peut donc voir que la LED rouge clignote grâce aux interruptions car dans le main1, le bloc d'instruction <b>while</b> est vide.
+<h2 >Interruptions extérieures</h2>
+<h3>Génération d'une interruption par appui sur un bouton poussoir</h3>
+<h4>a) Appel io configure Led</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+io_configure(_GPIOB,PIN_4,IO_CFG_LED_RED,NULL); //On initialise la led rouge
+
+</code></pre><hr>
+<h4>b) Appel io configure bouton</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+io_configure(_GPIOB,PIN_5,PIN_MODE_INPUT,exti5_cb);
+
+</code></pre><hr>
+<h4>c) exti5 cb</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+void exti5_cb()
+
+{
+
+    static uint32_t timer_on = 0;
+
+    timer_on = !timer_on;  //reverse state of timer on each call of exti5_cb function
+
+    if(timer_on)
+
+    {
+
+        timer_stop(_TIM2); 
+
+    }
+
+    else
+
+    {
+
+        timer_start(_TIM2);
+
+    }
+
+}
+
+</code></pre><hr>
+La génération d'une interruption par appui sur un bouton poussoir a été détaillé dans le TD3, nous ne mettrons donc que le code source détaillé.
+
+<br>
+
+<h4>MAIN2</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+int main()
+
+{
+
+    lcd_reset(); cls();
+
+    // Configure output LED_RED   --> PB4
+
+    io_configure(_GPIOB,PIN_4,IO_CFG_LED_RED,NULL); //On initialise la led rouge
+
+    red_led(0);
+
+    // Configure input SW_CENTER --> PB5, with callback
+
+    io_configure(_GPIOB,PIN_5,PIN_MODE_INPUT,exti5_cb);
+
+    
+
+    //config timer _TIM2 
+
+    timer_tick_init(_TIM2, BLINK_SPEED_BASE, tmr_cb);
+
+    lcd_printf("program started"); 
+
+    
+
+    //_EXTI->IMR : Interrupt mask register
+
+    //_EXTI->EMR : Event mask register
+
+    //_EXTI->RTSR : Rising trigger Selection register Interruption sur front montant oui ou non
+
+    //_EXTI->FTSR : Falling trigger selection register Interruption sur front descendant oui ou non
+
+    // enable clock for SYSCFG, no need for EXTI (clock never switched off)
+
+    _RCC->APB2ENR=_RCC->APB2ENR|(1<<14);
+
+    
+
+    // configure pin PB5 (4 pin config per EXTICR[] register, 4 bits per pin)
+
+    //   PB5 --> EXTI5
+
+    _SYSCFG->EXTICR[1]=((_SYSCFG->EXTICR[1])&~(0xF<<4))|(0x1<<4);
+
+        
+
+    // allow pin EXTI5 to send an IRQ
+
+    _EXTI->IMR=_EXTI->IMR|(1<<5);
+
+    
+
+    // not a wakeup event
+
+    _EXTI->EMR=_EXTI->EMR&~(0x1<<5);
+
+    
+
+    // Configure pin event IRQ on rising (RTSR)/falling (FTSR) edge (rising only here)
+
+    _EXTI->RTSR=_EXTI->RTSR|(1<<5);
+
+    _EXTI->FTSR=_EXTI->FTSR&~(0x1<<5);
+
+    
+
+    // reset any pending IRQ on PB5
+
+    _EXTI->PR=(0x1<<5);
+
+    
+
+    /*************************** NVIC Config ******************************/
+
+    //23  EXTI9_5 EXTI Line[9:5] interrupts 0x0000 009C
+
+    // Vector Table ISR         : EXTI9_5_IRQHandler
+
+    // IRQ Number (hard coded)  : EXTI9_5_IRQn = 23
+
+    // Choose Priority          : 6
+
+    
+
+    // Set priority : 1 byte per NVIC IRQ input
+
+    //EXTI9_5_IRQHandler(); // declare dans startup_stm32F411xe.s
+
+    
+
+    // Enable IRQ Input
+
+    //core_cm0.h ligne 629
+
+    NVIC_EnableIRQ(23);
+
+    //core_cm4.h ligne 1698
+
+    NVIC_SetPriority(23,6); 
+
+    //code de test   
+
+    while(1){;}    
+
+}
+
+</code></pre><hr>
+<h3>Test</h3>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/clock.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/clock.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - Horloge</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/moder.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/moder.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - registre MODER</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/pupd.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/pupd.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - registre PUPDR</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/sysconfig.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/sysconfig.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - EXTICR</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/imr.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/imr.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - registre IMR, EMR, RTSR et FTSR</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/nvic2.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/nvic2.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - ICER, ISER et IP</figcaption></div></figure>
+<br>
+
+<h4>MAIN3</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#ifdef MAIN3
+
+#define SAMPLING_PERIOD     100     //us                            
+
+#define IO_CFG_CLASSIC_SW           PIN_MODE_INPUT|PIN_OPT_RESISTOR_NONE  
+
+#define IO_CFG_SW_EXTI      PIN_MODE_INPUT|PIN_OPT_RESISTOR_NONE|PIN_OPT_IRQ_EDGE_RISE
+
+#define BLINK_SPEED    100      //This variable refers to the incrementation used by the SW_UP and SW_DOWN buttons
+
+#define NB_LED 3
+
+volatile uint32_t blink_speed = 1000;  //variable used by timer_tick_period()
+
+volatile uint32_t color = 4;  //On led red
+
+static uint16_t led_color[NB_LED] = {4,2,1};  //001 or 010 or 100 values sent to leds() to turn-on each LED by each LED
+
+volatile uint32_t index_led = 0; //index of led_color[] used to go from red to blue LED ...
+
+volatile uint8_t ledState = 0; //led turn-on or turn-down
+
+void tmr_cb()
+
+{
+
+    static uint32_t led_state = 0;
+
+    led_state = !led_state;
+
+	(led_state)?leds(led_color[index_led]):leds(0); //if the led must be turn-on we turn-on only ones, by using index_led.
+
+}
+
+//End blinking
+
+void exti5_cb()
+
+{
+
+    static uint32_t timer_on = 0;  state counter
+
+    timer_on = !timer_on;   //update counter state
+
+    if(timer_on)
+
+    {
+
+        timer_stop(_TIM2);    //Stop timer
+
+    }
+
+    else
+
+    {
+
+        timer_start(_TIM2);   //Start timer
+
+    }
+
+}
+
+void exti4_cb()
+
+{
+
+	if(blink_speed > BLINK_SPEED) //Avoid overrange
+
+	{
+
+		blink_speed -= BLINK_SPEED; //Remove period time
+
+	}
+
+	timer_tick_period(_TIM2,blink_speed); //Update tick period
+
+}
+
+void exti0_cb()
+
+{
+
+    blink_speed += BLINK_SPEED;         //add period time
+
+	timer_tick_period(_TIM2,blink_speed);   //Update tick period
+
+}
+
+int main()
+
+{
+
+    lcd_reset(); cls();
+
+    
+
+    //We configure all leds
+
+    leds_init();
+
+    leds(0); //turn off each led
+
+    
+
+	// Configure input SW_CENTER --> PB5, with callback
+
+	io_configure(_GPIOB,PIN_5,IO_CFG_SW_EXTI,exti5_cb);
+
+    // Configure input SW_UP --> PA4, with callback
+
+	io_configure(_GPIOA,PIN_4,IO_CFG_SW_EXTI,exti4_cb);
+
+    // Configure input SW_DOWN --> PB0, with callback
+
+	io_configure(_GPIOB,PIN_0,IO_CFG_SW_EXTI,exti0_cb);
+
+    // Configure input SW_LEFT --> PC1, without callback
+
+	io_configure(_GPIOC,PIN_1,IO_CFG_CLASSIC_SW,NULL);	
+
+	// Configure input SW_RIGHT --> PC0, without callback
+
+	io_configure(_GPIOC,PIN_0,IO_CFG_CLASSIC_SW,NULL);
+
+    
+
+    timer_tick_init(_TIM2, blink_speed, tmr_cb);  //call tmr_cb each blink_speed ms
+
+	timer_start(_TIM2);                             //Start timer 
+
+	while(1) {
+
+	
+
+        timer_wait_us(_TIM3, SAMPLING_PERIOD, NULL);
+
+        
+
+		if(sw_left()) {  //If left button is pushed
+
+			if(index_led == 0) { //Avoid negative value
+
+				index_led = NB_LED;
+
+			}//End if
+
+			index_led -= 1; //update index
+
+			if(ledState) {  //If ledState == True
+
+				leds(led_color[index_led]);
+
+			}//End if
+
+				
+
+		}//End if sw_left
+
+		if(sw_right()) {  //If right button is pushed
+
+			index_led += 1; //Update index
+
+			if(index_led == NB_LED) { //Avoid overrange index value [index in array can't be higher than LENGHT_MAX-1]
+
+				index_led = 0;
+
+			}//End if
+
+				
+
+			if(ledState) {       //If ledState == True
+
+				leds(led_color[index_led]);
+
+			}//End if
+
+				
+
+		}//End if sw_right
+
+    }//End while    
+
+}//End main
+
+#endif /* MAIN3 */
+
+</code></pre><hr>
+
+<h2 >Présentation</h2>
+L'objectif de cette section est de pouvoir communiquer par liaison série avec la maquette équipée d'un microcontrôleur STM32F411.
+
+À cette fin, un terminal est utilisé sur le PC de développement pour gérer un des ports du PC. Il permettra de recevoir ou d'émettre des caractères depuis ou vers la maquette.
+
+Sur la maquette, les signaux RxD et TxD de l'USART2 du microcontrôleur sont connectés au circuit STLINK, présent sur la carte NUCLEO, qui permet la connexion au PC de développement via une liaison USB. Cette liaison sera transparente pour l'utilisateur : seule la liaison série gérée par l'USART2 est étudiée. Aucun contrôle de flux ne sera pris en charge, seuls les signaux d'émission TxD et de réception RxD de caractères seront utilisés. 
+
+Les fonctions développées pour gérer une USART permettront de gérer les USART présentes dans
+
+le microcontrôleur même si seule l'UART2 sera utilisée dans ce laboratoire. 
+
+Pour communiquer par liaison série avec la maquette, un terminal doit être ouvert sur le PC
+
+de développement : Applications | Programmation | GtkTerm. 
+
+Lorsque la fenêtre de ce terminal est active, il est associé au clavier et à un port du PC. Avant de l'utiliser il est nécessaire de configurer le terminal : choix du port associé, format des trames utilisées, débit, ... S'assurer qu'un port série virtuel est disponible dans la liste des ports séries proposés par le terminal. Le sélectionner et le configurer pour avoir les mêmes spécifications que celles de l'USART.
+
+<b>Sélectionner le port ttyACM0</b>
+<h2 >Fonctions de base</h2>
+<h3>Émission et réception d'un caractère (coupleur géré par scrutation)</h3>
+<h4>Définition de uart init</h4>
+Pour information, la présentation des registres et instructions utilisées ne tient pas compte des <b>\#ifdef USE USARTX</b> pour éviter d'alourdir la présentation.
+Cependant, le code finale de la fonction \func{uart init} comprendra les conditions.
+
+<h4>Activation de l'horloge</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+//Activation de l'horloge sur USART1
+
+_RCC->APB2ENR |= 1<<4;
+
+//Activation de l'horloge sur USART2
+
+_RCC->APB1ENR |= 1<<17;
+
+//Activation de l'horloge sur USART6
+
+_RCC->APB2ENR |= 1<<5;
+
+</code></pre><hr>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/clockUSART.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/clockUSART.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Registre APB1ENR</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/usart16.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/usart16.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Registre APB2ENR</figcaption></div></figure>
+<h4>Association des signaux</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#define USART_PIN_CONFIG (PIN_MODE_ALTFUNC | PIN_OPT_RESISTOR_NONE | PIN_OPT_AF7)
+
+</code></pre><hr>
+On définit ici que ce sont des broches alternatives utilisée pour l'USART sans résistance de rappel.
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+//USART1
+
+//Cette fonction ne pourra pas être appelée
+
+io_configure(USART1_GPIO_PORT, USART1_GPIO_PINS, USART_PIN_CONFIG, NULL);
+
+//USART2
+
+io_configure(USART2_GPIO_PORT, USART2_GPIO_PINS, USART_PIN_CONFIG, NULL);
+
+//USART_GPIO_PORT is PIN2 | PIN3
+
+//USART6
+
+//Cette fonction ne pourra pas être appelée
+
+io_configure(USART6_GPIO_PORT, USART6_GPIO_PINS, USART_PIN_CONFIG, NULL);
+
+</code></pre><hr>
+<h4>Gestion du baudrate</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+//USART1
+
+u->BRR = (sysclks.apb2_freq/baud);
+
+//USART2
+
+u->BRR = (sysclks.apb1_freq/baud);
+
+//USART6
+
+u->BRR = (sysclks.apb2_freq/baud);
+
+</code></pre><hr>
+ici, chaque USART doit être paramétré avec la fréquence apb qui lui est propre.
+
+<h4>Activation de l'USART</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+//Activation de l'USART
+
+u->CR1 |=	(1 << 13);
+
+//Activation de la transmission 
+
+u->CR1 |=	( 1 << 3);
+
+//Activation de la réception
+
+u->CR1 |=	( 1 << 2);
+
+</code></pre><hr>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/13.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/13.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Registre CR, bit 13</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/3.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/3.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Registre CR, bit 2</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/2.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/2.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Registre CR, bit 3</figcaption></div></figure>
+<h4>Configuration pour les interruptions</h4>
+Pour chaque USARt, nous allons préparer l'éventuelle utilisation de l'USART avec les interruptions sur RX.
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+//USART1
+
+usart1_cb = cb;     //On enregistre la fonction à appeler
+
+irq_number = 37;    //Depuis la table des vecteurs
+
+irq_priority = 44;  //Niveau de priorité
+
+//USART2
+
+usart2_cb = cb;
+
+irq_number = 38;
+
+irq_priority = 45;
+
+//USART6
+
+usart6_cb = cb;
+
+irq_number = 71;
+
+irq_priority = 78;
+
+</code></pre><hr>
+Il ne reste plus qu'à autoriser les interruptions si <b>cb</b> n'est pas null.
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+if (cb) {
+
+			
+
+	u->CR1 |= USART_CR1_RXNEIE;
+
+	NVIC_EnableIRQ(irq_number); //Active l'interruption
+
+	NVIC_SetPriority(irq_number,irq_priority);
+
+}//End if cb
+
+</code></pre><hr>
+<h4>Code uart init complet</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+int uart_init(USART_t *u, uint32_t baud, uint32_t mode, OnUartRx cb)
+
+{
+
+	IRQn_t	irq_number;
+
+	uint32_t irq_priority;
+
+	if (u == _USART1) {
+
+#ifdef USE_USART1
+
+		//Activation de l'horloge
+
+		_RCC->APB2ENR |= 1<<4;
+
+		io_configure(USART2_GPIO_PORT, USART2_GPIO_PINS, USART_PIN_CONFIG, NULL);
+
+		u->BRR = (sysclks.apb2_freq/baud);
+
+		//fonction d'interuption
+
+		usart1_cb = cb;
+
+		irq_number = 37;
+
+		irq_priority = 44;
+
+#else
+
+	return -1;
+
+#endif
+
+	 } 
+
+	 else if (u == _USART2) {
+
+#ifdef USE_USART2
+
+		//Activation de l'horloge
+
+		_RCC->APB1ENR |= 1<<17;
+
+		io_configure(USART2_GPIO_PORT, USART2_GPIO_PINS, USART_PIN_CONFIG, NULL);
+
+		u->BRR = (sysclks.apb1_freq/baud);
+
+		//fonction d'interuption
+
+		usart2_cb = cb;
+
+		irq_number = 38;
+
+		irq_priority = 45;
+
+#else
+
+	return -1;
+
+#endif
+
+	} else if (u == _USART6) {
+
+#ifdef USE_USART6
+
+		//Activation de l'horloge
+
+		// configure Tx/Rx pins
+
+		_RCC->APB2ENR |= 1<<5;
+
+		//io_configure(USART6_GPIO_PORT, USART2_GPIO_PINS, USART_PIN_CONFIG, NULL);
+
+		u->BRR = (sysclks.apb2_freq/baud);
+
+		//fonction d'interuption
+
+		usart6_cb = cb;
+
+		irq_number = 71;
+
+		irq_priority = 78;
+
+#else
+
+	return -1;
+
+#endif
+
+	}
+
+		//format des données 8/9bits
+
+		u->CR1 |= ((mode & 0b1) << 12);
+
+		//Bit de stop
+
+		u->CR2 |= (((mode>>4) & 0b11) << 12); //move mode to left to get field
+
+		//Parité
+
+		u->CR1 |= (((mode>>8) & 0b111) << 8);
+
+		//USART ENABLE
+
+		u->CR1 |=	(1 << 13);
+
+		//Transmitter Enable
+
+		u->CR1 |=	( 1 << 3);
+
+		//Receiver Enable
+
+		u->CR1 |=	( 1 << 2);
+
+ 
+
+	// Setup NVIC
+
+	if (cb) {
+
+			
+
+		u->CR1 |= USART_CR1_RXNEIE;
+
+		NVIC_EnableIRQ(irq_number); //Active l'interruption
+
+		NVIC_SetPriority(irq_number,irq_priority);
+
+	}
+
+    return 1;
+
+}
+
+</code></pre><hr>
+	
+
+<h4>Définition de uart putc </h4>
+ 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+ 
+
+void uart_putc(USART_t *u, char c)
+
+{
+
+	while (!(u->SR & (1<<6))) //on attend que le traitement du premier caractère
+
+	{
+
+		//Ne rien faire
+
+	}
+
+  	u->DR = c;
+
+	while (!(u->SR & (1<<6))) //on attend que le traitement du premier caractère
+
+	{
+
+		//Ne rien faire
+
+	}
+
+}//End uart_putc
+
+</code></pre><hr>
+Pour envoyer un caractère, il suffit de mettre un <b>char</b> dans le registre \reg{DR}
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/registre_DR.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/registre_DR.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Registre DR</figcaption></div></figure>
+<h4>Définition de uart puts</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+void uart_puts(USART_t *u, char *s)
+
+{
+
+	while (!(u->SR & (1<<6))) //on attend que le traitement du premier caractère
+
+	{
+
+		//Ne rien faire
+
+	}
+
+    while (*s != 0)
+
+    {
+
+        u->DR = *s;  //On affecte au registre DR le contenu à l'adresse s
+
+        s++;        //On applique l'arithmétique des pointeurs
+
+		while (!(u->SR & (1<<6))) //on attend que le traitement du premier caractère
+
+		{
+
+			//Ne rien faire
+
+		}
+
+    }
+
+}
+
+</code></pre><hr>
+<h4>Définition de uart getc</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+char uart_getc(USART_t *u) {
+
+    //On attend que le bit 5 passe a 1 (donnée reçu)
+
+	while(!(u->SR & (1<<5))){};
+
+	return (char)u->DR;//la valeur est contenue dans le registre DR
+
+}
+
+</code></pre><hr>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/registre_SR.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/registre_SR.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Registre SR</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/registre_SR_Bit5.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/registre_SR_Bit5.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Registre SR, bit 5</figcaption></div></figure>
+<h3>Test de l'émission d'un caractère</h3>
+Pour vérifier l'émission d'un caractère sans interruption, nous allons tester le code du MAIN1 : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+int main()
+
+{
+
+	uart_init(_USART2,115200,UART_8N1,NULL);//On initialise la communication à 115200 bauds, pas de bits de parité, 1 bit de stop.
+
+	uart_puts(_USART2, "Entrez du texte ici : ");//On affiche une chaine de caractère sur le terminal GTkTerm
+
+	uart_putc(_USART2, 'A');//On envoie le caractère 'A'
+
+	uart_putc(_USART2, 'B');//On envoie le caractère 'B'
+
+	uart_putc(_USART2, 'C');//On envoie le caractère 'C'
+
+	
+
+	uart_puts(_USART2,"\r\nC'est un message du STM32F411 :-)\r\n");
+
+	uart_puts(_USART2, "Entrez du texte ici : ");
+
+	while (1) {
+
+		uart_putc(_USART2, uart_getc(_USART2));
+
+	}
+
+	//ici, on scrute tous les caractères entrant (du terminal vers la carte) et on les renvoie aussitôt sur le terminal, ce qui fait que cette boucle fait une recopie du clavier.
+
+	return 1;
+
+}
+
+</code></pre><hr>
+<h3>Réception d'un caractère par interruption</h3>
+Le code nécessaire à la configuration des interruptions par réception de caractère a été défini dans la fonction \func{uart init}.
+
+<h3>Test de la réception d'un caractère</h3>
+Pour vérifier l'émission d'un caractère avec interruption, nous allons tester le code du MAIN2 : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+static void on_rx_cb(char c) //Fonction à appeler lors d'une réception d'un caractère.
+
+{
+
+	uart_putc(_USART2, c);//On renvoie le caractère du buffer vers le terminal.
+
+}
+
+int main()
+
+{
+
+	uart_init(_USART2, 115200, UART_8N1, on_rx_cb);
+
+	//On définit que la réception d'un caractère provoque l'appel de la fonction on_rx_cb.
+
+	uart_puts(_USART2, "Entrez du texte ici : "); //On affiche du texte
+
+	while (1) ;
+
+	return 1;
+
+}
+
+</code></pre><hr>
+A première vue, on peut penser que le code ne fait rien.
+
+Or, à chaque appui sur une touche du clavier, la carte va recevoir une demande d'interruption par la broche <b>RX</b> et va appeler la fonction\func{on rx cb.}. La recopie du clavier est donc transparente pour l'utilisateur.
+<h2 >Gestion d'un terminal</h2>
+<h3>Présentation</h3>
+Un terminal "VT100" prend en compte des séquences de caractères permettant de modifier certains de ses attributs.
+
+On pourra, par exemple, effacer l'écran du terminal, positionner le curseur à un emplacement choisi, changer la couleur des caractères affichés, etc.
+
+Les commandes VT100 commencent toutes par la séquence de caractères ESC + '[', soit la chaîne "x1b["
+
+Il est possible de recevoir, selon la touche appuyée sur le clavier, plus d'un caractère hexadécimal.
+
+Des caractères accentués ne faisant pas partie de la table ASCII (codage sur 7 bits) peuvent être obtenus par un codage sur plusieurs octets (UTF-8).
+
+Dans ce cas, l'émission d'un caractère (lettre) accentué se traduit par plus d'un caractère hexadécimal à prendre en compte à la réception.
+
+D'autres touches associées à des fonctions de contrôle, telles que "page up", flèches gauche/droite, etc, génèrent également des séquences de caractères hexadécimaux.
+
+Dans tous les cas, pour interpréter correctement l'action sur le clavier, il est nécessaire de prendre en compte la séquence hexadécimale complète reçue.
+
+<h3>Tests</h3>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+static void on_rx_cb(char c)
+
+{
+
+	char  s[34];				//Chaine de 34 caractère max
+
+	num2str(s,c,16);			//Permet de prendre en compte la séquence hexadéciaml complète
+
+	uart_puts(_USART2, " 0x");	//début de séquence
+
+	uart_puts(_USART2, s);		//On envoie la séquence
+
+}
+
+int main()
+
+{
+
+	//Initialisation de la communication à 115200 bauds avec interruptions sur la broche RX.
+
+	uart_init(_USART2,115200,UART_8N1,on_rx_cb);
+
+	//On efface le terminal
+
+	uart_puts(_USART2,"\x1B[2J\x1B[H");
+
+	uart_puts(_USART2,"On affiche un message ici");
+
+	// positionnement du curseur ligne 20, col 5
+
+	uart_puts(_USART2,"\x1B[20;5H");
+
+	// on écrit en couleur
+
+	uart_puts(_USART2,"\x1B[31mA partir de maintenant, entrez du texte :\x1B[0m");
+
+	while (1) ;
+
+	return 1;
+
+}
+
+</code></pre><hr>
+<h2 >Fonction printf</h2>
+<h3>Prise en compte d'un nombre variable d'arguments</h3>
+<ul>
+<li> void va start(va list ap, param) : la macro va start fait pointer ap
+</li>
+sur le premier argument variable fourni à la fonction. param est le nom du
+
+dernier argument nommé
+
+<li> type va arg(va list ap, type) : la macro va arg renvoie le premier
+</li>
+argument variable et fait pointer ap sur l'argument suivant. type est le type de
+
+l'argument qui va être lu. La macro va arg génère une expression de ce même
+
+type
+
+<li> void va end(va list ap) : la macro va end remet tout à état initial avant
+</li>
+le retour à la fonction appelante.
+
+</ul>
+<h3>Codage de la fonction printf allégée</h3>
+Tout d'abord, on va créer des variables locales à la fonction.
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+	char* tmp_string;		//Chaîne de caractère demandée
+
+	int tmp_s_int;			//Entier signé
+
+	unsigned int tmp_u_int; //Entier non signé
+
+</code></pre><hr>
+<h4>Les caractères</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+	case 'c':
+
+		ch = va_arg(ap, char);  	//On récupère le paramètre correspondant à "\%c" (caractère)
+
+	    uart_putc(u,ch); 			//Envoie du caractère
+
+		break;
+
+</code></pre><hr>
+<h4>Les chaînes de caractères</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    case 's':
+
+		tmp_string = va_arg(ap,char*);
+
+		uart_puts(u,tmp_string); //On récupère le pointeur associé à la chaîne de caractère
+
+		break;
+
+</code></pre><hr>
+<h4>Les entiers non-signés</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+	case 'u':
+
+		tmp_u_int = va_arg(ap,unsigned int);	//On récupère le paramètre corespondant à "\%u" (unsigned int)
+
+		num2str(s,(unsigned int)tmp_u_int,10);	//on convertit le nombre en chaine de caractère base 10
+
+					uart_puts(u,s);							//On envoie la chaine
+
+					break;
+
+</code></pre><hr>
+<h4>Les entiers signés</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    case 'd':
+
+	    tmp_s_int = va_arg(ap,int);
+
+		if(tmp_s_int < 0) { //Si valeur négative
+
+			uart_putc(u,'-'); 
+
+			tmp_s_int = tmp_s_int *(-1);//Remet en valeur positive
+
+		}//End if
+
+		num2str(s,(unsigned int)tmp_s_int,10);	//on convertit le nombre en chaîne de caractère base 10
+
+		uart_puts(u,s);						//On envoie la chaîne
+
+		break;
+
+</code></pre><hr>
+<h4>Les caractères hexadécimaux</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+	case 'x':
+
+	    tmp_u_int = va_arg(ap,unsigned int);	//On récupère le paramètre corespondant à "\%x" (hexa)
+
+		num2str(s,(unsigned int)tmp_u_int,16);	//on convertit le nombre en chaine de caractère base 16
+
+		uart_puts(u,s);							//On envoie la chaine
+
+		break;
+
+</code></pre><hr>
+<h3>Code complet de la fonction uart printf</h3>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+	__gnuc_va_list ap;
+
+	char          *p;
+
+	char           ch;
+
+	unsigned long  ul;
+
+	char           s[34];
+
+	char* tmp_string;		//Chaine de caractère demandée
+
+	int tmp_s_int;			//Entier signé
+
+	unsigned int tmp_u_int; //Entier non signé
+
+	
+
+	va_start(ap, fmt);
+
+	while (*fmt != '\0') {
+
+		if (*fmt =='%') {
+
+			switch (*++fmt) {
+
+				case '%':
+
+					uart_putc(u,'%');
+
+					break;
+
+				case 'c':
+
+					ch = va_arg(ap, char);  	//On récupère le paramètre corespondant à "%c" (caractère)
+
+					uart_putc(u,ch); 			//Envoie du caractère
+
+					break;
+
+				case 's':
+
+					tmp_string = va_arg(ap,char*);
+
+					uart_puts(u,tmp_string); //On récupère le pointeur associé à la chaine de caractère
+
+					break;
+
+				case 'd':
+
+					tmp_s_int = va_arg(ap,int);
+
+					if(tmp_s_int < 0) { //Si valeur négative
+
+						
+
+						uart_putc(u,'-'); 
+
+						tmp_s_int = tmp_s_int *(-1);//Remet en valeur positive
+
+					}//End if
+
+					num2str(s,(unsigned int)tmp_s_int,10);	//on convertit le nombre en chaine de caractère base 10
+
+					uart_puts(u,s);						//On envoie la chaine
+
+					break;
+
+				case 'u':
+
+					tmp_u_int = va_arg(ap,unsigned int);	//On récupère le paramètre corespondant à "%u" (unsigned int)
+
+					num2str(s,(unsigned int)tmp_u_int,10);	//on convertit le nombre en chaine de caractère base 10
+
+					uart_puts(u,s);							//On envoie la chaine
+
+					break;
+
+				case 'x':
+
+					tmp_u_int = va_arg(ap,unsigned int);	//On récupère le paramètre corespondant à "%x" (hexa)
+
+					num2str(s,(unsigned int)tmp_u_int,16);	//on convertit le nombre en chaine de caractère base 16
+
+					uart_puts(u,s);							//On envoie la chaine
+
+					break;
+
+				default:
+
+				    uart_putc(u, *fmt);
+
+			}
+
+		} else uart_putc(u, *fmt);
+
+		fmt++;
+
+	
+
+	va_end(ap);
+
+</code></pre><hr>
+<h3>Tests</h3>
+Pour tester le code, nous allons exécuter le MAIN4.
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+static void on_rx_cb(char c)
+
+{
+
+	char  s[34];
+
+	num2str(s,c,16);
+
+	uart_puts(_USART2, " 0x");
+
+	uart_puts(_USART2, s);
+
+}
+
+int main()
+
+{
+
+	int a = 5, b = 8;
+
+	uart_init(_USART2, 115200, UART_8N1, on_rx_cb);
+
+	uart_puts(_USART2, "\x1B[2J\x1B[H");
+
+	uart_printf(_USART2, "la somme de %d et %d est %d\n", a, b, a+b);
+
+	uart_printf(_USART2, "\x1B[%u;%uHle pointeur _USART2 = 0x%x\n", 20,5,_USART2);
+
+	while(1) {
+
+	}
+
+	return 0;
+
+}
+
+</code></pre><hr>
+Voici le résultat : 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/gtk.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/gtk.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Résultat du MAIN4</figcaption></div></figure>
+
+</body></html>

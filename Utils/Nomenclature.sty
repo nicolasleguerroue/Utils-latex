@@ -31,7 +31,13 @@
 
 \newcommand{\displayNomenclature}[2]{ %Display the nomenclature #tocName #filename
     \newpage
-    \input{#2}
+    \IfFileExists{#2}
+    {
+      \input{#2}
+    }
+    {
+      \raiseWarning{Nomenclature file '#2' no loaded}
+    }
     \printnomenclature
     \addcontentsline{toc}{chapter}{\nomname}
 }

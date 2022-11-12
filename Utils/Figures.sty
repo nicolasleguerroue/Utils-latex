@@ -8,18 +8,50 @@
 \RequirePackage{graphics}
 \RequirePackage{graphicx}
 \RequirePackage{nameref}
+\RequirePackage{caption}
+\RequirePackage{subcaption}
 
 \newcommand{\displayListOfFigures}[1]{%Display the listOfFigures #tocName
-\renewcommand{\listfigurename}{#1}
-\addcontentsline{toc}{chapter}{#1}
-\vspace{-4cm}
-\listoffigures
+    \renewcommand{\listfigurename}{#1}
+    \addcontentsline{toc}{chapter}{#1}
+    \vspace{-4cm}
+    \listoffigures
+}
+
+\newcommand{\createFigure}[2]  %Create new figure #name content
+{
+    \begin{figure}[h]
+        \centering
+    \raiseMessage{Creating new figure ['#1']}
+        {#2}
+        \caption{#1}
+    \end{figure}
+}
+
+\newcommand{\titleFigure}{default}
+\newcommand{\setTitleFigure}[1]{
+    \renewcommand{\titleFigure}{#1}
+}
+\newenvironment{Figure}[2]  %create Figure #title ref
+{
+    
+    \begin{figure}[h]
+        \label{AZE}
+        \begin{center}
+            \setTitleFigure{#1}
+            \raiseMessage{Creating new figure ['\titleFigure']}
+}
+{
+        \caption{\titleFigure}
+        \end{center} 
+    \end{figure}  
 }
 
 
-\newcommand{\createFigure}[2]  %Create new figure #name #content
+\newcommand{\createFigureRef}[3]  %Create new figure with ref #name #content #reference
 {
     \begin{figure}[h]
+        \label{#3}
         \centering
     \raiseMessage{Creating new figure ['#1']}
         {#2}
@@ -37,5 +69,7 @@
 }
 
 
-\newcommand{\figureRef}[1]{(Figure \ref{#1})}  %Display number of fugure with '(Figure X.X)' format #figureReference passed to \imgf
-\newcommand{\figureName}[1]{figure \ref{#1}}    %Display number of fugure with 'figure X.X' format #figureReference passed to \imgf
+\newcommand{\figureRef}[1] %Display number of fugure with '(Figure X.X)' format #figureReference
+{(Figure \ref{#1})} 
+\newcommand{\figureName}[1]   %Display number of fugure with 'figure X.X' format #figureReference
+{figure \ref{#1}} 

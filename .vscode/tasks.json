@@ -2,20 +2,20 @@
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "2.0.0",
-    "tasks": [
+    "tasks": [    
         {
             "label": "Launch app", // Name of task
             "type": "shell",
             "command": "${workspaceFolder}/Utils-latex/tools/checking extern", // Enter your command here
             "presentation": {
-              "reveal": "always",
-              "panel": "shared"
+                "reveal": "always",
+                "panel": "shared"
             },
             "runOptions": {
-              "runOn": "folderOpen"
+                "runOn": "folderOpen"
             }
-          },
-          {
+        },
+        {
             "type": "shell",
             "label": "Compilation > Convert Latex to HTML",
             "options": {
@@ -41,7 +41,9 @@
                 "reveal": "always",
                 "panel": "shared"
             },
-            "args": ["index.html"],
+            "args": [
+                "index.html"
+            ],
             "problemMatcher": []
         },
         {
@@ -50,7 +52,10 @@
             "options": {
                 "cwd": "${workspaceFolder}"
             },
-            "group": {"kind":"build","isDefault": true},
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "command": "./make",
             "presentation": {
                 "reveal": "always",
@@ -101,7 +106,7 @@
         },
         {
             "type": "shell",
-            "label": "Génération des snippets VSCode depuis la bibliothèque Utils",
+            "label": "Tools > Generate snippets from code source",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -113,7 +118,19 @@
         },
         {
             "type": "shell",
-            "label": "Ajout d'une version de projet",
+            "label": "Tools > Checking files",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "command": "Utils-latex/tools/checking extern"
+        },
+        {
+            "type": "shell",
+            "label": "Tools > Add version project ",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
@@ -147,20 +164,6 @@
             },
             "command": "python3 compileAllFiles.py"
         },
-        {
-            "label": "Run",
-            "type": "shell",
-            "command": "echo",
-            "args": [
-                "${input:componentType}",
-                "${input:componentName}"
-            ],
-            "problemMatcher": [],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
         /*
         ** ***************************************************************************************************************
         ** **************************   Parts                *************************************************************
@@ -170,8 +173,7 @@
             "label": "Parts > New part",
             "type": "shell",
             "command": "mkdir ${workspaceFolder}/Parts/${input:partNumber}.${input:partName} && mkdir ${workspaceFolder}/Images/${input:partName} && echo -e \"\\\\\\chapter{${input:partName}}\" > \"${workspaceFolder}/Parts/${input:partNumber}.${input:partName}/0.${input:partName}.tex\"",
-            "args": [
-            ],
+            "args": [],
             "problemMatcher": [],
             "group": {
                 "kind": "build"
@@ -186,8 +188,17 @@
             "label": "Settings > depth of TOC",
             "type": "shell",
             "command": "echo -n \"\\setcounter{tocdepth}{${input:tocDepth}} %Depth of table of content\" > Settings/TocDepth.tex",
-            "args": [
-            ],
+            "args": [],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "Settings > Size of TOC (font spacing)",
+            "type": "shell",
+            "command": "echo -n \"\\${input:tocSize} %Size of TOC\" > Settings/TocSize.tex",
+            "args": [],
             "problemMatcher": [],
             "group": {
                 "kind": "build"
@@ -196,9 +207,8 @@
         {
             "label": "Settings > Update of fonts",
             "type": "shell",
-            "command": "echo -n \"\\usepackage[sfdefault]{${input:fonts}} %Fonts\" > Settings/Fonts.tex \"} ",
-            "args": [
-            ],
+            "command": "echo \"\\usepackage[sfdefault]{${input:fonts}} %Fonts\" > Settings/Fonts.tex && echo \"\\newcommand{\\getCurrentFont}{${input:fonts}} %Get Current Font\" >> Settings/Fonts.tex",
+            "args": [],
             "problemMatcher": [],
             "group": {
                 "kind": "build"
@@ -208,19 +218,17 @@
             "label": "Settings > Update of chapter alias",
             "type": "shell",
             "command": "echo \"\\setAliasChapter{${input:aliasChapter}} %Alias of chapters\" > Settings/ChapterAlias.tex",
-            "args": [
-            ],
+            "args": [],
             "problemMatcher": [],
             "group": {
                 "kind": "build"
             }
         },
         {
-            "label": "Settings > Update of margins",
+            "label": "Settings > Update of document margins",
             "type": "shell",
             "command": "echo \"\\geometry{hmargin=${input:horizontalMargin}cm,vmargin=${input:verticalMargin}cm} %Margins of file\" > Settings/Margins.tex",
-            "args": [
-            ],
+            "args": [],
             "problemMatcher": [],
             "group": {
                 "kind": "build"
@@ -230,8 +238,7 @@
             "label": "Settings > Update of metadata",
             "type": "shell",
             "command": "echo \"\\setParameters{${input:mdataTitleDocument}}{${input:mdataAuthor}}{${input:mdataSubject}}{${input:mdataCreator}}{${input:mdataProducer}}{${input:mdataKeywords}}{${input:mdataColorLinks}} {${input:mdataColorCite}} {${input:mdataColorFile}} %Metadata of file\" > Settings/Metadata.tex",
-            "args": [
-            ],
+            "args": [],
             "problemMatcher": [],
             "group": {
                 "kind": "build"
@@ -241,8 +248,7 @@
             "label": "Settings > Update of theme",
             "type": "shell",
             "command": "echo \"\\usepackage[${input:theme}]{fncychap} %Theme of chapter\" > Settings/Theme.tex",
-            "args": [
-            ],
+            "args": [],
             "problemMatcher": [],
             "group": {
                 "kind": "build"
@@ -252,8 +258,7 @@
             "label": "Settings > Update of line width",
             "type": "shell",
             "command": "echo \"\\setHeaderLine{${input:headerLine}} %Width of header line\" > Settings/FHeaderLine.tex && echo \"\\setFooterLine{${input:footerLine}} %Width of footer line\" >> Settings/FHeaderLine.tex ",
-            "args": [
-            ],
+            "args": [],
             "problemMatcher": [],
             "group": {
                 "kind": "build"
@@ -263,8 +268,7 @@
             "label": "Settings > Update of document class",
             "type": "shell",
             "command": "echo \"\\documentclass[${input:textSize}pt]{${input:documentClass}}\" >  Settings/DocumentClass.tex",
-            "args": [
-            ],
+            "args": [],
             "problemMatcher": [],
             "group": {
                 "kind": "build"
@@ -274,8 +278,47 @@
             "label": "Settings > Update of nomenclature name",
             "type": "shell",
             "command": "echo \"\\renewcommand{\\nomname}{${input:nomenclatureName}}\" >  Settings/NomenclatureName.tex",
-            "args": [
-            ],
+            "args": [],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "Settings > Color of section title",
+            "type": "shell",
+            "command": "echo \"\\setSectionColor{${input:sectionColor}} %Color of section\" > Settings/SectionColor.tex",
+            "args": [],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "Settings > Color of subsection title",
+            "type": "shell",
+            "command": "echo \"\\setSubSectionColor{${input:subSectionColor}} %Color of subsection\" > Settings/SubSectionColor.tex",
+            "args": [],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "Settings > prefix of titles",
+            "type": "shell",
+            "command": "echo \"\\${input:prefixSectionStatus} %Status of section prefix\" > Settings/TitlePrefix.tex && echo \"\\${input:prefixSubSectionStatus} %Status of subsection prefix\" >> Settings/TitlePrefix.tex",
+            "args": [],
+            "problemMatcher": [],
+            "group": {
+                "kind": "build"
+            }
+        },
+        {
+            "label": "Settings > margin of List item",
+            "type": "shell",
+            "command": "echo \"\\setlength{\\leftmargini}{${input:marginList}cm} %Margin of list item\" > Settings/ListMargin.tex",
+            "args": [],
             "problemMatcher": [],
             "group": {
                 "kind": "build"
@@ -285,8 +328,7 @@
             "label": "Display > Enable List of Figures",
             "type": "shell",
             "command": "echo \"\\displayListOfFigures{${input:lofName}} %Display List of Figures\" > Settings/LOF.tex",
-            "args": [
-            ],
+            "args": [],
             "problemMatcher": [],
             "group": {
                 "kind": "build"
@@ -296,15 +338,13 @@
             "label": "Display > Disable List of Figures",
             "type": "shell",
             "command": "echo  > Settings/LOF.tex",
-            "args": [
-            ],
+            "args": [],
             "problemMatcher": [],
             "group": {
                 "kind": "build"
             }
         },
     ],
-
     /*
     ** ***************************************************************************************************************
     ** ***************************************************************************************************************
@@ -323,20 +363,30 @@
             "id": "tocDepth",
             "description": "What is the depth of the Table of Content ?",
             "options": [
-              "-1",
-              "0",
-              "1",
-              "2"
+                "-1",
+                "0",
+                "1",
+                "2"
             ],
             "default": "1"
+        },
+        {
+            "type": "pickString",
+            "id": "tocSize",
+            "description": "What is the size of the Table of Content ?",
+            "options": [
+                "classicalTableOfContent",
+                "smallTableOfContent",
+            ],
+            "default": "smallTableOfContent"
         },
         {
             "type": "pickString",
             "id": "fonts",
             "description": "What is your wanted font ?",
             "options": [
-              "carlito",
-              "default"
+                "carlito",
+                "default"
             ],
             "default": "carlito"
         },
@@ -357,6 +407,18 @@
             "id": "verticalMargin",
             "description": "Vertical margin (cm)",
             "default": "2"
+        },
+        {
+            "type": "promptString",
+            "id": "sectionColor",
+            "description": "Color of section",
+            "default": "darkBlue"
+        },
+        {
+            "type": "promptString",
+            "id": "subSectionColor",
+            "description": "Color of subsection",
+            "default": "orange"
         },
         {
             "type": "promptString",
@@ -417,7 +479,13 @@
             "id": "theme",
             "description": "Themes of chapter",
             "options": [
-                "", "Lenny", "Glenn", "Sonny", "Conny", "Rejne", "Bjarne"
+                "",
+                "Lenny",
+                "Glenn",
+                "Sonny",
+                "Conny",
+                "Rejne",
+                "Bjarne"
             ],
             "default": ""
         },
@@ -438,7 +506,11 @@
             "id": "documentClass",
             "description": "Type of class",
             "options": [
-                "Utils/utils_report", "report", "Utils/utils_article", "article", "book"
+                "Utils/utils_report",
+                "report",
+                "Utils/utils_article",
+                "article",
+                "book"
             ],
             "default": "Utils/utils_report"
         },
@@ -447,7 +519,9 @@
             "id": "textSize",
             "description": "Size of text in pt",
             "options": [
-                "10", "11", "12"
+                "10",
+                "11",
+                "12"
             ],
             "default": "11"
         },
@@ -463,6 +537,32 @@
             "description": "Name of Table Of Figure",
             "default": "Table des Figures"
         },
+        {
+            "type": "promptString",
+            "id": "marginList",
+            "description": "Margin in cm of item list",
+            "default": "1"
+        },
+        {
+            "type": "pickString",
+            "id": "prefixSectionStatus",
+            "description": "Status of prefix for sections",
+            "options": [
+                "enableSectionPrefix",
+                "disableSectionPrefix"
+            ],
+            "default": "disableSectionPrefix"
+        },
+        {
+            "type": "pickString",
+            "id": "prefixSubSectionStatus",
+            "description": "Status of prefix for subsections",
+            "options": [
+                "enableSubSectionPrefix",
+                "disableSubSectionPrefix"
+            ],
+            "default": "disableSubSectionPrefix"
+        },
         /*
         ** ***************************************************************************************************************
         ** **************************   Parts                *************************************************************
@@ -474,12 +574,13 @@
             "description": "Name of your part",
             "default": "PartName"
         },
-          {
+        {
             "type": "promptString",
             "id": "partNumber",
             "description": "Give a number to your part",
             "default": "0"
-          }
+        },
+
+        
     ]
 }
-

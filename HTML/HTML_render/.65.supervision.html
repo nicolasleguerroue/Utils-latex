@@ -1,0 +1,2561 @@
+<html><head><style>.cent {  display: block;  margin-left: auto;  margin-right: auto;}</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> </script><body style='margin-left:5%;margin-right:5%;margin-top:1%'><h4>Fichier générer depuis les sources Latex</h4><h5>Auteur : Nicolas Le Guerroué</h5><a href='index.html'><button class='btn btn-success' >Revenir au sommaire</button></a><hr><h3>Objectifs</h3>
+Ce projet vise à mettre en place une interface de supervision en langage <i>Python</i>.<br>
+Ainsi, une interface en Python sera réalisée pour un contrôle de l’API (Automate Programmable Industriel) à distance. <br>
+
+Nous avons opté pour la réalisation de notre propre logiciel de supervision pour plusieurs raisons : <br>
+
+<ul>
+<li> Contrôle fin de la communication API-Ordinateur
+</li>
+<li> Indépendance aux logiciels propriétaires (PC-Vue….) <br>
+</li>
+</ul>
+Cependant, nous devons être conscients que la place des éléments graphiques est plus complexe.
+
+<h3>Supports pédagogiques</h3>
+Ce projet vise à donner suite à l'expérimentation de la création d'une interface Python pour la supervision. 
+
+Le logiciel précédent, permettant de contrôler un vérin à distance, était basé sur la bibliothèque Python TKinter. 
+
+Le protocole de communication restera inchangé, seul le logiciel pour l'interface sera différent.
+
+<h2 >Pré-requis</h2>
+<h3>Logiciels</h3>
+Afin de bien débuter, il convient que quelques logiciels soient préalablement installés.
+
+Il s'agit de : <br>
+
+<ul>
+<li> <b>Python</b> <br></li>
+La version minimal requise est la 3.7 sous peine de mauvaises installations et compatibilités entre les logiciels. <br>
+
+Le logiciel est disponible à l'adresse <a class="alert-link">https://www.python.org/downloads</a> <br>
+<li> <b>Bibliothèque Python Pip</b> <br> </li>
+Pip est une bibliothèque permettant d'installer d'autres bibliothèques Python. Toutes les bibliothèques nécessaires au projet de supervision sont disponibles via Pip. <br>
+
+La bibliothèque est disponible à l'adresse <a class="alert-link">https://pip.pypa.io/en/stable</a> <br>
+Il est également possible d'installer pip via Anaconda (ouvrir un terminal ou console) :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+conda install pip
+
+</code></pre><hr>
+<li> <b>Logiciel Unity Pro</b> <br> </li>
+Unity Pro sera utilisé pour générer le grafcet de supervision. <br> 
+
+</ul>
+<h2 >Logiciels et outils</h2>
+L'interface graphique sera réalisée avec le logiciel QtDesigner, en complément de la bibliothèque Python PyQt5.
+
+Le protocole de communication se basera sur la bibliothèque Python PyModBus.
+
+L'API sera programmé avec le logiciel Unity-Pro
+
+<h3>PyQt5</h3>
+<h4>Présentation</h4>
+Qt est une bibliothèque originellement développée pour le C++. Elle a pour vocation d'aider à développer des interfaces graphiques utilisateurs (GUI en anglais) et propose de nombreux outils pour manipuler des fichiers, des bases de données etc...<br>
+
+Elle est distribuée sous deux versions : <br>
+
+- l'une est commerciale et nécessite de payer un abonnement régulier<br>
+
+- l'autre est distribuée sous licence LGPL (c'est cette version qui a été utilisée dans notre projet)
+
+Les deux versions proposent les mêmes fonctionnalitées à version identique.
+
+PyQt5 n'est autre qu'un portage de la bibliothèque Qt C++ dans sa version 5 sur Python.<br>
+
+A noter que PyQt5 dispose lui aussi d'une version commerciale mais que nous avons utilisé la version distribuée sous licence GPL.
+
+<h4>Pourquoi ?</h4>
+Nous avons choisi Qt pour de nombreuses raisons :
+
+<ul>
+    <li> <span style='color:red;'>\bold{Multi-plateforme</span>}<br> PyQt5 a l'énorme avantage d'être portable sur de très nombreuses plateformes. Un seul programme peut être utilisé sur mobile comme sur Windows ou Linux.<br>
+</li>
+    Par exemple, dans notre cas, nous avons programmé de manière indifférente sur Windows ou Linux pendant toute la durée du projet.
+
+    
+
+    <li> <span style='color:red;'>\bold{Polyvalence</span>}<br> Comme dit un peu plus haut, PyQt5 propose de nombreux outils permettant la gestion de base de données, de fichiers xml, d'interfaces graphiques, de programmes multi-thread et bien d'autres choses encore. Cette polyvalence permet d'éviter d'utiliser plusieurs bibliothèque différente. Dans ce cas, une seule bibliothèque permet de faire énormément de choses.
+</li>
+    
+
+    <li> <span style='color:red;'>\bold{Licence</span>}<br> Nous l'avons aussi expliqué un peu plus haut, PyQt5 est disponible sous licence GPL.V3 ce qui permet de l'utiliser gratuitement (sous les conditions imposées par le licence GPLv3)
+</li>
+    
+
+    <li> <span style='color:red;'>\bold{Expérience</span>}<br> Plusieurs membres du groupe ont déjà utilisés Qt à plusieurs reprises. Ainsi, même si nous utilisions la version Python, le temps d'accoutumance à cette version particulière était plus court que si nous avions dû apprendre à utiliser TKinter.
+</li>
+</ul>
+<h3>QtDesigner</h3>
+<h4>Présentation</h4>
+QtDesigner est un logiciel pour créer des interfaces graphiques.<br>
+
+L'interaction entre les différents éléments graphiques appelés "widgets" sera faite en langage Python. 
+
+Un widget est un élément grapĥique comportant des propriétés telles qu'une couleur, une taille, etc. <br> <br>
+
+QtDesigner permet donc de gagner en efficacité en terme de conception graphique. 
+
+Lorsque les éléments graphiques de base sont devenus insuffisants, nous avons développés nous même les élements graphiques (Vérin, moteur, etc)
+
+<h3>PyModBus</h3>
+<h4>Présentation</h4>
+<span class='badge badge-success'>PyModBus</span> est une bibliothèque Python pour communiquer entre des périphériques avec le protocole ModBus analogue à celui de l'API.
+<h4>Améliorations et documentation</h4>
+Cependant, pour des questions de robustesse et de facilité, nous utiliserons un module (ENIBSupervision) que nous avons développé pour simplifier les communications entre l'API et l'ordinateur. <br>
+
+Ce module utilise la bibliothèque <span class='badge badge-success'>PyModBus</span> en interne.
+ Ainsi, toutes les fonctions d'écriture/lecture des données sont protégées des mauvaises manipulations de programmation. <br>
+
+Un tutoriel de prise en main du module <span class='badge badge-success'>ENIBSupervision</span> est disponible en annexe.
+<h4>Installation</h4>
+Il est possible d'installer la bibliothèque <span class='badge badge-success'>Pymodbus</span> de deux manières : <br>
+<h4>Installation par pip</h4>
+La commande pour installer Pymodbus est la suivante :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+pip install pymodbus
+
+</code></pre><hr>
+Pour une installation sur les machines de l'ENIB, il est nécessaire de préciser le proxy pour l'installation. <br> 
+
+La commande suivante est à saisir dans un terminal :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+pip install --proxy "http://proxy.enib" pymodbus
+
+</code></pre><hr>
+<h4>Installation par Anaconda</h4>
+ Il est également possible d'installer Pymodbus avec Anaconda : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+conda install -c auto pymodbus
+
+</code></pre><hr>
+La bibliothèque officielle ainsi que l'ensemble de sa documentation est disponible à l'adresse <a class="alert-link">https://pymodbus.readthedocs.io/en/latest/</a> <br> 
+<h3>Pyuic5</h3>
+<h4>Présentation</h4>
+Une fois l'interface graphique est réalisée à l'aide de QtDesigner, il faut utiliser <b>pyuic5</b> pour convertir le fichier <span class='badge badge-primary'>.ui</span> en fichier python exploitable.<br>
+La commande pour transformer le fichier UI est la suivante (via un terminal/console) :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+pyuic5.py -x fichier_qtdesigner_entree.ui -o fichier_python_sortie.py
+
+</code></pre><hr>
+Vous n'aurez jamais besoin d'écrire à la main dans le fichier python généré par pyuic5. En effet, <b>ce fichier doit être re-généré à chaque fois que vous modifiez l'interface depuis QtDesigner</b>, si vous oubliez,  vous ne constaterez aucun changement.
+<h4>Améliorations</h4>
+Étant donné que le fait de régénérer le fichier .ui à chaque changement peut être pénible, nous avons rédigé un script python qui transforme tout les fichier QtDesigner présent dans un dossier en fichier python. <br>
+
+Cette section sera abordée plus en détail par la suite.
+
+<h4>Installation</h4>
+La commande pour installer Pyuic5 est la suivante : <br>
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+pip install pyqt5-tools
+
+</code></pre><hr>
+Il est possible d'installer la bibliothèque avec Anaconda : <br>
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+conda install -c anaconda pyqt
+
+</code></pre><hr>
+
+<h3>Présentation</h3>
+Ce tutoriel a pour but d'accompagner la mise en place du projet de supervision en Python avec le logiciel QtDesigner et les outils de Pyqt5. Ce document explique les bases du logiciel afin de faciliter sa compréhension.
+
+<h3>Pré-requis</h3>
+Ce tutoriel a été rédigé avec la version 5.14 de QtDesigner. <br>
+
+<h2 >Prise en main de QtDesigner</h2>
+<h3>Nouveau projet</h3>
+Tout d'abord, il faut ouvrir le logiciel QtDesigner, disponible après une recherche dans la barre de menu.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_context_search_software.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_context_search_software.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Ouverture du logiciel</figcaption></div></figure>
+La commande suivante permet également de lancer QtDesigner via une console : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+designer
+
+</code></pre><hr>
+Au démarrage, une fenêtre apparaît. Sélectionnez <b>'MainWindow'</b> puis 'Créer'
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_context_new_window.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_context_new_window.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Fenêtre au démarrage</figcaption></div></figure>
+Il s'agit de déterminer le type de fenêtre que nous souhaitons implémenter dans le logiciel. Dans notre cas, nous souhaitons créer une fenêtre principale. Cet objet possède de base certaines propriétés pratiques comme un menu en en-tête de fenêtre, et beaucoup d'autres choses qui pourront nous servir pour la suite.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_context_qt_designer_menu.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_context_qt_designer_menu.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Menu possible avec une fenêtre 'MainWindow'</figcaption></div></figure>
+\bold{
+
+A ce moment-là, nous vous invitons à choisir un nom pour le projet, comme par exemple <span class='badge badge-light'>UI demo</span> et a le sauvegarder dans un répertoire appelé <span class='badge badge-light'>Qt tutoriel.</span>}
+<b>Ce dossier sera notre répertoire de travail tout au long du tutoriel</b>. <br>
+Le préfixe UI permet de repérer que ce fichier est un document QtDesigner (format .ui). <b>Dans notre cas, le fichier s'appellera <span class='badge badge-primary'>UI demo.ui</b></span>. <br> <br> 
+{\color{red}Il est fortement conseillé de sauvegarder régulièrement votre travail, sous peine de perdre vos données.}
+
+<h3>Présentation de l'interface</h3>
+Une fois que le fichier <span class='badge badge-primary'>UI demo.ui</span> est ouvert, vous arrivez sur une page similaire à l'image suivante : <br>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_context_main_window.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_context_main_window.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Fenêtre principale de QtDesigner avec ses outils</figcaption></div></figure>
+Cette page regroupe tous les élements permettant de faire une interface graphique minimaliste.
+
+Tout d'abord nous avons une barre d'outils. <br>
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_context_toolbar.PNG'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_context_toolbar.PNG' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Barre d'outils supérieure</figcaption></div></figure>
+Cette barre permet de gérer les fichier (Enregistrer, ouvrir un nouveau fichier...) et propose quelques utilisations plus spécifiques que nous verrons plus tard. <br>
+
+En plus de ça, nous avons donc 5 zones d'outils, sans compter la barre d'outil supérieure: 
+
+<ul>
+    %ITEM
+
+    <li> {\color{green}Une liste de widgets}
+</li>
+    Dans cette section sont disponibles l'ensemble des widgets communs que vous souhaitez inclure dans votre projet.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_widget_list.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_widget_list.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Zone des widgets</figcaption></div></figure>
+    %ITEM
+
+    <li> {\color{blue}Une zone de travail}
+</li>
+    Cet espace de travail représente une vue de la fenêtre de votre futur logiciel avec ses widgets. <br>
+
+    Au démarrage d'un projet, cet espace est vide.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - La zone de travail</figcaption></div></figure>
+    %ITEM
+
+    <li> {\color{red}Un inspecteur d'objet que nous appellerons <b>arborescence</b> dans le document}</li>
+    Tous les widgets insérés dans la zone de travail viendrons s'ajouter automatiquement dans l'arborescence.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_tree.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_tree.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Arborescence de la fenêtre</figcaption></div></figure>
+    
+
+    %ITEM
+
+    <li> {\color{magenta}Un éditeur de propriétés}
+</li>
+    Chaque widget possède des propriétés que nous pouvons changer à tout instant avec cet éditeur.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_properties.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_properties.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Éditeur de propriétés</figcaption></div></figure>
+    %ITEM
+
+    <li> {\color{gray}Un explorateur de ressource}, qui permettra par la suite de mettre en forme les Widgets proposés par le module <span class='badge badge-success'>ENIBSupervision</span> utilisé dans le projet.</li>
+    
+
+</ul>
+<h4>Placer un widget</h4>
+Prenons un bouton (QPushButton) parmi la {\color{green}liste des widgets} et déplaçons le sur {\color{blue}zone de travail} (avec la souris, clic-gauche maintenu sur le widget pendant le déplacement), au centre de l'écran.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_add_widget.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_add_widget.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Ajouter un widget en le glissant vers l'espace de travail</figcaption></div></figure>
+Vous devriez obtenir un bouton similaire. <br>
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_new_button.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_new_button.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Premier bouton placé sur la fenêtre</figcaption></div></figure>
+<h4>Renommer un widget</h4>
+Dans un souci de clarté pour la suite, nous vous invitons à tout de suite renommer l'élément avec un nom plus explicite. <br>
+
+{\color{red}En effet, dans le programme python, le lien entre l'interface graphique et le programme sera fait par ce nom de widget.} <br> 
+
+Pour cela, il faut aller dans la zone de droite qui contient l'arborescence des widgets de la fenêtre.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_properties_rename_widget.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_properties_rename_widget.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Emplacement pour renommer l'élément</figcaption></div></figure>
+Ici, le bouton "pushButton" a été renommé en "pb run" en double-cliquant sur "pushButton". Le texte passe en fond bleu, cela veut dire que vous pouvez renommer l'élément. La touche entrée valide le nouveau nom. <br>
+
+Pour l'instant, veuillez ne pas toucher à la section de droite encadrée en rouge. Il s'agit des classes de chaque widgets. 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_tree_forbidden_access.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_tree_forbidden_access.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Nom de classe à ne pas modifier</figcaption></div></figure>
+<h4>Propriétés des widgets</h4>
+Une fois que le widget est placé, nous souhaiterions changer quelques unes de ses propriétés. <br>
+
+Les propriétés d'un widgets sont disponibles dans le menu en bas à droite.
+
+Pour afficher les propriétés d'un widget, il faut soit
+
+<ul>
+    <li> sélectionner le widget sur la zone de travail (clic-gauche)
+</li>
+    <li> sélectionner le widget dans l'arborescence de la fenêtre (clic-gauche)
+</li>
+</ul>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_properties_search_property.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_properties_search_property.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Propriétés des widgets sélectionnés [encadré bleu]</figcaption></div></figure>
+<h4>Définir la couleur d'un widget</h4>
+Pour changer la couleur d'arrière-plan d'un widget, il faut sélectionner la propriété "palette" puis cliquer dessus.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_properties_color.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_properties_color.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Couleurs des widgets</figcaption></div></figure>
+<h4>Définir le contenu d'un widget</h4>
+Pour les widgets gérant un affichage pour l'utilisateur, toutes les informations se trouvent dans les propriétés avec un fond vert.<br>
+
+Pour changer le texte du bouton par exemple, il faut modifier le champ "text".<br>
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_properties_text_content.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_properties_text_content.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Contenu du widget "PushButton"</figcaption></div></figure>
+<h3>Mise en forme d'un widget</h3>
+Maintenant que nous avons notre bouton, nous souhaiterions qu'il soit mieux placé et que sa taille s'adapte à celle de l'écran et des autres widgets. Pour cela, il faut utiliser les layouts, c'est à dire les widgets de mise en forme.
+
+Ces widgets sont disponibles aux emplacements suivants : <br>
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_widget_layout.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_widget_layout.png' class='alignnone size-medium' style='max-width:75%;'></a><figcaption>Figure - Emplacements des layouts</figcaption></div></figure>
+Nous allons configurer notre zone de travail pour que tous les widgets adaptent leur taille à celle de l'écran.
+
+Pour cela, il faut  d'abord qu'il y ait au moins un widget sur la fenêtre (un bouton par exemple) et que l'espace de travail soit sélectionné (Clic-gauche sur "MainWindow" dans l'arborescence). <br>
+
+Ensuite, sélectionner le bouton "Mettre en page dans une grille" (raccourci "<b>ctrl+g</b>") dans la barre d'outil.
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_toolbar_grid_layout.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_toolbar_grid_layout.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - Configurer la fenêtre pour adapter son contenu</figcaption></div></figure>
+Et voila, notre widget prend automatiquement l'espace nécessaire au sein de la fenêtre. <br>
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_responsive_button.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_responsive_button.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Un bouton avec des dimensions automatiques</figcaption></div></figure>
+Si cette étape n'est pas faite, lorsque l'interface sera lancée, le widget aura toujours la même taille sur n'importe quel format d'écran (15", 17"...). L'avantage, c'est que cette étape n'est à faire qu'une seule fois, au début de tout nouveau projet. <br>
+
+Nous allons placer un second bouton à coté du nôtre. On souhaite que les deux boutons aient les mêmes dimensions.
+
+Il suffit de prendre un nouveau "pushButton" et de le glisser à coté du premier. Pour savoir l'emplacement du futur bouton, une ligne bleue apparaît au survol de la zone de travail avec le nouveau bouton.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_worspace_blue_line.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_worspace_blue_line.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Ligne de l'emplacement des widgets au survol</figcaption></div></figure>
+{\color{red}\bold{Le seconde bouton aura pour valeur "pb exit" (propriété du bouton dans l'éditeur de propriétés) et son nom dans l'arborescence sera "pb exit".<br> 
+
+Notez également pour la suite que le premier premier bouton ("pb run") est appelé "pb run" dans l'arborescence. <br> 
+
+Il est important de renommer un widget avec un nom pertinent dès l'ajout de ce dernier.}}
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_two_button.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_two_button.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Nos deux boutons</figcaption></div></figure>
+<h4>Simuler l'interface graphique</h4>
+Pour visualiser un rendu du logiciel, il faut utiliser le raccourci clavier "<b>ctrl+r</b>". <br> Cela permet de donner une idée plus précise de l'interface.
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_run_two.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_run_two.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - La fenêtre de simulation</figcaption></div></figure>
+Pour tester le résultat, nous vous invitons à dimensionner la fenêtre de simulation avec la souris. Vous pourrez constater que la taille des boutons s'adapte à la taille de la fenêtre.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_responsive_two.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_responsive_two.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - La fenêtre de simulation avec une taille variable</figcaption></div></figure>
+<h3>Création du menu</h3>
+<h4>Ajout de sous-menu</h4>
+Afin de proposer des outils aux futurs utilisateurs du logiciel, nous souhaitons créer un menu comportant des sous-menus.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_context_qt_designer_menu.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_context_qt_designer_menu.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Exemple de menu</figcaption></div></figure>
+Étant donné que la fenêtre est de type "MainWindow", un début de menu est déjà disponible. Pour créer le premier élément du menu, veuillez sélectionner le haut de l'espace de travail en cliquant sur "Éditer". <br>
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_add_menu.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_add_menu.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Ajout de sous-menu</figcaption></div></figure>
+Une fois sélectionné, l'arrière-plan passe en bleu, vous pouvez éditer le nom du sous-menu puis valider avec la touche "entrée".
+
+<h4>Création des raccourcis clavier</h4>
+Il est possible de faire les raccourcis clavier du logiciel via l'interface QtDesigner. 
+
+<h3>Création d'une barre d'information</h3>
+Une barre d'information est disponible nativement pour afficher du texte sur les pages du logiciel. <br> Le widget associée est appelé <b><i>QStatusBar</i></b>.
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_statusbar.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_statusbar.png' class='alignnone size-medium' style='max-width:55%;'></a><figcaption>Figure - Ajout de barre d'information</figcaption></div></figure>
+La documentation est disponible à l'adresse suivante : <br> <a class="alert-link">https://doc.qt.io/qt-5/qstatusbar.html</a>
+<h2 >Les principaux widgets</h2>
+Nous vous proposons de découvrir les principaux widgets et leurs propriétés spécifiques.
+
+<br>
+
+Nous vous recommandons de consulter la documentation Qt pour les différents widgets afin d'obtenir plus d'informations à leur sujets.
+
+<h3>Les widgets usuels</h3>
+<h4>Widget QLabel</h4>
+Le widget <b><i>QLabel</i></b> permet d'afficher du texte. 
+Il est possible de rédiger du texte riche avec des tailles de polices, des polices et des couleurs différentes. <br> <br>
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_qlabel.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_qlabel.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Un widget QLabel</figcaption></div></figure>
+La documentation du widget est disponible à l'adresse suivante : <br>  <a class="alert-link">https://doc.qt.io/qt-5/qlabel.html</a>
+<h4>Widget QLineEdit</h4>
+Le widget <b><i>QLineEdit</i></b> permet à l'utilisateur de saisir du texte sur une seule ligne pour l'exploiter par la suite. 
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_lineedit.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_lineedit.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Un widget QLineEdit</figcaption></div></figure>
+La documentation du widget est disponible à l'adresse suivante : <br>  <a class="alert-link">https://doc.qt.io/qt-5/qlineedit.html</a>
+<h4>Widget QComboBox</h4>
+Le widget <b><i>QComboBox</i></b> est un outil de sélection d'un élément parmi une liste. <br> <br>
+La documentation du widget est disponible à l'adresse suivante :   <a class="alert-link">https://doc.qt.io/qt-5/qcombobox.html</a> 
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_combobox.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_combobox.png' class='alignnone size-medium' style='max-width:20%;'></a><figcaption>Figure - Un widget QComboBox</figcaption></div></figure>
+<h4>Widget QSpinBox</h4>
+Le widget <b><i>QSpinBox</i></b> est une zone de saisie de nombre entier configurable.
+Sa variante pour les nombres flottants est <b><i>QDoubleSpinBox</i></b> 
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_spinbox.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_spinbox.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Un widget QSpinBox</figcaption></div></figure>
+La documentation du widget est disponible à l'adresse suivante : <br>  <a class="alert-link">https://doc.qt.io/qt-5/qspinbox.html</a> 
+<h4>widget QTabWidget</h4>
+Le widget <b><i>QTabWidget</i></b> permet de faire des onglets (un peu comme un navigateur internet)
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_tabwidget.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_tabwidget.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Un widget QtabWidget</figcaption></div></figure>
+La documentation du widget est disponible à l'adresse suivante : <br>  <a class="alert-link">https://doc.qt.io/qt-5/qtabwidget.html</a> 
+<h3>Les boites de dialogue</h3>
+Il est parfois souhaitable d'afficher des informations à l'utilisateur par l'intermédiaire de boites de dialogue. <br>.
+
+<h4>QMessageBox</h4>
+Un type de boite de dialogue est la <b><i>QMessageBox</i></b>. Cela permet d'afficher des informations de différentes natures.<br>
+Le programme pour afficher ces fenêtres est expliqué, même si sa mise en place se fera plus tard. <br>
+
+Il est conseillé de savoir que ces fenêtres existent car cela apporte des informations pour la supervision.<br>
+
+Pour utiliser cette boite de dialogue, il faut importer le module suivant
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+from PyQt5.QtWidgets import QMessageBox
+
+</code></pre><hr>
+<ul>
+    <li> Une fenêtre d'information
+</li>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_qmessagebox_information.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_qmessagebox_information.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - QMessageBox d'information</figcaption></div></figure>
+    L'instruction pour afficher la fenêtre est la suivante
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    QMessageBox.information(self, "Message PyQt5", "Ceci est une information")
+
+</code></pre><hr>
+    <li> Une fenêtre d'avertissement
+</li>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_qmessagebox_warning.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_qmessagebox_warning.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - QMessageBox d'avertissement</figcaption></div></figure>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    QMessageBox.warning(self, "Message PyQt5", "Ceci est un avertissement")
+
+</code></pre><hr>
+    <li> Une fenêtre d'erreur
+</li>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_qmessagebox_critical.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_qmessagebox_critical.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - QMessageBox d'erreur</figcaption></div></figure>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    QMessageBox.critical(self, "Message PyQt5", "Ceci est une erreur")
+
+</code></pre><hr>
+    <li> Une fenêtre pour une question 
+</li>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_qmessagebox_question.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_qmessagebox_question.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - QMessageBox pour une question</figcaption></div></figure>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    reponse = QMessageBox.question(self, "Message PyQt5", "Votre question ?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+</code></pre><hr>
+    Le dernier argument représente la valeur par défaut lors de l'appui sur la touche "Entrée". <br>
+
+    Pour traiter la réponse, il suffit de regarder la valeur de "reponse"
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    if(reponse==QMessageBox.Yes):
+
+        print("Réponse Oui")
+
+    else:
+
+        print("Réponse Non")
+
+</code></pre><hr>
+</ul>
+<h2 >Les interactions</h2>
+<h3>Les signaux et slots</h3>
+Une fois que notre interface (<span class='badge badge-primary'>MainWindow.ui</span>) est réalisée, nous souhaiterions effectuer des actions lorsque l'utilisateur interagit avec des widgets. <br> <br>
+Pour cela, QtDesigner est basé sur un modèle signaux/slots, c'est à dire qu'un évènement choisi parmi une liste permet d'appeler une fonction existante. <br>
+
+Plus précisément, un signal est émit lorsque l'utilisateur effectue une action. Il ne reste plus qu'a récupérer ce signal, un peu comme le système d'exception en C++ (try/catch).
+
+L'évènement est appelé "signal" et la fonction "slot". <br> <br>
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_slots.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_slots.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Un signal et un slot sur un bouton</figcaption></div></figure>
+Dans l'exemple précédent, on observe que l'appui sur le bouton "button" déclenche la fonction "quit" de l'interface principale.
+
+La mise en place effective du système de signaux/slots sera effectué dans la partie  \ref{exemple_signal} (<u>Connexion d'un bouton</u>)
+<h3>Génération des fichiers python</h3>
+Avant de programmer les signaux/slots, il convient de convertir notre fichier .ui en un fichier python exploitable par la suite. C'est l'utilitaire <b>Pyuic5</b> qui va l'effectuer. <br>
+Ce programme attend en entrée un fichier au format .ui et va sortir un fichier Python. La commande générique est la suivante : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+pyuic5 -o fichier_python.py -x fichier_qtdesigner.ui
+
+</code></pre><hr>
+Le "-o" permet de préciser le fichier de sortie (output), c'est à dire le nom du fichier que nous souhaitons générer en python. <br> <br>
+
+Le "-x" permet de préciser le fichier d'entrée (eXecutable) que nous souhaitons convertir. <br> <br>
+
+Dans notre cas, nous allons faire la commande suivante, toujours dans notre répertoire <span class='badge badge-light'>Qtdesigner tuto</span>. <br>.
+On n'oubliera pas de sauvegarder notre projet QtDesigner au préalable.
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+pyuic5 -o MainWindow.py -x UI_demo.ui
+
+</code></pre><hr>
+Et voila, dans le dossier <span class='badge badge-light'>Qt tutoriel</span>, un fichier python appelé <span class='badge badge-primary'>UI MainWindow.py</span> vient d'être crée par pyuic. <br>
+En  principe,  vous  n’aurez  jamais  besoin  de  modifier  le  fichier  python généré par Pyuic. En  effet, <b>{\color{red</b>ce  fichier  doit être généré à chaque  fois  que  vous  modifiez l’interface depuis QtDesigner}}, auquel cas vous ne constaterez aucun changement. <br>
+Dans le cas de notre projet, faire une interface graphique avec QtDesigner est très graphique mais il est possible de faire l'interface directement en programmation Python. <br>
+
+Pour vous en convaincre, voici un extrait de fichier python généré par Pyuic5 : <br>
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+class Ui_MainWindow(object):
+
+    def setupUi(self, MainWindow):
+
+        MainWindow.setObjectName("MainWindow")
+
+        MainWindow.resize(645, 434)
+
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+
+        self.centralwidget.setObjectName("centralwidget")
+
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+
+        self.gridLayout.setObjectName("gridLayout")
+
+        self.sw_main = QtWidgets.QStackedWidget(self.centralwidget)
+
+        self.sw_main.setObjectName("sw_main")
+
+        self.page_4 = QtWidgets.QWidget()
+
+        self.page_4.setObjectName("page_4")
+
+</code></pre><hr>
+Ainsi, si nous saisissons ces lignes dans un fichier Python, nous obtiendrons la même interface que celle réalisée avec QtDesigner, cependant, le temps de prise en main n'est pas le même. <br>
+
+<h3>Introduction à la Programmation Orientée Objet</h3>
+Afin de mieux comprendre le code généré et nécessaire à la création des interfaces graphiques sous QtDesigner, il convient d'expliquer quelques notions de <b>Programmation Orientée Objet</b>. 
+La Programmation Orientée Objet (POO) est un concept de programmation qui vise à créer des "objets". <br> <br>
+
+Ces objets possèdent des <b>attributs</b> (sorte de propriétés intrinsèques) et possèdent également des <b>méthodes</b>, c'est à dire des fonctions permettant d'interagir en interne et avec d'autres objets. <br> <br>
+Prenons un exemple et considérons un objet "<b><i>Véhicule</i></b>"<span title="Par convention, les noms d'objets possèdent une majuscule." style='color:grey;'><sup>[note]</sup></span>. <br>
+Cet objet possède des propriétés comme une couleur, des dimensions, un nombre de roues, etc. Ces élements forment les attributs de notre objet "<b><i>Véhicule</i></b>". <br>
+Maintenant, ou souhaite définir le comportement de notre objet "<b><i>Véhicule</i></b>". Nous allons décréter que notre objet peut <i>avancer</i>, <i>reculer</i>, <i>tourner à droite</i>, etc.
+Ces actions forment les méthodes de notre objet.<br> <br>
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_poo.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_poo.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Un objet 'Véhicule'</figcaption></div></figure>
+La POO introduit en programmation la notion d'<b>héritage</b>. <br>
+Cela signifie qu'un objet parent transmet tous ses attributs et ses méthodes à un ou plusieurs enfants. <br>
+
+Par exemple, nous voulons créer une classe "<b><i>Voiture</i></b>". Quelle est la manière la plus rapide de créer un objet Voiture ? Et bien il suffit de faire hériter notre objet "<b><i>Véhicule</i></b>" à notre nouvel objet "<b><i>Voiture</i></b>", ainsi, notre "<b><i>Voiture</i></b>" aura une couleur, des dimensions, un nombre de roues, etc et pourra <i>avancer</i>, <i>reculer</i> et se déplacer de la même manière que le "<b><i>Véhicule</i></b>". <br> Ce modèle est pertinent dans la mesure ou une voiture, un vélo ou même une trottinette ont des propriétés communes, ce sont tous des véhicules. <br>
+Nous pourrions également appliquer le principe de POO à un objet "<b><i>Animaux</i></b>" et créer des objets "<b><i>Mammifères</i></b>", "<b><i>Oiseaux</i></b>", "<b><i>Poissons</i></b>" par héritage. <br>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_poo_heritage.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_poo_heritage.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - L'héritage entre l'objet "\ib{Véhicule</figcaption></div></figure>
+Qt utilise la POO car parmi tous les widgets, certains ont des propriétés communes (<b><i>QSpinBox</i></b> et <b><i>QDoubleSpinBox</i></b>) avec très peu de différences. Il est donc pertinent de partir d'un objet <u>parent</u> (<b><i>QWidget</i></b>) et de transmettre toutes les propriétés à ses <u>enfants</u>, tout en modifiant parfois certaines de ses propriétés. <br>
+Concrètement, la structure d'un objet est défini par une classe constituée de fonctions membres (méthodes) et de variables (attributs)
+
+<h3>Création d'un objet par héritage</h3>
+Pour résumer, l'utilitaire Pyuic créé un objet <span class='badge badge-success'>UI MainWindow</span> qui contient des attributs telles qu'une couleur d'arrière plan et des méthodes pour l'application. <br>
+Nous voulons donc créer notre propre objet par héritage que nous appellerons <b><i>MyObject</i></b> pour ajouter des fonctionnalités (méthodes et attributs) qui permettront notamment de gérer nos nouveaux boutons. <br>
+Ouvrez un fichier que vous appellerez <span class='badge badge-primary'>MyModule.py</span>
+Ensuite, importez le fichier Python généré par Pyuic avec l'instruction suivante :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#On importe notre objet depuis le fichier UI_demo.py, généré par Pyuic
+
+from UI_demo import Ui_MainWindow
+
+</code></pre><hr>
+puis importer les modules de base de PyQt :  
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+</code></pre><hr>
+Maintenant, nous pouvons nous atteler à la création de notre classe <b><i>MyObject</i></b> (structure de notre objet) qui hérite de <b><i>QMainWindow</i></b>, afin d'exploiter notre interface graphique.
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+class MyObject(QtWidgets.QMainWindow):
+
+</code></pre><hr>
+En programmation Python, l'héritage se définit lors de la création de la classe.<br>
+
+Ici, avec la présence d'un argument entre les parenthèses, cela veut dire que <b><i>MyObject</i></b> hérite de <b><i>QtWidget.QMainWindow</i></b>.
+La structure générale d'héritage en Python est donc la suivante : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+class objet(parent):
+
+</code></pre><hr>
+<h4>Déclaration du constructeur de classe</h4>
+Il nous faut maintenant définir un comportement lors de la création de notre objet. <br>
+
+Pour cela, on va créer un constructeur de classe<span title="En réalité un initialisateur, le constructeur est   new  ." style='color:grey;'><sup>[note]</sup></span>
+
+Le constructeur est une méthode appelée dès la création de l'objet, c'est même la première méthode qui crée l'objet. <br>
+
+En python, le constructeur est repérée par le mot clé <b>  init  </b> (préfixe et suffixe de init avec deux underscores).
+Notre déclaration de constructeur de classe est donc la suivante : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    def __init__(self, parent = None):
+
+</code></pre><hr>
+On déclare que notre constructeur peut attendre en argument un parent mais que ce n'est pas obligatoire (présence d'un argument par défaut valant None). <br> Qt tolère des constructeurs avec aucun parent renseigné. <br>
+
+L'argument <b>self</b><span title="Le mot-clé self est utilisé par convention, mais on pourrai tout aussi bien choisir un autre mot." style='color:grey;'><sup>[note]</sup></span> est un argument obligatoire pour toute méthodes en python, il représente l'objet courant. 
+<h4>Définition du constructeur de classe</h4>
+Cependant, pour que notre objet possède les méthodes et attributs de l'objet <b><i>QMainWindow</i></b> (héritage), il faut instancier notre objet parent, c'est à dire <b><i>QMainWindow</i></b>.
+Pour cela, on utilise la syntaxe suivante : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+        super().__init__(parent)
+
+</code></pre><hr>
+L'instruction <i>super.  init  (parent)</i> est un appel du constructeur parent. <br>
+Et voila, notre future fenêtre aura toutes les méthodes et attributs de l'objet <b><i>QMainWindow</i></b>, dont la méthode pour lancer l'interface et l'afficher. <br>.
+Cependant, notre classe <b><i>MyObject</i></b> ne possède pas les propriétés de notre interface créés sous QtDesigner. pour cela, il faut instancier l'objet importé depuis le fichier <span class='badge badge-primary'>UI demo.py</span> (module généré par Pyuic5) : 
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+        self.__ui = UI_MainWindow()
+
+</code></pre><hr>
+Ici, <b>self</b> fait toujours référence à notre objet courant (<b><i>MyObject</i></b>) et le fait de mettre le symbole <b>  </b> en préfixe de variable permet à Python de considérer la variable comme étant privée. <br> 
+Le fait de mettre une variable privée permet de rendre le code plus robuste dans la mesure ou le membre doit être manipulé par des méthodes spéciales.<br>
+
+De ce fait, nous avons créer un membre de notre classe qui sera bientôt l'interface faite sous QtDesigner. <br>
+
+Cependant, il est nécessaire de lier notre objet (<b><i>MyObject</i></b>) à notre interface représentée par la variable membre <b>self. ui</b> <br>
+Il faut écrire la ligne suivante, ou <u>self</u> est notre objet <b><i>MyObject</i></b> : 
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+        self.__ui.setuUI(self)
+
+</code></pre><hr>
+<b>Et dans le fichier <span class='badge badge-primary'>MyModule.py</b>, vous devriez avoir les instructions suivantes :</span>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+from UI_demo import UI MainWindow
+
+#Objet MyObject qui hérite de QtWidgets.QMainWindow
+
+class MyObject(QtWidgets.QMainWindow):
+
+    
+
+    #Constructeur de classe
+
+    __init__(self, parent=None):
+
+        
+
+        #Instance de l'objet UI_MainWindow
+
+        self._ui = UI_MainWindow()
+
+        #On 'attache' l'interface à notre objet courant
+
+        self.ui.setupUI(self)
+
+</code></pre><hr>
+<h3>Lancement du programme</h3>
+<h4>Création du fichier principal</h4>
+Nous avons actuellement créer un objet <b><i>MyObject</i></b> qui est le rendu de l'interface faite sous QtDesigner. Nous souhaiterions l'exécuter comme un programme classique. <br>
+Nous allons créer dans le <b>répertorie <span class='badge badge-light'>Qt tutoriel</b></span> un fichier <span class='badge badge-primary'>main.py</span> qui va représenter notre fichier principal, sous-entendu qui va lancer l'application à partir d'un terminal. <br>
+<b>Vous devriez obtenir, dans le répertoire <span class='badge badge-light'>Qt tutoriel</b> les fichiers suivants : </span>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Fichiers dans le répertoire de travail</figcaption></div></figure>
+Dans le fichier <span class='badge badge-primary'>main.py</span>, il faut commencer par importer les modules courants de PyQt5 : 
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+import sys
+
+</code></pre><hr>
+Nous importerons également le module sys qui permet de gérer les sorties d'applications. <br>
+
+Ici, nous allons importer notre classe <b><i>MyObject</i></b> précédemment créée et contenue dans le fichier <span class='badge badge-primary'>MyModule.py</span>.
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+from MyModule import MyObject
+
+</code></pre><hr>
+Ensuite, nous avons la ligne suivante pour autoriser à lancer le programme uniquement si ce dernier est lancé en tant que programme principal et non en tant que module.
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+if(__name__ == "__main__"):
+
+</code></pre><hr>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    app = QtWidgets.QApplication(sys.argv)
+
+    MyWindow = MyObject()
+
+</code></pre><hr>
+Ces deux lignes déclarent deux objets nommés "app" et "MyWindow" qui sont une instance respective de la classe <b><i>QApplication</i></b> et <b><i>MyObject</i></b>. <br>
+Ici, "app" et "MainWindow" seront donc vus comme des entités ayant des propriétés.<br>
+
+En argument de <b><i>QtApplication</i></b>, nous avons "sys.argv", cela permet de transmettre les arguments de la ligne de commande, à l'image de la syntaxe suivante en C++ pour récupérer les arguments de la ligne de commande : <br><br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+   int main(int argc, char const *argv[]) {
+
+        return 0;
+
+   }
+
+</code></pre><hr>
+Maintenant, nous sommes en mesure  d'afficher la fenêtre de notre interface avec l'instruction suivante
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+	MyWindow.show()
+
+</code></pre><hr>
+Maintenant que nous avons instancié notre objet <b><i>MyObject</i></b>, la méthode <i>show</i> permet uniquement d'afficher l'interface (mais pas de faire les traitements définit par l'utilisateur. <br>
+Les traitements se font via la méthode "<i>exec</i>" de l'objet "app".
+Ainsi, on exécute les traitements de l'application et lorsque l'application se ferme (choix de l'utilisateur ou bien erreur de l'application), un code d'erreur est retourné à la fonction <i>sys.exit()</i>.
+<h4>Lancement de l'interface</h4>
+Il ne vous reste plus qu'a saisir un terminal et de lancer la commande suivante : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+	python main.py
+
+</code></pre><hr>
+Et voila, votre interface se lance.
+
+%Image lancement
+
+<h3>Connexion d'un bouton</h3><span id='exemple_signal'></span>
+Rappelez-vous, nous avons créée deux boutons (pb run et pb exit). Nous souhaiterions effectuer une action lors d'un appui sur les boutons. <br>
+
+Nous allons donc connecter nos boutons par le système de signal/slot de Qt
+
+Pour cela, <b>nous nous plaçons dans le fichier d'interaction <span class='badge badge-primary'>MyModule.py</b>.</span><br>
+Il est généralement conseillé de faire les interactions dans le constructeur de la classe car cette fonction est appelée dès le lancement du programme. <br>
+
+Avant de code, il convient de connaître l'évènement associé. Dans le cas d'un <b><i>QPushButton</i></b>, le <b>signal</b> "clicked" est émis par le programme. <br>
+Ce signal devra donc déclencher la fonction membre (slot) "<i>test pb</i>" que nous allons coder à la suite du constructeur. <br>
+Dans la fonction   init  , le code générique pour une interaction est  : <br>
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+	 self.__ui.objet.signal.connect(self.slot)
+
+</code></pre><hr>
+Où <b>objet</b>, <b>signal</b> et <b>slot</b> valent respectivement <b>pb run</b>, <b>clicked</b> et <b>test pb</b>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+	 self.__ui.pb_run.clicked.connect(self.test_pb_run)
+
+</code></pre><hr>
+Tout au long du programme, le mot clé <b>self  ui</b> représentera l'objet courant dans le programme, c'est à dire la fenêtre de notre interface. <br>
+<h3>Ajout d'une fonction</h3>
+Une fois notre bouton connecté, il ne reste plus qu'a créer le slot (fonction appelée). <br>
+
+Chaque ajout de fonction se fait à la suite du constructeur.
+
+En python, une fonction se traduit par le mot-clé <b>def</b> suivi de son nom et du symbole ':' <br>
+{\color{red}Dans le cas de la programmation python, il est impératif de mettre en premier argument le mot-clé <b>self</b> pour chaque nouvelle fonction-membre ajoutée.} <br>
+Une mauvaise indentation provoquera une erreur d'exécution. 
+
+Le mot clé "<b>def</b>" des fonction ajoutées sera toujours au même niveau d'indentation que le "<b>def</b>" du constructeur. (  init  )<br>
+Notre fonction <i>test pb run</i> se contentera d'afficher la bonne réception du signal. Vous devriez donc obtenir un code similaire : <br>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+def __init__(self,parent = None):
+
+    super().__init__(self,parent)
+
+    self.__ui = Ui_MainWindow()
+
+    self.__ui.setupUi(self)
+
+    
+
+    #Connexion du bouton
+
+    this.__ui.pb_run.clicked.connect(self.test_pb_run)
+
+        
+
+def test_pb(self):
+
+    print("PushButton pb_run clicked")
+
+        
+
+</code></pre><hr>
+je vous invite à lancer l'interface avec le fichier <span class='badge badge-primary'>main.py</span> et de constater le résultat dans le terminal lors de l'appui du bouton "pb run"
+%image terminal python lancé
+
+<h3>Quelques signaux supplémentaires</h3>
+Pour connaître les signaux existants, on peut sélectionner le widget dans l'espace de travail puis avec un clic-droit, on sélectionne "Aller au slot". <br>
+
+Tous les signaux associés au widget courant sont visibles.
+
+Il est également possible de générer des signaux personnalisés (En savoir plus à l'adresse <a class="alert-link">https://www.pythoncentral.io/pysidepyqt-tutorial-creating-your-own-signals-and-slots/</a>)
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_signals.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/designer_workspace_signals.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Les signaux pour une ComboBox</figcaption></div></figure>
+<h2 >Ajouts de widgets personnalisés</h2>
+Lors de la création de l'interface de supervision, nous serons amenés à utiliser des widgets qui nous avons crées. <br>
+
+Ces widgets formerons des moteurs, vérins, voyant, etc. 
+
+Le fonctionnement de ces widgets est définis par le fichier <span class='badge badge-primary'>DynamicObject.py</span> au sein de la classe <b><i>DynamicObject</i></b>.
+<h3>Importation d'un type de widget</h3>
+Nous allons vous montrez comment représenter un objet dynamique. Pour cette expérimentation nous présenterons l'utilisation d'un objet "vérin" mais le fonctionnement est similaire pour tous les autres objets.
+
+Tout d'abord, ajoutez un widget sur la fenêtre d'interface.
+
+On peut le renommer pour être plus explicite (fenêtre à droite).
+
+Notre widget sera le parent de notre objet "vérin". Pour cela, on doit indiquer le fichier d'utilisation de notre classe <b><i>DynamicObject</i></b>.
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Localisation du widget "Widget"</figcaption></div></figure>
+Puis on sélectionne notre widget et click Droit puis <u>promote to</u>. 
+\img{images/ObjetDynamique/programme_4.png}{}{0.85}
+
+On remplit nos champs comme ci-dessous:
+
+-Promoted class name: <b><i>DynamicObject</i></b>
+-Header file: <span class='badge badge-primary'>ENIBSupervision/UI class/UI DynamicObject.py</span>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Contenu des zones de saisi</figcaption></div></figure>
+On peut maintenant sauvegarder et fermer QtDesigner. 
+
+<b>Cette étape est à faire une seule fois. Ensuite, pour chaque nouveau widget personnalisé, il faudra choisir dans <u>promote to</b> la classe DynamicObject qui sera apparue.</u> 
+Pour les voyants qui serons abordés par la suite, il faudra promouvoir en <b><i>IndicLight</i></b>
+
+Ce document a pour but de vous initier à l'utilisation de PyQt5 à travers la réalisation d'un programme simple utilisant PyQt5 et les outils développés dans le module <span class='badge badge-success'>ENIBSupervision</span>.<br>
+Ne seront pas abordés ici :
+
+<ul>
+<li> L'utilisation de QtDesigner
+</li>
+<li> Le descriptif et le détail du code réalisé dans le module <span class='badge badge-success'>ENIBSupervision</span></li>
+</ul>
+La réalisation de ce projet a amené à la création d'un module <span class='badge badge-success'>ENIBSupervision</span> fournissant des outils facilitant la mise en oeuvre de logiciels de supervision en Python.<br>
+Ce module propose des outils et une manière d'aborder la Supervision en Python, ce n'est qu'une manière parmi tant d'autres, le but était de simplifier le travail du programmeur en proposant des outils robustes et dont l'utilisation était accessible.
+
+<h2 >Présentation</h2>
+<h3>Types de variable principaux</h3>
+Cette section à pour but de faire une présentation rapide des types les plus importants disponibles dans ce module.
+
+<h4>Types non-graphiques</h4>
+<ul>
+<li> <span id='tag-presentation-PLCVar'></span> <b><i>PLCVar</i></b> <br></li>
+Il s'agit du type principal de ce module, il représente une variable automate et possède les attributs nécessaires comme un <b>nom</b>, une <b>adresse</b>, une <b>description</b> etc... Ce type a été conçu pour fonctionner avec le type suivant : <b><i>ModbusPLC</i></b>.<br>
+Pour plus d'informations sur ce type, se référer à la documentation fournie en annexe.<br>
+
+D'un point de vue organisation, le type <b><i>PLCVar</i></b> est défini dans le sous-module <span class='badge badge-success'>PLC</span> puis dans le sous-module <span class='badge badge-success'>Variable</span>. <br>
+Pour importer ce type, il faudra par exemple utiliser :
+
+%"coloration" du code
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+from ENIBSupervision.PLC.Variable import PLCVar
+
+</code></pre><hr>
+<li> <b><i>EventsLoop</i></b> <br></li>
+Ce type permet la gestion pseudo-événementielle des variables. Son utilisation simplifie l'utilisation du type <b><i>PLCVar</i></b> grâce à l'utilisation de fonctions connectées aux changements d'états d'une variable. Ce fonctionnement sera décrit en détail plus tard mais son utilisation est obligatoire pour profiter de tous les systèmes mis en place autour de cette gestion.<br>
+Ce type permet de lancer en parallèle du programme principal une boucle qui cherchera à analyser l'état des variables dans l'automate à un intervalle de temps régulier. De la même manière, lorsque une variable est modifiée dans le programme et seulement si elle est modifiée, alors son état sera automatiquement envoyé vers l'automate. <br>
+
+Si ce fonctionnement peut sembler compliqué, nous verrons dans la suite de ce document qu'il est en réalité extrêmement simple et que l'utilisation de ce type simplifie énormément la gestion de la communication avec l'automate. <br>
+
+D'un point de vue organisation, le type <b><i>EventsLoop</i></b> est défini dans le sous-module <span class='badge badge-success'>EventsLoop</span>.<br>
+Pour plus d'informations sur ce type, se référer à la documentation fournie en annexe.<br>
+
+Pour importer ce type, il faudra par exemple utiliser :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+from ENIBSupervision.EventsLoop import EventsLoop
+
+</code></pre><hr>
+<span style='color:red;'>Il est important de noter que ce type n'est normalement pas à utiliser directement</span>. Il faut préférer l'utilisation du type <b><i>ModbusPLC</i></b> qui gérera cette boucle événementielle automatiquement.
+<li> <span id='tag-presentation-ModbusPLC'></span> <b><i>ModbusPLC</i></b> <br></li>
+Il s'agit du second type principal de ce module, il représente un automate programmable industriel et possède les attributs nécessaires comme un <b>nom</b>, une <b>adresse IP</b>, une <b>description</b> etc... Ce type a été conçu pour fonctionner avec le type suivant : <b><i>PLCVar</i></b>.<br>
+Pour plus d'informations sur ce type, se référer à la documentation fournie en annexe.<br>
+
+D'un point de vue organisation, le type <b><i>ModbusPLC</i></b> est défini dans le sous-module <span class='badge badge-success'>PLC</span> puis dans le sous-module <span class='badge badge-success'>ModbusPLC</span>. <br>
+Pour importer ce type, il faudra par exemple utiliser :
+
+%"coloration" du code
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+from ENIBSupervision.PLC.ModbusPLC import ModbusPLC
+
+</code></pre><hr>
+</ul>
+<br>
+
+<h4>Types graphiques</h4>
+<ul>
+<li> <b><i>AnimationTables</i></b><br></li>
+Ce type offre la possibilité de faire très facilement des tables d'animations à partir d'une liste de variables de type <b><i>PLCVar</i></b>. Pour un bon fonctionnement des tables générées, il <span style='color:red;'>est nécessaire</span> d'utiliser le type <b><i>EventsLoop</i></b> ou <b><i>ModbusPLC</i></b>.<br>
+La fenêtre générée propose des fonctionnalités de forçage, d'actualisation automatique des valeurs lorsque couplé à une <b><i>EventsLoop</i></b> ou un <b><i>ModbusPMC</i></b>, d'affichage des tables d'entrées/sorties redimensionnables et la possibilité de la "docker" sur une fenêtre principale de Qt \href{https://doc.qt.io/qt-5/qmainwindow.html}{QMainWindow}.<br>
+D'un point de vue organisation, le type <b><i>AnimationTables</i></b> est défini dans le sous-module <span class='badge badge-success'>UI class</span> puis dans le sous-module <br> <span class='badge badge-success'>UI AnimationTables</span>.<br>
+Pour plus d'informations sur ce type, se référer à la documentation fournie en annexe.<br>
+
+Pour importer ce type, il faudra par exemple utiliser :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+from ENIBSupervision.UI_class.UI_AnimationTables import AnimationTables
+
+</code></pre><hr>
+Voici un exemple de tables que l'on peut obtenir :
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_animationTablesExample.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_animationTablesExample.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Exemple de tables d'animations</figcaption></div></figure>
+<li> <b><i>DynamicObject</i></b><br></li>
+Ce type offre la possibilité de représenter très facilement des éléments d'une partie opérative tels que des vérins ou des moteurs.<br>
+
+D'un point de vue organisation, le type <b><i>DynamicObject</i></b> est défini dans le sous-module <span class='badge badge-success'>UI class</span> puis dans le sous-module <br> <span class='badge badge-success'>UI DynamicObject</span>.<br>
+Pour plus d'informations sur ce type, se référer à la documentation fournie en annexe.<br>
+
+Pour importer ce type, il faudra par exemple utiliser :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+from ENIBSupervision.UI_class.UI_DynamicObject import DynamicObject
+
+</code></pre><hr>
+Voici un exemple de widget que l'on peut obtenir :
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_DynamicObject_moteur.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_DynamicObject_moteur.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Exemple de résultat avec un moteur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_DynamicObject_verin.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_DynamicObject_verin.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Exemple de résultat avec un vérin</figcaption></div></figure>
+<br>
+
+<li> <b><i>IndicLight</i></b><br></li>
+Ce type offre la possibilité de représenter très facilement des voyants avec un nombre d'états infinis.<br>
+
+D'un point de vue organisation, le type <b><i>IndicLight</i></b> est défini dans le sous-module <span class='badge badge-success'>UI class</span> puis dans le sous-module <br> <span class='badge badge-success'>UI IndicLight</span>.<br>
+Pour plus d'informations sur ce type, se référer à la documentation fournie en annexe.<br>
+
+Pour importer ce type, il faudra par exemple utiliser :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+from ENIBSupervision.UI_class.UI_IndicLight import IndicLight
+
+</code></pre><hr>
+Voici un exemple de voyants que l'on peut obtenir :
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_IndicLight.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_IndicLight.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Exemple de résultat avec deux voyants dans deux états différents</figcaption></div></figure>
+</ul>
+<h2 >Réalisation d'un programme élémentaire</h2>
+Nous allons aborder dans ce chapitre la création d'un programme de base en utilisant PyQt5. A la fin de ce chapitre, vous serez en mesure de créer et d'afficher une fenêtre principale basique.
+
+Il est très vivement conseillé de lire l'introduction à PyQt5 et QtDesigner avant de s'attaquer à cette partie. Aussi, il est considéré que les différents outils nécessaires sont déjà installés.
+
+<h3>Architecture type d'un programme</h3>
+Cette section a pour but de présenter <b>une</b> manière parmi tant d'autres d'organiser un programme de ce type utilisant Qt comme bibliothèque graphique.
+L'utilisation de Qt en Python (c'est originellement une bibliothèque C++) impose certaines contraintes. En effet, cela impose la création de fichiers <b>*.ui</b>, l'utilisation de fichiers Python automatiquement générés et l'utilisation de fichiers rédigés par un programmeur.<br>
+L'organisation qui va être présentée a l'avantage de séparer ces trois "types" de fichiers et de permettre l'utilisation d'outils déjà rédigés.
+
+<h4>Création d'un dossier de projet</h4>
+En premier lieu, nous allons créer un dossier de projet. On l'appellera la <b>racine du projet</b>. Ce dossier contiendra tous les fichiers nécessaires au programme.<br>
+Pour notre exemple, je vais nommer le dossier "<span class='badge badge-light'>SupEx</span>".<br>
+<h4>Contenu essentiel de la racine du projet</h4>
+Nous pouvons ensuite copier le dossier <span class='badge badge-light'>ENIBSupervision</span> fourni dans la racine du projet.<br>
+Dans la racine du projet, nous allons ensuite séparer les trois types de fichiers mentionnés plus haut (QtDesigner,python générés,python rédigés). Pour ce faire, nous allons créer  trois nouveaux dossiers. Pour pouvoir utiliser un script que nous verrons juste après, il sera nécessaire de les nommer comme suit :
+
+<ul>
+<li> <span class='badge badge-light'>UI formFiles</span> : Ce dossier contiendra les fichiers d'interfaces graphiques créés avec QtDesigner (fichiers <b>*.ui</b>)<br></li>
+<li> <span class='badge badge-light'>UI pyFiles</span> : Ce dossier contiendra les fichiers Python générés depuis les fichiers <b>*.ui</b> du dossier <span class='badge badge-light'>UI formFiles</span> à l'aide de l'outil <b>pyuic</b>.<br></li>
+C'est d'ailleurs ici que rentre en jeu un petit script que vous pouvez trouver dans le dossier du module <span class='badge badge-success'>ENIBSupervision</span>. Ce script python se nomme "<span class='badge badge-primary'>scriptExport.py</span>". Son fonctionnement est très simple, il fournit une fonction permettant de convertir automatiquement tous les fichiers <span class='badge badge-primary'>*.ui</span> d'un dossier en fichier <span class='badge badge-primary'>*.py</span> dans autre dossier. Consultez la documentation de ce module pour plus d'informations.<br>
+Si vous lancez le script Python, il cherchera par défaut à appliquer ces traitements sur les dossiers mentionnés soit <span class='badge badge-light'>UI formFiles</span> et <span class='badge badge-light'>UI pyFiles</span>.
+<li> <span class='badge badge-light'>UI class</span> : Ce nom n'est ici d'aucune importance, vous pouvez le modifier comme bon vous semble sans avoir quoique ce soit d'autre à modifier.<br></li>
+Ce dossier contiendra les fichiers de code Python que vous aurez rédigés et qui serviront dans votre programme pour créer des interfaces graphiques.
+
+</ul>
+Encore une fois, il s'agit de propositions, libre à vous de les renommer comme bon vous semble mais il vous faudra certainement adapter votre code à certains endroits.
+
+<h4>Fichier principal du programme</h4>
+N'oublions pas de rajouter le fichier qui servira à lancer le programme.Nous l'appellerons le fichier principal ou "main" en anglais.<br>
+
+Ainsi, nous pouvons créer un fichier "<span class='badge badge-primary'>main.py</span>" avec son contenu essentiel dans la racine du projet :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+# -*- coding: utf-8 -*-
+
+#on explicite l'encodage du fichier
+
+#importation des modules nécessaires à Qt
+
+import sys
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+if(__name__ == "__main__"): #si c'est ce module qui est lancé directement
+
+	#code du programme
+
+</code></pre><hr>
+<h4>Résultat</h4>
+Vous devriez maintenant avoir dans votre racine du projet créé précédemment, quelque chose ressemblant fortement à ceci :
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_explorer_projectRoot.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_explorer_projectRoot.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Illustration d'une racine de projet</figcaption></div></figure>
+%new section
+
+<h3>La fenêtre principale</h3>
+<h4>Création de l'interface graphique</h4>
+Nous utiliserons ici QtDesigner et PyQt5 avec leurs outils respectifs, si vous n'avez pas encore étudié leur fonctionnement, je vous invite à vous y intéresser avant de commencer cette section. Une annexe à ce sujet est disponible.<br>
+
+En effet, même si nous rappellerons ici l'essentiel, vous aurez certainement besoin de plus de connaissances pour être à même de concevoir une interface vraiment utilisable.
+
+<h4>Lancement de QtDesigner</h4>
+Il est possible que ce logiciel ne soit pas "facilement" accessible. Ainsi, nous vous invitons à suivre la procédure suivante :
+
+<ul>
+<li> Ouvrir une console windows/Un terminal linux
+</li>
+<li> Lancer QtDesigner par la commande suivante :
+</li>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+designer
+
+</code></pre><hr>
+</ul>
+Si vous avez installés les outils nécessaires, cette commande devrait vous lancer le logiciel et vous épargner de longues minutes de recherche du dossier d'installation.
+
+<h4>Choix de l'interface</h4>
+A l'ouverture du logiciel, vous devriez arriver sur une page vous demandant de choisir le type de "<b>formulaire</b>" que vous voulez créer.<br>
+Puisque nous voulons réaliser une fenêtre principale, nous sélectionnerons en toute logique le type "<b><i>\colors{red</i></b>{MainWindow}}" :
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_designerWidgetSelection_MainWindow.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_designerWidgetSelection_MainWindow.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Sélection du type d'interface voulue</figcaption></div></figure>
+Je laisse à votre charge de réaliser le contenu de la fenêtre : pour cet exemple simple, nous allons simplement disposer un bouton dans la fenêtre et l'organiser dans un layout simple.<br>
+
+Vous devriez obtenir à la fin une fenêtre ressemblant à ceci :
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_MainWindowExample.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_MainWindowExample.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Fenêtre principale de l'exemple</figcaption></div></figure>
+N'oubliez pas de sauvegarder votre réalisation
+
+<span title="Profitons-en ici pour rappeler que nous ne sauvegardons jamais assez. Dès que vous le pouvez, sauvegardez, la combinaison \bold{<span style='color:red;'>Ctrl+S</span>" style='color:grey;'><sup>[note]</sup></span> doit devenir un réflexe. Souvenez-vous que vous pouvez perdre tout votre travail sur un simple bug.}
+
+dans le dossier adapté, soit <span class='badge badge-primary'>UI formFiles</span> dans la racine de votre projet. Pour cet exemple, je la nommerai <span class='badge badge-primary'>UI MainWindow.ui</span><br>
+Vous avez maintenant une interface graphique "dessinée" facilement. Il ne reste plus qu'à l'exploiter.
+
+%End section
+
+<h3>Export de l'interface</h3>
+Pour pouvoir exploiter l'interface que nous avons créé, il nous faut convertir le fichier <span class='badge badge-primary'>*.ui</span> en fichier Python utilisable.<br>
+Ceci est permis grâce à l'outil <i>\bold{pyuic5</i>}.<br>
+J'ai déjà mentionné un script permettant de réaliser cet export automatiquement. Nous allons nous en servir. Si vous avez suivi la section "<b>Architecture type d'un programme</b>", vous devriez avoir dans la racine du projet ce script sous forme d'un fichier Python nommé <span class='badge badge-primary'>scriptExport.py</span>. Il vous suffit de le lancer. Si vous le lancez depuis un terminal
+\footnote
+
+{
+
+Nous vous conseillons plutôt de manière générale de lancer les différents programmes python depuis un terminal lors du développement. Cela vous permet d'afficher facilement des informations pour contrôler la bonne exécution du programme lors du débogage.
+
+}
+
+, vous aurez le détail des fichiers exportés.<br>
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_explorer_projectRoot_scriptExport.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_explorer_projectRoot_scriptExport.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Script d'export dans la racine du projet</figcaption></div></figure>
+Une fois le script lancé, vérifiez que le dossier <span class='badge badge-primary'>UI pyFiles</span> contient bien un fichier dont le nom est identique au fichier <b>*.ui</b> que vous avez édité précédemment. Notez que si vous avez enregistré un fichier avec un nom commençant par le préfixe <i>UI </i>, celui-ci a été supprimé, c'est un comportement voulu. Libre à vous de modifier ce script simpliste.
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_explorer_UIPyFiles_mainWindow.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_explorer_UIPyFiles_mainWindow.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Fichier \bold{*.ui</figcaption></div></figure>
+%End section
+
+<h3>Exploitation de l'interface en python</h3>
+<h4>Pré-requis</h4>
+Nous avons maintenant toutes les clefs en main pour faire un programme minimal exploitant cette interface.<br>
+
+Nous allons nous rendre dans le dossier <span class='badge badge-primary'>UI class</span> dans la racine du projet pour créer un nouveau fichier qui correspondra au module contenant la définition de notre fenêtre principale. (Le coeur du programme)<br>
+Pour ma part, ce module portera le même nom que son fichier <span class='badge badge-primary'>*.ui</span> associé soit <span class='badge badge-primary'>UI MainWindow.py</span>.
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_explorer_UIClass_basic.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_explorer_UIClass_basic.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Contenu du dossier \dir{UI class</figcaption></div></figure>
+<h4>Rédaction du code de la fenêtre principale</h4>
+Tout d'abord, n'oublions pas la ligne traditionnelle d'en-tête d'un fichier Python :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+# -*- coding: utf-8 -*-
+
+#on explicite l'encodage du fichier
+
+</code></pre><hr>
+Puis l'importation des modules nécessaires à l'utilisation de PyQt
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#importation des modules nécessaires à Qt
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+</code></pre><hr>
+Ensuite, attaquons-nous au plus délicat.<br>
+
+Afin d'augmenter notre liberté de programmation, nous allons ici déclarer notre propre <b>classe</b> qui va permettre l'exploitation de l'interface générée précédemment. Nous utiliserons ici des concepts de Programmation Orientée Object qui ne sont abordés normalement qu'en S5 à l'Enib<span title="Cette notion est abordée dans le chapitre 7.3" style='color:grey;'><sup>[note]</sup></span>. Mais pas d'inquiétude, cela ne vous empêchera pas de mener à bien votre projet.<br>
+La déclaration de notre classe qui  va représenter notre fenêtre principale nécessite l'importation du module Python généré depuis le fichier QtDesigner. Si vous avez utilisés les mêmes noms que ceux utilisés dans ce tutoriel, la ligne permettant l'importation de ce module sera celle-ci :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+from UI_pyFiles.MainWindow import Ui_MainWindow
+
+</code></pre><hr>
+Dans le cas contraire, c'est à vous que revient la responsabilité de faire les modifications nécessaires. 
+
+Pour le moment, votre fichier doit donc ressembler à ceci
+
+<span title=" Profitons-en pour vous rappeler de sauvegarder régulièrement votre travail, <span style='color:red;'>\bold{Ctrl+S</span>" style='color:grey;'><sup>[note]</sup></span> n'est pas un raccourci compliqué à retenir et peut vous épargner bien des déconvenues.}
+
+:
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+# -*- coding: utf-8 -*-
+
+#on explicite l’encodage du fichier
+
+#importation des modules nécessaires à Qt
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+#importation du module nécessaire à la création de notre fenêtre principale
+
+from UI_pyFiles.MainWindow import Ui_MainWindow
+
+</code></pre><hr>
+Maintenant, rentrons au coeur du sujet. Nous pouvons dorénavant déclarer notre classe sans que Python ne nous insulte copieusement lorsque nous lancerons le programme
+
+<span title="Notons que pour le moment, nous ne pouvons pas vraiment tester le programme dans le sens où il ne fait rien et notre fichier main n'est pas encore préparé. Exécuter le fichier seul en dehors de la racine du projet provoquera certainement des erreurs dans les importations (il faudrait donc l'exécuter depuis le fichier \file{main.py" style='color:grey;'><sup>[note]</sup></span> par exemple pour éviter les problèmes).<br> Rappelons ici que plus vous exécuterez votre code souvent, moins vous aurez d'erreurs à corriger à la fois. N'hésitez pas à l'exécuter dès que vous le pouvez (Nous verrons cela ensemble dans quelques temps).}.<br>
+
+La déclaration de notre classe se fera de la manière suivante :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+class MainWindow(QtWidgets.QMainWindow):
+
+    #code
+
+</code></pre><hr>
+Où <b><i>MainWindow</i></b> correspond au type représentant notre fenêtre principale
+\footnote
+
+{Vous pouvez modifier ce nom comme bon vous semble mais que celui-ci a l'avantage indéniable d'être explicite.}
+
+et la portion de code <b><i>(QtWidgets.QMainWindow)</i></b> permet d'indiquer à Python que notre type <b><i>MainWindow</i></b> <i>hérite</i> des propriétés du type <b><i>QtWidgets.QMainWindow</i></b>.<br>
+Concrètement, notre type pourra faire tout ce que faisait une <b><i>QMainWindow</i></b> du module <b><i>QtWidgets</i></b> plus ce que nous lui apprendrons.
+<h4>Constructeur de notre classe</h4>
+Tout comme en C++, nous pouvons définir un constructeur
+
+<span title="Une fonction membre   init   en Python n'est pas vraiment un constructeur mais un "initialiseur". Cependant, pour simplifier la compréhension nous utiliserons ici abusivement le terme constructeur. Pour un peu plus d'information à ce sujet : \url{https://www.geeksforgeeks.org/__new__-in-python/" style='color:grey;'><sup>[note]</sup></span>}
+
+pour notre classe. Celui-ci sera appelé lors de l'initialisation d'un nouvel objet de notre type <b><i>MainWindow</i></b>.<br>
+En Python, le constructeur d'une classe se définit de la manière suivante :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+def __init__(self):
+
+    #code
+
+</code></pre><hr>
+Et il sera toujours définit de cette manière (aux paramètres près).
+
+Profitons de ce moment pour attirer votre attention sur le paramètre <span style='color:red;'>\ib{self</span>} qui est un paramètre particulièrement important<span title="Pour plus d'informations sur self : \url{https://www.geeksforgeeks.org/self-in-python-class/" style='color:grey;'><sup>[note]</sup></span>}. Il représente l'instance de la classe. Pour avoir un équivalent dans un langage mieux connu des élèves, c'est un peu comme le mot-clé <b><i>this</i></b> en c++. Sauf qu'en python <span style='color:red;'>\ib{self</span>} est beaucoup plus important, nous verrons après pourquoi.<br>
+
+Ce paramètre <span style='color:red;'>\bold{doit</span>} figurer dans tous les prototypes des fonctions membres d'une classe.
+
+Revenons-en au constructeur de notre classe <b><i>MainWindow</i></b>, il existe avec Qt un système de widget parent/enfant trop complexe à expliquer ici. Le principal est de savoir que ce système existe et que avec Qt, la plupart des widgets<span title="À noter qu'une \ib{QMainWindow" style='color:grey;'><sup>[note]</sup></span> est aussi un widget} instanciés doivent avoir un parent (pour des raisons trop complexes à aborder ici encore une fois). Ce qui implique que tous les widgets aient dans leurs constructeurs un paramètre représentant un potentiel widget parent.\vskip 0cm %Nouveau paragraphe sans saut de ligne
+
+Nous devrions donc en toute rigueur laisser au programmeur (vous) la possibilité d'initialiser son type avec un widget parent (Même si c'est hautement improbable dans le cas d'une fenêtre principale puisque ce sera le premier widget que nous allons créer). Mais puisque c'est une bonne habitude à prendre quand l'on programme en utilisant des widgets et Qt, nous allons le faire.<br>
+
+Ceci se traduit simplement par un paramètre <i>parent</i> dans le constructeur pouvant représenter le parent de notre type héritant d'un widget Qt.<br>
+Concrètement, le prototype de notre constructeur ressemblera à ceci:
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+def __init__(self,parent = None):
+
+</code></pre><hr>
+Le morceau de code "<b><i>parent = None</i></b>" permet de signaler à Python quand dans le cas où le programmeur ne spécifierait pas ce paramètre, sa valeur serait "<b>None</b>", on appelle ça une <span style='color:red;'>valeur par défaut</span>.<br>
+Puisque tous les widgets de Qt autorisent leurs instanciations sans parent spécifié (même si ce n'est pas une bonne pratique), il sera d'usage de proposer une valeur par défaut "<b><i>None</i></b>" au paramètre "<b><i>parent</i></b>" d'un constructeur d'un type héritant d'un widget de Qt.
+Nous avons la déclaration de notre constructeur, nous devons maintenant le définir.<br>
+
+La première chose à faire est d'appeler le constructeur du type hérité, il s'agit d'une forme de délégation. Et pour cela, Python vous fournit un outil tout fait : la fonction "<b>super()</b>"
+\footnote
+
+{En réalité, la fonction "\bold{super()}" est beaucoup plus complexe que cela, si vous voulez en savoir plus : <a class="alert-link">https://www.stashofcode.fr/comment-marche-fonction-super-de-python/</a>}
+. Son utilisation est la suivante (Le constructeur complet est écrit dans le code ci-dessous) :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+def __init__(self,parent = None):
+
+		super().__init__(parent)
+
+</code></pre><hr>
+Dans notre cas, en faisant cela, nous initialisons notre class en appelant le constructeur de \href{https://doc.qt.io/qt-5/qmainwindow.html}{QMainWindow}<br>
+
+Pour une meilleure vision d'ensemble, voici à quoi devrait ressembler votre fichier de définition de votre classe <b><i>MainWindow</i></b> :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+# -*- coding: utf-8 -*-
+
+#on explicite l’encodage du fichier
+
+#importation des modules nécessaires à Qt
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+#importation du module nécessaire à la création de notre fenêtre principale
+
+from UI_pyFiles.MainWindow import Ui_MainWindow
+
+class MainWindow(QtWidgets.QMainWindow): #déclaration de la class MainWindow
+
+	#déclaration du constructeur avec un possible parent
+
+	def __init__(self,parent = None):
+
+		#on appelle le constructeur de la class parent
+
+		super().__init__(parent)
+
+</code></pre><hr>
+En l'état, nous avons une fenêtre vide. Nous allons maintenant voir comment utiliser l'interface que nous avons précédemment créé avec QtDesigner.<br>
+
+C'est ici que notre ligne d'importation du module généré par <b>pyuic5</b> va nous servir. Si vous ne vous en souvenez pas, c'est celle-ci :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+from UI_pyFiles.MainWindow import Ui_MainWindow
+
+</code></pre><hr>
+La première étape est de d'initialiser une variable membre "interface graphique" dont le type portera le nom du fichier <b><i>*.ui</i></b> que vous avez créé.<br>
+C'est cette variable qui nous permettra d'accéder aux différents éléments de l'interface que nous avons mis en place.<br>
+
+Puisque nous n'avons pas à accéder à ces éléments en dehors de notre classe, cette variable sera privée.<br>
+
+En pratique, cela se traduit par l'instruction suivante :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+self.__ui = Ui_MainWindow()
+
+</code></pre><hr>
+Explications : 
+
+Pour accéder à des variables membres de la classe, il est nécessaire en Python de \colors{red}{systématiquement} utiliser "<span style='color:blue;'>\ib{self.</span>}"
+
+<span title="Vous l'oublierez certainement à plusieurs reprise. En cas d'oubli, vous ne ferez qu'accéder à des variables locales ce qui amènera à des erreurs peu explicites" style='color:grey;'><sup>[note]</sup></span>. Dans notre cas, nous créons une variable membre de nom <i>  ui</i>.<br>
+Ce nom n'a pas été choisi par hasard, en Python, toute variable membre dont le nom commence par "  " est une variable privée. Quant au nom en lui même,  "<span style='color:green;'>\bold{ui</span>}", il s'agit de l'abréviation anglaise de <b>UserInterface</b>.<br>
+
+Cette variable est initialisée avec le type de l'interface graphique que nous avons conçu plus tôt.<br>
+
+<b>En résumé</b> : Nous créons une variable membre privée dans notre classe qui nous permettra d'accéder à l'interface graphique.
+Il faut maintenant lier notre interface à notre fenêtre principale. Pour le moment, les deux existent mais rien ne les relie si ce n'est que l'UI est une variable membre de notre classe <b><i>MainWindow</i></b>. Hélas, ce n'est pas suffisant. Nous devons appeler une fonction pour dire que notre interface s'applique à notre fenêtre. Cette fonction est la suivante :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+self.__ui.setupUi(self)
+
+</code></pre><hr>
+Il n'y a pas grand chose à dire dessus, elle ne fait qu'affecter l'interface à notre fenêtre, c'est une fonction de la bibliothèque Qt.
+
+Voici à quoi devrait maintenant ressembler votre fichier de définition de notre type <b><i>MainWindow</i></b> :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+# -*- coding: utf-8 -*-
+
+#on explicite l’encodage du fichier
+
+#importation des modules nécessaires à Qt
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+#importation du module nécessaire à la création de notre fenêtre principale
+
+from UI_pyFiles.MainWindow import Ui_MainWindow
+
+class MainWindow(QtWidgets.QMainWindow): #déclaration de la class MainWindow
+
+	#déclaration du constructeur avec un possible parent
+
+	def __init__(self,parent = None):
+
+		#on appelle le constructeur de la class parent
+
+		super().__init__(parent)
+
+		#initialisation de l'interface graphique
+
+		self.__ui = Ui_MainWindow()
+
+		#Affectation de l'interface à notre fenêtre principale
+
+		self.__ui.setupUi(self)
+
+</code></pre><hr>
+Notre fenêtre principale est maintenant prête à être affichée, c'est ce que nous allons aborder dans la section suivante.
+
+<h4>Affichage de notre fenêtre principale.</h4>
+Nous allons délaisser notre fichier <span class='badge badge-primary'>UI MainWindow.py</span> au profit du fichier <span class='badge badge-primary'>main.py</span>. En effet, si la définition de la fenêtre s'est faite dans un fichier, l'initialisation et l'affichage de notre fenêtre <u>principale</u> se fera depuis le fichier <span class='badge badge-primary'>main.py</span>.
+Pour le moment, le contenu du fichier <span class='badge badge-primary'>main.py</span> doit ressembler à ceci :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+# -*- coding: utf-8 -*-
+
+#on  explicite l’encodage  du  fichier
+
+#importation des modules nécessaires à Qt
+
+import sys
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+#importation des modules d'interfaces graphiques créés
+
+from UI_class.UI_MainWindow import MainWindow
+
+if(__name__ == "__main__"): #si c'est ce module qui est lancé directement
+
+	#code
+
+</code></pre><hr>
+<h4>Création d'une application Qt</h4>
+L'utilisation de Qt impose l'initialisation et l'exécution d'une "application" Qt pour faire fonctionner tous les éléments. C'est ce que nous allons voir ici.<br>
+
+C'est la première étape, nous allons déclarer une application Qt, cela se fait assez simplement :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+app = QtWidgets.QApplication(sys.argv)
+
+</code></pre><hr>
+Très succinctement, nous déclarons ici une <b><i>QApplication</i></b> en lui passant en paramètre les arguments fournis au programme
+<span title="Il s'agit en réalité des arguments de la ligne de commande (plus d'informations ici : \url{https://en.wikipedia.org/wiki/Command-line_argument_parsing" style='color:grey;'><sup>[note]</sup></span>}.<br>
+
+Maintenant que nous avons notre application, nous pouvons l'exécuter. Nous le ferons d'une manière assez condensée avec l'instruction suivante :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+sys.exit(app.exec())
+
+</code></pre><hr>
+Cette ligne réalise en réalité deux opérations :
+
+<ul>
+    <li> <b>Éxécution de l'application</b> : ceci est réalisé par l'appel de de "<i>app.exec()</i>". Cette fonction retourne un "statut d'exécution de l'application Qt"\footnote{Il s'agit d'un code permettant de savoir si un programme s'est exécuté correctement.<br></li>
+    Plus d'informations ici : <a class="alert-link">https://en.wikipedia.org/wiki/Return_statement</a>}.
+    
+
+    <li> <b>Quitter le programme python</b> : ceci est réalisé par la fonction "<i>sys.exit()</i>"<span title="Plus d'informations sur cette fonction ici \url{https://python101.pythonlibrary.org/chapter20_sys.html" style='color:grey;'><sup>[note]</sup></span>} qui prend en argument un statut d'exécution à retourner au système d'exploitation.</li>
+</ul>
+L'utilisation de "<i>app.exec()</i>" en argument de "<i>sys.exit()</i>" permet donc de faire quitter le programme Python en renvoyant au système le statut d'exécution de l'application Qt lorsque celle-ci est terminée.
+Vous devriez dorénavant avoir un code ressemblant à ceci :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#si c'est ce module qui est lancé directement
+
+if(__name__ == "__main__"):
+
+	#déclaration de l'application Qt
+
+	app = QtWidgets.QApplication(sys.argv)
+
+	#exécution de l'application Qt
+
+	sys.exit(app.exec())
+
+</code></pre><hr>
+Le problème étant que ce code n'utilise pas encore notre fenêtre principale que nous avons définit plus tôt.<br>
+
+Ce sera donc la prochaine étape, déclarer et afficher notre fenêtre.
+
+<h4>Affichage de la fenêtre principale</h4>
+Nous avons créé notre type <b><i>MainWindow</i></b> pour pouvoir manipuler une fenêtre principale, il nous faut maintenant l'utiliser.<br>
+Tout le code que nous allons écrire sera placé avant la ligne
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    #exécution de l'application Qt
+
+	sys.exit(app.exec())
+
+</code></pre><hr>
+Puisque celle-ci signe la fin du programme. Tout le code placé après ne sera pas exécuté.
+
+Pour cela, il nous suffit de déclarer une variable de notre type <b><i>MainWindow</i></b> puis de l'afficher.<br>
+Vérifiez tout d'abord que vous importez bien le type que nous avons créé depuis le bon module :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#importation du module d'interface graphique créé
+
+from UI_class.UI_MainWindow import MainWindow
+
+</code></pre><hr>
+Si c'est déjà le cas, vous n'avez plus qu'à déclarer une variable utilisant ce type, par exemple :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+mainWindow = MainWindow()
+
+</code></pre><hr>
+Et pour la voir apparaître, il suffit d'appeler une fonction : "<i>show()</i>" sur cette variable, ce qui donne :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+mainWindow.show()
+
+</code></pre><hr>
+<h4>Lancement du programme</h4>
+<span id='tag-startProgFromCmdLine'></span>
+Il est maintenant possible de lancer notre programme et de voir le résultat de tout ce que nous avons fait jusqu'à maintenant.<br>
+
+Pour cela, comme cela a été conseillé auparavant, nous passerons par un terminal pour lancer le programme en suivant ces étapes :
+
+<ul>
+<li> Lancez un terminal
+</li>
+    
+
+<li> Placez vous dans la racine du projet (à l'aide de la commande <span style='color:blue;'>\bold{cd</span>})
+</li>
+    
+
+<li> Lancez le programme en utilisant la commande suivante qui fera exécuter le fichier "<b>main.py</b>" :</li>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    python main.py
+
+</code></pre><hr>
+</ul>
+Dans le cas où Python ne trouverait aucune erreur, vous devriez voir apparaître à l'écran quelque chose de ce type :
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_firstMainWindow.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_firstMainWindow.png' class='alignnone size-medium' style='max-width:27%;'></a><figcaption>Figure - Résultat de l'exécution de votre programme</figcaption></div></figure>
+<h2 >Réalisation d'un programme ENIBSupervision</h2>
+Dans ce chapitre, nous travaillerons principalement dans le fichier de définition de la fenêtre principale du programme. Dans notre cas il s'agit du fichier <b><i>UI MainWindow.py</i></b>.
+<h3>Variable automate</h3>
+Les outils développés dans le module <b>enibSupervision</b> ont été conçus pour fonctionner avec une liste de variables de type <b><i>PLCVar</i></b>.
+Dans notre cas, je vous invite à stocker cette liste de variables en tant que variable membre de notre classe <b><i>MainWindow</i></b> (qui est maintenant au coeur de notre programme) afin que nous puissions nous en servir à d'autres occasions
+<h4>Pré-requis</h4>
+Afin de pouvoir utiliser le type <b><i>PLCVar</i></b>, vous aurez besoin de l'importer, ceci peut se faire de la manière suivate :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+from ENIBSupervision.PLC.Variable import PLCVar
+
+</code></pre><hr>
+<h4>Fonction d'initialisation</h4>
+Je vous propose de créer une fonction qui nous servira à initialiser nos variables. Bien que ce ne soit pas une obligation, cela améliorera la lisibilité de notre code.<br>
+
+Cette fonction sera un membre de la classe <b><i>MainWindow</i></b>.<br>
+Il suffit pour cela de déclarer la fonction après le constructeur de la classe.<br>
+
+Je vous propose d'appeler cette fonction <i>initVarList</i>.
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    def __init___(self, parent=None):
+
+        # on appelle le constructeur de la class parent
+
+        super().__init__(parent)
+
+        #initialisation de l’interface graphique
+
+        self.__ui = Ui_MainWindow()
+
+        # Affectation de l’interface à notre fenêtre principale
+
+        self.__ui.setupUi(self)    
+
+    def initVarList(self):
+
+        varList = []  #initialisation de la liste de variables
+
+        #Déclaration des variables effectuées ici
+
+        return varList  # on retourne la liste de variables
+
+</code></pre><hr>
+Cette méthode retournera donc une liste contenant toutes les variables de l'automate.
+
+<h4>Ajout de l'automate</h4>
+<b>Étant donné qu'il est possible de définir plusieurs automates avec le logiciel</b>, nous allons déclarer une liste dans le constructeur qui contiendra les potentiels automates, dont celui du projet. 
+La liste de variables ainsi obtenue doit être stockée dans une variable membre de notre classe <b><i>MainWindow</i></b>
+Pour le code d'exemple, nous allons créer deux automates appelés "Automate Test 0" et "Automate Test 1" depuis le constructeur de la classe.
+
+Le premier argument passé est l'adresse IP de l'automate, le second le nom et le dernier concerne la liste des variables associées.
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+	# déclaration du constructeur avec un possible parent
+
+	def __init__(self, parent=None):
+
+		# on appelle le constructeur de la class parent
+
+		super().__init__(parent)
+
+		# initialisation de l’interface graphique
+
+		self.__ui = Ui_MainWindow()
+
+		# Affectation de l’interface à notre fenêtre principale
+
+		self.__ui.setupUi(self)
+
+		# déclaration de l’automate
+
+		tempPLC = ModbusPLC("127.0.0.1","Test 0",self.initVarList())
+
+		self.__plcClientList = [tempPLC]
+
+		#index de l'automate actuellement sélectionné
+
+		self.__plcSelected = 0
+
+		#ajout d'un deuxième automate
+
+		tempPLC = ModbusPLC("127.0.0.1","Test 1",self.initVarList())
+
+		self.__plcClientList.append(tempPLC)
+
+</code></pre><hr>
+Il ne nous reste plus qu'à compléter la fonction d'affectation des variables de l'automate.<span title="<span style='color:red;'>Ou presque !</span> Il faudra ensuite "lancer" l'automate mais ceci sera abordé dans la section "Gestion pseudo-événementielle"" style='color:grey;'><sup>[note]</sup></span>
+
+<h4>Déclaration d'une variable</h4>
+Voici le prototype du constructeur du type <b><i>PLCVar</i></b><span title="Pour plus d'informations sur ce type et son constructeur, se référer à la documentation" style='color:grey;'><sup>[note]</sup></span> :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+PLCVar(name,address,description,varType,varMode,f_connectedSlots = []):
+
+</code></pre><hr>
+Pour un descriptif rapide des paramètres :
+
+<ul>
+<li> <b>name</b> : C'est le nom de la variable, chaque nom doit être unique, on préférera éviter les caractères spéciaux et les espaces.</li>
+<li> <b>address</b> : C'est l'index de l'adresse dans l'automate. Par exemple 1 pour \%M1 ou \%MW1 (nous verrons après que l'adresse est aussi déterminée par le type de la variable). Ce paramètre attend un <b>entier</b>.</li>
+<li> <b>description</b> : Il s'agit d'une description de la variable.</li>
+<li> <b>varType</b> : il s'agit du type de la variable aux yeux de l'automate. On ne peut pas utiliser n'importe quel type, pour le moment, seuls sont supportés : </li>
+<ul>
+    <li> "BIT"
+</li>
+    <li> "WORD"
+</li>
+    <li> "DWORD"
+</li>
+    <li> "TIME"
+</li>
+    <li> "INT"
+</li>
+</ul>
+Ce type est très important, c'est lui qui va fixer les fonctions à utiliser pour communiquer avec l'automate et qui servira à convertir les données si besoin est.
+
+<li> <b>varMode</b> : Il s'agit du mode de fonctionnement de la variable soit <b><i>INPUT</i></b> ou <b><i>OUTPUT</i></b></li>
+<li> <b>f connectedSlots</b> : Il s'agit d'une liste de fonction à appeler lorsqu'un changement de valeur est détecté avec une <b><i>EventsLoop</i></b> (nous verrons cela un peu plus tard). Cet argument est optionnel.</li>
+</ul>
+Maintenant que nous savons ce qu'il faut fournir pour déclarer une variable de ce type, nous n'avons plus qu'à le faire. Nous allons aborder deux exemples qui donneront une idée de ce qu'il est possible de faire.
+
+<ul>
+<li> <b>Variable "<i>BIT</b>"</i><br></li>
+Nous allons ici déclarer une variable de type "<i>BIT</i>" à l'adresse "<i>\%M5</i>" qui représentera l'état d'un bouton "<i>dcy</i>" qui fonctionnera donc comme une entrée.<br>
+La déclaration de cette variable directement dans la liste liste <b>varList</b> se fera de la manière suivante :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+varList.append(PLCVar("dcy",5,"Bouton permettant de lancer un cycle","BIT","INPUT"))
+
+</code></pre><hr>
+<li> <b>Variable "<i>WORD</b>"</i><br></li>
+Puis une variable de type "<i>WORD</i>" à l'adresse "<i>\%MW0</i>" qui représentera la nouvelle valeur d'un compteur ("<i>new cycle count</i>") qui fonctionnera donc comme une sortie.<br>
+La déclaration de cette variable directement dans la liste liste <b>varList</b> se fera de la manière suivante :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+varList.append(PLCVar("new_cycle_count",0,"Nouveau nombre de cycle à exécuter","WORD","OUTPUT"))
+
+</code></pre><hr>
+</ul>
+Nous rajouterons une troisième variable, elle aussi de type "BIT" pour pouvoir exposer un autre élément du code un peu plus tard.
+
+Le code de votre fonction d'initialisation devrait donc maintenant ressembler à ceci :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    def __init__(self, parent=None):
+
+    
+
+        #code constructeur...
+
+        
+
+    def initVarList(self):
+
+	    varList = [] #initialisation de la liste de variables
+
+    	#déclarations des différentes variables
+
+	    varList.append(PLCVar("dcy",5,"Bouton permettant de lancer un cycle","BIT","INPUT"))
+
+    	varList.append(PLCVar("new_cycle_count",0,"Nouveau nombre de cycle à exécuter","WORD","OUTPUT"))
+
+    	
+
+    	varList.append(PLCVar("alarmButton", 6, "Bouton d'alarme","BIT","INPUT"))
+
+	    return varList  #on retourne la liste de variables
+
+</code></pre><hr>
+<h4>Affichage d'une variable dans le terminal</h4>
+Lors du débogage par exemple, vous pourriez avoir besoin d'afficher dans la console une variable. Nous allons voir comment afficher une variable présente dans une liste dans un terminal.<br>
+
+Nous utiliserons le même code, donc les mêmes variables que dans les exemples ci-dessus.<br>
+
+Le code que nous allons écrire<span title="A l'exception de l'importation des modules bien entendu" style='color:grey;'><sup>[note]</sup></span> prendra place dans le constructeur du type "<b><i>MainWindow</i></b>", après l'initialisation de la liste de variables et de l'automate (cette ligne là : )
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+# déclaration de l’automate
+
+self.__plcClientList = [ModbusPLC("127.0.0.1","Automate Test 0",self.initVarList())]
+
+</code></pre><hr>
+Imaginons que nous souhaitions afficher la variable "<i>dcy</i>". Deux solutions s'offrent à nous pour trouver cette variable dans la liste:
+<ul>
+<li> Vous vous souvenez de l'index de la variable et vous pouvez écrire cet index "en dur", directement dans le code. Cette solution n'est pas la meilleure, en effet, si pour une raison quelconque l'index de la variable change, le résultat obtenu ne sera plus celui attendu.
+</li>
+<li> Vous utilisez une fonction fournie dans le module  "<b><i>ENIBSupervision.PLC.Variable</i></b>" qu'il vous faudra donc <b>importer</b>, en utilisant par exemple :</li>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+import ENIBSupervision.PLC.Variable as PLCVariable
+
+</code></pre><hr>
+Et la fonction qui nous intéresse est "<b><i>findVariableInList</i></b>" qui permet de retourner l'index de la variable recherchée dans une liste. Voici son prototype :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+def findVariableInList(varList,varName):
+
+</code></pre><hr>
+Cette fonction retourne l'index de la variable ou -1 si celle-ci n'a pas été trouvée.
+
+</ul>
+Nous préférerons ici utiliser la deuxième solution. Pour afficher la variable "<i>dcy</i>", nous devons donc en premier lieu récupérer son index dans notre liste. Vous avez tous les éléments pour effectuer cette tâche, cette opération se traduit par exemple par ceci :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+tmp_varList = self.initVarList()
+
+#self.initVarList retourne la liste des variables de l'automate
+
+dcyIndex = PLCVariable.findVariableInList(tmp_varList,"dcy")
+
+</code></pre><hr>
+Une fois que nous avons son index, nous pouvons nous en servir pour afficher la variable dans le terminal :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+print(str(tmp_varList[dcyIndex]))
+
+</code></pre><hr>
+Explications :<br>
+
+La fonction "<i>print()</i>" permet d'afficher quelque chose dans le terminal.<br>
+La fonction "<i>str()</i>" permet de convertir un élément en chaîne de caractère.<br>
+Et "<i>tmp varList[dcyIndex]</i>" permet d'accéder à l'élément de la liste "<i>tmp varList</i>" à l'index "<i>dcyIndex</i>".
+%%%%% HALTE
+
+%%%%% Nico
+
+Voici maintenant à quoi devrait ressembler le constructeur de votre type "<b><i>MainWindow</i></b>" :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+	# déclaration du constructeur avec un possible parent
+
+	def __init__(self, parent=None):
+
+        # on appelle le constructeur de la class parent
+
+        super().__init__(parent)
+
+        # initialisation de l’interface graphique
+
+        self.__ui = Ui_MainWindow()
+
+        # Affectation de l’interface à notre fenêtre principale
+
+        self.__ui.setupUi(self)
+
+        # déclaration de l’automate
+
+        tempPLC = ModbusPLC("127.0.0.1","Test 0",self.initVarList())
+
+        self.__plcClientList = [tempPLC]    
+
+		#index de l'automate actuellement sélectionné
+
+        self.__plcSelected = 0
+
+        #lancement de l'automate sélectionné
+
+        self.__plcClientList[self.__plcSelected].start()
+
+        #ajout d'un deuxième automate
+
+        tempPLC = ModbusPLC("127.0.0.1","Test 1",self.initVarList())
+
+        self.__plcClientList.append(tempPLC)
+
+        # récupération de l’index de la variable "dcy"
+
+        tmp_varList = self.initVarList()
+
+        #self.initVarList() retourne la liste des variables de l'automate
+
+        dcyIndex = PLCVariable.findVariableInList(tmp_varList,"dcy")
+
+        print(str(self.__plcClientList[self.__plcSelected].varList()[dcyIndex]))
+
+</code></pre><hr>
+Vous n'avez maintenant plus qu'à lancer le programme
+
+et vous devriez voir s'afficher un résultat de ce type :
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_result_printPLCVar.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_result_printPLCVar.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Résultat du programme dans un terminal</figcaption></div></figure>
+<h3>Gestion pseudo-événementielle</h3>
+Nous avons plusieurs solutions entre : 
+
+<ul>
+<li> Rédiger manuellement toutes les interactions avec l'automate : lecture et écriture des variables
+</li>
+<li> Utiliser le type <b><i>EventsLoop</i></b> du module <span class='badge badge-success'>ENIBSupervision</span> qui fera (presque) tout à votre place.</li>
+</ul>
+Vous imaginez bien que nous préférerons ici la deuxième solution.
+
+Nous avons décidés d'automatiser la communication des variables au sein du module 
+
+<span class='badge badge-success'>ModbusPLC</span> afin de simplifier la gestion de ces dernières. 
+Si vous préférez la première, les outils de ce module ne fonctionneront pas ou mal.
+
+Lors de la création d'un automate avec l'instruction suivante :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+ModbusPLC("127.0.0.1","Automate Test 0",self.initVarList())
+
+</code></pre><hr>
+Une boucle d'évènement est associée et permet d'appeler des fonctions lors de changements d'états des variables. 
+
+Cette boucle d'événement correspond au type <b><i>EventsLoop</i></b> du module <span class='badge badge-success'>ENIBSupervision</span>. Elle existe mais l'utilisateur n'a normalement pas à intéragir directement avec elle. C'est pour cela que nous n'aborderons pas son fonctionnement exact ici.
+Cependant, pour économiser de la puissance de calcul, lorsque l'automate est instancié, la boucle d'événements est par défaut "stoppée". Il faut donc la lancer pour que celle-ci puisse fonctionner. Cela se fait par le biais de la commande :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+	#lancement de l'automate sélectionné
+
+	self.__plcClientList[self.__plcSelected].start()
+
+</code></pre><hr>
+<span style='color:red;'>Si vous oubliez cette étape, votre programme risque de ne pas fonctionner</span> (c'est même le cas le plus probable)
+
+Si vous exécutez le programme sans que l'automate ne soit accessible, vous devriez voir plusieurs messages d'erreurs apparaître comme ici :
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_error_cannotConnectToPLC.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_error_cannotConnectToPLC.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Messages d'erreurs typiques</figcaption></div></figure>
+Ceux-ci ne font que prévenir l'utilisateur qu'il est impossible de se connecter à l'automate pendant l'écriture/la lecture d'une variable tout en précisant celle-ci.
+
+Maintenant que nous avons mis en place les outils essentiels pour le bon fonctionnement de la suite, nous allons aborder les outils plus avancés mis à la disposition des utilisateurs du module <span class='badge badge-success'>ENIBSupervision</span>.
+Mais avant ça, voici un petit rappel de ce à quoi votre fichier 
+
+<span class='badge badge-primary'>UI MainWindow.py</span> devrait ressembler au complet : %COMPLETE_FILE
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+# -*- coding : utf-8 -*-
+
+# on explicite l’ encodage du fichier
+
+# importation des modules nécessaires à Qt
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+import time
+
+# importation du module nécessaire à la création de notre fenêtre principale
+
+from UI_pyFiles.MainWindow import Ui_MainWindow
+
+# importation des modules de supervision
+
+from ENIBSupervision.PLC.Variable import PLCVar
+
+import ENIBSupervision.PLC.Variable as PLCVariable
+
+import ENIBSupervision.EventsLoop as EventsLoop
+
+from ENIBSupervision.UI_class.UI_AnimationTables import AnimationTables
+
+from ENIBSupervision.PLC.ModbusPLC import ModbusPLC
+
+import ENIBSupervision.PLC.Communication as Com
+
+class MainWindow (QtWidgets . QMainWindow):  # déclaration de la class MainWindow
+
+	# déclaration du constructeur avec un possible parent
+
+	def __init__(self, parent=None):
+
+        # on appelle le constructeur de la class parent
+
+        super().__init__(parent)
+
+        # initialisation de l’interface graphique
+
+        self.__ui = Ui_MainWindow()
+
+        # Affectation de l’interface à notre fenêtre principale
+
+        self.__ui.setupUi(self)
+
+        # déclaration de l’automate
+
+        tempPLC = ModbusPLC("127.0.0.1","Test 0",self.initVarList())
+
+        self.__plcClientList = [tempPLC]    
+
+		#index de l'automate actuellement sélectionné
+
+        self.__plcSelected = 0
+
+        #lancement de l'automate sélectionné
+
+        self.__plcClientList[self.__plcSelected].start()
+
+        #ajout d'un deuxième automate
+
+        tempPLC = ModbusPLC("127.0.0.1","Test 1",self.initVarList())
+
+        self.__plcClientList.append(tempPLC)
+
+        
+
+       
+
+		#lancement de l'automate sélectionné
+
+		self.__plcClientList[self.__plcSelected].start()
+
+        # récupération de l’index de la variable "dcy"
+
+        tmp_varList = self.initVarList()
+
+        #self.initVarList() retourne la liste des variables de l'automate
+
+        dcyIndex = PLCVariable.findVariableInList(tmp_varList,"dcy")
+
+        print(str(self.__plcClientList[self.__plcSelected].varList()[dcyIndex]))
+
+    def initVarList(self):
+
+	    varList = [] #initialisation de la liste de variables
+
+        #déclarations des différentes variables
+
+	    varList.append(PLCVar("dcy",5,"Bouton permettant de lancer un cycle","BIT","INPUT",self.dcyStateChanged))
+
+        #On relie la variable à la méthode "dcyStateChanged" de MainWindow (dernier argument passé)
+
+    	varList.append(PLCVar("new_cycle_count",0,"Nouveau nombre de cycle à exécuter","WORD","OUTPUT"))
+
+        varList.append(PLCVar("alarmButton", 6, "Bouton d'alarme","BIT","INPUT", self.checkAlarm)) #ajout de la variable
+
+	    return varList  #on retourne la liste de variables
+
+</code></pre><hr>
+<h3>Connexion d'une fonction à une variable</h3>
+Le module <span class='badge badge-success'>ENIBSupervision</span> permet d'associer une fonction à un changement d'état d'une variable
+<span title="Il est possible d'associer \bold{plusieurs fonctions" style='color:grey;'><sup>[note]</sup></span> au changement d'état d'<b>une</b> variable.}
+
+.<br>
+
+Nous verrons deux possibilités pour associer un changement d'état de variable à une fonction.<br>
+
+<ul>
+    <li> <b>Association à l'instanciation</b><br> Cette méthode, la plus simple, permet d'associer une fonction au changement d'état de la variable lors de la déclaration de celle-ci</li>
+    
+
+    <li> <b>Indépendante</b><br> Cette méthode, la plus générique, permet d'associer une fonction au changement d'état de la variable n'importe quand dans le programme.</li>
+</ul>
+Pour la deuxième possibilité, nous allons donc créer une variable d'entrée "alarmButton" avec l'adresse 6, de type "BIT" et de désignation "Bouton d'alarme". <br> Cette variable sera crée dans la fonction initVarList et ajoutée à l'automate. <br>
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    #... autres variables déja crées
+
+    
+
+    varList.append(PLCVar("alarmButton", 6, "Bouton d'alarme","BIT","INPUT", self.checkAlarm))
+
+    
+
+    return varList
+
+</code></pre><hr>
+<h4>Généralités</h4>
+Les fonctions associées au changement d'état d'une variable doivent recevoir un paramètre, celui-ci correspond à la variable modifiée.
+
+Dans le cas d'une fonction non-membre, le prototype ressemblera à ceci :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+def function(var):
+
+</code></pre><hr>
+Et dans le cas d'une fonction membre :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+def function(self,var):
+
+</code></pre><hr>
+<h4>Association à l'instanciation</h4>
+L'association à l'instanciation se fait extrêmement simplement en passant en dernier paramètre le nom de la fonction à associer.<br>
+
+Pour l'exemple, nous allons tout d'abord créer une fonction à associer au changement d'état de la variable "dcy". Celle-ci ne fera qu'afficher un message avec la valeur de la variable dans la console mais elle sera une fonction membre de la classe <b><i>MainWindow</i></b> pour se rapprocher d'un cas d'utilisation réél (impactant l'interface).<br>
+Sa définition sera donc :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+def dcyStateChanged(self,var):
+
+		print("dcy state has changed : "+str(var.getVarValue()))
+
+</code></pre><hr>
+Pour associer cette fonction au changement d'état de la variable dcy, il nous faut maintenant modifier la déclaration de celle-ci comme expliqué plus haut, ce qui se résume à <span title="Dans la fonction \italic{initVarList" style='color:grey;'><sup>[note]</sup></span>} :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#déclarations des différentes variables
+
+varList.append(PLCVar("dcy",50,"Bouton permettant de lancer un cycle","BIT","INPUT",self.dcyStateChanged))
+
+#On relie la variable à la méthode "dcyStateChanged" de MainWindow (dernier argument passé)
+
+</code></pre><hr>
+ Et voilà ! Maintenant, dès que l'état de la variable "dcy" sera modifié dans l'automate, cette fonction sera appelée et affichera dans le terminal la valeur de "dcy".
+
+ 
+
+ <h4>Association "Indépendante"</h4>
+ 
+
+ Cette méthode permet d'associer le changement d'état d'une variable à une fonction n'importe où dans le programme.
+
+<br>
+
+Cette méthode est strictement identique à l'usage que l'on a des signaux et slots Qt. Ce qui est normal puisque ce sont des signaux Qt qui sont utilisés.
+
+\colors{red}{\bold{Tous les signaux créés spécialement pour le module}} <span class='badge badge-success'>ENIBSupervision</span> <span style='color:red;'>\bold{commencent par le préfixe "sig "</span>}
+Pour cet exemple, nous allons associer notre nouvelle variable "alarmButton" à une fonction qui affiche son état.<br>
+
+Il faut donc commencer par définir cette fonction (elle est aussi membre de <b><i>MainWindow</i></b>) :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+def checkAlarm(self,var):
+
+		#alarme
+
+		print("checking alarm")
+
+</code></pre><hr>
+Puis il faut ensuite associer le changement d'état de notre variable à notre fonction. Cette fois, nous ne changerons pas la déclaration mais rajouterons une instruction pour les connecter.<br>
+
+Cette instruction prendra place juste après sa déclaration et nous utiliserons le signal de <b><i>PLCVar</i></b> : <i>sig valueChanged</i> :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#On relie la variable à la méthode "checkAlarm" de MainWindow
+
+varList[-1].sig_valueChanged.connect(self.checkAlarm)
+
+</code></pre><hr>
+Cette instruction ne fait rien d'autre que relier le signal <i>sig valueChanged</i> du dernier élément de la liste <b>varList</b> à la fonction <i>self.checkAlarm</i>.<br>
+D'où l'importance de la placer juste après la déclaration de la variable "alarmButton", ce qui devrait vous donner au final pour la fonction <i>initVarList</i> :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+def initVarList(self):
+
+	varList = []  #initialisation de la liste de variables
+
+	#déclarations des différentes variables
+
+	varList.append(PLCVar("dcy",50,"Bouton permettant de lancer un cycle","BIT","INPUT",self.dcyStateChanged))
+
+	#On relie la variable à la méthode "dcyStateChanged" de MainWindow (dernier argument passé)
+
+	varList.append(PLCVar("new_cycle_count",0,"Nouveau nombre de cycle à exécuter","WORD","OUTPUT"))
+
+	varList.append(PLCVar("alarmButton", 51, "Bouton d'alarme","BIT","INPUT")) #ajout de la variable
+
+	#On relie la variable à la méthode "checkAlarm" de MainWindow
+
+	varList[-1].sig_valueChanged.connect(self.checkAlarm)
+
+	return varList  # on retourne la liste de variables
+
+</code></pre><hr>
+<h3>Tables d'animations</h3>
+Nous arrivons maintenant dans les outils graphiques proposés par le module <span class='badge badge-success'>ENIBSupervision</span>.<br>
+Nous allons voir dans cette section comment créer facilement et rapidement des tables d'animations utilisables.<br>
+
+Ces tables d'animations se présentent sous la forme d'une fenêtre dockable.
+
+La création de ces tables se fait en deux lignes. Il suffit de les déclarer et les affichers.<br>
+
+Cependant, nous en avons maintenant l'habitude, il nous faut tout d'abord importer le type (<b><i>AnimationTables</i></b>) nécessaire depuis le module adapté, le module <span class='badge badge-success'>ENIBSupervision.UI class.UI AnimationTables</span>, cela se traduit par :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+from ENIBSupervision.UI_class.UI_AnimationTables import AnimationTables
+
+</code></pre><hr>
+Voici le prototype du type <b><i>AnimationTables</i></b> :
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+AnimationTables(plcVarList,parent = None,qdockWidgetArea = QtCore.Qt.RightDockWidgetArea)
+
+</code></pre><hr>
+Et une description rapide des arguments :
+
+<ul>
+    <li> <b>plcVarList</b> : Il s'agit d'une liste de variables de type "<b><i>PLCVar</i></b>"</li>
+    <li> <b>parent</b> : Il s'agit du widget Qt parent de nos tables d'animations. Souvenez-vous, je vous avais dit qu'il était d'usage de fournir à un widget Qt un parent. Ici, <b><i>AnimationTables</i></b> est un type pour lequel ce parent est important pour profiter de toutes les possibilités offertes.</li>
+    <li> <b>qdockWidgetArea</b> : il s'agit de la zone dans laquelle les tables d'animations seront dockées par défaut. C'est un paramètre un peu particulier, voici quelques exemples de valeurs acceptées :</li>
+<ul>
+        <li> <i>QtCore.Qt.RightDockWidgetArea</i></li>
+        <li> <i>QtCore.Qt.LeftDockWidgetArea</i></li>
+        <li> <i>QtCore.Qt.BottomDockWidgetArea</i></li>
+        <li> <i>QtCore.Qt.TopDockWidgetArea</i></li>
+</ul>
+</ul>
+Maintenant que nous voyons à peu près comment initialiser les tables d'animations, voici comment l'on pourrait faire en pratique :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+self.__animTables = AnimationTables(self.__plcClientList[self.__plcSelected].varList(), self)
+
+</code></pre><hr>
+<b>Nous allons placer cette instruction à la fin du constructeur de classe</b>.
+Si l'on analyse rapidement cette déclaration, on constate que nous ne faisons que initialiser une variable <b>self.  animTables</b> avec comme liste de variables  <i>self.  plcClientList[self.  plcSelected].varList()</i> [en choisissant l'index de l'automate] et comme parent, notre <b><i>MainWindow</i></b>.<br>
+Notez que c'est à nouveau une variable membre de notre class <b><i>MainWindow</i></b> car encore une fois, nous pourrions en avoir besoin dans d'autres fonctions.
+Nous avons déclaré nos tables, nous n'avons plus qu'à les afficher, ce qui se fera à l'aide de la fonction membre <i>.show()</i> (toujours à la fin du constructeur).
+En mettant ce code dans le constructeur, nous instancions et affichons les tables d'animation.
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+def __init___(self, parent=None):
+
+    #code précédent ...
+
+    
+
+    self.__animTables = AnimationTables(self.__plcClientList[self.__plcSelected].varList(), self)
+
+    self.__animTables.show() #on les affiche
+
+    
+
+def initVarList(self):
+
+    #...
+
+</code></pre><hr>
+Vous devriez maintenant avoir des tables d'animations que vous pouvez "détacher" de la fenêtre principale, manipuler normalement. Je vous laisse explorer les possibilités.<br>
+
+Voici le type de résultat que vous devriez obtenir :
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_animationTables.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/enibSup_window_animationTables.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Tables d'animations dans\protectla fenêtre principale</figcaption></div></figure>
+<h4>Ouvrir les tables d'animations</h4>
+Il est possible de créer un bouton et de demander qu'à chaque appui, il ouvre les tables d'animations.
+
+Pour cela, rien de plus simple :
+
+<ul>
+    <li> On créer un bouton avec QtDesigner que l'on appelle "start tableAnimat"
+</li>
+    <li> On crée une fonction membre appelée <i>showTables</i> qui, à chaque appel, se contentera d'ouvrir et d'afficher les tables d'animations de l'automate.</li>
+    
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+        def initVarList(self):
+
+        
+
+            #...
+
+        
+
+        def showTables(self):
+
+            #Ouverture des tables d'animations
+
+            self.__animTables.show()
+
+</code></pre><hr>
+    <li> On relie le signal du bouton à la fonction membre <i>showTables()</i> <b>dans le constructeur</b>' <span title="En cas d'oubli de méthode, le rappel est au chapitre 8.6" style='color:grey;'><sup>[note]</sup></span></li>
+    
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+        self.__ui.start_tableAnimat.clicked.connect(self.showTables)
+
+</code></pre><hr>
+   
+
+</ul>
+Et voila, à chaque appui sur le bouton, lorsque les tables d'animations seront fermées, elles s'ouvriront.
+
+<h4>Modifier l'état d'une variable de l'automate</h4>
+Nous allons maintenant voir comment modifier l'état d'une variable dans l'automate.<br>
+
+Nous allons tout d'abord rechercher la variable qui nous intéresse puis modifier son état.
+
+Pour l'exemple, nous modifierons la variable "new cycle count" de l'automate actuellement sélectionné.<br>
+
+Nous ferons en sorte que lorsque nous appuyons sur le bouton "start" de l'interface graphique, cette variable soit incrémentée mais tout en maintenant sa valeur dans l'intervalle [0;10[ : lorsque la valeur de la variable atteint 9, elle vaudra 0 la prochaine fois.<br>
+
+Pour cela nous allons créer une nouvelle fonction qu'il nous faudra <b>connecter à l'appui sur le bouton "start"</b> : <i>incrementNewCycleCount</i> qui exécutera l'action que nous avons expliqués plus haut.
+Voici le code au complet détaillé de la fonction permettant cette action :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+def incrementNewCycleCount(self):
+
+	#on accède à la liste de variables visée : celle de l'automate sélectionné
+
+	tempVarList = self.__plcClientList[self.__plcSelected].varList()
+
+	#on récupère l'index de la variable dans cette liste
+
+	varIndex = PLCVariable.findVariableInList(tempVarList,"new_cycle_count")
+
+	#on calcule la nouvelle valeur
+
+	newVal = (tempVarList[varIndex].getVarValue()+1)%10
+
+	#on affecte la nouvelle valeur à la variable automate
+
+	tempVarList[varIndex].setVarValue(newVal)
+
+</code></pre><hr>
+Le code ci-dessus contient le détail de toutes les opérations nécessaires.<br>
+
+Notez que l'affectation en elle-même ne se fait qu'en une seule ligne.
+
+Encore une fois, n'oubliez pas de connecter cette fonction au click du bouton (par cohérence, nous ne pouvons que vous inviter à placer cette connexion juste après celle déjà existante) ce qui devrait vous donner :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+self.__ui.pb_start.clicked.connect(self.showAnimTables)
+
+self.__ui.pb_start.clicked.connect(self.incrementNewCycleCount)
+
+</code></pre><hr>
+Et voilà ! Si vous lancez le programme, vous devriez constater que à chaque clic sur le bouton, cette variable s'incrémentera au niveau de l'automate.
+
+<h2 >Code de l'exemple au complet</h2>
+<br>
+
+<h3>main.py</h3>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+# -*- coding : utf-8 -*-
+
+#on explicite l’ encodage du fichier
+
+# importation des modules né cessaires à Qt
+
+import sys
+
+from PyQt5 import QtCore , QtGui , QtWidgets
+
+# importation du module d’interface graphique créé
+
+from UI_class.UI_MainWindow import MainWindow
+
+from ENIBSupervision.Utils import Debug as EDebug
+
+from ENIBSupervision.PLC import ModbusPLC
+
+def main():
+
+	app = QtWidgets.QApplication (sys.argv)
+
+	mainWindow = MainWindow ()
+
+	mainWindow.show ()
+
+	#exécution de l’application Qt
+
+	sys.exit(app.exec())
+
+#si c’est ce module qui est lancé directement
+
+if( __name__ == "__main__") :
+
+	
+
+	main()
+
+	client = ModbusPLC.ModbusPLC("127.0.0.1","Auto")
+
+	client.connect()
+
+	EDebug.debuggingTool(client)
+
+</code></pre><hr>
+<br>
+
+<h3>UI class/UI MainWindow.py</h3>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+# -*- coding : utf-8 -*-
+
+# on explicite l’ encodage du fichier
+
+# importation des modules nécessaires à Qt
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+import time
+
+# importation du module nécessaire à la création de notre fenêtre principale
+
+from UI_pyFiles.MainWindow import Ui_MainWindow
+
+# importation des modules de supervision
+
+from ENIBSupervision.PLC.Variable import PLCVar
+
+import ENIBSupervision.PLC.Variable as PLCVariable
+
+import ENIBSupervision.EventsLoop as EventsLoop
+
+from ENIBSupervision.UI_class.UI_AnimationTables import AnimationTables
+
+from ENIBSupervision.PLC.ModbusPLC import ModbusPLC
+
+import ENIBSupervision.PLC.Communication as Com
+
+class MainWindow (QtWidgets . QMainWindow):  # déclaration de la class MainWindow
+
+	# déclaration du constructeur avec un possible parent
+
+	def __init__(self, parent=None):
+
+		# on appelle le constructeur de la class parent
+
+		super().__init__(parent)
+
+		# initialisation de l’interface graphique
+
+		self.__ui = Ui_MainWindow()
+
+		# Affectation de l’interface à notre fenêtre principale
+
+		self.__ui.setupUi(self)
+
+		# déclaration de l’automate
+
+		self.__plcClientList = [ModbusPLC("127.0.0.1","Automate Test 0",self.initVarList())]
+
+		#index de l'automate actuellement sélectionné
+
+		self.__plcSelected = 0
+
+		#lancement de l'automate sélectionné
+
+		self.__plcClientList[self.__plcSelected].start()
+
+		#ajout d'un deuxième automate
+
+		self.__plcClientList.append(ModbusPLC("127.0.0.1","Automate Test 1",self.initVarList(),"Description automate 1"))
+
+		#lancement de l'automate sélectionné
+
+		self.__plcClientList[self.__plcSelected].start()
+
+		# récupération de l’index de la variable "dcy"
+
+		#dcyIndex = PLCVariable.findVariableInList(self.__plcClientList[self.__plcSelected].varList(), "dcy")
+
+		# affichage de la variable
+
+		#print(str(self.__plcClientList[self.__plcSelected].varList()[dcyIndex]))
+
+		#déclaration des tables d’animations
+
+		self.__animTables = AnimationTables(self.__plcClientList[self.__plcSelected].varList(), self)
+
+		#self.__animTables.show()  # on les affiche
+
+		self.__ui.pb_start.clicked.connect(self.showAnimTables)
+
+		self.__ui.pb_start.clicked.connect(self.incrementNewCycleCount)
+
+	
+
+	#SLOTS UI
+
+	def checkAlarm(self,var):
+
+		#alarme
+
+		print("checking alarm : "+str(var.getVarValue()))
+
+	
+
+	def dcyStateChanged(self,var):
+
+		print("dcy state has changed : "+str(var.getVarValue()))
+
+	def showAnimTables(self):
+
+		self.__animTables.show()
+
+	
+
+	def incrementNewCycleCount(self):
+
+		#on accède à la liste de variables visée : celle de l'automate sélectionné
+
+		tempVarList = self.__plcClientList[self.__plcSelected].varList()
+
+		#on récupère l'index de la variable dans cette liste
+
+		varIndex = PLCVariable.findVariableInList(tempVarList,"new_cycle_count")
+
+		#on calcule la nouvelle valeur
+
+		newVal = (tempVarList[varIndex].getVarValue()+1)%10
+
+		#on affecte la nouvelle valeur à la variable automate
+
+		tempVarList[varIndex].setVarValue(newVal)
+
+	def initVarList(self):
+
+		varList = []  #initialisation de la liste de variables
+
+		#déclarations des différentes variables
+
+		varList.append(PLCVar("dcy",50,"Bouton permettant de lancer un cycle","BIT","INPUT",self.dcyStateChanged))
+
+		#On relie la variable à la méthode "dcyStateChanged" de MainWindow (dernier argument passé)
+
+		varList.append(PLCVar("new_cycle_count",0,"Nouveau nombre de cycle à exécuter","WORD","OUTPUT"))
+
+		varList.append(PLCVar("alarmButton", 51, "Bouton d'alarme","BIT","INPUT")) #ajout de la variable
+
+ 		#On relie la variable à la méthode "checkAlarm" de MainWindow
+
+		varList[-1].sig_valueChanged.connect(self.checkAlarm)
+
+		return varList  # on retourne la liste de variables
+
+def incrementNewCycleCount(self):
+
+	#on accède à la liste de variables visée : celle de l'automate sélectionné
+
+	tempVarList = self.__plcClientList[self.__plcSelected].varList()
+
+	#on récupère l'index de la variable dans cette liste
+
+	varIndex = PLCVariable.findVariableInList(tempVarList,"new_cycle_count")
+
+	#on calcule la nouvelle valeur
+
+	newVal = (tempVarList[varIndex].getVarValue()+1)%10
+
+	#on affecte la nouvelle valeur à la variable automate
+
+	tempVarList[varIndex].setVarValue(newVal)
+
+		
+
+</code></pre><hr>
+
+<h2 >Objet dynamique</h2>
+<h3>Présentation</h3>
+Dans le cadre de l'enseignement Supervision de L'ENIB, nous avons développé dans le module <span class='badge badge-success'>ENIBSupervision</span>, un type <b><i>DynamicObject</i></b>. Ce nouveau type hérite d'un Qwidget de la bibliothèque PyQt.
+Il permet de représenter un objet de supervision (verin, moteur,...) et de l'afficher. Nous pourrons alors très simplement dans Qtdesigner afficher ce type d'objet. 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - exemple d'utilisation du type</figcaption></div></figure>
+Pour l'exemple nous avons crée un objet Moteur 1 que nous avons initialisé à l'état sens 1. 
+
+Le widget affiche en partant du haut:
+
+<ul>
+    <li> Le nom de l'objet (choisi lors de l'initialisation) .
+</li>
+    <li> Un bouton informations qui lorsque l'on place le curseur dessus affiche le nom de l'objet, son type, son état, la description de l'objet ainsi que s'il est en défaut.
+</li>
+    <li> Une image représentant l'état actuel de l'objet.
+</li>
+</ul>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Objet en défaut</figcaption></div></figure>
+Lorsque qu'un défaut a été transmis à l'objet ou qu'il en a détecté un par lui même, le bouton informations devient rouge. Il indique à l'utilisateur qu'un défaut est actuellement présent sur l'objet. Si nous appuyons sur le bouton, une fenêtre s'ouvre indiquant les problèmes actuels. 
+
+Dans cet exemple nous avons simulé un vérin ayant ses capteurs S1 et S2 à l'état haut au même moment. Le programme a bien détecté que c'était un état impossible et à crée une erreur. Nous avons également transmis au vérin l'information qu'une erreur "test problème" était présente. 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+<h3>Utilisation simple du type</h3>
+Nous allons créer un programme simple permettant de représenter un objet dynamique. Pour cette expérimentation nous présenterons l'utilisation d'un objet vérin mais le fonctionnement est similaire pour tous les autres objets.
+
+Nous allons commencer par un créer une fenêtre MainWindow sous QtDesigner (fonctionne pour tout type de fenêtre mais ici on l'utilise simplement pour un exemple simple).
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:28%;'></a><figcaption>Figure - Choix de la fenêtre</figcaption></div></figure>
+On ajoute un layout à notre fenêtre pour que notre widget puisse prendre toute la place qui lui est disponible et puisse être redimensionné. On glisse l'icône sur la fenêtre et on le dimensionne pour prendre tout l'espace de la fenêtre.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:26%;'></a><figcaption>Figure - Emplacement des layouts</figcaption></div></figure>
+On ajoute ensuite un widget dans notre layout (on le glisse). On peut le renommer pour être plus explicite (fenêtre à droite).
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Nom du futur objet</figcaption></div></figure>
+On sélectionne notre widget, puis click-Droit + promote to. 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:85%;'></a><figcaption>Figure - Emplacement de promotion</figcaption></div></figure>
+Enfin, on sélectionne la classe <b><i>DynamicObject</i></b>
+\textcolor{red}{\bold{Si cette classe n'apparaît pas, il faut revenir au tutoriel  PyQt5 et ses outils, au chapitre 9 qui traite de l'importation des widgets personnalisés (localisé dans la classe \ib{DynamicObject})}} 
+
+On peut maintenant fermer QtDesigner et enregistrer notre MainWindow dans le dossier <span class='badge badge-light'>UI formFiles</span>. On exécute donc ensuite notre script <span class='badge badge-primary'>scriptExport.py</span>.
+On peut maintenant ouvrir notre  fichier <span class='badge badge-primary'>UI MainWindow.py</span> present dans le dossier <span class='badge badge-light'>UI class</span>. On importe notre classe <b><i>dynamicObject</i></b>.
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+from ENIBSupervision.UI_class.UI_DynamicObject import DynamicObject
+
+</code></pre><hr>
+Si le fichier <span class='badge badge-success'>UI mainWindow.py</span> était vide jusqu'à présent on peut l'initialiser simplement comme ceci:
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    super().__init__(parent)
+
+    self.__ui = Ui_MainWindow()
+
+    self.__ui.setupUi(self)
+
+</code></pre><hr>
+Il faut maintenant initialiser l'objet. On utilise la fonction <i>initObject()</i> interne à notre widget. En premier paramètre on fournit le type de l'objet (vérin, moteur, ...), puis le nom de l'objet et enfin la description de l'objet.
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    self.__ui.verin_1.initObject("verin", "vérin 1", "Vérin pour déplacer la palette")
+
+</code></pre><hr>
+On peut maintenant initialiser l'état de notre objet (on utilisera la même fonction pour actualiser plus tard l'objet). 
+
+La fonction à utiliser diffère  des objets mais reprend la même structure. Pour un objet à n capteurs on utilisera la fonction <i>Update</i> n**2 <i>States</i> avec n paramètres.
+Dans notre exemple la fonction à utiliser est <i>Update4States()</i> avec en paramètres s1 et s2. 
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    self.__ui.verin_1.update4States(0,0)
+
+</code></pre><hr>
+A cette étape de l'expérimentation, vous devriez obtenir une fenêtre similaire en exécutant le programme.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Vérin en position neutre</figcaption></div></figure>
+Notre objet est bien initialisé. Le nom apparaît au dessus, en passant le curseur sur l'objet le texte est conforme à l'objet et l'image affichée correspond bien à l'état transmis plus tôt (2 capteurs à 0).
+
+Nous pouvons dorénavant actualiser notre objet dès qu'un capteur change de valeur. Pour ceci on utilisera la même fonction que précédemment.
+
+Pour actualiser l'objet de manière synchrone à la table d'animation, vous pouvez vous inspirer du programme exemple.
+
+La dernière fonctionnalité permettra de signaler un problème sur l'objet ( permettant d'afficher un bouton rouge avertissant l'utilisateur). Pour ceci on utilisera la fonction <i>setProb()</i> avec en paramètre le problème à signaler.
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    self.__ui.verin_1.setProb("test")
+
+</code></pre><hr>
+On exécutant le programme, vous devriez constater qu'un bouton rouge est apparu. En cliquant dessus une fenêtre devrait s'ouvrir avec notre problème "test" bien signalé.
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Vérin en défaut</figcaption></div></figure>
+Lorsque le problème sera résolu, on pourra utiliser la fonction <i>resetProb</i> avec en paramètre le problème pour le réinitialiser.
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    self.__ui.verin_1.resetProb("test")
+
+</code></pre><hr>
+<h3>Création d'un nouvel objet</h3>
+Dans cette section nous aborderons la manière de créer un nouveau "type" d'objet qui pourra être représenté grâce à ce type <b><i>dynamicObject</i></b>. Nous allons illustrer cela par la création de l'objet moteur.
+On ouvre dans un éditeur de code le fichier <span class='badge badge-primary'>UI DynamicObject.py</span> present dans le dossier <span class='badge badge-light'>ENIBSupervision/UI class</span>.
+Il faut d'abord ajouter dans la liste objectType, un string nommant le type de l'objet. Dans notre cas on ajoutera "moteur". 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+        objectType = ["verin","moteur"]
+
+</code></pre><hr>
+Ensuite, il nous faut créer une liste que nous nommerons dans notre exemple motorStates:
+
+Son premier membre est un entier indiquant le nombre d'états que peut prendre l'objet. Dans notre cas un moteur à 2 capteurs, il peut donc prendre \( 2^2 \) états différents.
+
+Son deuxième membre est une liste décrivant les états pris par l'objet :
+
+<ul>
+    <li> Les états sont du type str.
+</li>
+    <li> On classe les états suivant l'ordre binaire naturel: (ckm1,ckm2) -> (0,0) ; (0,1) ; (1,0) ; (1,1).
+</li>
+    <li> Les états sont écrits de la manière suivante : 
+</li>
+    <b>l'objet</b> ... (ex: ...est à l'arrêt ; ...tourne dans le sens 1).
+</ul>
+Dans notre exemple, on a donc : 
+
+<ul>
+    <li> élément 0: (0,0) - "est à l'arrêt"
+</li>
+    <li> élément 1: (0,1) - "tourne dans le sens 2"
+</li>
+    <li> élément 2: (1,0) - "tourne dans le sens 1"
+</li>
+    <li> élément 3: (1,1) - "est en défaut"
+</li>
+</ul>
+Il nous reste plus qu'à ajouter notre liste à la liste states (dans le même ordre que dans la liste objectType).
+
+Nous obtenons donc:
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    motorStates = [4, ["est à l'arrêt", "tourne dans le sens 2", "tourne dans le sens 1", "est en défaut"] ]
+
+</code></pre><hr>
+Nous allons maintenant créer une liste permettant de signaler des états en défaut ou problématiques (ex: un verin qui aurait ses deux capteurs s1 et s2 à l'état haut).
+
+Notre liste attend en paramètre:
+
+<ul>
+    <li> une liste contenant les numéros des états problématiques. Dans notre exemple le seul problème est lorsque les deux capteurs ckm1 et ckm2 sont à l'état 1. 
+</li>
+    <li> Une seconde liste contenant des strings décrivant l'état signalée dans la liste précédente. Ici on aura simplement "ckm1 et ckm2 sont tous les 2 à l'état 1".
+</li>
+</ul>
+A l'instar de states, on ajoute notre liste motorStateDefault (celle que l'on vient de créer) à la liste stateDefault.
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    motorStateDefault = [ [3], ["ckm1 et ckm2 sont tous les deux à l'état 1"]]
+
+    stateDefault = [verinStateDefault, motorStateDefault]
+
+</code></pre><hr>
+La dernière étape consiste à créer des images pour représenter les différents états pris par l'objet. Les dimensions des images n'ont peu d'importance. Il est cependant recommandé de garder pour un même objet, des dimensions fixes. 
+
+Les images seront ensuite enregistrées au format png dans le dossier <span class='badge badge-light'>ENIBSupervision/UI class/images</span>  nommées comme ceci: <b>monObjet numEtat</b>.
+dans notre cas <span class='badge badge-primary'>moteur 0.png</span> ; <span class='badge badge-primary'>moteur 1.png</span> ; <span class='badge badge-primary'>moteur 2.png</span> ; <span class='badge badge-primary'>moteur 3.png</span>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Images possibles d'un moteur</figcaption></div></figure>
+<br>
+
+<h3>Utilisation des voyants</h3>
+Il est possible de placer des voyants qui changerons d'état en fonction des variables de l'automate. 
+
+La définition des voyants se situe dans le fichier <span class='badge badge-primary'>UI IndicLight.py</span>.
+Le  nom de la classe promue est <b><i>IndicLight</i></b>
+Il convient tout d'abord de placer un widget de type "widget" sur la fenêtre. 
+
+Nous appellerons notre widget 'voyant capteur' 
+
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Nom du voyant</figcaption></div></figure>
+Ensuite, il faut promouvoir le widget en <b><i>IndicLight</i></b>.
+Pour cela, on fait un click-droit sur l'arborescence des widgets en sélectionnant notre widget. 
+
+Dans "promote to" (promouvoir en) , il faut déclarer le fichier <span class='badge badge-primary'>UI IndicLight.py</span> de la même façon que le fichier <span class='badge badge-primary'>UI DynamicObject.py</span>
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Importation de l'objet \ib{IndicLight</figcaption></div></figure>
+L'emplacement du fichier <span class='badge badge-primary'>UI IndicLight.py</span> est le suivant : 
+<span class='badge badge-primary'>ENIBSupervision/UI class/UI IndicLight.py</span> 
+Une fois le widget promu, nous allons pouvoir enregistrer QtDesigner, fermer la fenêtre et actualiser l'interface avec le script <span class='badge badge-primary'>scriptExport.py</span>. 
+La gestion des voyants se fera dans le fichier <span class='badge badge-success'>UI MainWindow.py</span> 
+Par défaut, lors de l'initialisation d'un voyant, ce dernier comporte deux états par défaut : 
+
+<ul>
+    <li> Un état '0' de couleur rouge sans texte
+</li>
+    <li> Un état '1' de couleur verte sans texte
+</li>
+</ul>
+Nous souhaitons maintenant modifier les propriétés de base de notre voyant
+
+<h4>Couleur du voyant</h4>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+self.__ui.voyant_capteur.changeState(0, [0,255,255]) 
+
+</code></pre><hr>
+Cette instruction permet de redéfinir la couleur de l'état 0 du voyant 'voyant capteur' en cyan. 
+
+Le second argument de la fonction <i>changeState</i> est un tableau comportant les valeurs de Rouge, Vert et Bleu du voyant (valeurs comprises entre 0 et 255) 
+<h4>Texte du voyant</h4>
+Étant donné que le voyant hérite des labels (<b><i>QLabel</i></b>), vous pouvez définir un texte pour le voyant de la manière suivante.
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+self.__ui.voyant_capteur.setText('capteur voyant')
+
+</code></pre><hr>
+<h4>Forme du voyant</h4>
+Le voyant peut être de forme rectangulaire (par défaut) ou arrondie avec l'instruction suivante :
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+self.__ui.voyant_capteur.setRoundCorner(True) #voyant arrondi
+
+</code></pre><hr>
+<h4>Couleur et taille du texte</h4>
+Deux fonctions sont à votre disposition pour changer la taille de la police (en pt) et sa couleur(RGB) : <i>setFontSize</i> et <i>setFontColor</i>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+self.__ui.voyant_capteur.setFontSize(14)
+
+self.__ui.voyant_capteur.setFontColor([150,150,150]) #gris
+
+</code></pre><hr>
+Avec toutes ces instructions placées dans le constructeur de  <span class='badge badge-success'>UI MainWindow.py</span>, on obtient le voyant suivant.
+<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/08/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Le voyant</figcaption></div></figure>
+<h4>Un nouvel état</h4>
+Il est également possible d'ajouter un nouvel état.
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+self.__ui.voyant_capteur.setStateCount(2, [0,0,255]) 
+
+</code></pre><hr>
+Cette instruction ajoute un troisième état appelé '2' de couleur bleue.
+
+<h4>Afficher un état</h4>
+Une fois que tous les états de notre voyant sont définis, il nous reste à changer l'état en fonction des conditions.
+
+Pour définir l'état courant, on utilise l'instruction <i>setState</i>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+self.__ui.voyant_capteur.setState(1) 
+
+</code></pre><hr>
+Le voyant est donc actualisé à l'état 1
+
+
+<h2 >Conclusions</h2>
+<h3>Capacités du programme</h3>
+A ce jour, le code fourni est en mesure de gérer un programme de supervision comportant des vérins, moteurs et voyants. 
+
+L'utilisateur est libre d'ajouter des objets comme bon lui semble. 
+
+Les tables d'animations sont également opérationnelles et permettent de visualiser à tout instant l'état des variables de l'automate. 
+
+Il est possible de changer d'automate pour une même interface. 
+
+Cependant, il nous est encore impossible de distinguer une variable forcé par l'utilisateur ou une variable à un état de repos. 
+
+Cet objectif sera, dans la mesure du possible, à prendre en compte. 
+
+<h3>Améliorations</h3>
+L'un des objectifs serait de récupérer les données des variables sur une base de temps afin de les exploiter dans le futur (traitement puis graphique d'exploitation). Il faudrait donc sauvegarder les valeurs des variables soit dans un simple fichier au format CSV ou XML ou encore dans une base de données (SQL, SQlite...). 
+
+Il faut être conscient que la dernière méthode est plus à longue à configurer car une base de données n'est pas forcément installé sur les ordinateurs. 
+
+Le programme que nous avons codé permet d'utiliser le logiciel seulement sur un ordinateur. 
+
+Une version améliorée serait de faire une interface pour smartphone afin de la rendre plus portable. 
+
+On pourrait donc prendre le contrôle de l'automate à travers une interface WEB. Cependant, cela peut poser de graves problèmes de sécurité car la communication Interface-Automate ne se fait plus à travers un seul réseau local.
+
+<h3>Problèmes rencontrés</h3>
+Tout au long de ce semestre, de nombreux problèmes ont été rencontrés, notamment au niveau du langage en lui-même. 
+
+Nous devions nous baser sur le langage Python, cependant celui-ci a apporté de nombreux problèmes.
+
+<br>
+
+En effet, le premier était tout simplement notre mauvaise maîtrise du langage. Python est un langage simple à aborder mais dans le cadre d'une utilisation plus ambitieuse telle que notre projet, les compétences à posséder deviennent bien particulières et le langage expose des aspects qui sont loin d'être simples si nous n'y avons pas été formé. <br>
+
+Une bonne partie du temps dont nous disposions a donc été employé à la résolution de bugs inhérents à notre mauvaise maîtrise de Python.
+
+Ensuite, de nombreux choix ont dû être faits. En effet, avec la volonté de créer un module ré-utilisable de haut niveau, il a été nécessaire de faire des compromis entre performance et simplicité d'utilisation.<br>
+
+Au début du projet, nous avions développés notre propre système de signaux/slots utilisant le multi-threading mais apportant des problèmes en terme de compatibilité avec Qt. C'est ceci qui nous a fait re-changer notre programme pour lui faire utiliser des signaux/slots Qt au dernier moment.
+
+Le manque de possibilités de tester notre programme a aussi été un frein au développement de notre projet. Nous avons testé celui-ci avec Unity-PRO extrêmement tardivement.<br>
+
+Puisque nous programmions sous Linux et sans moyen d'accéder facilement à un système Windows.<br>
+
+De plus, nous n'avions pas non plus accès à la salle d'automatismes, ce qui nous aurait offert un moyen simple de tester notre programme en conditions réelles et de perdre moins de temps en fin de semestre à corriger tous les bugs existants dans le programme (n'ayant pas pu être testé avant). Cela nous aurait aussi permis de nous rendre compte des différents problèmes conceptuels qui ont dû être résolu très rapidement<span title="Même si ces problème auraient dû être envisagés avant la rédaction du programme" style='color:grey;'><sup>[note]</sup></span>.
+
+Enfin, nous avons fait un mauvais usage de la bibliothèque PyModbus. En effet, celle-ci semble proposer de nombreuses fonctionnalités pour simplifier la gestion et la robustesse de la communication. Malheureusement, l'absence de documentation complète de la bibliothèque ne nous a pas permis de les découvrir avant la fin du projet. Sans compter que les documents qui nous ont été fournis comme base au début du semestre n'exploitaient pas ces fonctionnalités.
+
+
+</body></html>

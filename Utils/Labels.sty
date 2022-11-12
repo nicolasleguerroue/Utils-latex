@@ -14,32 +14,82 @@
     overlay={\begin{tcbclipinterior}\fill[#1!75!white] (frame.south west)
       rectangle node[text=white,font=\sffamily\bfseries\tiny,rotate=90] {#2} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
 
-\newcommand{\file}[1]{\lbl{orange}{FILE}{#1}}
-\newcommand{\dir}[1]{\lbl{red}{DIR}{#1}}
-\newcommand{\link}[1]{\lbl{blue}{LINK}{#1}}
-\newcommand{\lib}[1]{\lbl{green}{LIB}{#1}}
-\newcommand{\shortcut}[1]{\lbl{cyan}{KEY}{#1}}
+\newcommand{\file}[1] %Create File label #filename
+{\lbl{orange}{FILE}{#1}} 
 
+\newcommand{\dir}[1] %Create Directory label #directory
+{
+  \lbl{red}{DIR}{#1}
+}
+
+\newcommand{\link}[1]   %create Link label #link
+{
+  \lbl{blue}{LINK}{#1}
+}
+
+\newcommand{\lib}[1]  %Create Library label #library
+{
+  \lbl{green}{LIB}{#1}
+}
+
+\newcommand{\shortcut}[1] %Create shortcut label #shortcul
+{
+  \lbl{cyan}{KEY}{#1}
+}
+
+\newcommand{\sym}[1] %Create Symbolic label #symbolic
+{
+  \lbl{purple}{SYM}{#1}
+}
 
 %network
-\newcommand{\ip}[1]{\lbl{rose}{IP}{#1}}
-\newcommand{\mac}[1]{\lbl{purple}{MAC}{#1}}
-\newcommand{\bin}[1]{\lbl{magenta}{BIN}{#1}}
-\newcommand{\hexa}[1]{\lbl{gray}{HEX}{#1}}
+\newcommand{\ip}[1] %Create IP lable #IPAdress
+{\lbl{rose}{IP}{#1}}
+
+\newcommand{\mac}[1]  %create MAC label #macAddress
+{\lbl{purple}{MAC}{#1}}
+
+\newcommand{\bin}[1]  %create Bianry label #binaryValue
+{\lbl{magenta}{BIN}{#1}}
+
+\newcommand{\hexa}[1] %Create Heax value label #hexaValue
+{\lbl{gray}{HEX}{#1}}
 
 %Doc
-\newcommand{\loc}[1]{\lbl{green}{LOC}{#1}}
+\newcommand{\loc}[1]{\lbl{blue}{LOC}{#1}}
 \newcommand{\deprecated}[1]{\lbl{red}{INFO}{#1}}
 
 %electronic
-\newcommand{\genericPin}[1]{\lbl{orange}{PIN}{#1}}
-\newcommand{\inputPin}[1]{\lbl{blue}{IN}{#1}}
-\newcommand{\outputPin}[1]{\lbl{green}{OUT}{#1}}
-\newcommand{\reg}[1]{\lbl{gray}{REG}{#1}}
-\newcommand{\func}[1]{\lbl{cyan}{FUNC}{#1}}
-\newcommand{\adr}[1]{\lbl{brown}{ADDR}{#1}}
+\newcommand{\genericPin}[1] %create generic Pin #pinName
+{
+  \lbl{orange}{PIN}{#1}
+}
 
-\newtcbox{\lgreen}[1]{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm, %Create green label #title content
+\newcommand{\inputPin}[1] %create input Pin #pinName
+{
+  \lbl{blue}{IN}{#1}
+}
+
+\newcommand{\outputPin}[1] %create output Pin #pinName
+{
+  \lbl{green}{OUT}{#1}
+}
+
+\newcommand{\reg}[1]  %Create register label #register
+{
+  \lbl{gray}{REG}{#1}
+}
+\newcommand{\func}[1]   %create function label
+{
+  \lbl{cyan}{FUNC}{#1}
+}
+
+\newcommand{\adr}[1]    %create address label #address
+{
+  \lbl{brown}{ADDR}{#1}
+}
+
+\newtcbox{\lgreen}[1]{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm, %Create greenUUU label #title content
   right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
   colframe=green!50!black,coltext=green!25!black,colback=green!10!white,
   overlay={\begin{tcbclipinterior}\fill[green!75!white] (frame.south west)

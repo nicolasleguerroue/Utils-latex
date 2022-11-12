@@ -6,12 +6,21 @@
 %############################################################
 \typeout{>>> Utils: Package 'Tables' loaded !}
 
-\newcommand{\displayListOfTables}[1]{%Display the listOfTables #tocName
-\renewcommand{\listtablename}{#1}
-\addcontentsline{toc}{chapter}{#1}
-%\chapter*{#1}
-\vspace{-4cm}
-\listoftables
+\newcommand{\displayListOfTables}[1]{ %Display the lisy of tables #tocName
+    \renewcommand{\listtablename}{#1}
+    \addcontentsline{toc}{chapter}{#1}
+    %\chapter*{#1}
+    \vspace{-4cm}
+    \listoftables
+}
+
+% Default table newenvironment{\tabular}[1] #header
+\newenvironment{Array}[1] %Array of data #header
+{
+    \begin{tabular}{#1}
+}
+{
+    \end{tabular}
 }
 
 

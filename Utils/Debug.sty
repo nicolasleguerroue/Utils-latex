@@ -6,8 +6,17 @@
 %############################################################
 %################################################################
 \typeout{>>> Utils: Package 'Debug' loaded !}
+
 \newcommand{\addUpdate}[2]{%Add update version #date content
-\makebox[5em][r]{
-    \textbf{\textcolor{black}{#1}}
-}\quad{#2}
+    \makebox[5em][r]
+    {
+        \textbf{\textcolor{black}{#1}}
+    }
+    \quad{#2}
 }
+
+
+%\newcommand{\raiseMessage} %Raise info message in compilation  #message
+%\newcommand{\raisewarning} %Raise warning message in compilation #message
+%\newcommand{\raiseError} %Raise error message in compilation #message
+

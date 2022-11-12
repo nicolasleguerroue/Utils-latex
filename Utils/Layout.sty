@@ -13,107 +13,32 @@
 \typeout{>>> Utils: Package 'Layout' loaded !}
 
 %################################################################
-\begin{comment}
-@begin
-@command \bold
-@des 
-Cette commande permet de mettre le texte en gras
-@sed
-@input Texte à mettre en gras
-@begin_example 
-\bold{texte en gras}
-@end_example
-@end
-\end{comment}
 
+
+%center
+%Center element newenvironment{center}  #
+%Use default command to set bold newcommand{\textbf} #content
 \renewcommand{\bold}[1]{%Set text in bold #content
     \textbf{#1}
 }
-
-%################################################################
-\begin{comment}
-@begin
-@command \italic
-@des 
-Cette commande permet de mettre le texte en italique
-@sed
-@input Texte à mettre en italique
-@begin_example 
-\italic{texte en italique}
-@end_example
-@end
-\end{comment}
-
-\newcommand{\italic}[1]{%Set text in italic #content
+%Use default command to set italic newcommand{\textit} #content
+\newcommand{\italic}[1]%Set text in italic #content
+{
     \textit{#1}
+} 
+
+\newcommand{\ib}[1] %Set text in italic and bold #content
+{
+    \textit{\textbf{#1}}
 }
-
-%################################################################
-\begin{comment}
-@begin
-@command \ib
-@des 
-Cette commande permet de mettre le texte en italique et en gras
-@sed
-@input Texte à mettre en italique et gras
-@begin_example 
-\ib{texte en italique et gras}
-@end_example
-@end
-\end{comment}
-
-\newcommand{\ib}[1]{%Set text in italic and bold #content
+\newcommand{\bi}[1] %Set text in bold and italic #content
+{
     \textit{\textbf{#1}}
 }
 
-%################################################################
-\begin{comment}
-@begin
-@command \bi
-@des 
-Cette commande permet de mettre le texte en italique et en gras
-@sed
-@input Texte à mettre en italique et gras
-@begin_example 
-\bi{texte en italique et gras}
-@end_example
-@end
-\end{comment}
+\newcommand{\n} %Add newline #
+{\\}
 
-\newcommand{\bi}[1]{%Set text in italic and bold #content
-    \textit{\textbf{#1}}
-}
+\newcommand{\sn} %Set small vertical space #
+{\vskip 0.5cm} 
 
-
-\begin{comment}
-@begin
-@command \n
-@des 
-Cette commande permet de faire un saut de ligne
-@sed
-@begin_example 
-Text \n Next text
-@end_example
-@end
-\end{comment}
-
-\newcommand{\n}{\\}%Add newline #
-
-%################################################################
-\begin{comment}
-@begin
-@command \sn
-@des 
-Cette commande permet de faire un espace vertical
-@sed
-@begin_example 
-Text \sn Next text
-@end_example
-@end
-\end{comment}
-
-\newcommand{\sn}{\vskip 0.5cm} %Set small vertical space #
-
-%################################################################
-
-%#######################################
