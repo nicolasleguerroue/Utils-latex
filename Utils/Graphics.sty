@@ -32,11 +32,61 @@
 \newcommand{\setGraphic}%Internal command to display graphics __internal__2 #
 {} 
 }
+
+
 \makeatother
 %############################################################
 %### WARNING : USE \shorthandoff{:;!?} before \begin{tikzpicture} 
 %### environment
 %############################################################
+%grid
+\newcommand{\grid}{grid=both}%Value of grid #
+\newcommand{\enableGrid}{    %enable grid on graphic #
+    \renewcommand{\grid}{grid=both}
+}
+\newcommand{\disableGrid}{    %disable grid on graphic #
+    \renewcommand{\grid}{}
+}
+
+%Samples
+\newcommand{\samples}{400}  %Value of samples #
+\newcommand{\setSamples}[1]{        %Set samples count
+    \renewcommand{\samples}{#1}
+}
+
+%Color
+\newcommand{\defaultFillColor}{none}  
+\newcommand{\fillColor}{\defaultFillColor}  
+\newcommand{\setDefaultFillColor}{        %Set default fill color
+    \renewcommand{\fillColor}{\defaultFillColor}
+}
+\newcommand{\setFillColor}[1]{        %Set fill color #color
+    \renewcommand{\fillColor}{#1}
+}
+
+%LineWidth
+\newcommand{\defaultLineWidth}{0.1}  
+\newcommand{\lineWidth}{\defaultLineWidth}  
+\newcommand{\setDefaultLineWidth}{        %Set default fill color
+    \renewcommand{\lineWidth}{\defaultLineWidth}
+}
+\newcommand{\setLineWidth}[1]{        %Set fill color #color
+    \renewcommand{\lineWidth}{#1}
+}
+
+%marker
+\newcommand{\markerNone}{otimes}  %Any marker #
+\newcommand{\markerCircle}{otimes}  %Circle marker #
+\newcommand{\markerSquare}{square}  %Square marker #
+\newcommand{\markerTriangle}{triangle}  %Triangle marker #
+\newcommand{\markerDiamond}{diamond}  %Diamond marker #
+\newcommand{\markerStart}{star}  %Star marker #
+\newcommand{\marker}{otimes} 
+\newcommand{\setMarker}[1]{        %Set graphic marker #marker
+    \renewcommand{\marker}{#1}
+}
+
+
 \newenvironment{graphicFigure}[9]  %Display graphe inside figure #widht height minAbs maxAbs minOrd maxOrd xLegend yLegend title
 {
     \raiseMessage{Creating new graphic figure [title='#9']}
@@ -49,7 +99,7 @@
     {#9} 
         \begin{tikzpicture}
         \setGraphic %command to display with frenchb babel
-    \begin{axis}[width=#1\linewidth,height=#2\linewidth,xmin=#3,xmax=#4,  ymin=#5, ymax=#6, scale only axis,xlabel=#7,ylabel=#8] %grid=both
+    \begin{axis}[width=#1\linewidth,height=#2\linewidth,xmin=#3,xmax=#4,  ymin=#5, ymax=#6, scale only axis,xlabel=#7,ylabel=#8,\grid, legend cell align={left}] %grid=both
     }
     { 
     \end{axis}
@@ -66,7 +116,7 @@
     {#9} 
         \begin{tikzpicture}
         \setGraphic %command to display with frenchb babel
-    \begin{axis}[width=#1\linewidth,height=#2\linewidth,xmin=#3,xmax=#4,  ymin=#5, ymax=#6, scale only axis,xlabel=#7,ylabel=#8, title=#9] %grid=both
+    \begin{axis}[width=#1\linewidth,height=#2\linewidth,xmin=#3,xmax=#4,  ymin=#5, ymax=#6, scale only axis,xlabel=#7,ylabel=#8, title=#9, \grid , legend cell align={left}] %grid=both
     }
     { 
     \end{axis}
@@ -76,18 +126,19 @@
     
 %############################################################
 \newcommand{\addPoints}[2]{ %Add points in graph #color coords
-    \addplot+[thick,mark=none, color=#1] coordinates{#2};
+    \addplot+[thick,mark=\marker, color=#1, fill=\fillColor, line width=\lineWidth mm] coordinates{#2};
 }
 
 %############################################################
 \newcommand{\addTrace}[4]{ %Display equation #color xBegin xEnd equation
-    \addplot [#1, domain=#2:#3, samples=400] {#4};
+    \raiseMessage{Creating new trace [equ='#4']}
+    \addplot [#1, domain=#2:#3, mark=\marker, samples=\samples, fill=\fillColor, line width=\lineWidth mm] {#4};
 }
 
 %############################################################
 \newcommand{\addPointsFromCSV}[3]{%Add points on graphe from CSV #color delimitor filename
     \IfFileExists{#3}{
-    \addplot+[thick, mark=none, color=#1] table[mark=none,col sep=#2] {#3};
+    \addplot+[thick, mark=none, color=#1, fill=\fillColor, line width=\lineWidth mm] table[mark=\marker ,col sep=#2] {#3};
     \raiseMessage{File '#3' loaded !}
     }
     {\raiseError{[import failed]'#3' \stop}

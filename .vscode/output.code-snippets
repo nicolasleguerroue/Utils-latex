@@ -727,6 +727,14 @@
 	 ], 
 	 "description" : "create fraction ",
 },
+"create equivalent arrow ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Maths.equi",
+	 "body" : [
+	 "\\equi"
+	 ], 
+	 "description" : "create equivalent arrow ",
+},
 "Default part \newcommand{part} ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Titles.part",
@@ -1094,6 +1102,134 @@
 	 "\\setGraphic"
 	 ], 
 	 "description" : "Internal command to display graphics __internal__2 ",
+},
+"Value of grid ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.grid",
+	 "body" : [
+	 "\\grid"
+	 ], 
+	 "description" : "Value of grid ",
+},
+"enable grid on graphic ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.enableGrid",
+	 "body" : [
+	 "\\enableGrid"
+	 ], 
+	 "description" : "enable grid on graphic ",
+},
+"disable grid on graphic ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.disableGrid",
+	 "body" : [
+	 "\\disableGrid"
+	 ], 
+	 "description" : "disable grid on graphic ",
+},
+"Value of samples ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.samples",
+	 "body" : [
+	 "\\samples"
+	 ], 
+	 "description" : "Value of samples ",
+},
+"Set samples count ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.setSamples",
+	 "body" : [
+	 "\\setSamples"
+	 ], 
+	 "description" : "Set samples count ",
+},
+"Set default fill color ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.setDefaultFillColor",
+	 "body" : [
+	 "\\setDefaultFillColor"
+	 ], 
+	 "description" : "Set default fill color ",
+},
+"Set fill color ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.setFillColor",
+	 "body" : [
+	 "\\setFillColor{${1:color}}"
+	 ], 
+	 "description" : "Set fill color ",
+},
+"Set default fill color ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.setDefaultLineWidth",
+	 "body" : [
+	 "\\setDefaultLineWidth"
+	 ], 
+	 "description" : "Set default fill color ",
+},
+"Set fill color ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.setLineWidth",
+	 "body" : [
+	 "\\setLineWidth{${1:color}}"
+	 ], 
+	 "description" : "Set fill color ",
+},
+"Any marker ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.markerNone",
+	 "body" : [
+	 "\\markerNone"
+	 ], 
+	 "description" : "Any marker ",
+},
+"Circle marker ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.markerCircle",
+	 "body" : [
+	 "\\markerCircle"
+	 ], 
+	 "description" : "Circle marker ",
+},
+"Square marker ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.markerSquare",
+	 "body" : [
+	 "\\markerSquare"
+	 ], 
+	 "description" : "Square marker ",
+},
+"Triangle marker ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.markerTriangle",
+	 "body" : [
+	 "\\markerTriangle"
+	 ], 
+	 "description" : "Triangle marker ",
+},
+"Diamond marker ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.markerDiamond",
+	 "body" : [
+	 "\\markerDiamond"
+	 ], 
+	 "description" : "Diamond marker ",
+},
+"Star marker ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.markerStart",
+	 "body" : [
+	 "\\markerStart"
+	 ], 
+	 "description" : "Star marker ",
+},
+"Set graphic marker ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Graphics.setMarker",
+	 "body" : [
+	 "\\setMarker{${1:marker}}"
+	 ], 
+	 "description" : "Set graphic marker ",
 },
 "Display graphe inside figure ": {
 	 "scope" : "tex, latex",

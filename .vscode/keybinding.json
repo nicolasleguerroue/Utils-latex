@@ -2,5 +2,10 @@
     {
         "key": "F5",  // or any other combo
         "command": "editor.action.insertSnippet",
+    },
+    {
+        "key": "F6",  // or any other combo
+        "command": " vscode.window.showInformationMessage('Good Evening !');"
     }
+   
 ]

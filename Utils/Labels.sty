@@ -172,3 +172,24 @@
 
 \newtcbox{\bitred}{nobeforeafter,colframe=white,colback=orange!40!red,boxrule=0pt,arc=0pt,
   boxsep=0pt,left=1pt,right=1pt,top=1pt,bottom=1pt,tcbox raise base}
+
+
+
+
+\newtcbox{\str}{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm,
+right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+colframe=blue!50!black,coltext=blue!25!black,colback=blue!10!white,
+overlay={\begin{tcbclipinterior}\fill[blue!75!blue!50!white] (frame.south west)
+  rectangle node[text=white,font=\sffamily\bfseries\tiny,rotate=90] {STR} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
+
+\newtcbox{\Date}{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm,
+right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+colframe=red!50!black,coltext=red!25!black,colback=red!10!white,
+overlay={\begin{tcbclipinterior}\fill[red!75!red!50!white] (frame.south west)
+  rectangle node[text=white,font=\sffamily\bfseries\tiny,rotate=90] {DATE} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
+  
+  \newtcbox{\integer}{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm,
+right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+colframe=orange!50!black,coltext=orange!25!black,colback=orange!10!white,
+overlay={\begin{tcbclipinterior}\fill[orange!75!orange!50!white] (frame.south west)
+  rectangle node[text=white,font=\sffamily\bfseries\tiny,rotate=90] {INT} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
