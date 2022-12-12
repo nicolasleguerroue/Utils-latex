@@ -14,8 +14,8 @@
 
 \RequirePackage{graphics} 
 \RequirePackage{graphicx} 
-\RequirePackage{caption}
-\RequirePackage{subcaption} 
+\RequirePackage{caption} %Captions
+\RequirePackage{subcaption} %Sub captions
 \RequirePackage{version}      
 \typeout{>>> Utils: Package 'Graphics' loaded !}
 
@@ -23,13 +23,13 @@
 %###### Checking if babel is loaded
 \makeatletter
 \@ifpackageloaded{babel}
-{% if the package was loaded
+{
 \newcommand{\setGraphic}{%Internal command to display graphics #
     \shorthandoff{:;!?}} 
-\frenchbsetup{StandardLists=true} %to include if using \RequirePackage[french]{babel} -> rounded list
+\frenchbsetup{StandardLists=true} 
 }
 {%else:
-\newcommand{\setGraphic}%Internal command to display graphics __internal__2 #
+\newcommand{\setGraphic}%Internal command to display graphics internal2 #
 {} 
 }
 

@@ -1,0 +1,12 @@
+\section{Liste des dépendances}
+\begin{tabular}{|l|l|}\hline 
+\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Description} \\ \hline
+\rowColor{white} glossaries & Glossaries \\ \hline
+\end{tabular}\section{Liste des fonctions}
+\begin{tabular}{|l|l|l|l|}\hline 
+\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Type} & \color{white}{Description} & \color{white}{Argument}\\ \hline
+\rowColor{white}  gls & cmd &  Default command for glossary (renewcommand) {gls}[1]  & 1\\ \hline
+\rowColor{white}  glossary & cmd & display glossarie  & 1\\ \hline
+\rowColor{white}  displayGlossaries & cmd & Display the glossaries  & 1\\ \hline
+\rowColor{white}  addGlossaryInput & cmd & Add glossary input  & 3\\ \hline
+\end{tabular}

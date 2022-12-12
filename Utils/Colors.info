@@ -1,0 +1,10 @@
+\section{Liste des dépendances}
+\begin{tabular}{|l|l|}\hline 
+\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Description} \\ \hline
+\rowColor{white} color & Add colors \\ \hline
+\end{tabular}\section{Liste des fonctions}
+\begin{tabular}{|l|l|l|l|}\hline 
+\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Type} & \color{white}{Description} & \color{white}{Argument}\\ \hline
+\rowColor{white}  color & cmd & Default command to set content color newcommand{color}[2]   & 2\\ \hline
+\rowColor{white}  colors & cmd & Display content in color  & 2\\ \hline
+\end{tabular}

@@ -1,19 +1,20 @@
 \RequirePackage{color}              %colors
 \RequirePackage{listings}           %new env such as Bash, Python
 \RequirePackage{xcolor}             %define new colors
-\RequirePackage{graphicx}             %define new colors
+\RequirePackage{graphicx}           %define new colors
 \RequirePackage{xparse}
 \RequirePackage{amssymb}    
 \RequirePackage{amsthm}    
 \RequirePackage{multirow}
 \RequirePackage{tabularx}           %use for csv file [table]
 \RequirePackage{textcomp}           %special characters
+
 \typeout{>>> Utils: Package 'Programming' loaded !}
 
-%\definecolor{green}{rgb}{0,0.6,0}
+\newcounter{codeCounter}  %Create new counter
+
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
-%\definecolor{purple}{rgb}{0.58,0,0.82}
-\definecolor{bg}{rgb}{0.99,0.99,0.99}
+\definecolor{bg}{rgb}{0.98,0.98,0.98}
 
 \lstdefinestyle{Python}{
     backgroundcolor=\color{bg},   
@@ -34,7 +35,9 @@
     showtabs=false,  
     tabsize=2,
     frame=trBL   %trBL, shadowbox, trrb
+    language=Python,
 }
+
 \lstset{style=Python}
 \lstset{literate=
   {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
@@ -52,14 +55,13 @@
   {€}{{\euro}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
   {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
 }
-\lstnewenvironment{Python}[1] %Create env Python #title
-{\lstset{language=Python, title=#1}}{}
 
 %###############################################################
 %###############################################################
 \lstdefinestyle{Cpp}{
     basicstyle=\ttfamily,
     columns=fullflexible,
+    frame=trBL, %frame=trBL, shadowbox, trrb
     keepspaces=true,
     upquote=true,
     showstringspaces=false,
@@ -69,15 +71,15 @@
     stringstyle=\color{purple},
     numbers=right,
     language=c,
+    breaklines=true,
 }
-\lstnewenvironment{Cpp}[1] %New code Cpp #FigureName
-{\lstset{style=Cpp, title=#1}}{}
 
 %###############################################################
 \lstdefinestyle{Bash}{
     basicstyle=\ttfamily,
     columns=fullflexible,
     keepspaces=true,
+    breaklines=true,
     upquote=true,
     frame=trBL, %frame=trBL, shadowbox, trrb
     %frameround=fttt,
@@ -90,8 +92,6 @@
     language=bash,
     morekeywords={sudo,apt-get,install, autoremove, update, upgrade, chmod, ifconfig}
 }
-\lstnewenvironment{Bash}[1] %New code Bash #title
-{\lstset{style=Bash, title=#1}}{}
 
 %###############################################################
 \lstdefinestyle{Latex}{
@@ -101,7 +101,10 @@
     upquote=true,
     frame=trBL, %frame=trBL, shadowbox, trrb
     frameround=fttt,
+    backgroundcolor=\color{bg},   
+    rulecolor=\color{gray},
     numbers=right,
+    breaklines=true,
     showstringspaces=false,
     commentstyle=\color{olive},
     keywordstyle=\color{blue},
@@ -114,25 +117,19 @@
     addPoints, addPointsFromCSV,addLegend,addTrace,
     setHeaderImage, setHeader, setFooterLine, setHeaderLine, partImg, setAliasChapter, addPresentation,
     addParent, setParameters,
-    img, imgf, imgr,
+    img, imgf, imgr, imgn
     includepdf, setFullPage, currentChapter, bold, italic, ib,sn,
     \chapter, \section, \subsection, \subsubsection, \begin, \end, \item, items, messageBox, evec, emat, plot, ball,
-    lorange,lred,lgreen, lmagenta,lpurple,lcyan,lblue,lbrown,lyellow,lblack, tree}
+    lorange,lred,lgreen, lmagenta,lpurple,lcyan,lblue,lbrown,lyellow,lblack, lbl, tree}
     }
-\lstnewenvironment{Latex}[1] %New code Latex #title
-{\lstset{style=Latex, title=#1}}{}
 
-
-
-
-%###############################################################
-\lstdefinestyle{Html}{
+\lstdefinestyle{Html}
+{
     basicstyle=\ttfamily,
     columns=fullflexible,
     keepspaces=true,
     upquote=true,
     frame=trBL, %frame=trBL, shadowbox, trrb
-    %frameround=fttt,
     numbers=none,
     showstringspaces=false,
     commentstyle=\color{olive},
@@ -142,6 +139,57 @@
     language=html,
     morekeywords={}
     }
-\lstnewenvironment{Html}[1]{\lstset{style=Html, title=#1}}{}
+
+%######################## Env
+
+\lstnewenvironment{Python}[1] %New Python code #title
+{
+    \addtocounter{codeCounter}{1} 
+    \raiseMessage{Code n°\arabic{codeCounter} '#1' loaded !} 
+    \lstset{
+        style=Python, 
+        title=Code \arabic{codeCounter} - #1
+    }
+}{}
+
+\lstnewenvironment{Latex}[1] %New Latex code #title
+{
+    \addtocounter{codeCounter}{1} 
+    \raiseMessage{Code n°\arabic{codeCounter} '#1' loaded !} 
+    \lstset{
+        style=Latex, 
+        title=Code \arabic{codeCounter} - #1
+    }
+}{}
+
+\lstnewenvironment{Cpp}[1] %New Cpp code #title
+{
+    \addtocounter{codeCounter}{1} 
+    \raiseMessage{Code n°\arabic{codeCounter} '#1' loaded !} 
+    \lstset{
+        style=Cpp, 
+        title=Code \arabic{codeCounter} - #1
+    }
+}{}
 
 
+\lstnewenvironment{Bash}[1] %New code Bash #title
+{
+    \addtocounter{codeCounter}{1} 
+    \typeout{>>> Utils: Code n°\arabic{codeCounter} '#1' loaded !} 
+    \lstset{
+        style=Bash, 
+        title=Code \arabic{codeCounter} - #1
+    }
+}{}
+
+\lstnewenvironment{Html}[1]
+{
+    \addtocounter{codeCounter}{1} 
+    \typeout{>>> Utils: Code n°\arabic{codeCounter} '#1' loaded !} 
+    \lstset{
+        style=Html, 
+        title=Code \arabic{codeCounter} - #1
+    }
+}
+{}

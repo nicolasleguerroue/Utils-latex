@@ -1,0 +1,10 @@
+\section{Liste des dépendances}
+\begin{tabular}{|l|l|}\hline 
+\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Description} \\ \hline
+\rowColor{white} hyperref & Url \\ \hline
+\rowColor{white} xurl & URL \\ \hline
+\end{tabular}\section{Liste des fonctions}
+\begin{tabular}{|l|l|l|l|}\hline 
+\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Type} & \color{white}{Description} & \color{white}{Argument}\\ \hline
+\rowColor{white}  setParameters & cmd & Set document settings  & 8\\ \hline
+\end{tabular}

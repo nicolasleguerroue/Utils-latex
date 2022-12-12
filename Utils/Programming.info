@@ -1,0 +1,16 @@
+\section{Liste des dépendances}
+\begin{tabular}{|l|l|}\hline 
+\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Description} \\ \hline
+\rowColor{white} listings & new env such as Bash, Python \\ \hline
+\rowColor{white} xcolor & define new colors \\ \hline
+\rowColor{white} graphicx & define new colors \\ \hline
+\rowColor{white} tabularx & use for csv file [table] \\ \hline
+\rowColor{white} textcomp & special characters \\ \hline
+\end{tabular}\section{Liste des fonctions}
+\begin{tabular}{|l|l|l|l|}\hline 
+\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Type} & \color{white}{Description} & \color{white}{Argument}\\ \hline
+\rowColor{lightBlue} Python & env & New Python code  & 1\\ \hline
+\rowColor{lightBlue} Latex & env & New Latex code  & 1\\ \hline
+\rowColor{lightBlue} Cpp & env & New Cpp code  & 1\\ \hline
+\rowColor{lightBlue} Bash & env & New code Bash  & 1\\ \hline
+\end{tabular}

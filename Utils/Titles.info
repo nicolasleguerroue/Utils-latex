@@ -1,0 +1,23 @@
+\section{Liste des dépendances}
+\begin{tabular}{|l|l|}\hline 
+\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Description} \\ \hline
+\rowColor{white} titlesec & Colors of titles \\ \hline
+\end{tabular}\section{Liste des fonctions}
+\begin{tabular}{|l|l|l|l|}\hline 
+\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Type} & \color{white}{Description} & \color{white}{Argument}\\ \hline
+\rowColor{white}  part & cmd & Default part newcommand{part}  & 1\\ \hline
+\rowColor{white}  chapter & cmd & Default chapter newcommand{chapter}  & 1\\ \hline
+\rowColor{white}  section & cmd & Default section newcommand{section}  & 1\\ \hline
+\rowColor{white}  subsection & cmd & Default subsection newcommand{subsection}  & 1\\ \hline
+\rowColor{white}  subsubsection & cmd & Default subsubsection newcommand{subsubsection}  & 1\\ \hline
+\rowColor{white}  prefixSection & cmd & Content of prefix section  & 0\\ \hline
+\rowColor{white}  enableSectionPrefix & cmd & Enable section prefix  & 0\\ \hline
+\rowColor{white}  disableSectionPrefix & cmd & Disable section prefix  & 0\\ \hline
+\rowColor{white}  prefixSubSection & cmd & Content of prefix subsection  & 0\\ \hline
+\rowColor{white}  enableSubSectionPrefix & cmd & Enable subsection prefix  & 0\\ \hline
+\rowColor{white}  disableSubSectionPrefix & cmd & Disable subsection prefix  & 0\\ \hline
+\rowColor{white}  setSectionColor & cmd & Set section color  & 1\\ \hline
+\rowColor{white}  setSubSectionColor & cmd & Set subsection color  & 1\\ \hline
+\rowColor{white}  titleRef & cmd & Get number of title  & 1\\ \hline
+\rowColor{white}  titleName & cmd & Get content of title  & 1\\ \hline
+\end{tabular}

@@ -4,7 +4,9 @@
 %###### Author  : Nicolas LE GUERROUE
 %###### Contact : nicolasleguerroue@gmail.com
 %############################################################
+\RequirePackage{colortbl} %Colored tables
 \typeout{>>> Utils: Package 'Tables' loaded !}
+
 
 \newcommand{\displayListOfTables}[1]{ %Display the lisy of tables #tocName
     \renewcommand{\listtablename}{#1}
@@ -14,13 +16,27 @@
     \listoftables
 }
 
-% Default table newenvironment{\tabular}[1] #header
-\newenvironment{Array}[1] %Array of data #header
+
+
+\newenvironment{tableFigure}[2] %Array of data as figure #headerArray title
 {
+    \begin{table}[h]
+        \centering
+        \newcommand{\TitleTable}%use var to print title #
+        {#2}
     \begin{tabular}{#1}
 }
 {
+    
     \end{tabular}
+    \caption{\TitleTable}
+    \end{table}%
 }
 
 
+\newcommand{\rowColor}[1]{ %Set color of row in table #color
+    \rowcolor{#1}
+}
+\newcommand{\cellColor}[1]{ %Set color of cell in table #color
+    \cellcolor{#1}
+}

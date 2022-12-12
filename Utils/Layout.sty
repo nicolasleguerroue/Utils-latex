@@ -4,10 +4,10 @@
 %###### Author  : Nicolas LE GUERROUE
 %###### Contact : nicolasleguerroue@gmail.com
 %############################################################
-\RequirePackage{lmodern}
+\RequirePackage{lmodern}            %Fonts
 
 \RequirePackage{xcolor}             %define new colors
-\RequirePackage{xparse}
+\RequirePackage{xparse} %Arg parser
 \RequirePackage{amssymb}     %math
 \RequirePackage{amsthm}     %math
 \typeout{>>> Utils: Package 'Layout' loaded !}
@@ -17,11 +17,11 @@
 
 %center
 %Center element newenvironment{center}  #
-%Use default command to set bold newcommand{\textbf} #content
+
 \renewcommand{\bold}[1]{%Set text in bold #content
     \textbf{#1}
 }
-%Use default command to set italic newcommand{\textit} #content
+
 \newcommand{\italic}[1]%Set text in italic #content
 {
     \textit{#1}

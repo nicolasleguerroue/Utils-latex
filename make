@@ -72,7 +72,7 @@ function loadValue {
 
 #compile latex in pdf with error checking
 function pdfLatex {
-	pdflatex_common_args="--file-line-error --halt-on-error"
+	pdflatex_common_args="--file-line-error --halt-on-error"  #--shell-escape used to minted env
 	pdflatex ${pdflatex_common_args} --output-dir=$output_dir ../$main.tex >> $renderReportLog
 	pdflatex_success=$?
 	if [ ! $pdflatex_success -eq 0 ];then
@@ -82,6 +82,7 @@ function pdfLatex {
 		echo -e "$default"
 		exit
 	fi
+	echo -e "$default"
 	echo "End of compilation"
 }
 #End pdfLatex
@@ -430,7 +431,8 @@ else
  	echo -e "[Step $count_step / $count_sum_full] >>> First compilation of  '$main.tex' file..."
 fi
 
-echo -e "$orange"
+echo -e "$orange" 
+echo "" > $renderReportLog
 pdfLatex
 echo -e "$green"
 if [ "$1" == "--full" ];then 

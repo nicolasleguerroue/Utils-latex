@@ -5,23 +5,20 @@
 %###### Contact : nicolasleguerroue@gmail.com
 %############################################################
 
-\RequirePackage{tikz-timing}
+\RequirePackage{tikz-timing} %Timing diagram tikz #
+\RequirePackage{graphics} %Images #
+\RequirePackage{graphicx} %Images #
+\RequirePackage{pgf} %Circuit #
+\RequirePackage{tikz}   %schema #
+\RequirePackage{circuitikz} %Electronic #
+\usetikzlibrary{babel}  %langage #
+\RequirePackage{ifthen} %Conditions #
+\RequirePackage{xargs} %Optionnal args #
 
-\RequirePackage{graphics} 
-\RequirePackage{graphicx}
-\RequirePackage{pgf}
-\RequirePackage{tikz}
-\RequirePackage{circuitikz}
-\usetikzlibrary{babel}  
 
-\RequirePackage{ifthen}%pour utiliser les booléens, à mettre avec les autres RequirePackage's
-\RequirePackage{xargs}
+\newboolean{boolRaccourcisElec}
+\setboolean{boolRaccourcisElec}{true}
 
-%Initialisation des booleens 
-\newboolean{boolRaccourcisElec}%création du booléen
-\setboolean{boolRaccourcisElec}{true}%affectation de la valeur true
-
-\RequirePackage{ifthen}   
 \typeout{>>> Utils: Package 'Electronics' loaded !}
 
 %############################ Settings ##############################

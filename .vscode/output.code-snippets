@@ -71,14 +71,6 @@
 ], 
 	 "description" : "Center element newenvironment{center}  ",
 },
-"Use default command to set bold newcommand{\textbf} ": {
-	 "scope" : "tex, latex",
-	 "prefix" : "Latex.Layout.textbf",
-	 "body" : [
-	 "\\textbf{${1:content}}"
-	 ], 
-	 "description" : "Use default command to set bold newcommand{\textbf} ",
-},
 "Set text in bold ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Layout.bold",
@@ -86,14 +78,6 @@
 	 "\\bold{${1:content}}"
 	 ], 
 	 "description" : "Set text in bold ",
-},
-"Use default command to set italic newcommand{\textit} ": {
-	 "scope" : "tex, latex",
-	 "prefix" : "Latex.Layout.textit",
-	 "body" : [
-	 "\\textit{${1:content}}"
-	 ], 
-	 "description" : "Use default command to set italic newcommand{\textit} ",
 },
 "Set text in italic ": {
 	 "scope" : "tex, latex",
@@ -439,30 +423,6 @@
 	 ], 
 	 "description" : "Add update version ",
 },
-"\newcommand{\raiseMessage} ": {
-	 "scope" : "tex, latex",
-	 "prefix" : "Latex.Debug.raiseMessage",
-	 "body" : [
-	 "\\raiseMessage{${1:message}}"
-	 ], 
-	 "description" : "\newcommand{\raiseMessage} ",
-},
-"\newcommand{\raisewarning} ": {
-	 "scope" : "tex, latex",
-	 "prefix" : "Latex.Debug.raisewarning",
-	 "body" : [
-	 "\\raisewarning{${1:message}}"
-	 ], 
-	 "description" : "\newcommand{\raisewarning} ",
-},
-"\newcommand{\raiseError} ": {
-	 "scope" : "tex, latex",
-	 "prefix" : "Latex.Debug.raiseError",
-	 "body" : [
-	 "\\raiseError{${1:message}}"
-	 ], 
-	 "description" : "\newcommand{\raiseError} ",
-},
 "Dynamic source of image ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Images.rootImages",
@@ -591,21 +551,37 @@
 	 ], 
 	 "description" : "Display the lisy of tables ",
 },
-" Default table newenvironment{\tabular}[1] ": {
+"Array of data as figure ": {
 	 "scope" : "tex, latex",
-	 "prefix" : "Latex.Tables.tabular",
+	 "prefix" : "Latex.Tables.tableFigure",
 	 "body" : [
-	 "\\begin{tabular}{|c|c|c|}\\hline\n Header1 & Header2 & header\\\\\\ \\hline\nA & B & C\\\\\\\nD & E & F\\\\\\ \\hline\n\\end{tabular}"	 
+	 "\\begin{tableFigure}{|c|c|c|}{${1:title}}\\hline\n Header1 & Header2 & header\\\\\\ \\hline\nA & B & C\\\\\\\nD & E & F\\\\\\ \\hline\n\\end{tableFigure}"	 
 ], 
-	 "description" : " Default table newenvironment{\tabular}[1] ",
+	 "description" : "Array of data as figure ",
 },
-"Array of data ": {
+"use var to print title ": {
 	 "scope" : "tex, latex",
-	 "prefix" : "Latex.Tables.Array",
+	 "prefix" : "Latex.Tables.TitleTable",
 	 "body" : [
-	 "\\begin{Array}{|c|c|c|}\\hline\n Header1 & Header2 & header\\\\\\ \\hline\nA & B & C\\\\\\\nD & E & F\\\\\\ \\hline\n\\end{Array}"	 
-], 
-	 "description" : "Array of data ",
+	 "\\TitleTable"
+	 ], 
+	 "description" : "use var to print title ",
+},
+"Set color of row in table ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Tables.rowColor",
+	 "body" : [
+	 "\\rowColor{${1:color}}"
+	 ], 
+	 "description" : "Set color of row in table ",
+},
+"Set color of cell in table ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Tables.cellColor",
+	 "body" : [
+	 "\\cellColor{${1:color}}"
+	 ], 
+	 "description" : "Set color of cell in table ",
 },
 "Use default list  newenvironment{itemize} ": {
 	 "scope" : "tex, latex",
@@ -735,45 +711,53 @@
 	 ], 
 	 "description" : "create equivalent arrow ",
 },
-"Default part \newcommand{part} ": {
+"create equivalent arrow ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Maths.x",
+	 "body" : [
+	 "\\x"
+	 ], 
+	 "description" : "create equivalent arrow ",
+},
+"Default part newcommand{part} ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Titles.part",
 	 "body" : [
 	 "\\part{${1:partName}}"
 	 ], 
-	 "description" : "Default part \newcommand{part} ",
+	 "description" : "Default part newcommand{part} ",
 },
-"Default chapter \newcommand{chapter} ": {
+"Default chapter newcommand{chapter} ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Titles.chapter",
 	 "body" : [
 	 "\\chapter{${1:chapterName}}"
 	 ], 
-	 "description" : "Default chapter \newcommand{chapter} ",
+	 "description" : "Default chapter newcommand{chapter} ",
 },
-"Default section \newcommand{section} ": {
+"Default section newcommand{section} ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Titles.section",
 	 "body" : [
 	 "\\section{${1:sectionName}}"
 	 ], 
-	 "description" : "Default section \newcommand{section} ",
+	 "description" : "Default section newcommand{section} ",
 },
-"Default subsection \newcommand{subsection} ": {
+"Default subsection newcommand{subsection} ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Titles.subsection",
 	 "body" : [
 	 "\\subsection{${1:subSectionName}}"
 	 ], 
-	 "description" : "Default subsection \newcommand{subsection} ",
+	 "description" : "Default subsection newcommand{subsection} ",
 },
-"Default subsubsection \newcommand{subsubsection} ": {
+"Default subsubsection newcommand{subsubsection} ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Titles.subsubsection",
 	 "body" : [
 	 "\\subsubsection{${1:subSubSectionName}}"
 	 ], 
-	 "description" : "Default subsubsection \newcommand{subsubsection} ",
+	 "description" : "Default subsubsection newcommand{subsubsection} ",
 },
 "Content of prefix section ": {
 	 "scope" : "tex, latex",
@@ -806,6 +790,22 @@
 	 "\\prefixSubSection"
 	 ], 
 	 "description" : "Content of prefix subsection ",
+},
+"Enable subsection prefix ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Titles.enableSubSectionPrefix",
+	 "body" : [
+	 "\\enableSubSectionPrefix"
+	 ], 
+	 "description" : "Enable subsection prefix ",
+},
+"Disable subsection prefix ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Titles.disableSubSectionPrefix",
+	 "body" : [
+	 "\\disableSubSectionPrefix"
+	 ], 
+	 "description" : "Disable subsection prefix ",
 },
 "Set section color ": {
 	 "scope" : "tex, latex",
@@ -875,7 +875,7 @@
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Header.setRightHeader",
 	 "body" : [
-	 "\\setRightHeader{${1:1}}}}{${2:%Set}}{${3:right}}{${4:header}}{${5:content}}"
+	 "\\setRightHeader{${1:content}}"
 	 ], 
 	 "description" : "Set right header content ",
 },
@@ -883,7 +883,7 @@
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Header.setCenterHeader",
 	 "body" : [
-	 "\\setCenterHeader{${1:1}}}}{${2:%Set}}{${3:center}}{${4:header}}{${5:content}}"
+	 "\\setCenterHeader{${1:content}}"
 	 ], 
 	 "description" : "Set center header content ",
 },
@@ -891,7 +891,7 @@
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Header.setLeftHeader",
 	 "body" : [
-	 "\\setLeftHeader{${1:1}}}}{${2:%Set}}{${3:left}}{${4:header}}{${5:content}}"
+	 "\\setLeftHeader"
 	 ], 
 	 "description" : "Set left header content ",
 },
@@ -899,7 +899,7 @@
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Header.setRightFooter",
 	 "body" : [
-	 "\\setRightFooter{${1:1}}}}{${2:%Set}}{${3:right}}{${4:footer}}{${5:content}}"
+	 "\\setRightFooter{${1:content}}"
 	 ], 
 	 "description" : "Set right footer content ",
 },
@@ -907,7 +907,7 @@
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Header.setCenterFooter",
 	 "body" : [
-	 "\\setCenterFooter{${1:1}}}}{${2:%Set}}{${3:center}}{${4:footer}}{${5:content}}"
+	 "\\setCenterFooter{${1:content}}"
 	 ], 
 	 "description" : "Set center footer content ",
 },
@@ -915,7 +915,7 @@
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Header.setLeftFooter",
 	 "body" : [
-	 "\\setLeftFooter{${1:1}}}}{${2:%Set}}{${3:left}}{${4:footer}}{${5:content}}"
+	 "\\setLeftFooter{${1:content}}"
 	 ], 
 	 "description" : "Set left footer content ",
 },
@@ -967,21 +967,29 @@
 	 ], 
 	 "description" : "Display the bibliography ",
 },
-"Create env Python ": {
+"New Python code ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Programming.Python",
 	 "body" : [
 	 "\\begin{Python}{${1:title}}\n\\end{Python}"	 
 ], 
-	 "description" : "Create env Python ",
+	 "description" : "New Python code ",
 },
-"New code Cpp ": {
+"New Latex code ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Programming.Latex",
+	 "body" : [
+	 "\\begin{Latex}{${1:title}}\n\\end{Latex}"	 
+], 
+	 "description" : "New Latex code ",
+},
+"New Cpp code ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Programming.Cpp",
 	 "body" : [
-	 "\\begin{Cpp}{${1:FigureName}}\n\\end{Cpp}"	 
+	 "\\begin{Cpp}{${1:title}}\n\\end{Cpp}"	 
 ], 
-	 "description" : "New code Cpp ",
+	 "description" : "New Cpp code ",
 },
 "New code Bash ": {
 	 "scope" : "tex, latex",
@@ -990,14 +998,6 @@
 	 "\\begin{Bash}{${1:title}}\n\\end{Bash}"	 
 ], 
 	 "description" : "New code Bash ",
-},
-"New code Latex ": {
-	 "scope" : "tex, latex",
-	 "prefix" : "Latex.Programming.Latex",
-	 "body" : [
-	 "\\begin{Latex}{${1:title}}\n\\end{Latex}"	 
-], 
-	 "description" : "New code Latex ",
 },
 "Display the listOfFigures ": {
 	 "scope" : "tex, latex",
@@ -1095,13 +1095,13 @@
 	 ], 
 	 "description" : "Internal command to display graphics ",
 },
-"Internal command to display graphics __internal__2 ": {
+"Internal command to display graphics internal2 ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Graphics.setGraphic",
 	 "body" : [
 	 "\\setGraphic"
 	 ], 
-	 "description" : "Internal command to display graphics __internal__2 ",
+	 "description" : "Internal command to display graphics internal2 ",
 },
 "Value of grid ": {
 	 "scope" : "tex, latex",

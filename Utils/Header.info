@@ -1,0 +1,30 @@
+\section{Liste des dépendances}
+\begin{tabular}{|l|l|}\hline 
+\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Description} \\ \hline
+\rowColor{white} graphicx & Images \\ \hline
+\rowColor{white} caption & legend \\ \hline
+\rowColor{white} textcomp & special characters \\ \hline
+\rowColor{white} fancyhdr & headers and footers \\ \hline
+\rowColor{white} lastpage & page counter \\ \hline
+\rowColor{white} float & image floating \\ \hline
+\rowColor{white} wrapfig & Float figures \\ \hline
+\rowColor{white} subcaption & Subcaption \\ \hline
+\end{tabular}\section{Liste des fonctions}
+\begin{tabular}{|l|l|l|l|}\hline 
+\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Type} & \color{white}{Description} & \color{white}{Argument}\\ \hline
+\rowColor{white}  setHeader & cmd & Set minimal page header  & 3\\ \hline
+\rowColor{white}  partImg & cmd & Set minimal part page with image  & 3\\ \hline
+\rowColor{white}  setHeaderImage & cmd & Set header with image  & 5\\ \hline
+\rowColor{white}  addPresentation & cmd & Set document presentation (header and footer)  & 6\\ \hline
+\rowColor{white}  setRightHeader & cmd & Set right header content  & 1\\ \hline
+\rowColor{white}  setCenterHeader & cmd & Set center header content  & 1\\ \hline
+\rowColor{white}  setLeftHeader & cmd & Set left header content  & 0\\ \hline
+\rowColor{white}  setRightFooter & cmd & Set right footer content  & 1\\ \hline
+\rowColor{white}  setCenterFooter & cmd & Set center footer content  & 1\\ \hline
+\rowColor{white}  setLeftFooter & cmd & Set left footer content  & 1\\ \hline
+\rowColor{white}  setHeaderLine & cmd & Enable header line (disable with arg to 0)  & 1\\ \hline
+\rowColor{white}  setFooterLine & cmd & Enable footer line (disable with arg to 0)  & 1\\ \hline
+\rowColor{white}  currentChapter & cmd & Get current chapter name  & 0\\ \hline
+\rowColor{white}  setAliasChapter & cmd & create alias chapter  & 1\\ \hline
+\rowColor{white}  currentPage & cmd & Get current page number on total  & 0\\ \hline
+\end{tabular}

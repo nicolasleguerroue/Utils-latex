@@ -8,10 +8,10 @@
 \RequirePackage{graphicx}           %Images
 \RequirePackage{caption}            %legend
 \RequirePackage{textcomp}           %special characters
-\RequirePackage{fancyhdr}           %headers & footers
+\RequirePackage{fancyhdr}           %headers and footers
 \RequirePackage{lastpage}           %page counter
 \RequirePackage{float}              %image floating
-\RequirePackage{wrapfig}
+\RequirePackage{wrapfig}            %Float figures
 \RequirePackage{subcaption}         %Subcaption
 
 \RequirePackage{geometry}
@@ -49,9 +49,6 @@
 \end{titlepage}
 }
 
-
-%### Définition du style de page 'classic' si report
-
 \newcommand{\addPresentation}[6]{ %Set document presentation (header and footer) #rightHeaderContent centerHeaderContent leftHeaderContent rightFooterContent centerFooterContent leftFooterContent
 \fancypagestyle{classic}{
     \rhead{#3}  
@@ -88,33 +85,58 @@
 }
 
 
-\newcommand{\setRightHeader}[1]{\rhead{#1}} %Set right header content #content
-\newcommand{\setCenterHeader}[1]{\chead{#1}} %Set center header content #content
-\newcommand{\setLeftHeader}[1]{\lhead{#1}} %Set left header content
+\newcommand{\setRightHeader}[1] %Set right header content #content
+{
+  \rhead{#1}
+} 
+\newcommand{\setCenterHeader}[1] %Set center header content #content
+{
+  \chead{#1}
+} 
+\newcommand{\setLeftHeader}[1] %Set left header content
+{
+  \lhead{#1}
+} 
 
-\newcommand{\setRightFooter}[1]{\rfoot{#1}} %Set right footer content #content
-\newcommand{\setCenterFooter}[1]{\cfoot{#1}} %Set center footer content #content
-\newcommand{\setLeftFooter}[1]{\lfoot{#1}} %Set left footer content #content
+\newcommand{\setRightFooter}[1] %Set right footer content #content
+{
+  \rfoot{#1}
+} 
+\newcommand{\setCenterFooter}[1] %Set center footer content #content
+{
+  \cfoot{#1}
+} 
+\newcommand{\setLeftFooter}[1] %Set left footer content #content
+{
+  \lfoot{#1}
+} 
 
 
 
-\newcommand{\setHeaderLine}[1]{  %Enable header line (disable with arg to 0) #width
-\renewcommand{\headrulewidth}{#1pt} 
+\newcommand{\setHeaderLine}[1] %Enable header line (disable with arg to 0) #width
+{  
+  \renewcommand{\headrulewidth}{#1pt} 
 }
-\newcommand{\setFooterLine}[1]{ %Enable footer line (disable with arg to 0) #width
-\renewcommand{\footrulewidth}{#1pt} 
+\newcommand{\setFooterLine}[1] %Enable footer line (disable with arg to 0) #width
+{ 
+  \renewcommand{\footrulewidth}{#1pt} 
 }
   
-\newcommand{\currentChapter}{\leftmark} %Get current chapter name #
+\newcommand{\currentChapter} %Get current chapter name #
+{
+  \leftmark
+} 
 
-%Raccourcis
 \@ifclassloaded{report}{
 
-\newcommand{\setAliasChapter}[1]{%create alias chapter #name
-\makeatletter
-\renewcommand{\@chapapp}{
-  #1}  
-\makeatother
+\newcommand{\setAliasChapter}[1] %create alias chapter #name
+{ 
+  \makeatletter
+  \renewcommand{\@chapapp}
+  {
+  #1
+  }  
+  \makeatother
 }
 }%End if
 {
@@ -134,7 +156,8 @@
 }%End if
 
 
-\newcommand{\currentPage}{ %Get current page number on total #
+\newcommand{\currentPage} %Get current page number on total #
+{ 
   \thepage{}
-  } 
+} 
 

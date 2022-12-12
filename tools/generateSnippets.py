@@ -9,6 +9,13 @@ class Command():
     NEWCOMMAND = 0
     ENVIRONMENT = 1
     THEOREM = 1
+    NEWCOLOR = 2
+    NEWPACKAGE = 3
+    COUNTER = 0
+    OLDFILENAME = ""
+    CONTENT_FILE = ""
+    
+    INCLUDE_CONTENT_FILE = ""
 
     def __init__(self, name, description, args=[], type=NEWCOMMAND, file=""):
 
@@ -17,6 +24,9 @@ class Command():
         self.__args = args
         self.__type = type
         self.__file = file
+        
+        self.__oldFilename = ""
+        
 
     def __str__(self):
 
@@ -27,10 +37,40 @@ class Command():
 
     def create(self):
 
+        if(self.__type==Command.NEWCOMMAND):
+            self.typeCommand = "cmd"
+            self.color = "\\rowColor{white} "
+        elif(self.__type==Command.NEWCOLOR):
+            self.typeCommand = "color"
+            self.color = "\\rowColor{green}"
+        elif(self.__type==Command.ENVIRONMENT):
+            self.typeCommand = "env"        
+            self.color = "\\rowColor{lightBlue}" 
+        elif(self.__type==Command.NEWPACKAGE):
+            self.typeCommand = "env"        
+            self.color = "\\rowColor{white}" 
+        else:
+            self.typeCommand = "Unknown" 
+            self.color = "\\rowColor{red}"
+
+        if(Command.OLDFILENAME!=self.__file):
+            if(Command.COUNTER!=0):
+                file = open(Command.OLDFILENAME.replace(".sty", ".info"), "w")
+                Command.CONTENT_FILE+="\\end{tabular}"
+                Command.INCLUDE_CONTENT_FILE +="\\end{tabular}"
+                file.write(Command.INCLUDE_CONTENT_FILE+Command.CONTENT_FILE)
+            Command.CONTENT_FILE = "\\section{Liste des fonctions}\n\\begin{tabular}{|l|l|l|l|}\\hline \n\\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Type} & \color{white}{Description} & \color{white}{Argument}\\\\ \\hline\n"
+            Command.INCLUDE_CONTENT_FILE = "\\section{Liste des dépendances}\n\\begin{tabular}{|l|l|}\\hline \n\\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Description} \\\\ \\hline\n"
+            Command.OLDFILENAME=self.__file
+            Command.COUNTER +=1
+            
         if(self.__description==""):
             return None
         content = ""
+        
+        
         if(self.__type == Command.NEWCOMMAND):
+            Command.CONTENT_FILE += self.color+" "+self.__name+" & "+str(self.typeCommand)+" & "+self.__description+" & "+str(len(self.__args))+"\\\\ \\hline\n"
             content += "\""+self.__description+"\": {\n"
             content += "\t \"scope\" : \"tex, latex\",\n"
             content += "\t \"prefix\" : \"Latex."+self.__file.replace(".sty", "")+"."+self.__name+"\",\n"
@@ -43,9 +83,35 @@ class Command():
             content += "\"\n\t ], \n"
             content += "\t \"description\" : \""+self.__description+"\",\n"
             content += "},\n"
+            Command.OLDFILENAME =self.__file
+            return content
+        
+        if(self.__type == Command.NEWPACKAGE):
+            Command.INCLUDE_CONTENT_FILE += self.color+" "+self.__name+" & "+self.__description+"\\\\ \\hline\n"
+            Command.OLDFILENAME =self.__file
+            return content
+        
+        if(self.__type == Command.NEWCOLOR):
+            
+            Command.CONTENT_FILE += self.color+" "+self.__name+" & "+str(self.typeCommand)+" & "+self.__description+" & "+str(len(self.__args))+"\\\\ \\hline\n"
+            content += "\""+self.__description+"\": {\n"
+            content += "\t \"scope\" : \"tex, latex\",\n"
+            content += "\t \"prefix\" : \"Latex."+self.__file.replace(".sty", "").replace(".tex", "")+"."+self.__name+"\",\n"
+            content += "\t \"body\" : [\n"
+            content += "\t \""+self.__name
+            c=1
+            for a in self.__args:
+                content += "{${"+str(c)+":"+a+"}}"
+                c+=1
+            content += "\"\n\t ], \n"
+            content += "\t \"description\" : \""+self.__description+"\",\n"
+            content += "},\n"
+            Command.OLDFILENAME =self.__file
             return content
 
         elif(self.__type == Command.ENVIRONMENT):
+            
+            Command.CONTENT_FILE += self.color+" "+self.__name+" & "+str(self.typeCommand)+" & "+self.__description+" & "+str(len(self.__args))+"\\\\ \\hline\n"
             content += "\""+self.__description+"\": {\n"
             content += "\t \"scope\" : \"tex, latex\",\n"
             content += "\t \"prefix\" : \"Latex."+self.__file.replace(".sty", "")+"."+self.__name+"\",\n"
@@ -53,8 +119,11 @@ class Command():
             content += "\t \"\\\\begin{"+self.__name+"}"
             c=1
 
-            if("tabular" in self.__name or "Array" in self.__name):
-                if(len(self.__args)==1):
+            if("tabular" in self.__name or "tableFigure" in self.__name):
+                if("tableFigure" in self.__name):
+                    content += "{|c|c|c|}{${"+str(c)+":title}}\\\\hline"
+                    c+=1
+                else:
                     content += "{|c|c|c|}\\\\hline"
             else:
                 for a in self.__args:
@@ -62,14 +131,16 @@ class Command():
                     c+=1
             if("items" in self.__name or "List" in self.__name or "itemize" in self.__name or "enumerate" in self.__name):
                 content += "\\n\\\\item\\n\\\\item"
-            if("tabular" in self.__name or "Array" in self.__name):
+            if("tabular" in self.__name or "tableFigure" in self.__name):
                 content += "\\n Header1 & Header2 & header"+r"\\"+r"\\\\"+" \\\\hline"+r"\n"
                 content += "A & B & C"+r"\\"+r"\\\\"+r"\n"
                 content += "D & E & F"+r"\\"+r"\\\\"+" \\\\hline"
             content += "\\n\\\\end{"+self.__name+"}\"\t \n], \n"
             content += "\t \"description\" : \""+self.__description+"\",\n"
             content += "},\n"
+            self.__oldFilename = self.__file
             return content
+        
         return ""
 
 class Snippet():
@@ -99,7 +170,7 @@ class Snippet():
         files = os.listdir(os.getcwd())
         for f in files:
             
-            if(".sty" in f):
+            if(".sty" in f or f=="Colors.tex"):
                 tmpLines =  []
 
                 file = open(f, "r")
@@ -160,7 +231,14 @@ class Snippet():
                 elif("newtcbox" in l):
                     counter += 1
                     commands.append(Command(self.__getName(l), self.__getDescription(l),  self.__getArgs(l), Command.NEWCOMMAND, filename))
-
+                    
+                elif("definecolor" in l):
+                    counter += 1
+                    commands.append(Command(self.__getName(l), self.__getDescription(l),  self.__getArgs(l), Command.NEWCOLOR, filename))
+                    
+                elif("RequirePackage" in l):
+                    counter += 1
+                    commands.append(Command(self.__getName(l), self.__getDescription(l),  self.__getArgs(l), Command.NEWPACKAGE, filename))
 
                 elif("newenvironment" in l):
                     counter += 1

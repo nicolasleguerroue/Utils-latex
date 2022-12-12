@@ -4,7 +4,7 @@
 %###### Author  : Nicolas LE GUERROUE
 %###### Contact : nicolasleguerroue@gmail.com
 %############################################################
-\RequirePackage[explicit]{titlesec} 
+\RequirePackage[explicit]{titlesec} %Colors of titles
 %################################################################
 \typeout{>>> Utils: Package 'Titles' loaded !}
 % \@ifclassloaded{report}{
@@ -13,11 +13,11 @@
 % }
 
 
-%Default part \newcommand{part} #partName
-%Default chapter \newcommand{chapter} #chapterName
-%Default section \newcommand{section} #sectionName
-%Default subsection \newcommand{subsection} #subSectionName
-%Default subsubsection \newcommand{subsubsection} #subSubSectionName
+%Default part newcommand{part} #partName
+%Default chapter newcommand{chapter} #chapterName
+%Default section newcommand{section} #sectionName
+%Default subsection newcommand{subsection} #subSectionName
+%Default subsubsection newcommand{subsubsection} #subSubSectionName
 
 \newcommand{\prefixSection} %Content of prefix section # 
 {\thesection}  
@@ -34,14 +34,14 @@
 \newcommand{\prefixSubSection} %Content of prefix subsection # 
 {\thesubsection}  
 
-\newcommand{\enableSubSectionPrefix}{
+\newcommand{\enableSubSectionPrefix}{ %Enable subsection prefix
     \renewcommand{\prefixSubSection}{\thesubsection}  
 }
-\newcommand{\disableSubSectionPrefix}{
+\newcommand{\disableSubSectionPrefix}{ %Disable subsection prefix
     \renewcommand{\prefixSubSection}{}  
 }
 
-\newcommand{\sectionColor}
+\newcommand{\sectionColor} 
 {darkBlue}  
 
 \newcommand{\setSectionColor}[1]{ %Set section color #color

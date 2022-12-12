@@ -23,6 +23,7 @@ echo -e ">>> generating symbolic links..."
 ln -s ${src}/Utils Utils
 ln -s ${src}/.vscode .vscode
 ln -s ${src}/make make
+ln -s ${src}/Make/Colors.tex Utils-latex/Utils/Colors.tex
 
 echo -e ">>> Generating symbolic links : [$green OK $default]"
 
