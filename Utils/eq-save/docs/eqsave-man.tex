@@ -1,0 +1,352 @@
+\documentclass{article}
+\usepackage[fleqn]{amsmath}
+\usepackage[
+    web={centertitlepage,designv,forcolorpaper,tight*,latextoc,pro},
+    eforms,aebxmp
+]{aeb_pro}
+\usepackage{eq-save}
+\usepackage[ImplMulti]{dljslib}
+\usepackage{graphicx,array,fancyvrb}
+\usepackage{aeb_mlink}
+%\usepackage{myriadpro}
+%\usepackage{calibri}
+\usepackage[altbullet]{lucidbry}
+
+\def\hardspace{{\fontfamily{cmtt}\selectfont\symbol{32}}}
+
+\usepackage{acroman}
+\usepackage[active]{srcltx}
+
+\urlstyle{tt}
+
+\def\STRUT{\rule{0pt}{14pt}}
+\useBeginQuizButton[\CA{Begin}]
+\useEndQuizButton[\CA{End}]
+
+\makeatletter
+\newcount\hesheCnt \hesheCnt=-1
+\def\heshe{\@ifstar{\heshei}{\global\advance\hesheCnt1\relax\heshei}}
+\def\heshei{\ifodd\hesheCnt she\else he\fi}
+\def\HeShe{\@ifstar{\HeShei}{\global\advance\hesheCnt1\relax\HeShei}}
+\def\HeShei{\ifodd\hesheCnt She\else He\fi}
+\def\hisher{\@ifstar{\hisheri}{\global\advance\hesheCnt1\relax\hisheri}}
+\def\hisheri{\ifodd\hesheCnt her\else his\fi}
+\def\himher{\@ifstar{\himheri}{\global\advance\hesheCnt1\relax\himheri}}
+\def\himheri{\ifodd\hesheCnt her\else him\fi}
+\makeatother
+
+\DeclareDocInfo
+{
+    university={\AcroTeX.Net},
+    title={The \textsf{eq-save} Package},
+    author={D. P. Story},
+    email={dpstory@acrotex.net},
+    subject=Documentation for the eq-save package,
+    talksite={\url{www.acrotex.net}},
+    version={1.2.5, 2021/04/27},
+    Keywords={LaTeX, form field, hints, AcroTeX},
+    copyrightStatus=True,
+    copyrightNotice={Copyright (C) \the\year, D. P. Story},
+    copyrightInfoURL={http://www.acrotex.net}
+}
+
+\universityLayout{fontsize=Large}
+\titleLayout{fontsize=LARGE}
+\authorLayout{fontsize=Large}
+\tocLayout{fontsize=Large,color=aeb}
+\sectionLayout{indent=-62.5pt,fontsize=large,color=aeb}
+\subsectionLayout{indent=-31.25pt,color=aeb}
+\subsubsectionLayout{indent=0pt,color=aeb}
+\subsubDefaultDing{\texorpdfstring{$\bullet$}{\textrm\textbullet}}
+
+\chngDocObjectTo{\newDO}{doc}
+\begin{docassembly}
+var titleOfManual="The eq-save Package";
+var manualfilename="Manual_BG_Print_eq-save.pdf";
+var manualtemplate="Manual_BG_Brown.pdf"; // Blue, Green, Brown
+var _pathToBlank="C:/Users/Public/Documents/ManualBGs/"+manualtemplate;
+var doc;
+var buildIt=false;
+if ( buildIt ) {
+    console.println("Creating new " + manualfilename + " file.");
+    doc = \appopenDoc({cPath: _pathToBlank, bHidden: true});
+    var _path=this.path;
+    var pos=_path.lastIndexOf("/");
+    _path=_path.substring(0,pos)+"/"+manualfilename;
+    \docSaveAs\newDO ({ cPath: _path });
+    doc.closeDoc();
+    doc = \appopenDoc({cPath: manualfilename, oDoc:this, bHidden: true});
+    f=doc.getField("ManualTitle");
+    f.value=titleOfManual;
+    doc.flattenPages();
+    \docSaveAs\newDO({ cPath: manualfilename });
+    doc.closeDoc();
+} else {
+    console.println("Using the current "+manualfilename+" file.");
+}
+var _path=this.path;
+var pos=_path.lastIndexOf("/");
+_path=_path.substring(0,pos)+"/"+manualfilename;
+\addWatermarkFromFile({
+    bOnTop:false,
+    bOnPrint:false,
+    cDIPath:_path
+});
+\executeSave();
+\end{docassembly}
+
+
+\begin{document}
+
+\maketitle
+
+\selectColors{linkColor=black}
+\tableofcontents
+\selectColors{linkColor=webgreen}
+
+\section{Introduction}
+
+In this documentation, the person consuming an \AEB\footnote{{\AcroTeX}
+eDucation Bundle} (PDF) document is referred to as a student, as that is the
+intended target audience for education materials developed by the various
+packages of \AEB.
+
+The \pkg{exerquiz} package defines the \env{oQuestion}, \env{shortquiz}, and
+\env{quiz} environments that are used to pose interactive questions to
+students. The original concept of \pkg{exerquiz} was as an integral component
+in the development of education materials such as digital tutorials or
+worksheets. A student may work through such a document, learning concepts and
+answering questions to reinforce {\hisher} understanding.
+
+In the past, \app{Adobe Reader} (now \app{Adobe Acrobat Reader})---henceforth
+referred to as \app{AR}--- did not save form data; consequently, work done by
+the student is lost when the document is closed. In the more recent versions,
+beginning perhaps with version~11, \app{AR} can now save form data. The
+\pkg{eq-save} package was written at a user's request to save all the quiz
+data so that the student does not lose {\hisher} results after saving and
+closing the document.
+
+To be clear, when a {\PDF} (by \app{AR}) document is saved, the form data is
+also saved: the value of the field and properties of the field, such as
+border color, are saved. However, \pkg{exerquiz} keeps running tallies on the
+student's progress through the document, these are in the form of JavaScript
+variables, arrays and objects; the current values of these are \emph{not
+saved} with the document. Therefore, if the student saves the \PDF, it is
+necessary to save a minimal amount of information that can later be used to
+reconstruct the state of the document at the time student saved and closed the
+document. This `state data' is saved to a hidden text field. When the
+document is opened again, this hidden field is read, and the state of the
+document is minimally restored.
+
+
+\section{Requirements and options of the package}
+
+The \pkg{eq-save} package, being a support package, requires \pkg{exerquiz},
+dated 2017/07/30 or later. Use the package in the usual way,
+\begin{Verbatim}[xleftmargin=\amtIndent,commandchars=!()]
+\documentclass{article}
+\usepackage[!ameta(options)]{exerquiz}
+\usepackage[!ameta(options)]{eq-save}
+\end{Verbatim}
+There are only two options for \pkg{eq-save}, these are \opt{devmode} and
+\opt{!devmode}.\marginpar{\small\hfill\mbox{\parbox[t]{\marginparwidth}{\raggedleft
+\mbox{Options:\hspace{15pt}} \opt{devmode} \opt{!devmode}}}} As we shall see
+below, there is an optional `gatekeeper' command \cs{nameField}. The student
+is not allowed to peek at the document until a name is entered (preferably
+the student's own name) into the \cs{nameField}. When the \cs{nameField} and
+its companion \cs{BeginNoPeeking} are present it is rather inconvenient to
+develop the document, create and test quizzes because the author must first
+pass the `gatekeeper'. When the \opt{devmode} is in force, entering a name in
+\cs{nameField} is no longer required to view the rest of the document. The
+other option, \opt{!devmode} is the opposite of \opt{devmode}, that is, when
+\cs{nameField} and \cs{BeginNoPeeking} are present in the document, the
+student (or author) must enter a name into the name field before viewing the
+rest of the document. The \opt{!devmode} option is the default, passing no
+option is the same as passing \opt{!devmode}.
+
+\section{Basic commands}
+
+Actually, without any of the supporting commands, yet to be described, the
+document may be saved, closed, opened again. The responses to questions
+within the \env{oQuestion} and \env{shortquiz} environments are as when they
+were saved, the same is true for a full quiz of a \env{quiz} environment. So
+what is the need for this document? This package provides \emph{bookkeeping
+services}. Before continuing, let's illustrate by example. Answer one of the
+\env{shortquiz} questions and answer both questions from the \env{quiz}
+environment. Save the document, open and return to the page. When you return
+answer (correctly) the other question and/or change the answer for the other
+questions.\previewOff
+\begin{shortquiz*}[sQz1]
+Answer each of these to test your understanding.
+\begin{questions}
+    \item Select the two mathematicians recognized as the originators of Calculus.\marginpar{\small\raggedleft \emph{Hint:} N\&L}
+\begin{manswers}{5}
+  \bChoices
+    \Ans0 Banach\eAns
+    \Ans1 Newton\eAns
+    \Ans0 Hilbert\eAns
+    \Ans1 Liebniz\eAns
+  \eChoices
+\end{manswers}
+  \item $ 1 + 16 = \RespBoxMath[\rectW{.5in}]{17}{1}{.0001}{[0,1]}\olBdry\relax\CorrAnsButton{17}$
+  \item Which of the individuals below is the originator of \TeX?
+\begin{answers}{5}
+  \bChoices
+    \Ans0 Goossens\eAns
+    \Ans0 Rahtz\eAns
+    \Ans0 Mittelback\eAns
+    \Ans0 Lamport\eAns
+    \Ans1 Knuth\eAns
+  \eChoices
+\end{answers}
+\end{questions}
+\end{shortquiz*}
+\noindent
+Now complete this quiz consisting of the first two questions above, for simplicity.
+\begin{quiz*}{qz1}
+Respond to each without error. Passing is 100\%.
+\begin{questions}
+    \item Select the two mathematicians recognized as the originators of Calculus.
+\begin{manswers}{5}
+  \bChoices
+    \Ans0 Banach\eAns
+    \Ans1 Newton\eAns
+    \Ans0 Hilbert\eAns
+    \Ans1 Liebniz\eAns
+  \eChoices
+\end{manswers}
+  \item $ 1 + 16 = \RespBoxMath[\rectW{.5in}]{17}{1}{.0001}{[0,1]}$
+\end{questions}
+\end{quiz*}\cgBdry[.5em]\ScoreField\currQuiz\CorrButton\currQuiz\hfill Answers: \AnswerField[\rectW{1in}]\currQuiz\vcgBdry[6pt]
+\hfill\ding{172}\enspace\sooField{1in}{11bp}\cgBdry\clearAllField{}{11bp}\vcgBdry[12pt]
+The field labeled with `\ding{172}' is one of the new fields, as is the one
+to its right. As you work through the above questions, the field keeps track
+of your success rate in all quizzes (from the \env{oQuestion},
+\env{shortquiz}, and \env{quiz} environments). When you save, close, and open
+again, the tally continues where it left off. Ideal for working through a
+long document. The field `\textsf{Clear All}' clears all quiz results as well as
+the field labeled `\ding{172}', then all is forgotten.
+
+Before continuing on to the discussion of the various commands of this
+package, several observations are appropriate.
+\begin{itemize}
+  \item As soon as you respond to an \emph{immediate-feedback question} (a question
+      from either the \env{oQuestion} or \env{shortquiz} environment), the
+      total number of questions of this type is known, its 4 for this set of
+      questions. In the \textcolor{red}{Quiz}, problem~1 is a multiple
+      selection (MS) question with two correct answers; problem~2 has one correct
+      answer; problem~3 is multiple choice (MC), only one correct question.
+      There is a total of 4 ($\text{two}+\text{one}+\text{one}=4$).
+  \item As you answer more immediate-feedback questions, or change your
+      answers from a correct ones to an incorrect ones, the tally changes
+      appropriately, but always says `out of 4' (in this set of quizzes).
+  \item The quiz (as constructed from the \env{quiz} environment) has only
+      two questions, but the tally box does not know this until
+      `\textsf{Begin}' and `\textsf{End}' are pressed. A quiz consists of
+      \emph{delayed-feedback} questions.
+
+  \item Results (for the quiz) are not known until the `\textsf{End}' button
+      is pressed, then the tally field `\ding{172}' is updated. You'll note
+      that the multiple selection (MS) question only contributes one (1) to
+      the `out of' number, that's because MS is scored differently than it is
+      for immediate-feedback.
+
+\end{itemize}
+
+\subsection{Bookkeeping commands}\previewOff
+
+The `bookkeeping' commands are create text field to hold ongoing tally data.
+\bVerb\takeMeasure{\string\sooField[\ameta{opts}]\darg{\ameta{width}}\darg{\ameta{height}}}%
+\setlength\aebscratch{\bxSize}%
+\def\1{\makebox[0pt][l]{\hspace{\aebscratch}\enspace\makebox[0pt][l]{\hspace{.5in}\enspace\normalfont(score field)}\sField[\textSize{7}]{.5in}{9bp}}}%
+\def\2{\makebox[0pt][l]{\hspace{\aebscratch}\enspace\makebox[0pt][l]{\hspace{.5in}\enspace\normalfont(`out of' field)}\ooField[\textSize{7}]{.5in}{9bp}}}%
+\def\3{\makebox[0pt][l]{\hspace{\aebscratch}\enspace\makebox[0pt][l]{\hspace{.5in}\enspace\normalfont(combined score field)}\sooField[\textSize{7}]{.5in}{9bp}}}%
+\begin{dCmd}[commandchars=!()]{\bxSize}
+!1\sField[!ameta(opts)]{!ameta(width)}{!ameta(height)}
+!2\ooField[!ameta(opts)]{!ameta(width)}{!ameta(height)}
+!3\sooField[!ameta(opts)]{!ameta(width)}{!ameta(height)}
+\end{dCmd}
+\eVerb All three field generate a text field with dimensions \ameta{width}
+and \ameta{height}, the \meta{opt} allows you to pass \pkg{eforms} field
+options to change the appearance of the field. \cs{sField} holds only the number of question answered correctly;
+\cs{ooField} holds the `out of' value, the number of questions detected; \cs{sooField} is a combination of
+the first two values, typically is displays `3 out of 6'. The `out of' phrase is the expansion of \cs{eqOutOf}, a command
+defined and documented in \pkg{exerquiz}. A convenience way of redefining the `out of' phrase is through \cs{declareScorePhrase}:
+\bVerb\takeMeasure{\string\declareScorePhrase\darg{\#1+"\string\space\string\eqOutOf\string\space"+\#2}}%
+\setlength\aebscratch{\bxSize}%
+\def\1{\makebox[0pt][l]{\hspace{\aebscratch}\enspace\normalfont(default definition)}}%
+\begin{dCmd}[commandchars=!()]{\bxSize}
+\declareScorePhrase{!ameta(JS-str)}
+!1\declareScorePhrase{#1+"\space\eqOutOf\space"+#2}
+\end{dCmd}
+\eVerb The argument \ameta{JS-str} is a JavaScript string. It is phrased using \texttt{\#1} and \texttt{\#2}, which at
+compile time, are replaced with JavaScript variables that will hold the score value and the `out of' value.
+
+\newtopic With \pkg{exequiz} you can also assign points for questions in \env{quiz} environments; as a consequence, there is
+a similar set of commands to those above.
+\bVerb\takeMeasure{\string\psooField[\ameta{opts}]\darg{\ameta{width}}\darg{\ameta{height}}}%
+\begin{dCmd}[commandchars=!()]{\bxSize}
+\psField[!ameta(opts)]{!ameta(width)}{!ameta(height)}
+\pooField[!ameta(opts)]{!ameta(width)}{!ameta(height)}
+\psooField[!ameta(opts)]{!ameta(width)}{!ameta(height)}
+\end{dCmd}
+\eVerb These fields report the point totals. For \env{oQuestion} and \env{shortquiz} environments, each question is only 1 point, but
+for \env{quiz} environment you can assign points using the \cs{PTs} command, as illustrated the documentation of \AEB. We do not illustrate
+this set of commands in the documentation.
+
+To clear all the fields just described, as well as all fields in the \env{oQuestion}, \env{shortquiz} and
+\env{quiz} environment, insert the \cs{clearAllField} into your document.
+\bVerb\takeMeasure{\string\clearAllField[\ameta{opts}]\darg{\ameta{width}}\darg{\ameta{height}}}%
+\begin{dCmd}[commandchars=!()]{\bxSize}
+\clearAllField[!ameta(opts)]{!ameta(width)}{!ameta(height)}
+\end{dCmd}
+\eVerb The interpretation of the parameters are as above.
+
+
+\subsection{Gatekeeper commands}
+
+The application that inspired this package was the Professor of the course did not want the student to look at the quizzes
+until {\heshe} entered {\hisher*} name. As a result, should you want this sort of `security', include the \cs{nameField}
+and \cs{BeginNoPeeking} commands. The latter should begin on the first page you don't want your students to look upon until
+they enter their names.
+\bVerb\takeMeasure{\string\flJSStr[noquotes,noparens]\darg{\string\EnterNameFirstMsg}\darg{\ameta{msg}}}%
+\begin{dCmd}[commandchars=!()]{\bxSize}
+\nameField[!ameta(opts)]{!ameta(name)}{!ameta(width)}{!ameta(height)}
+\BeginNoPeeking
+!STRUT\flJSStr[noquotes,noparens]{\EnterNameFirstMsg}{!ameta(msg)}
+\end{dCmd}
+\eVerb The \meta{name} field allows you to enter a personalized field name,
+such as `\texttt{IhrName}', or something. The other parameters are the same
+as above and are described briefly in the description of \cs{sField}.
+
+When the student enters {\hisher} name, the document is cleared: all fields
+that support questions from the \env{oQuestion}, \env{shortquiz}, and
+\env{quiz} environments; all fields whose commands begin with `s', `oo',
+`soo', `ps', `poo', and `psoo' fields, as described above. This is a weak
+security measure to make it more difficult for a student to just take the
+worksheet of an `A' student and simply remove the name and enter {\hisher}
+own name. Of course, unless students supervised in a lab, these measures are
+only inconveniences.
+
+There are two JavaScript strings that can be rephrased or localized. The default
+declarations are,
+\begin{Verbatim}[xleftmargin=\amtIndent,commandchars=!()]
+\flJSStr[noquotes,noparens]{\EnterNameFirstMsg}
+!qquad{You must enter your name first!}
+!STRUT\dlJSStr{\eqerrUnfinishQuizAtSave}{One of your quizzes
+!qquad(is not finished, you will lose those responses.)}
+
+\end{Verbatim}
+
+\section{Demonstration files}
+
+There are two sample files, \texttt{eqsave-name.tex} and
+\texttt{eqsave-noname.tex}, found in the \texttt{examples} folder. The first
+has uses the gatekeeper commands (these are \cs{sField} and \cs{BeginNoPeeking}), while the
+second one does not; otherwise, the files are the same.
+
+\section{My retirement}
+
+Now, I simply must get back to it. \dps
+
+\end{document}

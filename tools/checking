@@ -49,6 +49,7 @@ createFile ${settingsDir}/"SubSectionColor.tex" "\setSubSectionColor{orange}{0} 
 createFile ${settingsDir}/"TitlePrefix.tex" "\disableSectionPrefix %Status of section prefix \n \disableSubSectionPrefix %Status of subsection prefix"
 
 createFile ${makeDir}/"Alias.tex" "%Set personnal commands here"
+createFile ${makeDir}/"Bibliography.bib" "%Set bibliography here"
 createFile ${makeDir}/"Colors.tex" "%Set personnal colors here"
 createFile ${makeDir}/"Contacts.tex" "%Set personnal informations to contact author"
 createFile ${makeDir}/"Glossaries.tex" "%Set glossaries\n\makenoidxglossaries"

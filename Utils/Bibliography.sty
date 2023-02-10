@@ -5,11 +5,12 @@
 %###### Contact : nicolasleguerroue@gmail.com
 %############################################################
 \RequirePackage{cite}       %References to bibliography
-
+%############################################################
 \typeout{>>> Utils: Package 'Bibliography' loaded !}
+%############################################################
 
 \newcommand{\displayBibliography}[2]{%Display the bibliography #tocName filename(without.bib) 
-    \bibliographystyle{plain}
+    \bibliographystyle{plain}%plain
     \nocite{*}
     \bibliography{#2}
     \addcontentsline{toc}{chapter}{#1}

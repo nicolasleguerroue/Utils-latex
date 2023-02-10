@@ -1,0 +1,870 @@
+%%
+%% This is file `webpro.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% web.dtx  (with options: `copyright,webpro')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Web package,                                         %%
+%% Copyright (C) 1999-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% History: Noel Vaillant began developing a better web.sty
+%%   based on my earlier published web.sty. Many thanks
+%%   to him for starting me off.
+%%---------------------------------------------------------
+\RequirePackage{pifont}
+\newcommand{\DeclareDocInfo}[1]{\setkeys{aebDocInfo}{#1}%
+  \ifx\web@talkdate@value\@empty\else\let\webversion\webtalkdate\fi}
+\@onlypreamble\DeclareDocInfo
+\define@key{aebDocInfo}{title}[]{\title{#1}}
+\define@key{aebDocInfo}{author}[]{\author{#1}}
+\define@key{aebDocInfo}{university}[]{\university{#1}}
+\define@key{aebDocInfo}{email}[]{\email{#1}}
+\define@key{aebDocInfo}{talksite}[]{\talksite{#1}}
+\define@key{aebDocInfo}{talkdate}[]{\talkdate{#1}}
+\define@key{aebDocInfo}{talkdateLabel}[Presented:]{\talkdateLabel{#1}}
+\define@key{aebDocInfo}{version}[]{\version{#1}}
+\define@key{aebDocInfo}{versionLabel}[Version]{\versionLabel{#1}}
+\define@key{aebDocInfo}{subject}[]{\subject{#1}}
+\define@key{aebDocInfo}{keywords}[]{\keywords{#1}}
+\define@key{aebDocInfo}{copyrightyears}[]{\copyrightyears{#1}}
+\define@key{aebDocInfo}{prepared}[]{\prepared{#1}}
+\define@key{aebDocInfo}{preparedLabel}[]{\preparedLabel{#1}}
+\define@key{aebDocInfo}{Title}[]%
+  {\@ifpackageloaded{aebxmp}{\Title{#1}}{}}
+\define@key{aebDocInfo}{authors}[]%
+  {\@ifpackageloaded{aebxmp}{\Authors{#1}}{}}
+\define@key{aebDocInfo}{Subject}[]%
+  {\@ifpackageloaded{aebxmp}{\Subject{#1}}{\subject{#1}}}
+\define@key{aebDocInfo}{Keywords}[]%
+  {\@ifpackageloaded{aebxmp}{\Keywords{#1}}{\keywords{#1}}}
+\define@key{aebDocInfo}{lang}[]%
+  {\@ifpackageloaded{aebxmp}{\metaLang{#1}}{}}
+\define@key{aebDocInfo}{copyrightStatus}[]%
+  {\@ifpackageloaded{aebxmp}{\copyrightStatus{#1}}{}}
+\define@key{aebDocInfo}{copyrightNotice}[]%
+  {\@ifpackageloaded{aebxmp}{\copyrightNotice{#1}}{}}
+\define@key{aebDocInfo}{copyrightInfoURL}[]%
+  {\@ifpackageloaded{aebxmp}{\copyrightInfoURL{#1}}{}}
+\define@key{aebDocInfo}{authortitle}[]%
+  {\@ifpackageloaded{aebxmp}{\authortitle{#1}}{}}
+\define@key{aebDocInfo}{descriptionwriter}[]%
+  {\@ifpackageloaded{aebxmp}{\descriptionwriter{#1}}{}}
+\define@key{aebDocInfo}{customProperties}[]%
+  {\@ifpackageloaded{aebxmp}{\customProperties{#1}}{}}
+\newcommand{\DeclarePageLayout}[1]{\save@prtscr
+  \setkeys{web@pl}{topmargin,headheight,marginparsep,%
+    marginparwidth,marginparpush,webfootskip}%
+  \protected@edef\web@temp{\noexpand\setkeys{web@pl}{#1}}%
+  \web@temp\save@prtscr
+  \ifx\web@pl@screensize\@empty\else
+  \expandafter\screensize\web@pl@screensize\fi
+  \ifx\web@pl@margins\@empty\else
+  \expandafter\margins\web@pl@margins\fi
+  \ifeqforpaper\else
+    \ifdim\@Leftmargin<\@Rightmargin
+      \ifdim\marginparwidth>\@Leftmargin
+        \setlength{\marginparwidth}
+          {\@Leftmargin-2\marginparsep}\fi
+    \else
+      \ifdim\marginparwidth>\@Rightmargin
+        \setlength{\marginparwidth}
+          {\@Rightmargin-2\marginparsep}\fi
+    \fi
+  \fi
+  \ifeqforpaper\else
+    \ifdim\@Bottommargin<\web@footskip\relax\PackageError{web}{%
+      Error in the value of the webfootskip key\MessageBreak
+      of the \string\DeclarePageLayout\space command.\MessageBreak
+      The bottom margin must be larger then\MessageBreak
+      the value of webfootskip}{%
+      Increase the size of the bottom margin,\MessageBreak
+      or decrease the value of webfootskip.}\fi
+  \fi
+  \InitLayout
+}
+\@onlypreamble\DeclarePageLayout
+\define@key{web@pl}{screensize}[]{\def\web@pl@screensize{#1}}
+\let\web@pl@screensize\@empty
+\define@key{web@pl}{margins}[]{\def\web@pl@margins{#1}}
+\let\web@pl@margins\@empty
+\define@choicekey+{web@pl}{design}[\val\nr]{designi,designii,%
+  designiii,designiv,designv,designvi,designvii,designviii,designix}{%
+  \ifcase\nr\relax
+    \web@MargScrDimOpts{.25in}{.25in}{24pt}{.25in}{3.736in}{4.67in}\or
+    \web@MargScrDimOpts{.25in}{.25in}{24pt}{.25in}{4.5in}{5in}\or
+    \web@MargScrDimOpts{.25in}{.25in}{24pt}{.25in}{5in}{6in}\or
+    \web@MargScrDimOpts{.25in}{.25in}{24pt}{.25in}{4in}{5in}\or
+    \web@MargScrDimOpts{.25in}{.25in}{24pt}{.25in}{4.5in}{6in}\or
+    \web@MargScrDimOpts{.25in}{.25in}{24pt}{.25in}{4.17in}{4.67in}\or
+    \web@MargScrDimOpts{.5in}{.5in}{24pt}{.5in}{7.5in}{10in}\or
+    \web@MargScrDimOpts{.5in}{.5in}{24pt}{.5in}{3.75in}{6.67in}\or
+    \web@MargScrDimOpts{.5in}{.5in}{24pt}{.5in}{3.75in}{6in}\fi
+  }{\PackageWarning{webpro}{%
+  Bad choice for design, use designi--designvix. Try again}}
+\define@choicekey+{web@pl}{screensizeOf}[\val\nr]{designi,designii,%
+  designiii,designiv,designv,designvi,designvii,designviii,designix}{%
+  \ifcase\nr\relax
+    \screensize{3.736in}{4.67in}\or
+    \screensize{4.5in}{5in}\or
+    \screensize{5in}{6in}\or
+    \screensize{4in}{5in}\or
+    \screensize{4.5in}{6in}\or
+    \screensize{4.17in}{4.67in}\or
+    \screensize{7.5in}{10in}\or
+    \screensize{3.75in}{6.67in}\or
+    \screensize{3.75in}{6in}\fi
+  }{\PackageWarning{webpro}{%
+  Bad choice for screensizeOf, use designi--designvix. Try again}}
+\define@key{web@pl}{headheight}[8pt]{\def\websetheadheight{#1}}
+\define@key{web@pl}{topmargin}[\prtscr{\the\topmargin}{8pt}]{%
+  \edef\web@argi{#1}\ifx\web@argi\@empty
+  \edef\web@argi{\prtscr{\the\topmargin}{8pt}}\fi
+  \ifeqforpaper
+    \setlength{\topmargin}{\web@argi}\else
+    \setlength{\web@Topmargin}{\web@argi}\fi}
+\define@key{web@pl}{textwidth}[345pt]{\setlength{\textwidth}{#1}}
+\define@key{web@pl}{textheight}[43\baselineskip]%
+  {\setlength{\textheight}{#1}}
+\define@key{web@pl}{oddsidemargin}[63pt]%
+  {\setlength{\oddsidemargin}{#1}}
+\define@key{web@pl}{evensidemargin}[63pt]%
+  {\setlength{\evensidemargin}{#1}}
+\define@key{web@pl}{marginparsep}[\prtscr{\the\marginparsep}{11pt}]{%
+  \edef\web@argi{#1}\ifx\web@argi\@empty
+  \edef\web@argi{\prtscr{\the\marginparsep}{11pt}}\fi
+  \setlength{\marginparsep}{\web@argi}}
+\define@key{web@pl}{marginparwidth}%
+  [\prtscr{\the\marginparwidth}{.25in}]{%
+  \edef\web@argi{#1}\ifx\web@argi\@empty
+  \edef\web@argi{\prtscr{\the\marginparwidth}{.25in}}\fi
+  \setlength{\marginparwidth}{\web@argi}}
+\define@key{web@pl}{marginparpush}[5pt]{%
+  \setlength{\marginparpush}{#1}}
+\define@key{web@pl}{webfootskip}[4pt]{%
+  \def\web@footskip{#1}}
+\define@key{web@pl}{footskip}[30pt]{\setlength{\footskip}{#1}}
+\define@key{web@pl}{panelwidth}[1in]{\panelwidth{#1}}
+\define@key{web@pl}{panelsep}[10pt]{\panelsep{#1}}
+\define@key{web@pl}{additionalheadsep}[0pt]%
+  {\def\web@additionalheadsep{#1}}
+\renewcommand{\topTitlePage}
+{%
+  \vglue\web@aboveTopTitleSkip\noindent
+  \makebox[\linewidth][\halignuniversity]{\parbox{%
+    \hproportionwebuniversity\linewidth}%
+    {\sectionUniversity{\webuniversity}}}\par
+  \ifeqforpaper\else\minimumskip\fi
+  \vspace{\stretch{1}}\noindent
+  \makebox[\linewidth][\haligntitle]%
+    {\parbox{\hproportionwebtitle\linewidth}%
+    {\sectionTitle{\webtitle}}}%
+    \par\ifeqforpaper\vspace{2\baselineskip}\else
+    \minimumskip\vspace{\stretch{1}}\fi\noindent
+  \makebox[\linewidth][\halignauthor]%
+    {\parbox{\hproportionwebauthor\linewidth}%
+    {\sectionAuthor{\webauthor}}}
+    \par\ifeqforpaper\vspace{2\baselineskip}\else
+    \minimumskip\vspace{\stretch{1}}\fi
+}
+\newcommand{\topTitlePageProportion}[1]{\def\titleauthorproportion{#1}}
+\renewcommand{\titlepageTrailer}
+{%
+  \webtpTrailerWrapper{\makebox[\web@tp@linewidth]{%
+    \parbox{\web@tp@linewidth}{%
+    \ifx\tpTrailer@textcolor\@empty\else
+    \color{\tpTrailer@textcolor}\fi\web@tpTrailer@formatting
+    \maketitle@trailer@ul\hfill\maketitle@trailer@ur\\
+    \maketitle@trailer@ll\hfill\maketitle@trailer@lr
+  }}}%
+}
+\def\maketitle@trailer@ul{\web@copyright\ \web@copyright@symbol\
+  \webcopyrightyears\ \thewebemail}
+\def\maketitle@trailer@ll{\aeb@Prepared}
+\def\maketitle@trailer@ur{\aeb@talksite}
+\def\maketitle@trailer@lr{\webversion}
+\let\webtpTrailerWrapper\relax
+\let\web@tpTrailerBgColor\@empty
+\let\web@tpTrailerBorderColor\@empty
+\let\tpTrailer@textcolor\@empty
+\let\web@tpTrailer@graphic\@empty
+\let\web@tpTrailer@namedgraphic\@empty
+\let\web@tpTrailer@formatting\@empty
+\def\web@tpTrailer@raise{0pt}
+\def\web@tp@linewidth{\linewidth}
+\define@key{tpTrailer}{ul}{\def\maketitle@trailer@ul{#1}}
+\define@key{tpTrailer}{ll}{\def\maketitle@trailer@ll{#1}}
+\define@key{tpTrailer}{ur}{\def\maketitle@trailer@ur{#1}}
+\define@key{tpTrailer}{lr}{\def\maketitle@trailer@lr{#1}}
+\define@key{tpTrailer}{textColor}{\def\tpTrailer@textcolor{#1}}
+\define@key{tpTrailer}{bgColor}{\def\web@tpTrailerBgColor{#1}}
+\define@key{tpTrailer}{borderColor}{\def\web@tpTrailerBorderColor{#1}}
+\define@key{tpTrailer}{fboxsep}{\def\web@tpTrailerfboxsep{#1}}
+\define@key{tpTrailer}{fboxrule}{\def\web@tpTrailerfboxrule{#1}}
+\define@key{tpTrailer}{graphic}{\def\web@tpTrailer@graphic{#1}}
+\define@key{tpTrailer}{namedgraphic}{%
+    \def\web@tpTrailer@namedgraphic{#1}}
+\define@key{tpTrailer}{fontSize}{\renewcommand{\trailerFontSize}{#1}}
+\define@key{tpTrailer}{formatting}{\def\web@tpTrailer@formatting{#1}}
+\define@key{tpTrailer}{raise}{\def\web@tpTrailer@raise{#1}}
+\newcommand{\DesignTitlePageTrailer}[1]
+{%
+  \setkeys{tpTrailer}{fboxsep=3pt,fboxrule=.4pt}%
+  \setkeys{tpTrailer}{#1}%
+  \setlength{\fboxsep}{\web@tpTrailerfboxsep}%
+  \setlength{\fboxrule}{\web@tpTrailerfboxrule}%
+  \let\web@tp@graphic\web@NO
+  \ifx\web@tpTrailer@graphic\@empty
+    \ifx\web@tpTrailer@namedgraphic\@empty\else
+      \let\web@tp@graphic\web@YES\fi
+  \else\let\web@tp@graphic\web@YES\fi
+  \ifx\web@tp@graphic\web@NO\relax
+    \ifx\web@tpTrailerBgColor\@empty
+      \def\grfbox@spec##1{##1}%
+    \else
+      \ifx\web@tpTrailerBorderColor\@empty
+        \def\web@tp@linewidth{\linewidth-2\fboxsep}%
+        \def\grfbox@spec{\colorbox{\web@tpTrailerBgColor}}%
+      \else
+        \def\web@tp@linewidth{%
+          \linewidth-2\fboxsep-2\fboxrule}%
+        \def\grfbox@spec{\fcolorbox{\web@tpTrailerBorderColor}%
+          {\web@tpTrailerBgColor}}%
+      \fi
+    \fi
+    \def\webtpTrailerWrapper##1{\smash{\raisebox
+      {\web@tpTrailer@raise}{\grfbox@spec{##1}}}}%
+  \else
+    \@ifundefined{graphicxbox}{\begingroup
+      \gdef\webtpTrailerWrapper##1{%
+      \edef\web@tmp@opt{\ifx\web@tpTrailer@namedgraphic\@empty\else
+        name=\web@tpTrailer@namedgraphic,\fi}%
+        \def\web@tp@linewidth{\linewidth-2\fboxsep}%
+        \setbox0=\hbox{##1}%
+        \noindent\makebox[0pt][l]{%
+            \smash{\raisebox{-\dp0-\fboxsep+\web@tpTrailer@raise}{%
+            \expandafter\includegraphics\expandafter[\web@tmp@opt
+             width=\wd0+2\fboxsep,%
+             height=\dp0+\ht0+2\fboxsep]{\web@tpTrailer@graphic}}%
+        }}\kern\fboxsep\smash{%
+          \raisebox{\web@tpTrailer@raise}{\unhbox0\relax}}%
+      }%
+    \endgroup}{%
+      \xdef\grfbox@spec{%
+        \ifx\web@tpTrailerBorderColor\@empty
+          \noexpand\graphicxbox\else
+        \noexpand\fgraphicxbox{\web@tpTrailerBorderColor}\fi
+        \ifx\web@tpTrailer@namedgraphic\@empty\else
+          [name=\web@tpTrailer@namedgraphic]\fi}%
+      \gdef\webtpTrailerWrapper##1{%
+        \edef\web@tp@linewidth{%
+        \linewidth-2\fboxsep\ifx\web@tpTrailerBorderColor\@empty
+          \else-2\fboxrule\fi}%
+        \smash{\raisebox{\web@tpTrailer@raise}{%
+          \grfbox@spec{\web@tpTrailer@graphic}{##1}}}}%
+    }%
+  \fi
+}
+\renewcommand{\web@maketitle}
+{%
+  \maketitlepreamble
+  \ifeqforpaper\vspace*{2\baselineskip}\else
+    \vbox to\titleauthorproportion\textheight\bgroup\fi
+  \topTitlePage
+  \ifeqforpaper\else\egroup\fi % end of \vbox for title and author
+  \begingroup\par
+    \aboveOPMvspace\noindent
+      \parbox{\linewidth}{\optionalpagematter}\par
+    \endgroup
+  \par\vspace{\stretch{1}}
+  \ifx\web@directory@option\web@YES\web@directory@hook\webdirectory\fi
+    \par\ifeqforpaper\else\minimumskip\fi\vspace{\stretch{1}}%
+  \vfill\noindent\begingroup\trailerFontSize\titlepageTrailer
+  \par\endgroup
+  \maketitlepostamble
+}
+\let\web@maketitle@save\maketitle
+\let\maketitle\web@maketitle
+\def\preparedLabel#1{\def\web@revision{#1}}
+\preparedLabel{Prepared:}
+\def\prepared#1{\def\argi{#1}\ifx\argi\@empty
+    \else\def\aeb@prepared{#1}\fi}
+\def\aeb@prepared{\@date}
+\def\aeb@Prepared{\web@revision\ \aeb@prepared}
+\def\talkdate#1{\gdef\web@talkdate@value{#1}%
+  \edef\webtalkdate{\ifx\web@talkdate@value\@empty
+   \else\noexpand\web@talkdatelabel\ #1\fi}}
+\let\web@talkdate@value\@empty
+\def\talkdateLabel#1{\def\web@talkdatelabel{#1}}
+\talkdateLabel{Presented:}
+\def\talksite#1{\def\aeb@talksite{#1}}
+\talksite{}
+\define@choicekey+{aebsection}{reset}[\val\nr]{font,all}{%
+  \ifcase\nr\relax
+    \aeb@reset@section@fonts\or
+    \aeb@reset@section@all
+  \fi
+}{\PackageWarning{webpro}{Bad choice for reset, permissible values
+   are font and all. Try again}}
+\define@choicekey+{aebsection}{type}[\val\nr]{section,subsection,%
+  subsubsection,university,title,author,toc}%
+{%
+  \edef\aeb@section@type{#1}%
+  \edef\aeb@section@typeIndex{\nr}%
+}{}{}
+\define@key{aebsection}{special}{%
+  \edef\aeb@temp@expand{%
+    \noexpand\XKV@cc+[\noexpand\val\noexpand\nr]{#1}}%
+  \aeb@temp@expand{shadow,framebox,colorbox,fcolorbox,frameboxfit,%
+  colorboxfit,fcolorboxfit,colorboxfitrule,custom,default}%
+{%
+  \ifcase\nr\relax
+    \w@csarg\let{aeb@\aeb@section@type @special}\aeb@shadowHead\or
+    \w@csarg\let{aeb@\aeb@section@type @special}\aeb@frameboxHead\or
+    \w@csarg\let{aeb@\aeb@section@type @special}\aeb@colorboxHead\or
+    \w@csarg\let{aeb@\aeb@section@type @special}\aeb@fcolorboxHead\or
+    \w@csarg\let{aeb@\aeb@section@type @special}\aeb@frameboxfitHead\or
+    \w@csarg\let{aeb@\aeb@section@type @special}\aeb@colorboxfitHead\or
+    \w@csarg\let{aeb@\aeb@section@type @special}
+    \aeb@fcolorboxfitHead\or
+    \w@csarg\let{aeb@\aeb@section@type @special}
+    \aeb@colorboxfitruleHead\or
+    \edef\aeb@temp{\noexpand\def\expandafter\noexpand
+    \csname aeb@\aeb@section@type @special\endcsname{\expandafter
+      \noexpand\csname aeb@\aeb@section@type @customHead\endcsname}}%
+      \aeb@temp\or
+    \w@csarg\let{aeb@\aeb@section@type @special}\@empty
+  \fi
+}{%
+ \PackageWarning{webpro}{Bad choice for special, permissible values
+ are shadow, framebox, colorbox, fcolorbox, custom and default.
+ Try again}}%
+}
+\@tfor\@@tmp:={section}{subsection}{subsubsection}%
+{university}{title}{author}{toc}\do{%
+    \w@csarg\let{aeb@\@@tmp @special}\@empty}
+\newcommand{\customSecHead}[1]{\def\aeb@section@customHead##1{#1}}
+\newcommand{\customSubsecHead}[1]{\def\aeb@subsection@customHead##1{#1}}
+\newcommand{\customSubsubsecHead}[1]
+    {\def\aeb@subsubsection@customHead##1{#1}}
+\newcommand{\customUniversity}[1]{\def\aeb@university@customHead##1{#1}}
+\newcommand{\customTitle}[1]{\def\aeb@title@customHead##1{#1}}
+\newcommand{\customAuthor}[1]{\def\aeb@author@customHead##1{#1}}
+\newcommand{\customToc}[1]{\def\aeb@toc@customHead##1{#1}}
+\def\aeb@frameboxHead#1{%
+  \begingroup
+    \@tempdima=\linewidth
+    \advance\@tempdima-2\fboxsep
+    \advance\@tempdima-2\fboxrule
+    \edef\@@aeb@sectionframecolor
+      {\@nameuse{aeb@\aeb@section@type framecolor}}%
+    \edef\@@aeb@sectioncolor
+      {\@nameuse{aeb@\aeb@section@type color}}%
+    \setbox\z@\vbox{\hsize=\@tempdima#1}%
+    \color{\@@aeb@sectionframecolor}%
+    \framebox{\color{\@@aeb@sectioncolor}\copy\z@}%
+  \endgroup
+}
+\def\aeb@colorboxHead#1{%
+  \begingroup
+    \@tempdima=\linewidth
+    \advance\@tempdima-2\fboxsep
+    \setbox\z@\vbox{\hsize=\@tempdima#1}%
+    \edef\@@aeb@sectionbgcolor
+        {\@nameuse{aeb@\aeb@section@type bgcolor}}%
+    \colorbox{\@@aeb@sectionbgcolor}{\copy\z@}%
+  \endgroup
+}
+\def\aeb@fcolorboxHead#1{%
+  \begingroup
+  \@tempdima=\linewidth
+    \advance\@tempdima-2\fboxsep
+    \advance\@tempdima-2\fboxrule
+    \setbox\z@\vbox{\hsize=\@tempdima#1}%
+    \edef\@@aeb@sectionbgcolor
+      {\@nameuse{aeb@\aeb@section@type bgcolor}}%
+    \fcolorbox{\aeb@sectionframecolor}%
+    {\@@aeb@sectionbgcolor}{\copy\z@}
+  \endgroup
+}
+\def\aeb@frameboxfitHead#1{%
+  \begingroup
+    \edef\@@aeb@sectionframecolor
+      {\@nameuse{aeb@\aeb@section@type framecolor}}%
+    \edef\@@aeb@sectioncolor
+      {\@nameuse{aeb@\aeb@section@type color}}%
+    \vbox{\color{\@@aeb@sectionframecolor}%
+    \framebox{\color{\@@aeb@sectioncolor}#1}}%
+  \endgroup
+}
+\def\aeb@colorboxfitHead#1{%
+  \begingroup
+    \edef\@@aeb@sectioncolor
+      {\@nameuse{aeb@\aeb@section@type color}}%
+    \edef\@@aeb@sectionbgcolor
+      {\@nameuse{aeb@\aeb@section@type bgcolor}}%
+    \vbox{\colorbox{\@@aeb@sectionbgcolor}%
+      {\color{\@@aeb@sectioncolor}#1}}%
+  \endgroup
+}
+\def\aeb@fcolorboxfitHead#1{%
+  \begingroup
+    \edef\@@aeb@sectioncolor
+      {\@nameuse{aeb@\aeb@section@type color}}%
+    \edef\@@aeb@sectionbgcolor
+      {\@nameuse{aeb@\aeb@section@type bgcolor}}%
+    \edef\@@aeb@sectionframecolor
+      {\@nameuse{aeb@\aeb@section@type framecolor}}%
+    \vbox{\fcolorbox{\@@aeb@sectionframecolor}{\@@aeb@sectionbgcolor}%
+      {\color{\@@aeb@sectioncolor}#1}}%
+  \endgroup
+}
+\def\shadowhoffset#1{\def\aeb@shadowhoffset{#1}}
+\shadowhoffset{.2ex}
+\def\shadowvoffset#1{\def\aeb@shadowvoffset{#1}}
+\shadowvoffset{-.2ex}
+\def\aeb@shadowHead#1{%
+  \begingroup
+    \edef\@@aeb@sectionshadowcolor
+      {\@nameuse{aeb@\aeb@section@type shadowcolor}}%
+    \edef\@@aeb@sectioncolor
+      {\@nameuse{aeb@\aeb@section@type color}}%
+    \setbox\z@\vbox{\Shadowtrue\hsize=\linewidth #1}%
+    \wd\z@\z@\dp\z@\z@\raisebox{\aeb@shadowvoffset}%
+    {\hbox to\z@{\kern\aeb@shadowhoffset%
+    \Shadowtrue\color{\@@aeb@sectionshadowcolor}
+    \box\z@\hss}}\setbox\z@
+      \vbox{\Shadowfalse\hsize=\linewidth #1}\box\z@
+  \endgroup
+}
+\define@key{aebsection}{usefont}{%
+  \w@csarg\def{aeb@\aeb@section@type @usefont}{\aeb@usefont#1}}
+\@tfor\@@tmp:={section}{subsection}{subsubsection}
+  {university}{title}{author}{toc}\do{%
+    \w@csarg\let{aeb@\@@tmp @usefont}\@empty}
+\def\aeb@usefont#1#2#3#4#5{\def\aeb@usefontargv{#5}%
+  \ifx\aeb@usefontargv\@empty
+    \def\aeb@next{\expandafter\@gobble\@gobbletwo}%
+  \else
+    \def\aeb@next{\expandafter\@gobbletwo\@gobbletwo}%
+  \fi
+  \fontencoding{#1}\fontfamily{#2}%
+  \fontseries{#3}\fontshape{#4}\ifx\aeb@usefontargv\@empty\else
+  \fontsize#5\fi\selectfont\aeb@next
+}
+\define@key{aebsection}{fontfamily}{%
+  \edef\aeb@temp@expand{\noexpand\XKV@cc+{#1}}%
+  \aeb@temp@expand{rmfamily,sffamily,ttfamily}{%
+  \w@csarg\def{aeb@\aeb@section@type @fontfamily}{\@nameuse{#1}}%
+}{\PackageWarning{webpro}{Bad choice for fontfamily, permissible values
+  are rmfamily, sffamily and ttfamily. Try again}}}
+\@tfor\@@tmp:={section}{subsection}{subsubsection}{university}{title}%
+  {author}{toc}\do
+  {\w@csarg\let{aeb@\@@tmp @fontfamily}\aeb@defaultfamily}
+\define@key{aebsection}{fontseries}{%
+  \edef\aeb@temp@expand{\noexpand\XKV@cc+{#1}}%
+  \aeb@temp@expand{bfseries,mdseries}{%
+  \w@csarg\def{aeb@\aeb@section@type @fontseries}{\@nameuse{#1}}%
+}{\PackageWarning{webpro}{Bad choice for fontseries, permissible values
+   are bfseries and mdseries. Try again}}}
+\@tfor\@@tmp:={section}{subsection}{subsubsection}{university}{title}%
+  {author}{toc}\do{\w@csarg\let{aeb@\@@tmp @fontseries}\bfseries}
+\define@key{aebsection}{fontshape}{%
+  \edef\aeb@temp@expand{\noexpand\XKV@cc+{#1}}%
+  \aeb@temp@expand{upshape,itshape,scshape,slshape}{%
+  \w@csarg\def{aeb@\aeb@section@type @fontshape}{\@nameuse{#1}}%
+}{\PackageWarning{webpro}{Bad choice for fontshape, permissible values
+   are upshape, itshape, scshape and slshape. Try again}}%
+}
+\@tfor\@@tmp:={section}{subsection}{subsubsection}{university}{title}%
+  {author}{toc}\do{\w@csarg\let{aeb@\@@tmp @fontshape}\upshape}
+\define@key{aebsection}{fontsize}{%
+ \edef\aeb@temp@expand{\noexpand\XKV@cc+{#1}}%
+  \aeb@temp@expand{tiny,scriptsize,footnotesize,%
+  small,normalsize,large,Large,LARGE,huge,Huge}{%
+  \w@csarg\def{aeb@\aeb@section@type @fontsize}{\@nameuse{#1}}%
+}{\PackageWarning{webpro}{Bad choice for fontsize, permissible values
+  are tiny, scriptsize, footnotesize, small, normalsize,
+  large, Large, LARGE, huge and Huge. Try again}}%
+}
+\@tfor\@@tmp:={{section}{\normalsize}}{{subsection}{\normalsize}}%
+  {{subsubsection}{\normalsize}}{{university}{\normalsize}}%
+  {{title}{\large}}{{author}{\normalsize}}{{toc}{\small}}\do{%
+    \expandafter\getargs\@@tmp
+    \edef\aeb@temp{\global\noexpand
+      \let\expandafter\noexpand\csname aeb@\aeb@argi @fontsize\endcsname
+      \expandafter\noexpand\aeb@argii}\aeb@temp
+}
+\define@key{aebsection}{halign}{%
+  \edef\aeb@temp@expand{\noexpand
+    \XKV@cc+[\noexpand\val\noexpand\nr]{#1}}%
+  \aeb@temp@expand{l,c,r}{%
+  \ifcase\nr\relax
+    \w@csarg\let{aeb@\aeb@section@type @halign}\raggedright\or
+    \w@csarg\let{aeb@\aeb@section@type @halign}\centering\or
+    \w@csarg\let{aeb@\aeb@section@type @halign}\raggedleft\fi
+}{\PackageWarning{webpro}{Bad choice for halign, permissible values
+   are l, c and r. Try again}}%
+}
+\@tfor\@@tmp:={\aeb@section@halign\raggedright}
+  {\aeb@subsection@halign\raggedright}
+  {\aeb@subsubsection@halign\raggedright}
+  {\aeb@university@halign\centering}
+  {\aeb@title@halign\centering}{\aeb@author@halign\centering}%
+  {\aeb@toc@halign\centering}\do{%
+    \expandafter\getargs\@@tmp
+    \edef\aeb@temp{\noexpand\let\expandafter\noexpand\aeb@argi
+    \expandafter\noexpand\aeb@argii}\aeb@temp
+}
+\define@key{aebsection}{ding}{\if\aeb@use@section@numbers\web@Zero
+  \webtoksi=\expandafter{\expandafter\protect
+  \expandafter\web@sel@sec@col\expandafter{\aeb@section@type}#1\ }%
+  \w@csarg\edef{aeb@\aeb@section@type Num}##1{\the\webtoksi}%
+  \else\PackageWarning{webpro}{The ding key is not available with a
+    section numbering system,\MessageBreak
+    ignoring request for a ding.}\fi
+}
+\define@key{aebsection}{color}{%
+  \w@csarg\def{aeb@\aeb@section@type color}{#1}}
+\define@key{aebsection}{ruleheight}{%
+  \w@csarg\def{aeb@\aeb@section@type ruleheight}{#1}}
+\define@key{aebsection}{numdingcolor}{%
+  \w@csarg\def{aeb@\aeb@section@type numdingcolor}{#1}}
+\def\aeb@sectioncolor{blue}
+\def\aeb@subsectioncolor{\aeb@sectioncolor}
+\def\aeb@subsubsectioncolor{\aeb@sectioncolor}
+\def\aeb@sectionnumdingcolor{\aeb@sectioncolor}
+\def\aeb@subsectionnumdingcolor{\aeb@sectioncolor}
+\def\aeb@subsubsectionnumdingcolor{\aeb@sectioncolor}
+\def\aeb@universitycolor{black}
+\def\aeb@universitynumdingcolor{\aeb@universitycolor}
+\def\aeb@titlecolor{blue}
+\def\aeb@titlenumdingcolor{\aeb@titlecolor}
+\def\aeb@authorcolor{black}
+\def\aeb@authornumdingcolor{\aeb@authorcolor}
+\def\aeb@toccolor{blue}
+\def\aeb@tocnumdingcolor{\aeb@toccolor}
+\define@key{aebsection}{framecolor}{%
+    \w@csarg\def{aeb@\aeb@section@type framecolor}{#1}}
+\def\aeb@sectionframecolor{blue}
+\def\aeb@subsectionframecolor{blue}
+\def\aeb@subsubsectionframecolor{blue}
+\def\aeb@universityframecolor{blue}
+\def\aeb@titleframecolor{blue}
+\def\aeb@authorframecolor{blue}
+\def\aeb@tocframecolor{blue}
+\define@key{aebsection}{bgcolor}{%
+  \w@csarg\def{aeb@\aeb@section@type bgcolor}{#1}}
+\def\aeb@sectionbgcolor{cornsilk}
+\def\aeb@subsectionbgcolor{cornsilk}
+\def\aeb@subsubsectionbgcolor{cornsilk}
+\def\aeb@authorbgcolor{cornsilk}
+\def\aeb@titlebgcolor{cornsilk}
+\def\aeb@authorbgcolor{cornsilk}
+\def\aeb@tocbgcolor{cornsilk}
+\define@key{aebsection}{shadowcolor}{%
+  \w@csarg\def{aeb@\aeb@section@type shadowcolor}{#1}}
+\def\aeb@sectionshadowcolor{black}
+\def\aeb@subsectionshadowcolor{black}
+\def\aeb@subsubsectionshadowcolor{black}
+\def\aeb@universityshadowcolor{black}
+\def\aeb@titleshadowcolor{black}
+\def\aeb@authorshadowcolor{black}
+\def\aeb@tocshadowcolor{black}
+\define@key{aebsection}{indent}[0pt]{%
+  \edef\web@argi{#1}\ifx\web@argi\@empty
+  \def\web@argi{0pt}\fi
+  \w@csarg\edef{aeb@\aeb@section@type @indent}{\web@argi}}
+\def\aeb@section@indent{\z@}
+\def\aeb@subsection@indent{\z@}
+\def\aeb@subsubsection@indent{\z@}
+\def\aeb@university@indent{\z@}
+\def\aeb@title@indent{\z@}
+\def\aeb@author@indent{\z@}
+\def\aeb@toc@indent{\z@}
+\define@key{aebsection}{beforeskip}{%
+  \w@csarg\def{aeb@\aeb@section@type @beforeskip}{#1}}
+\def\aeb@section@beforeskip{-3ex\@plus -1ex \@minus-.2ex}
+\def\aeb@subsection@beforeskip{-2.5ex\@plus -1ex \@minus -.2ex}
+\def\aeb@subsubsection@beforeskip{-2ex\@plus -1ex \@minus -.2ex}
+\def\aeb@university@beforeskip{-1ex\@plus -1ex \@minus-.2ex}
+\def\aeb@title@beforeskip{-1ex\@plus -1ex \@minus-.2ex}
+\def\aeb@author@beforeskip{-1ex\@plus -1ex \@minus-.2ex}
+\def\aeb@toc@beforeskip{-3ex\@plus -1ex \@minus-.2ex}
+\define@key{aebsection}{afterskip}{%
+  \w@csarg\def{aeb@\aeb@section@type @afterskip}{#1}}
+\def\aeb@section@afterskip{1ex\@plus .2ex}
+\def\aeb@subsection@afterskip{1ex\@plus .2ex}
+\def\aeb@subsubsection@afterskip{.5ex\@plus .2ex}
+\def\aeb@university@afterskip{1ex\@plus .2ex}
+\def\aeb@title@afterskip{1ex\@plus .2ex}
+\def\aeb@author@afterskip{1ex \@plus1fill} %{1ex\@plus .2ex}
+\def\aeb@toc@afterskip{1ex\@plus .2ex}
+\define@key{aebsection}{hproportion}{%
+    \w@csarg\def{hproportionweb\aeb@section@type}{#1}}
+\define@key{aebsection}{xhalign}{%
+  \edef\aeb@temp@expand{\noexpand\XKV@cc+{#1}}%
+  \aeb@temp@expand{l,c,r}{%
+    \w@csarg\def{halign\aeb@section@type}{#1}%
+}{\PackageWarning{webpro}{Bad choice for xhalign, permissible values
+   are l, c and r. Try again}}%
+}
+\def\halignuniversity{c}
+\def\haligntitle{c}
+\def\halignauthor{c}
+\let\halignsection\relax
+\let\halignsubsection\relax
+\let\halignsubsubsection\relax
+\let\haligntoc\relax
+\define@key{aebToc}{tocName}{\tocName{#1}}
+\define@key{aebToc}{tocNameCont}{\tocNameCont{#1}}
+\def\aeb@reset@section@fonts{\normalfont\normalsize
+  \ifcase\aeb@section@typeIndex\relax
+    \let\aeb@section@usefont\@empty
+    \let\aeb@section@fontfamily\aeb@defaultfamily
+    \let\aeb@section@fontseries\bfseries
+    \let\aeb@section@fontshape\upshape
+    \let\aeb@section@fontsize\Large
+  \or
+    \let\aeb@subsection@usefont\@empty
+    \let\aeb@subsection@fontfamily\aeb@defaultfamily
+    \let\aeb@subsection@fontseries\bfseries
+    \let\aeb@subsection@fontshape\upshape
+    \let\aeb@subsection@fontsize\large
+  \or
+    \let\aeb@subsubsection@usefont\@empty
+    \let\aeb@subsubsection@fontfamily\aeb@defaultfamily
+    \let\aeb@subsubsection@fontseries\bfseries
+    \let\aeb@subsubsection@fontshape\upshape
+    \let\aeb@subsubsection@fontsize\normalsize
+  \fi
+}
+\def\aeb@reset@section@all{\aeb@reset@section@fonts
+  \ifcase\aeb@section@typeIndex\relax
+    \let\aeb@section@halign\raggedright
+    \def\aeb@sectioncolor{blue}%
+    \def\aeb@sectionshadowcolor{black}%
+    \let\aeb@section@special=\@empty
+    \def\aeb@section@beforeskip{-3ex\@plus -1ex \@minus-.2ex}%
+    \def\aeb@section@afterskip{1ex\@plus .2ex}%
+    \def\aeb@sectionframecolor{blue}%
+    \def\aeb@sectionframecolor{cornsilk}%
+  \or
+    \let\aeb@subsection@halign\raggedright
+    \def\aeb@subsectioncolor{blue}%
+    \def\aeb@subsectionshadowcolor{black}%
+    \let\aeb@subsection@special=\@empty
+    \def\aeb@subsection@beforeskip{-2.5ex\@plus-1ex \@minus-.2ex}%
+    \def\aeb@subsection@afterskip{1ex\@plus .2ex}%
+    \def\aeb@subsectionframecolor{blue}%
+    \def\aeb@subsectionframecolor{cornsilk}%
+  \or
+    \let\aeb@subsubsection@halign\raggedright
+    \def\aeb@subsubsectioncolor{blue}%
+    \def\aeb@subsubsectionshadowcolor{black}%
+    \let\aeb@subsubsection@special=\@empty
+    \def\aeb@subsubsection@beforeskip{-2ex\@plus-1ex \@minus-.2ex}%
+    \def\aeb@subsubsection@afterskip{1ex\@plus .2ex}%
+    \def\aeb@subsubsectionframecolor{blue}%
+    \def\aeb@subsubsectionframecolor{cornsilk}%
+  \fi
+}
+\renewcommand{\section}{%
+  \renewcommand{\@seccntformat}[1]{\aeb@sectionNum{##1}}%
+  \@startsection{section}{1}{\aeb@section@indent}%
+  {\aeb@section@beforeskip}{\aeb@section@afterskip}%
+  {\noindent\xdef\aeb@sectionpage{\the\c@page}%
+  \def\aeb@section@type{section}%
+  \aeb@section@usefont\aeb@section@fontfamily\aeb@section@fontseries
+  \aeb@section@fontshape\aeb@section@fontsize\aeb@section@halign
+  \color{\aeb@sectioncolor}\aeb@section@special}}
+\renewcommand\subsection{%
+  \renewcommand{\@seccntformat}[1]{\aeb@subsectionNum{##1}}%
+  \@startsection{subsection}{2}{\aeb@subsection@indent}%
+  {\aeb@subsection@beforeskip}{\aeb@subsection@afterskip}%
+  {\noindent\def\aeb@section@type{subsection}%
+  \aeb@subsection@usefont\aeb@subsection@fontfamily
+  \aeb@subsection@fontseries\aeb@subsection@fontshape
+  \aeb@subsection@fontsize\aeb@subsection@halign
+  \color{\aeb@subsectioncolor}\aeb@subsection@special}}
+\def\subsubDefaultDing#1{\def\web@subsubDefaultDing{{#1}}}
+\subsubDefaultDing{\texorpdfstring{$\bullet$}{\textbullet}}
+\renewcommand\subsubsection{%
+  \renewcommand{\@seccntformat}[1]{\aeb@subsubsectionNum{##1}}%
+  \@startsection{subsubsection}{3}{\aeb@subsubsection@indent}%
+  {\aeb@subsubsection@beforeskip}{\aeb@subsubsection@afterskip}%
+  {\noindent\def\aeb@section@type{subsubsection}%
+  \aeb@subsubsection@usefont\aeb@subsubsection@fontfamily
+  \aeb@subsubsection@fontseries\aeb@subsubsection@fontshape
+  \aeb@subsubsection@fontsize\aeb@subsubsection@halign
+  \color{\aeb@subsubsectioncolor}\aeb@subsubsection@special}}
+\renewcommand*\thesection{%
+  \if\aeb@use@section@numbers\web@One\arabic{section}\fi}
+\renewcommand*\thesubsection{%
+  \if\aeb@use@section@numbers\web@One\thesection.\arabic{subsection}\fi}
+\renewcommand*{\thesubsubsection}{%
+  \if\aeb@use@section@numbers\web@One
+    \if@defaultsubsubding\web@subsubDefaultDing
+    \else\thesubsection.\arabic{subsubsection}\fi
+  \fi
+}
+\newcommand{\sectionTitle}{\aeb@sectionTitle*}
+\newcommand{\aeb@sectionTitle}{%
+  \renewcommand{\@seccntformat}[1]{\aeb@titleNum{##1}}%
+  \@startsection{section}{1}{\aeb@title@indent}%
+  {\aeb@title@beforeskip}{\aeb@title@afterskip}%
+  {\xdef\aeb@titlepage{\the\c@page}\def\aeb@section@type{title}%
+  \aeb@title@usefont\aeb@title@fontfamily\aeb@title@fontseries
+  \aeb@title@fontshape\aeb@title@fontsize\aeb@title@halign
+  \ifx\webtitle@color\@empty\else\color{\aeb@titlecolor}\fi
+  \aeb@title@special}}
+\newcommand{\sectionAuthor}{\aeb@sectionAuthor*}
+\newcommand{\aeb@sectionAuthor}{%
+  \renewcommand{\@seccntformat}[1]{\aeb@authorNum{##1}}%
+  \@startsection{section}{1}{\aeb@author@indent}%
+  {\aeb@author@beforeskip}{\aeb@author@afterskip}%
+  {\xdef\aeb@titlepage{\the\c@page}\def\aeb@section@type{author}%
+  \aeb@author@usefont\aeb@author@fontfamily\aeb@author@fontseries
+  \aeb@author@fontshape\aeb@author@fontsize\aeb@author@halign
+  \ifx\webauthor@color\@empty\else\color{\aeb@authorcolor}\fi
+  \aeb@author@special}}
+\newcommand{\sectionUniversity}{\aeb@sectionUniversity*}
+\newcommand{\aeb@sectionUniversity}{%
+  \renewcommand{\@seccntformat}[1]{\aeb@universityNum{##1}}%
+  \@startsection{section}{1}{\aeb@university@indent}%
+  {\aeb@university@beforeskip}{\aeb@university@afterskip}%
+  {\xdef\aeb@titlepage{\the\c@page}\def\aeb@section@type{university}%
+  \aeb@university@usefont\aeb@university@fontfamily
+  \aeb@university@fontseries\aeb@university@fontshape
+  \aeb@university@fontsize\aeb@university@halign
+  \ifx\webuniversity@color\@empty\else
+  \color{\aeb@universitycolor}\fi\aeb@university@special}}
+\newcommand{\sectionToc}{\aeb@sectionToc*}
+\newcommand{\aeb@sectionToc}{%
+  \renewcommand{\@seccntformat}[1]{\aeb@tocNum{##1}}%
+  \@startsection{section}{1}{\aeb@toc@indent}%
+  {\aeb@toc@beforeskip}{\aeb@toc@afterskip}%
+  {\hypertarget{webtoc}{}%
+  \xdef\aeb@titlepage{\the\c@page}\def\aeb@section@type{toc}%
+  \aeb@toc@usefont\aeb@toc@fontfamily
+  \aeb@toc@fontseries\aeb@toc@fontshape
+  \aeb@toc@fontsize\aeb@toc@halign
+  \ifx\aeb@toccolor\@empty\else
+  \color{\aeb@toccolor}\fi\aeb@toc@special}}
+\def\save@prtscr{\global\let\prtscr@save\prtscr
+  \global\let\prtscr\prtscrA}
+\def\restore@prtscr{\global\let\prtscr\prtscr@save}
+\newcommand{\sectionLayout}[1]{\save@prtscr
+  \setkeys{aebsection}{type=section,color=blue,ruleheight=1pt}%
+  \protected@edef\x{\noexpand\setkeys{aebsection}{#1}}\x
+  \aeb@temp\restore@prtscr}
+\newcommand{\subsectionLayout}[1]{\save@prtscr
+  \setkeys{aebsection}{type=subsection,color=blue,ruleheight=1pt}%
+  \protected@edef\x{\noexpand\setkeys{aebsection}{#1}}\x
+  \aeb@temp\restore@prtscr}
+\newcommand{\subsubsectionLayout}[1]{\save@prtscr
+  \setkeys{aebsection}{type=subsubsection,color=blue,ruleheight=1pt}%
+  \protected@edef\x{\noexpand\setkeys{aebsection}{#1}}\x
+  \aeb@temp\restore@prtscr}
+\newcommand{\universityLayout}[1]{\save@prtscr
+  \setkeys{aebsection}{type=university}%
+  \protected@edef\x{\noexpand\setkeys{aebsection}{#1}}\x
+  \aeb@temp\restore@prtscr}
+\universityLayout{fontsize={\prtscrA{large}{normalsize}}}
+\newcommand{\titleLayout}[1]{\save@prtscr
+  \setkeys{aebsection}{type=title}%
+  \protected@edef\x{\noexpand\setkeys{aebsection}{#1}}\x
+  \aeb@temp\restore@prtscr}
+\titleLayout{fontsize={\prtscrA{Large}{normalsize}}}
+\newcommand{\authorLayout}[1]{\save@prtscr
+  \setkeys{aebsection}{type=author}%
+  \protected@edef\x{\noexpand\setkeys{aebsection}{#1}}\x
+  \aeb@temp\restore@prtscr}
+\authorLayout{fontsize={\prtscrA{large}{normalsize}}}
+\newcommand{\tocLayout}[1]{\save@prtscr
+  \setkeys{aebsection}{type=toc,color=\web@tocColor}%
+  \protected@edef\x{\noexpand\setkeys{aebsection,aebToc}{#1}}\x
+  \aeb@temp\restore@prtscr}
+\tocLayout{fontsize=Large}
+\newif\ifShadow \Shadowfalse % dps1
+\def\web@sel@sec@col#1{\ifShadow
+  \color{\@nameuse{aeb@#1shadowcolor}}\else
+  \color{\@nameuse{aeb@#1numdingcolor}}\fi}
+\newcommand{\useSectionNumbers}
+{%
+  \let\aeb@use@section@numbers\web@One
+  \def\aeb@sectionNum##1{\protect
+  \web@sel@sec@col{section}\@nameuse{the##1}\web@finalDot\ }%
+  \def\aeb@subsectionNum##1{\protect
+    \web@sel@sec@col{subsection}\@nameuse{the##1}\web@finalDot\ }%
+  \def\aeb@subsubsectionNum##1{\protect
+    \web@sel@sec@col{subsubsection}%
+    \@nameuse{the##1}\if@defaultsubsubding\else\web@finalDot\fi\ }%
+    \def\sectionmark##1{\markright{##1}}%
+}
+\newcommand{\noSectionNumbers}
+{%
+  \ifx\web@latextoc\web@YES
+    \PackageInfo{web}{The nobullets or latextoc option
+      taken,\MessageBreak
+      ignoring \string\noSectionNumbers}%
+  \else
+    \let\aeb@use@section@numbers\web@Zero
+    \let\aeb@sectionNum\@gobble
+    \let\aeb@subsectionNum\@gobble
+    \let\aeb@subsubsectionNum\@gobble
+  \fi
+}
+\useSectionNumbers
+\define@key{aebcolordesign}{universityColor}{\universityColor{#1}}
+  \def\aeb@universitycolor{\webuniversity@color}
+\define@key{aebcolordesign}{titleColor}{\titleColor{#1}}
+  \def\aeb@titlecolor{\webtitle@color}
+\define@key{aebcolordesign}{authorColor}{\authorColor{#1}}
+  \def\aeb@authorcolor{\webauthor@color}
+\define@key{aebcolordesign}{textBgColor}{\textBgColor{#1}}
+\define@key{aebcolordesign}{panelBgColor}{\panelBgColor{#1}}
+\define@key{aebcolordesign}{linkColor}{\def\@linkcolor{#1}}
+\define@key{aebcolordesign}{fileColor}{\def\@filecolor{#1}}
+\define@key{aebcolordesign}{citeColor}{\def\@citecolor{#1}}
+\define@key{aebcolordesign}{urlColor}{\def\@urlcolor{#1}}
+\newcommand{\selectColors}[1]{\setkeys{aebcolordesign}{#1}}
+\define@key{aebDings}{dDing}{\dDingToc{#1}}
+\define@key{aebDings}{ddDing}{\ddDingToc{#1}}
+\define@key{aebDings}{dddDing}{\dddDingToc{#1}}
+\define@key{aebDings}{dDingColor}{\dDingTocColor{#1}}
+\define@key{aebDings}{ddDingColor}{\ddDingTocColor{#1}}
+\define@key{aebDings}{dddDingColor}{\dddDingTocColor{#1}}
+\def\dDingToc#1{\def\d@DingToc{#1}}
+\def\ddDingToc#1{\def\dd@DingToc{#1}}
+\def\dddDingToc#1{\def\ddd@DingToc{#1}}
+\def\dDingTocColor#1{\def\d@DingTocColor{#1}}
+\def\ddDingTocColor#1{\def\dd@DingTocColor{#1}}
+\def\dddDingTocColor#1{\def\ddd@DingTocColor{#1}}
+\dDingTocColor{red}
+\ddDingTocColor{blue}
+\dddDingTocColor{webgreen}
+\@tfor\@@tmp:={d@DingToc}{dd@DingToc}{ddd@DingToc}\do
+  {\w@csarg\let{\@@tmp}\@empty}
+\newcommand{\selectTocDings}[1]{\setkeys{aebDings}{#1}}
+\def\@setTocDings{%
+  \ifx\d@DingToc\@empty\else\dDing{\d@DingToc}\fi
+  \ifx\dd@DingToc\@empty\else\ddDing{\dd@DingToc}\fi
+  \ifx\ddd@DingToc\@empty\else\dddDing{\ddd@DingToc}\fi
+}
+\ifeqforpaper
+  \includecomment{forpaper}\excludecomment{forscreen}\else
+  \includecomment{forscreen}\excludecomment{forpaper}\fi
+\endinput
+%%
+%% End of file `webpro.def'.

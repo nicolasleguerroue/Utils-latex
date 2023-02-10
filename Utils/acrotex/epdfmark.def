@@ -1,0 +1,219 @@
+%%
+%% This is file `epdfmark.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% eforms.dtx  (with options: `copyright,epdfmark')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% eForms package,                                      %%
+%% Copyright (C) 2002-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\Rect#1{\pdf@rect{\textcolor{\@linkcolor}{#1}}}
+\def\noPeek#1#2{\literalps@out{%
+  \AEB@psMrk{ThisPage} << \noPeekAction{#1}{#2} >> /PUT pdfmark}}
+\def\ef@getobjdef{%
+  \HyField@AdvanceAnnotCount
+  \ifisCalculate\edef\eq@objdefName{\Fld@name}\else
+  \ifx\eq@objdef\@empty
+    \edef\eq@objdefName{\annot@type\HyField@TheAnnotCount}\fi\fi
+  \edef\eq@objdef{/_objdef \string{\eq@objdefName\string}}%
+}
+\def\eq@choice@driver
+{%
+  \Hy@pdfstringtrue
+  \ifx\@vertRotate\ef@One
+    \let\W@temp\eq@rectW\edef\eq@rectW{\eq@rectH}%
+    \edef\eq@rectH{\W@temp}\fi\centerWidget\eq@rectH
+  \ifx\autoCenter\ef@n\eqcenterWidget=0pt\fi
+  \ef@getobjdef
+  \pdf@rect{\lower\eqcenterWidget\ef@Bbox{\eq@rectW}{\eq@rectH}}%
+  \literalps@out{\AEB@psMrk
+    \eq@objdef/Rect [pdf@llx pdf@lly pdf@urx pdf@ury]
+    \common@choiceCode
+    /ANN pdfmark
+    \AEB@psMrk{afields} {\eq@objdefName} /APPEND pdfmark
+    \ifisCalculate\AEB@psMrk{corder} {\Fld@name} /APPEND pdfmark\fi
+  }\to@insertStrucTabOrder{Form}\endgroup
+  \dl@restorespcs
+}
+\def\eq@Button@driver
+{%
+  \Hy@pdfstringtrue
+  \ifx\eq@rectW\@empty\def\eq@rectW{\wd\eq@tmpbox}\ef@djXPD\fi
+  \ifx\@vertRotate\ef@One\let\W@temp\eq@rectW\edef\eq@rectW{\eq@rectH}%
+      \edef\eq@rectH{\W@temp}\fi\centerWidget\eq@rectH
+  \ifx\autoCenter\ef@n\eqcenterWidget=0pt\fi
+  \ef@getobjdef
+  \pdf@rect{\lower\eqcenterWidget\ef@Bbox{\eq@rectW}{\eq@rectH}}%
+  \literalps@out{\AEB@psMrk
+    \eq@objdef/Rect [pdf@llx pdf@lly pdf@urx pdf@ury]
+    \common@pushButtonCode
+    /ANN pdfmark
+    \AEB@psMrk{afields} {\eq@objdefName} /APPEND pdfmark
+  }\to@insertStrucTabOrder{Form}\endgroup
+  \dl@restorespcs
+}
+\def\parentRef#1#2{\csarg\gdef{parent@#1}{#2}}
+\def\ef@radioData#1#2{\immediate
+  \write\@mainaux{\string\parentRef{#1}{#2}}}
+\def\eq@Radio@driver
+{%
+  \Hy@pdfstringtrue
+  \ifx\@vertRotate\ef@One
+    \let\W@temp\eq@rectW\edef\eq@rectW{\eq@rectH}%
+    \edef\eq@rectH{\W@temp}\fi\centerWidget\eq@rectH
+  \ifx\autoCenter\ef@n\eqcenterWidget=0pt\fi
+  \ef@getobjdef
+  \ifuseNewRadios
+    \ifx\isRadioParent\ef@YES\expandafter
+      \ifx\csname radio@\Fld@name\endcsname\relax\else
+        \literalps@out{\AEB@psMrk
+          /_objdef{parent@rad\HyField@TheAnnotCount}
+            /type/dict/OBJ pdfmark
+          \AEB@psMrk{parent@rad\HyField@TheAnnotCount}
+            << \radio@parent\space >>/PUT pdfmark
+        }\ef@radioData{\Fld@name}{{parent@rad\HyField@TheAnnotCount}}%
+        \ifx\eq@V\@empty\else
+          \csarg\xdef{value@\Fld@name}%
+            {\@nameuse{OnVal@\Fld@name}}%
+        \fi
+      \fi
+      \ifx\ef@multigroupradios\ef@YES
+        \csarg\gdef{multigroup@\Fld@name}%
+          {\let\ef@multigroupradios\ef@YES}%
+      \else
+        \csarg\gdef{multigroup@\Fld@name}%
+          {\let\ef@multigroupradios\ef@NO}%
+      \fi
+      \ifx\isRadiosInUnison\ef@YES
+        \csarg\gdef{uniradios@\Fld@name}%
+          {\let\isRadiosInUnison\ef@YES}%
+      \else
+        \csarg\gdef{uniradios@\Fld@name}%
+          {\let\isRadiosInUnison\ef@NO}%
+      \fi
+    \fi
+  \fi
+  \ifuseNewRadios\expandafter\ef@NewRadiosLateOpts\fi
+  \ifx\eq@rectW\@empty\def\eq@rectW{\wd\eq@tmpbox}\fi
+  \pdf@rect{\lower\eqcenterWidget\ef@Bbox{\eq@rectW}{\eq@rectH}}%
+  \literalps@out{\AEB@psMrk
+    \eq@objdef/Rect [pdf@llx pdf@lly pdf@urx pdf@ury]
+    \common@RadioCode
+    /ANN pdfmark
+  \ifuseNewRadios\else
+    \AEB@psMrk{afields} {\eq@objdefName} /APPEND pdfmark
+  \fi
+  }\to@insertStrucTabOrder{Form}%
+  \ifuseNewRadios
+    \edef\x{\noexpand\g@addto@macro\noexpand
+      \ef@KidsArray{{\eq@objdefName}\space}}\x
+    \csarg\xdef{kid@\Fld@name}{\ef@KidsArray}%
+  \fi
+  \endgroup
+  \dl@restorespcs
+}
+\def\eq@Check@driver
+{%
+  \Hy@pdfstringtrue
+  \ifx\@vertRotate\ef@One
+    \let\W@temp\eq@rectW\edef\eq@rectW{\eq@rectH}%
+    \edef\eq@rectH{\W@temp}\fi\centerWidget\eq@rectH
+  \ifx\autoCenter\ef@n\eqcenterWidget=0pt\fi
+  \ef@getobjdef
+  \ifx\eq@rectW\@empty\def\eq@rectW{\wd\eq@tmpbox}\fi
+  \pdf@rect{\lower\eqcenterWidget\ef@Bbox{\eq@rectW}{\eq@rectH}}%
+  \literalps@out{\AEB@psMrk
+    \eq@objdef/Rect [pdf@llx pdf@lly pdf@urx pdf@ury]
+    \common@CheckCode
+    /ANN pdfmark
+    \AEB@psMrk{afields} {\eq@objdefName} /APPEND pdfmark
+  }\to@insertStrucTabOrder{Form}\endgroup
+  \dl@restorespcs
+}
+\def\eq@l@check@driver
+{%
+  \ef@getobjdef
+  \pdf@rect{\makebox[\eq@tmpdima]{\phantom{\link@@Content}}}%
+  \literalps@out{\AEB@psMrk
+    \eq@objdef/Rect [pdf@llx pdf@lly pdf@urx pdf@ury]
+    \common@CheckCode
+    /ANN pdfmark
+    \AEB@psMrk{afields} {\eq@objdefName} /APPEND pdfmark
+  }\endgroup
+  \dl@restorespcs
+}
+\def\eq@TextField{\Hy@pdfstringtrue
+  \ifx\@vertRotate\ef@One
+    \let\W@temp\eq@rectW\edef\eq@rectW{\eq@rectH}%
+    \edef\eq@rectH{\W@temp}\fi\centerWidget\eq@rectH
+  \ifx\autoCenter\ef@n\eqcenterWidget=0pt\fi
+  \ef@getobjdef
+  \pdf@rect{\lower\eqcenterWidget\ef@Bbox{\eq@rectW}{\eq@rectH}}%
+  \literalps@out{\AEB@psMrk
+    \eq@objdef/Rect [pdf@llx pdf@lly pdf@urx pdf@ury]
+    \common@TextFieldCode
+    /ANN pdfmark
+    \AEB@psMrk{afields} {\eq@objdefName} /APPEND pdfmark
+    \ifisCalculate\AEB@psMrk{corder} {\Fld@name} /APPEND pdfmark\fi
+  }\to@insertStrucTabOrder{Form}\endgroup
+  \dl@restorespcs
+}
+\def\eq@SigField{\Hy@pdfstringtrue
+  \ifx\@vertRotate\ef@One
+    \let\W@temp\eq@rectW\edef\eq@rectW{\eq@rectH}%
+    \edef\eq@rectH{\W@temp}\fi\centerWidget\eq@rectH
+  \ifx\autoCenter\ef@n\eqcenterWidget=0pt\fi
+  \ef@getobjdef
+  \pdf@rect{\lower\eqcenterWidget\ef@Bbox{\eq@rectW}{\eq@rectH}}%
+  \literalps@out{\AEB@psMrk
+    \eq@objdef/Rect [pdf@llx pdf@lly pdf@urx pdf@ury]
+    \common@SigFieldCode
+    /ANN pdfmark
+    \AEB@psMrk{afields} {\eq@objdefName} /APPEND pdfmark
+  }\to@insertStrucTabOrder{Form}\endgroup
+  \dl@restorespcs
+}
+\def\convertAToAction/A#1\@nil{\def\eq@A{/Action#1}}
+\def\setLink@driver
+{%
+  \ifx\eq@A\@empty\else\expandafter\convertAToAction\eq@A\@nil\fi
+  \@eqBS{}%
+  \pdf@rect{\link@@Box}%
+  \literalps@out{\AEB@psMrk
+    \eq@objdef/Rect [pdf@llx pdf@lly pdf@urx pdf@ury]
+  \eq@Border
+  \common@LinkCode
+  /Subtype /Link
+  /ANN pdfmark}%
+  \to@insertStrucTabOrder{Link}\endgroup
+  \dl@restorespcs
+}
+\def\pboxRect{/Rect [\par@@Rect]}
+\def\mllnkcontainer#1{#1}
+\def\setLinkPbox@driver
+{%
+  \ifx\eq@A\@empty\else\expandafter\convertAToAction\eq@A\@nil\fi
+  \@eqBS{}%
+  \literalps@out{\mllnkcontainer{%
+  \AEB@psMrk\eq@objdef\pboxRect
+  \eq@Border
+  \eq@QuadPoints  % QuadPoints
+  \common@LinkCode
+  /Subtype /Link
+  /ANN pdfmark}}%
+  \to@insertStrucTabOrder{Link}\endgroup
+  \dl@restorespcs
+}
+\endinput
+%%
+%% End of file `epdfmark.def'.

@@ -1,0 +1,92 @@
+%%
+%% This is file `eqpo.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% exerquiz.dtx  (with options: `copyright,eqpo')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Exerquiz.sty package,                                %%
+%% Copyright (C) 1999-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ProvidesFile{eqpo.def}
+%%%%%%%%%%%%%%%%%%%% eqpo.def %%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Foreign language support for the exerquiz package. %%
+%% Name of translator: Jerzy Mycielski                %%
+%% e-mail address: jmyc@poczta.onet.pl                %%
+%% Language: Polish                                   %%
+%%                                                    %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The polish accented characters included in pdfendconding is
+%% lslash and oacute, not included are zacute, zdot, cacute,
+%% nacute, sacute, aogonek, eogonek and corresponding capital
+%% characters.
+\renewcommand\exlabel{Zadanie}
+\renewcommand\exlabelsol{\exlabel}
+
+\renewcommand\exsectitle{Rozwi\k{a}zania Zada\'{n}}
+\renewcommand\exsecrunhead{\protect\exsectitle}
+
+\renewcommand{\eq@exsolafterDefault}{\textit{Rozwi\k{a}znie}:}
+
+\renewcommand\eq@sqslsectitle{Rozwi\k{a}zania Test\'{o}w}
+\renewcommand\sqslsectitle{\eq@sqslsectitle}
+
+\renewcommand\eq@sqslsecrunhead{Rozwi\protect\k{a}zania
+    Test\protect\'{o}w}
+\renewcommand\sqslsecrunhead{\eq@sqslsecrunhead}
+
+\renewcommand\eq@sqsllabel{\string\textbf{Rozwi\protect\k{a}zanie
+    Testu:}}
+\renewcommand\sqsllabel{\eq@sqsllabel}
+
+\renewcommand\sqsolafter{\textit{Rozwi\k{a}zanie}:}
+
+\renewcommand\eq@sqlabel{\textcolor{red}{Test.}}
+\renewcommand\sqlabel{\eq@sqlabel}
+
+\renewcommand\eq@sqslrtnlabel{Zako\ifeq@solutionsafter\else
+    \expandafter\protect\fi\'{n}cz Test}
+\renewcommand\sqslrtnlabel{\eq@sqslrtnlabel}
+
+\renewcommand\eqsqrtmsg{"Dobrze!"}
+\renewcommand\eqsqwgmsg{"\string\\u0179le!"}
+
+\renewcommand\eq@bqlabel{Rozpocznij Test}
+\renewcommand\bqlabel{\eq@bqlabel}
+\renewcommand\eq@bqlabelISO{\eq@bqlabel}
+\renewcommand\bqlabelISO{\eq@bqlabel}
+
+\renewcommand\eq@eqlabel{Zakoncz Test}
+\renewcommand\eqlabel{\eq@eqlabel}
+
+\renewcommand\eq@Score{Punkt\'{o}w:}
+\renewcommand\eq@OutOf{z mozliwych}
+\renewcommand\eqQuizTotalMsg{"\eqScore\space"+Score +
+    " \eqOutOf\space"+nQuestions}
+
+\renewcommand\eqInitQuizMsg{"Musisz rozpoczac Test! Kliknij
+    na "+msg+"."}
+
+\renewcommand\eqMadeChoice{%
+   "Juz dokonal\string\\233e\string\\u015B wyboru.
+    Twoim wyborem by\string\\233o ("+Responses[probno]+").
+    Czy chcesz go zmieni\string\\u0107?"}
+
+\renewcommand\eq@local@CA{Popraw}
+\renewcommand\eq@local@RC{Moje odpowiedzi!}
+\renewcommand\eq@local@AC{Prosze!}
+\dlJSStr*[noquotes]{\limSelWarningMsg}{"Na to pytanie,
+  mo\u017Cesz dokona\u0107 co najwy\u017Cej  "
+  + n + " wybor\string\363w."}
+\endinput
+%%
+%% End of file `eqpo.def'.

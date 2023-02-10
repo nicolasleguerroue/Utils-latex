@@ -1,0 +1,1782 @@
+%%
+%% This is file `dljslib.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% dljslib.dtx  (with options: `copyright,package')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% dljsLib.sty package,                                 %%
+%% Copyright (C) 2001-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Projet Public License         %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{dljslib}
+ [2021/04/04 v2.2 Manage a Library of Document Level JavaScripts (dps)]
+\newcommand\dljsRegister[2][n]
+    {\expandafter\let\csname checkout@#2\endcsname=#1}
+\def\@ifcheckedout#1{\expandafter\if\csname checkout@#1\endcsname y}
+\newcommand\DeclareAndRegister[1]
+    {\DeclareOption{#1}{\dljsRegister[y]{#1}}\dljsRegister{#1}}
+\dljsRegister[y]{dljslib}
+\DeclareAndRegister{equations}
+\DeclareAndRegister{vectors}
+\DeclareAndRegister{indefIntegral}
+\DeclareAndRegister{ImplMulti}
+\DeclareAndRegister{nodec}
+\DeclareAndRegister{noBinFac}
+\DeclareAndRegister{limitArith}
+\DeclareAndRegister{combinatorics}
+\DeclareAndRegister{setSupport}
+\DeclareOption{unordered}{\PackageWarning{dljslib}
+  {The `unordered' option is now combined with the\MessageBreak
+  `setSupport' option, will use the `setSupport' option\MessageBreak
+  instead}\ExecuteOptions{setSupport}}
+\DeclareAndRegister{complex}
+\DeclareAndRegister{satisfyEq}
+\DeclareAndRegister{useGermanNums}
+\DeclareOption{useDeNums}{\ExecuteOptions{useGermanNums}}
+\DeclareAndRegister{useEnNums}
+\DeclareAndRegister{factors}
+\DeclareAndRegister{point}
+\DeclareAndRegister{intervals}
+\def\includeOptions#1{\@for\@option:=#1\do{\dljsRegister[y]{\@option}}}
+\InputIfFileExists{libcusopt.opt}{}{}
+\ProcessOptions
+\RequirePackage{exerquiz}[2017/08/04]
+\RequirePackage{insdljs}
+\def\setdecimalpoint#1{\def\aebdecimalpoint{\eqbs#1}}
+\setdecimalpoint{.}
+\newwrite\dljslib@verbatim@out
+\immediate\openout\dljslib@verbatim@out=dljslib.ljs
+\newenvironment{library@holding}[1]
+{%
+    \expandafter\ifx\csname checkout@#1\endcsname y%
+    \let\js@verbatim@out\dljslib@verbatim@out
+    \let\dljs@verbatim\js@verbatimwrite
+    \let\enddljs@verbatim\endjs@verbatimwrite\else
+    \let\dljs@verbatim\comment
+    \let\enddljs@verbatim\endcomment\fi\dljs@verbatim
+}{\enddljs@verbatim}
+\newcommand{\SyntaxErrorAuthor}{"Syntax error in author's answer!
+  Check console."}
+\begin{library@holding}{dljslib}
+\begin{insDLJS*}[dljslib]{dljslib}
+\begin{newsegment}{dljslib: AcroTeX DLJS Library}
+/*
+        The Document Level JavaScript Library
+        D. P. Story copyright 2001-\the\year
+*/
+var dljslib = true;
+\end{newsegment}
+\end{library@holding}
+\@ifcheckedout{equations}
+\newcommand\equationsAlertMsg{"An equation is expected"}
+\fi
+\begin{library@holding}{equations}
+\begin{newsegment}{dljslib: Equation Handling}
+function ProcRespEq(flag,CorrAns,n,epsilon,domain,indepVars,oComp)
+{
+    if (!ProcessIt) return null;
+    ok2Continue = true;
+    var success;
+    var fieldname = event.target.name;
+    var bSubstVars=(arguments.length>7); // dps17
+    var UserAns=(bSubstVars)?arguments[7]:event.value;
+    var CorrExpressions = CorrAns.split("=");
+    var zCorrAns = "("+CorrExpressions[0]+")-("+CorrExpressions[1] +")";
+    UserAns = stripWhiteSpace (UserAns);
+    if(!ok2Continue ) return null;
+    if (!/[=]/.test(UserAns)) {
+            eqAppAlert(\equationsAlertMsg, 3);
+            return null;
+    }
+    var reComma=/,/;
+    if ( reComma.test(UserAns) ) {
+        eqAppAlert(\eqSyntaxErrorComma,3);
+        return null;
+    }
+    var UserExpressions = UserAns.split("=");
+    var zUserAns = "("+UserExpressions[0]+")-("+UserExpressions[1] +")";
+
+    var comp = ( typeof oComp == "object" ) ?
+       (typeof oComp.comp == "undefined" ) ?
+            diffCompare : oComp.comp : oComp;
+    if ( typeof oComp == "object"
+        && typeof oComp.priorParse != "undefined" ) {
+        if ( typeof oComp.priorParse == "object" ) {
+            for ( var i=0; i < oComp.priorParse.length; i++) {
+                var retn = oComp.priorParse[i](zUserAns);
+                if ( retn == null ) return null;
+            }
+        } else {
+            var retn = oComp.priorParse(zUserAns);
+            if ( retn == null ) return null;
+        }
+    }
+    zCorrAns = ParseInput(zCorrAns);
+    if (!ok2Continue) {
+        eqAppAlert(\SyntaxErrorAuthor,3);
+        console.println("Syntax Error: " + CorrAns);
+        return null;
+    }
+    zUserAns = ParseInput(zUserAns);
+    if (!ok2Continue) return null;
+    indepVars = TypeParameters(indepVars);
+    var lambda = getNonZeroRatio(domain,indepVars,zCorrAns,zUserAns);
+    if ( lambda == null ) {
+        eqAppAlert(\eqSyntaxErrorUndefVar,3); return null; };
+    if ( !ok2Continue ) return notifyField(false,flag,fieldname);
+    zCorrAns  = lambda + "*(" + zCorrAns + ")";
+    success=randomPointCompare (n,domain,indepVars,epsilon,
+        zCorrAns,zUserAns,comp)
+    if ( success == null ) { eqAppAlert(\eqSyntaxErrorUndefVar,3);
+        return null; }
+    return notifyField(success, flag, fieldname);
+}
+function getNonZeroRatio (_a, _v, _F, _G)
+{
+    var _i, _j;
+    var aXY = new Array();
+    _a = _a.replace(/[\[\]\s]/g, "");
+    var _V = _v.split(",");  // e.g. _V[0] = "i:x"
+    var _n = _V.length;
+    var aIntervals = _a.split("&");
+    var aInterval = aIntervals[0].split("x");
+    var endpoints = aInterval[0].split(",");
+        for (_j=0; _j < 4; _j++) {
+            for (_i = 0; _i < _n; _i++) {
+                var endpoints = aInterval[_i].split(",");
+                aXY[_i] = endpoints[0]-0
+                    +(endpoints[1]-endpoints[0])*Math.random();
+\db             console.println("aXY["+_i+"] = " + aXY[_i]);\db%
+            }
+            for (var _i = 0; _i< _n; _i++) {
+                if (_V[_i].charAt(0) == "r" )
+                    eval ( "var "+ _V[_i].charAt(2)
+                        + " = " + aXY[_i] + ";");
+                else // assume type "i"
+                    eval ( "var "+ _V[_i].charAt(2)
+                        + " = " + Math.ceil(aXY[_i]) + ";");
+            }
+            _F = eval(_F);
+            if ( app.viewerVersion >= 5)
+            {
+                var rtnCode = 0;
+                eval("try { if(isNaN(_G = eval(_G))) rtnCode=-1; }"
+                    +"catch (e) { rtnCode=1; }");
+                switch(rtnCode) {
+                    case  0: break;
+                    case  1: return null;
+                    case -1: ok2Continue=false;
+                             return -1;
+                }
+            }
+            else
+                if(isNaN(_G=eval(_G))) {ok2Continue=false;return -1;}
+            if ( _F != 0 && _G != 0 ) return _G/_F;
+        }
+    console.println( "Can't find a non zero scalar");
+    return null;
+}
+\end{newsegment}
+\end{library@holding}
+\@ifcheckedout{vectors}
+\newcommand\vectorsErrorMsgi{"I'm looking for a vector.
+    You need to use proper vector notation, try using
+    angle brackets <....>."}
+\newcommand\vectorsErrorMsgii{"Angle brackets are not balanced.
+    Check the expression you typed in."}
+\newcommand\vectorsErrorMsgiii{"Incorrect number of components.
+    The answer requires " + aCorrAns.length+" components."}
+\def\vectorEmptyCompMsgiv(#1){"You entered nothing for the
+        component " +(#1+1) +" of your answer. Please enter
+        a component for the vector."}
+\fi
+\begin{library@holding}{vectors}
+\begin{newsegment}{dljslib: Vector Handling}
+function ProcVec (flag,CorrAns,n,epsilon,domain,indepVars,oComp)
+{
+    if (!ProcessIt) return null;
+    ok2Continue = true;
+    var i, success, truthCnt=1;
+    var aScalar, scalar = 1;
+    var fieldname = event.target.name;
+    var UserAns = event.value;
+    UserAns = stripWhiteSpace(UserAns); // sets ok2Continue
+    CorrAns = stripWhiteSpace(CorrAns);
+    if ( !ok2Continue ) return null;
+    var isSpecResp=false;
+    for ( var i=0; i<aDlLibSpecResp.length; i++) {
+        if (CorrAns == aDlLibSpecResp[i]) {
+            isSpecResp=true; break;
+        }
+    }
+    for ( var i=0; i<aDlLibSpecResp.length; i++) {
+        if (UserAns == aDlLibSpecResp[i]) {
+            success = (CorrAns == UserAns);
+            return notifyField(success, flag, fieldname);
+        }
+    }
+    if (isSpecResp) return notifyField(false, flag, fieldname);
+    if (!/[<>]/.test(UserAns)) {
+        eqAppAlert(\vectorsErrorMsgi, 3);
+        return null;
+    }
+    if (!CkBalP(UserAns,"<",">")) {
+        eqAppAlert(\vectorsErrorMsgii, 3);
+        return null;
+    }
+    // see if there is a scalar multiple to the left of '<'
+    aScalar = UserAns.match(/(.*)(\*)(\s*<)/);
+    if (aScalar != null) {
+        scalar = aScalar[1];
+        UserAns = UserAns.slice(aScalar.index + aScalar[0].length-1)
+    }
+    var comp = ( typeof oComp == "object" ) ?
+       (typeof oComp.comp == "undefined" ) ?
+            diffCompare : oComp.comp : oComp;
+    CorrAns = CorrAns.replace(/[<>]/g, ""); // strip of < and >
+    UserAns = UserAns.replace(/[<>]/g, "");
+    if ( typeof oComp == "object" && %
+typeof oComp.priorParse != "undefined" ) {
+        var retn=processSpecialParse(oComp.priorParse,UserAns);
+        if (retn==null) return null;
+    }
+    aUserAns = UserAns.split(",");
+    aCorrAns = CorrAns.split(",");
+    if (scalar != 1)
+        for (i=0; i<aUserAns.length; i++)
+            aUserAns[i]=""+scalar+"*"+aUserAns[i];
+    if (aCorrAns.length != aUserAns.length) {
+        eqAppAlert(\vectorsErrorMsgiii,3);
+        return null;
+    }
+    // convert to new format, if needed
+    indepVars = TypeParameters(indepVars);
+    for (i=0; i<aCorrAns.length; i++) {
+        aCorrAns[i] = ParseInput(aCorrAns[i]);
+        if (!ok2Continue) {
+            eqAppAlert(\SyntaxErrorAuthor, 3);
+            return null;
+        }
+        aUserAns[i] = ParseInput(aUserAns[i]);
+        if (aUserAns[i]==null) {
+            eqAppAlert(\vectorEmptyCompMsgiv(i), 3);
+            return null;
+        }
+        if (!ok2Continue) return null;
+        success=randomPointCompare (n,domain,indepVars,epsilon,
+            aCorrAns[i],aUserAns[i],comp)
+        if ( success == null ) {
+            eqAppAlert(\eqSyntaxErrorUndefVar,3); return null; }
+        truthCnt *= (success) ? 1 : 0;
+    }
+    return notifyField(!!truthCnt, flag, fieldname);
+}
+\end{newsegment}
+\end{library@holding}
+\@ifcheckedout{setSupport}
+\newcommand{\noBracesInAnsMsg}{"Do not insert braces in your answer.
+    Please remove the braces (\{\})."}
+\newcommand{\noBracketsInAnsMsg}{"Do not insert braces in your answer.
+    Please remove the angle brackets (<>)."}
+\fi
+\begin{library@holding}{setSupport}
+\begin{newsegment}{dljslib: Support for Sets}
+function ProcRespSetNum(flag,CorrAns,n,epsilon,domain,indepVars,oComp)
+{
+    ok2Continue = true;
+    if (!ProcessIt) return null;
+    var fieldname = event.target.name;
+    var bSubstVars=(arguments.length>7); // dps17
+    var UserAns=(bSubstVars)?arguments[7]:event.value;
+    UserAns = stripWhiteSpace(UserAns);
+    CorrAns = stripWhiteSpace(CorrAns);
+    if (!ok2Continue) return null;
+    var isSpecResp=false;
+    for ( var i=0; i<aDlLibSpecResp.length; i++) {
+        if (CorrAns == aDlLibSpecResp[i]) {
+            isSpecResp=true; break;
+        }
+    }
+    for ( var i=0; i<aDlLibSpecResp.length; i++) {
+        if (UserAns == aDlLibSpecResp[i]) {
+            success = (CorrAns == UserAns);
+            return notifyField(success, flag, fieldname);
+        }
+    }
+    if (isSpecResp) return notifyField(false, flag, fieldname);
+    var retn=ck4Braces(UserAns);
+    if (retn==null) return null;
+    var aUserAns = UserAns.split(",");
+    for ( var i=0; i < aUserAns.length; i++) {
+        try {
+            if (isNaN(eval(aUserAns[i]))) return syntaxError(), null;
+        } catch(e) { return syntaxError(), null; }
+    }
+    var aUserAns = aUserAns.sort(
+        function(a,b) { return eval(a) - eval(b);} );
+    var aCorrAns = CorrAns.split(",").sort(
+        function(a,b) { return  eval(a) - eval(b);} );
+    var numCorrect = 0;
+    if ( aUserAns.length != aCorrAns.length )
+        return notifyField(false, flag, fieldname);
+    for ( var i=0; i< aCorrAns.length; i++) {
+        var retn = _ProcResp(%
+flag,aCorrAns[i],aUserAns[i],n,epsilon,domain,indepVars,oComp);
+        if ( retn == -1 ) return null;
+        if ( retn == null ) return syntaxError(), null;
+        numCorrect += (retn) ? 1 : 0;
+    }
+    var success = (numCorrect == aCorrAns.length);
+    return notifyField(success, flag, fieldname);
+}
+var ok2format=true;
+function formatAsSet() {
+    if (ok2format&&event.value.replace(/\\s/g,"") != "")
+        event.value =  "{ " + event.value + " }";
+}
+function ck4Braces (UserAns) {
+    ok2format=true;
+    if (/^\{/.test(UserAns) || /\}$/.test(UserAns) ) {
+        ok2format=false;
+        return eqAppAlert(\noBracesInAnsMsg,3), null;
+    }
+    else return true;
+}
+function ck4AngleBrackets (UserAns) {
+    ok2format=true;
+    if (/^</.test(UserAns) || />$/.test(UserAns) ) {
+        ok2format=false;
+        return eqAppAlert(\noBracketsInAnsMsg,3), null;
+    }
+    else return true;
+}
+function formatAsVector() {
+    if (ok2format&&event.value.replace(/\\s/g,"") != "") {
+        event.value =  "< " + event.value + " >";
+    }
+}
+function ProcRespSetSym(flag,CorrAns,n,epsilon,domain,indepVars,oComp)
+{
+    ok2Continue = true;
+    if (!ProcessIt) return null;
+    var fieldname = event.target.name;
+    var bSubstVars=(arguments.length>7); // dps17
+    var UserAns=(bSubstVars)?arguments[7]:event.value;
+    UserAns = stripWhiteSpace(UserAns);
+    CorrAns = stripWhiteSpace(CorrAns);
+    if (!ok2Continue) return null;
+    var isSpecResp=false;
+    for ( var i=0; i<aDlLibSpecResp.length; i++) {
+        if (CorrAns == aDlLibSpecResp[i]) {
+            isSpecResp=true; break;
+        }
+    }
+    for ( var i=0; i<aDlLibSpecResp.length; i++) {
+        if (UserAns == aDlLibSpecResp[i]) {
+            success = (CorrAns == UserAns);
+            return notifyField(success, flag, fieldname);
+        }
+    }
+    if (isSpecResp) return notifyField(false, flag, fieldname);
+    var retn=ck4Braces(UserAns);
+    if (retn==null) return null;
+    var aUserAns = UserAns.split(",");
+    var _V = indepVars.split(",");
+    for ( var _i=0; _i < _V.length; _i++) {
+         eval ( "var "+ _V[_i] + " = \"" + _i + "\";");
+    }
+    for ( var _i=0; _i < aUserAns.length; _i++) {
+        try {
+            if (isNaN(eval(aUserAns[_i]))) return syntaxError(), null;
+            aUserAns[_i] = eval(aUserAns[_i]);
+        } catch(e) { return syntaxError(), null; }
+    }
+    var aCorrAns = CorrAns.split(",");
+    for ( var _i=0; _i < aCorrAns.length; _i++) {
+        try {
+            if (isNaN(eval(aCorrAns[_i])))
+                return eqAppAlert(%
+"Author error, recheck your code",3), null;
+            aCorrAns[_i] = eval(aCorrAns[_i]);
+        } catch(e) { return eqAppAlert(
+            "Author error, recheck your code",3), null; }
+    }
+    var aUserAns = aUserAns.sort(
+        function(a,b) { return eval(a) - eval(b);} );
+    var aCorrAns = aCorrAns.sort(
+        function(a,b) { return  eval(a) - eval(b);} );
+    var numCorrect = 0;
+    if ( aUserAns.length != aCorrAns.length )
+        return notifyField(false, flag, fieldname);
+    for ( var _i=0; _i< aCorrAns.length; _i++) {
+        var retn = _ProcResp(%
+flag,aCorrAns[_i],aUserAns[_i],n,epsilon,"[0,1]","i:_x",oComp);
+        if ( retn == -1 ) return null;
+        if ( retn == null ) return syntaxError(), null;
+        numCorrect += (retn) ? 1 : 0;
+    }
+    var success = (numCorrect == aCorrAns.length);
+    return notifyField(success, flag, fieldname);
+}
+function ProcRespListFormula(flag,CorrAns,n,epsilon,domain,%
+indepVars,oComp) {
+    ok2Continue = true;
+    if (!ProcessIt) return null;
+    var fieldname = event.target.name;
+    var bSubstVars=(arguments.length>7); // dps17
+    var UserAns=(bSubstVars)?arguments[7]:event.value;
+    UserAns = stripWhiteSpace(UserAns);
+    CorrAns = stripWhiteSpace(CorrAns);
+    if (!ok2Continue) return null;
+    var isSpecResp=false;
+    for ( var i=0; i<aDlLibSpecResp.length; i++) {
+        if (CorrAns == aDlLibSpecResp[i]) {
+            isSpecResp=true; break;
+        }
+    }
+    for ( var i=0; i<aDlLibSpecResp.length; i++) {
+        if (UserAns == aDlLibSpecResp[i]) {
+            success = (CorrAns == UserAns);
+            return notifyField(success, flag, fieldname);
+        }
+    }
+    if (isSpecResp) return notifyField(false, flag, fieldname);
+    var retn=ck4AngleBrackets(UserAns);
+    if (retn==null) return null;
+    UserAns = UserAns.replace(/,+/g, ",");
+    UserAns = UserAns.replace(/,$/, "");
+    UserAns = UserAns.replace(/^,/, "");
+    CorrAns = stripWhiteSpace(CorrAns);
+    if (!ok2Continue) return null;
+    var aUserAns = UserAns.split(",");
+    var aCorrAns = CorrAns.split(",");
+    var numCorrect = 0;
+    if ( aUserAns.length != aCorrAns.length )
+        return notifyField(false, flag, fieldname);
+    for ( var i=0; i< aCorrAns.length; i++) {
+        var retn =_ProcResp(flag,aCorrAns[i],aUserAns[i],%
+n,epsilon,domain,indepVars,oComp);
+        if ( retn == -1 ) return null;
+        if ( retn == null ) return syntaxError(), null;
+        numCorrect += (retn) ? 1 : 0;
+     }
+     var success = (numCorrect == aCorrAns.length);
+     return notifyField(success, flag, fieldname);
+}
+function ProcRespSetFormula(flag,CorrAns,n,epsilon,%
+domain,indepVars,oComp) {
+    ok2Continue = true;
+    if (!ProcessIt) return null;
+    var fieldname = event.target.name;
+    var bSubstVars=(arguments.length>7); // dps17
+    var UserAns=(bSubstVars)?arguments[7]:event.value;
+    UserAns = stripWhiteSpace(UserAns);
+    CorrAns = stripWhiteSpace(CorrAns);
+    if (!ok2Continue) return null;
+    var isSpecResp=false;
+    for ( var i=0; i<aDlLibSpecResp.length; i++) {
+        if (CorrAns == aDlLibSpecResp[i]) {
+            isSpecResp=true; break;
+        }
+    }
+    for ( var i=0; i<aDlLibSpecResp.length; i++) {
+        if (UserAns == aDlLibSpecResp[i]) {
+            success = (CorrAns == UserAns);
+            return notifyField(success, flag, fieldname);
+        }
+    }
+    if (isSpecResp) return notifyField(false, flag, fieldname);
+    var retn=ck4Braces(UserAns);
+    if (retn==null) return null;
+    UserAns = UserAns.replace(/,+/g, ",");
+    UserAns = UserAns.replace(/,$/, "");
+    UserAns = UserAns.replace(/^,/, "");
+    CorrAns = stripWhiteSpace(CorrAns);
+    if (!ok2Continue) return null;
+    var aUserAns = UserAns.split(",");
+    var aCorrAns = CorrAns.split(",");
+    var numCorrect = 0, match = 0;
+    if ( aUserAns.length != aCorrAns.length )
+    return notifyField(false, flag, fieldname);
+    for ( var i=0; i<aCorrAns.length; i++) {
+        match = 0;
+        for ( var j=i; j< aUserAns.length; j++) {
+            var retn = _ProcResp(%
+flag,aCorrAns[i],aUserAns[j],n,epsilon,domain,indepVars,oComp);
+            if ( retn == -1 ) return null;
+            if ( retn == null ) return syntaxError(), null;
+            if (retn==1) {
+                var temp=aUserAns[j];
+                aUserAns[j]=aUserAns[i];
+                aUserAns[i]=temp;
+                match = match + 1;
+            }
+        }
+        numCorrect += (match) ? 1 : 0;
+    }
+    var success = (numCorrect == aCorrAns.length);
+    return notifyField(success, flag, fieldname);}
+\end{newsegment}
+\end{library@holding}
+\@ifcheckedout{complex}
+\newcommand{\complexPowerAlertMsg}{%
+    "Powers of i (for example, i^2, i^3) are not supported,
+    replace powers of i with their complex equivalents."}
+\newcommand{\complexCisAlertMsg}{%
+    "The cis function does not support exponents. Write,
+    for example, cis^3(x) as cis(3*x), instead."}
+\newcommand{\alertNotComplexMsg}{%
+    "The expression is not in the form of a complex
+    number, a+bi"}
+\def\emptyCompComplexMsg(#1){%
+    "You entered nothing for the component "
+     +(#1+1)+" of your answer. Please enter a complex number."}
+\fi
+\begin{library@holding}{complex}
+\begin{newsegment}{dljslib: Support for Complex Numbers}
+function cis(x,i) { return Math.cos(x) + i*Math.sin(x); }
+JSfCustom.push("cis");
+JSf = JSf.concat(JSfBuiltIn, JSfCustom);
+function ProcRespComplex(flag,CorrAns,n,epsilon,domain,indepVars,oComp)
+{
+    if (!ProcessIt) return null;
+    ok2Continue = true;
+    var i, success;
+    var fieldname = event.target.name;
+    var bSubstVars=(arguments.length>7); // dps17
+    var UserAns=(bSubstVars)?arguments[7]:event.value;
+    CorrAns = stripWhiteSpace (CorrAns);
+    UserAns = stripWhiteSpace (UserAns); // sets ok2Continue
+    if ( !ok2Continue ) return null;
+    indepVars+="i";
+    domain+="x[0,1]";
+    if (/(\b|[^a-zA-Z])i\^/.test(UserAns)) {
+        eqAppAlert(\complexPowerAlertMsg,3);
+        return null;
+    }
+    if ( /cis\^/.test(UserAns) ) {
+        eqAppAlert(\complexCisAlertMsg,3);
+        return null;
+    }
+    var reComma=/,/;
+    if ( reComma.test(UserAns) ) {
+        eqAppAlert(\eqSyntaxErrorComma,3);
+        return null;
+    }
+    UserAns=changeArgs4Cis(UserAns);
+    CorrAns=changeArgs4Cis(CorrAns);
+    var aMatch = UserAns.match(/(\b|[^a-zA-Z])i/g);
+    if ( aMatch != null && aMatch.length > 1) {
+        eqAppAlert(\alertNotComplexMsg, 3);
+        return null;
+    }
+    var comp = ( typeof oComp == "object" ) ?
+       (typeof oComp.comp == "undefined" ) ?
+            diffCompare : oComp.comp : oComp;
+    if ( typeof oComp == "object" &&
+        typeof oComp.priorParse != "undefined" ) {
+        if ( typeof oComp.priorParse == "object" ) {
+            for ( var i=0; i < oComp.priorParse.length; i++) {
+                var retn = oComp.priorParse[i](UserAns);
+                if ( retn == null ) return null;
+            }
+        } else {
+            var retn = oComp.priorParse(UserAns);
+            if ( retn == null ) return null;
+        }
+    }
+    UserAns = ParseInput(UserAns);
+    CorrAns = ParseInput(CorrAns);
+    indepVars = TypeParameters(indepVars);
+    if (!ok2Continue) return null;
+    success=randomPointCompare(
+        n,domain,indepVars,epsilon,CorrAns,UserAns,comp);
+    if ( success == null ) { eqAppAlert(%
+\eqSyntaxErrorUndefVar,3); return null; }
+    return notifyField(success, flag, fieldname);
+}
+function ProcRespListComplex(flag,CorrAns,n,epsilon,%
+domain,indepVars,oComp) {
+    ok2Continue = true;
+    if (!ProcessIt) return null;
+    var fieldname = event.target.name;
+    var bSubstVars=(arguments.length>7); // dps17
+    var UserAns=(bSubstVars)?arguments[7]:event.value;
+    UserAns = stripWhiteSpace(UserAns);
+    CorrAns = stripWhiteSpace(CorrAns); // sets ok2Continue
+    if ( !ok2Continue ) return null;
+    var isSpecResp=false;
+    for ( var i=0; i<aDlLibSpecResp.length; i++) {
+        if (CorrAns == aDlLibSpecResp[i]) {
+            isSpecResp=true; break;
+        }
+    }
+    for ( var i=0; i<aDlLibSpecResp.length; i++) {
+        if (UserAns == aDlLibSpecResp[i]) {
+            success = (CorrAns == UserAns);
+            return notifyField(success, flag, fieldname);
+        }
+    }
+    if (isSpecResp) return notifyField(false, flag, fieldname);
+    UserAns = UserAns.replace(/,+/g, ",");
+    UserAns = UserAns.replace(/,$/, "");
+    UserAns = UserAns.replace(/^,/, "");
+    var aUserAns = UserAns.split(",");
+    var aCorrAns = CorrAns.split(",");
+    if ( aUserAns.length != aCorrAns.length )
+        return notifyField(false, flag, fieldname);
+    var numCorrect = 0;
+    var match = 0;
+    for ( var i=0; i< aCorrAns.length; i++) {
+        match = 0;
+          var retn = ProcRespComplex(%
+flag,aCorrAns[i],n,epsilon,domain,indepVars,oComp,aUserAns[i]);
+        if ( retn == null ) return null;
+        numCorrect += (retn) ? 1 : 0;
+    }
+    var success = (numCorrect == aCorrAns.length);
+    return notifyField(success, flag, fieldname);
+}
+function ProcRespSetComplex(flag,CorrAns,n,epsilon,%
+domain,indepVars,oComp) {
+    ok2Continue = true;
+    if (!ProcessIt) return null;
+    var fieldname = event.target.name;
+    var bSubstVars=(arguments.length>7); // dps17
+    var UserAns=(bSubstVars)?arguments[7]:event.value;
+    UserAns = stripWhiteSpace(UserAns);
+    CorrAns = stripWhiteSpace(CorrAns); // sets ok2Continue
+    if ( !ok2Continue ) return null;
+    var isSpecResp=false;
+    for ( var i=0; i<aDlLibSpecResp.length; i++) {
+        if (CorrAns == aDlLibSpecResp[i]) {
+            isSpecResp=true; break;
+        }
+    }
+    for ( var i=0; i<aDlLibSpecResp.length; i++) {
+        if (UserAns == aDlLibSpecResp[i]) {
+            success = (CorrAns == UserAns);
+            return notifyField(success, flag, fieldname);
+        }
+    }
+    if (isSpecResp) return notifyField(false, flag, fieldname);
+    UserAns = UserAns.replace(/,+/g, ",");
+    UserAns = UserAns.replace(/,$/, "");
+    UserAns = UserAns.replace(/^,/, "");
+    event.value = UserAns;
+    CorrAns = stripWhiteSpace(CorrAns);
+    if (!ok2Continue) return null;
+    var aUserAns = UserAns.split(",");
+    var aCorrAns = CorrAns.split(",");
+    if ( aUserAns.length != aCorrAns.length )
+        return notifyField(false, flag, fieldname);
+    var numCorrect = 0;
+    var match = 0;
+    for ( var i=0; i< aCorrAns.length; i++) {
+        match = 0;
+        for ( var j=i; j< aUserAns.length; j++) {
+            var retn = ProcRespComplex(%
+flag,aCorrAns[i],n,epsilon,domain,indepVars,oComp,aUserAns[j]);
+            if ( retn == null ) return null;
+            if (retn==1) {
+                var temp=aUserAns[j];
+                aUserAns[j]=aUserAns[i];
+                aUserAns[i]=temp;
+                match = match + 1;
+            }
+        }
+        numCorrect += (match) ? 1 : 0;
+    }
+    var success = (numCorrect == aCorrAns.length);
+    return notifyField(success, flag, fieldname);
+}
+function changeArgs4Cis(str) {
+    var re =/cis\(/g;
+    while ( (aP=re.exec(str) ) != null ) {
+        var LeftP=re.lastIndex;
+        var RightP=FindBalP(str,re.lastIndex,1);
+        str = str.substring(0,RightP)
+            +",i"+str.substring(RightP);
+    }
+    return str;
+}
+\end{newsegment}
+\end{library@holding}
+\@ifcheckedout{satisfyEq}
+\newcommand{\notifyWrongNumEntries}{\def\satisfyEqNotify{true}}
+\def\satisfyEqNotify{false}
+\newcommand{\wrongNumEntriesMsg}{"You don't have the correct number
+    of entries in your coordinate points. Expecting "+_n
+    +" entries per point." }
+\newcommand{\eqSyntaxErrorNoParens}{"Syntax Error: Enter the point
+    using parentheses, for example (1,2) or (1,2,3), as applicable."}
+\newcommand{\eqNonzeroEntries}{"Syntax Error: All entries are required
+    to be nonzero, try again."}
+\newcommand{\eqTooManyEntries}{"You've entered more points than
+    requested, enter only "+l+" points."}
+\newcommand{\eqTooFewEntries}{"You've entered fewer points than
+    requested, enter only "+l+" points."}
+\newcommand{\eqDuplEntries}{"One or more points are the same,
+    provide "+l+" distinct points."}
+\fi
+\begin{library@holding}{satisfyEq}
+\begin{newsegment}
+    {dljslib: Support for n-tuple input to Satisfy an Equation}
+var bNotifyWrngNumEntries=\satisfyEqNotify;
+function ProcRespEvalEq(flag,CorrAns,n,epsilon,domain,indepVars,oComp){
+    var UserAns=(arguments.length>7)?arguments[7]:event.value;
+    var retn=_ProcRespEvalEq(true,flag,CorrAns,n,epsilon,%
+indepVars,UserAns);
+    return retn;
+}
+function ProcRespEvalEqNonZero(flag,CorrAns,n,epsilon,%
+domain,indepVars,oComp) {
+    var UserAns=(arguments.length>7)?arguments[7]:event.value;
+    var retn=_ProcRespEvalEq(false,flag,CorrAns,n,epsilon,
+indepVars,UserAns);
+    return retn;
+}
+function _ProcRespEvalEq(allowzero,flag,CorrAns,n,epsilon,indepVars)
+{
+    ok2Continue = true;
+    if (!ProcessIt) return null;
+    var fieldname = event.target.name;
+    var bSubstVars=(arguments.length>6); // dps17
+    var UserAns=(bSubstVars)?arguments[6]:event.value;
+    UserAns = stripWhiteSpace(UserAns);
+    if (!ok2Continue) return null;
+    if ( (UserAns.charAt(0) != "\(") || %
+(UserAns.charAt(UserAns.length-1) != "\)"))
+        return eqAppAlert(\eqSyntaxErrorNoParens,3), null;
+    UserAns=UserAns.substring(1,UserAns.length-1);
+    var aUserAns = UserAns.split(",");
+    for ( var i=0; i < aUserAns.length; i++) {
+        try {
+            if (isNaN(eval(aUserAns[i]))) return syntaxError(), null;
+            if (!allowzero && (eval(aUserAns[i])==0))
+                return eqAppAlert(\eqNonzeroEntries,3), null;
+        } catch(e) { return syntaxError(), null; }
+    }
+    var _v = TypeParameters(indepVars);
+    var _V = _v.split(",");  // e.g. _V[0] = "i:x"
+    var _n = _V.length;
+    if ( aUserAns.length != _n) {
+        if (bNotifyWrngNumEntries)
+            return eqAppAlert(\wrongNumEntriesMsg,3), null;
+        else
+            return notifyField(false, flag, fieldname);
+    }
+    for (var _i=0; _i < _n; _i++) {
+        if (_V[_i].charAt(0) == "r" )
+          eval("var "+_V[_i].charAt(2)+"="+aUserAns[_i]+";");
+        else // assume type "i"
+          eval("var "+_V[_i].charAt(2)+"="+Math.ceil(aUserAns[_i])+";");
+    }
+    var UserInput=ParseInput(CorrAns);
+    var UserAns=eval(UserInput);
+    success=(Math.abs(UserAns) < epsilon)?true:false;
+    return notifyField(success, flag, fieldname);
+}
+function ProcRespEvalEqList(flag,CorrAns,n,epsilon,domain,%
+indepVars,oComp) {
+    var UserAns=(arguments.length>7)?arguments[7]:event.value;
+    var retn=_ProcRespEvalEqList(true,flag,CorrAns,n,epsilon,%
+indepVars,UserAns);
+    return retn;
+}
+function ProcRespEvalEqListNonZero(flag,CorrAns,n,epsilon,domain,%
+indepVars,oComp){
+    var UserAns=(arguments.length>7)?arguments[7]:event.value;
+    var retn=_ProcRespEvalEqList(false,flag,CorrAns,n,epsilon,%
+indepVars,UserAns);
+    return retn;
+}
+function _ProcRespEvalEqList(allowzero,flag,CorrAns,n,epsilon,indepVars)
+{
+    ok2Continue = true;
+    if (!ProcessIt) return null;
+    var fieldname = event.target.name;
+    var bSubstVars=(arguments.length>6); // dps17
+    var UserAns=(bSubstVars)?arguments[6]:event.value;
+    UserAns = stripWhiteSpace(UserAns);
+    if (!ok2Continue) return null;
+    var success;
+    UserAns=UserAns.replace(/;+$/,"");
+    UserAns=UserAns.replace(/;+/g,";");
+    var aUsersArray = new Array();
+    var aUserAns = UserAns.split(";");
+    var aCorrAns = CorrAns.split(";");
+    var l = aCorrAns[0];
+    if (l < aUserAns.length )
+        return eqAppAlert(\eqTooManyEntries,3), null;
+    if (l > aUserAns.length )
+        return eqAppAlert(\eqTooFewEntries,3), null;
+    var _v = TypeParameters(indepVars);
+    var _V = _v.split(",");  // e.g. _V[0] = "i:x"
+    var _n = _V.length;
+    var testFunc="";
+    for (var _i=0; _i < _n; _i++)
+        testFunc += ("+"+(Math.random()*9)+"*"+_V[_i].charAt(2));
+    var isCorrect=1;
+    for (var pair=0; pair< l; pair++) {
+        if ( (aUserAns[pair].charAt(0) != "\(") || %
+(aUserAns[pair].charAt(aUserAns[pair].length-1) != "\)"))
+                return eqAppAlert(\eqSyntaxErrorNoParens,3), null;
+        UserAnsPair=aUserAns[pair].substring(1,aUserAns[pair].length-1);
+        var aUserAnsPair = UserAnsPair.split(",");
+        for ( var i=0; i < aUserAnsPair.length; i++) {
+            try { if (isNaN(eval(aUserAnsPair[i]))) %
+return syntaxError(), null;
+            if (!allowzero && (eval(aUserAnsPair[i])==0))
+                return eqAppAlert(\eqNonzeroEntries,3), null;
+            } catch(e) { return syntaxError(), null; }
+        }
+        if ( aUserAnsPair.length != _n) {
+            if (bNotifyWrngNumEntries)
+                return eqAppAlert(\wrongNumEntriesMsg,3), null;
+            else
+                return notifyField(false, flag, fieldname);
+        }
+        for (var _i=0; _i < _n; _i++) {
+            if (_V[_i].charAt(0) == "r" )
+              eval ("var "+_V[_i].charAt(2)+"="+aUserAnsPair[_i]+";");
+            else // assume type "i"
+              eval ("var "+_V[_i].charAt(2)+"="%
++Math.ceil(aUserAnsPair[_i])+";");
+        }
+        var UserInput=ParseInput(aCorrAns[1]);
+        var UserAns=eval(UserInput);
+        aUsersArray[pair]=eval(testFunc);
+        success=(Math.abs(UserAns) < epsilon)?true:false;
+isCorrect *=Number(success);
+    }
+    success=(isCorrect==1);
+    var aOrderArray = aUsersArray.sort(function(a,b){return a-b});
+    var m = aUsersArray.length - 1;
+    for (i=0; i<m; i++)
+        if (Math.abs(aUsersArray[i]-aUsersArray[i+1])<.0001)
+            return eqAppAlert(\eqDuplEntries,3), null;
+    return notifyField(success, flag, fieldname);
+}
+\end{newsegment}
+\end{library@holding}
+\@ifcheckedout{useGermanNums}
+  \dlJSStr[noquotes]{\noDecPtDeMsg}{%
+    "German Notation Syntax Error: A point (.) was found
+     in your response \"" + UserAns + "\".
+     Please remove the point, or this answer will be marked as wrong."}
+  \flJSStr*[noquotes]{\MsgDei}{"German decimal notation is expected,
+for example: 12,3456."}
+  \flJSStr*[noquotes]{\MsgDeiAlt}{"German decimal notation is expected,
+for example: 12,3456." +((warnDecDeOnly)?"\n\n
+The English decimal notation (12.2345) is also accepted,
+however.":"")}
+  \flJSStr*[noquotes]{\MsgDeii}{"A decimal number is required,
+rounded to two decimal places, for example: 12,34"}
+  \def\warnDecDeOnlyOn{\def\warnDecDeOnly{true}}
+  \def\warnDefDeOnlyOff{\def\warnDecDeOnly{false}}
+  \warnDefDeOnlyOff
+  \def\numDe#1{{priorParse:\Array(%
+    \preReqForm(/\rebstr\rechrclass{+-}?\redigit*,?%
+    \redigit*\reestr/,(#1)))}}
+  \def\rndNumDeReq#1#2{{priorParse:\Array(%
+    \preReqForm(/\rebstr\rechrclass{+-}?\redigit*,%
+    \redigit{#1}\reestr/,(#2)))}}
+  \def\rndNumDeOpt#1#2{{priorParse:\Array(% at most two decimal places
+    \preReqForm(/\rebstr\rechrclass{+-}?%
+    \redigit*,?\redigit{0,#1}\reestr/,(#2)))}}
+\fi
+\begin{library@holding}{useGermanNums}
+\begin{newsegment}
+    {dljslib: Support for process numbers in the German format}
+var warnDecDeOnly=\warnDecDeOnly;
+function ProcRespNumsDe (flag,CorrAns,n,epsilon,%
+domain,indepVars,oComp) {
+    if (!ProcessIt) return null;
+    ok2Continue = true;
+    var fieldname = event.target.name;
+    var bSubstVars=(arguments.length>7);
+    var UserAns=(bSubstVars)?arguments[7]:event.value;
+    var success = _ProcRespNumsDe(flag,CorrAns,UserAns,n,%
+epsilon,domain,indepVars,oComp);
+    if ( success == -1 || !ok2Continue ) return null;
+    if ( success == null ) { return syntaxError(), null; }
+    return notifyField(success, flag, fieldname);
+}
+function _ProcRespNumsDe(flag,CorrAns,UserAns,n,epsilon,%
+domain,indepVars,oComp) {
+    ok2Continue = true;
+    CorrAns = ParseInput(CorrAns);
+    if (!ok2Continue) {
+        eqAppAlert(\SyntaxErrorAuthor,3);
+        return null;
+    }
+    var UserAnsSave=UserAns;
+    var reDe=/,/g;
+    var reDec=/\./g;
+    if ( (!warnDecDeOnly) && (reDec.test(UserAns)) ) {
+        eqAppAlert(\noDecPtDeMsg,3);
+        return -1;
+    }
+    UserAns=UserAns.replace(reDe,".");
+    var comp = ( typeof oComp == "object" ) ?
+        (typeof oComp.comp == "undefined" ) ?
+            diffCompare : oComp.comp : oComp;
+    if ( (typeof(oComp)=="object") %
+&& (typeof(oComp.priorParse)!="undefined") ) {
+        var retn=processSpecialParse(oComp.priorParse,UserAnsSave);
+        if ( (!warnDecDeOnly) && (retn==null) ) return -1;
+    }
+    UserAns = ParseInput(UserAns);
+    indepVars = TypeParameters(indepVars);
+    if (!ok2Continue) return null;
+    var success=randomPointCompare(n,domain,indepVars,%
+epsilon,CorrAns,UserAns,comp);
+        if ( success && (typeof(oComp)=="object") %
+&& (typeof(oComp.postParse)!="undefined") )
+        success=processSpecialParse(oComp.postParse,UserAns);
+    return success;
+}
+\end{newsegment}
+\end{library@holding}
+\@ifcheckedout{useEnNums}
+  \dlJSStr[noquotes]{\noDecPtEnMsg}{%
+    "Syntax Error: A comma (,) was found
+     in your response \"" + UserAns + "\".
+     Please remove the comma, or this answer will be marked as wrong."}
+  \flJSStr*[noquotes]{\MsgEni}{"English decimal notation is expected,
+for example: 12.3456."}
+  \flJSStr*[noquotes]{\MsgEnii}{"A decimal number is required,
+rounded to two decimal places, for example: 12.34"}
+  \def\numEn#1{{priorParse:\Array(%
+    \preReqForm(/\rebstr\rechrclass{+-}?\redigit*\\.?%
+    \redigit*\reestr/,(#1)))}}
+  \def\rndNumEnReq#1#2{{priorParse:\Array(%
+    \preReqForm(/\rebstr\rechrclass{+-}?\redigit*\\.%
+    \redigit{#1}\reestr/,(#2)))}}
+  \def\rndNumEnOpt#1#2{{priorParse:\Array(% at most two decimal places
+    \preReqForm(/\rebstr\rechrclass{+-}?%
+    \redigit*\\.?\redigit{0,#1}\reestr/,(#2)))}}
+\fi
+\begin{library@holding}{unordered}
+\begin{newsegment}{dljslib: Contrib - Processing Unordered Responses}
+/*
+** The ProcRespSetFormula function is now listed  under the
+** setSupport option, titled 'dljslib: Support for Sets'
+*/
+\end{newsegment}
+\end{library@holding}
+\@ifcheckedout{factors}
+\newcommand{\facNoPropForm}{"Factorization is not in the proper form,
+    try placing the constant, if any, at the beginning of the
+    factorization"}
+\newcommand{\noNotEncloseMonos}{"Do not enclose constants or
+    monomials in parentheses"}
+\fi
+\begin{library@holding}{factors}
+\begin{newsegment}{dljslib: Contrib - Processing Factors as Responses}
+function ProcRespFactors(flag,CorrAns,n,epsilon,domain,indepVars,oComp)
+{
+    ok2Continue = true;
+    if (!ProcessIt) return null;
+    var fieldname = event.target.name;
+    var bSubstVars=(arguments.length>7); // dps17
+    var UserAns=(bSubstVars)?arguments[7]:event.value;
+    UserAns = stripWhiteSpace(UserAns);
+    if (!ok2Continue) return null;
+    var retn = _ProcResp(flag,CorrAns,UserAns,n,epsilon,%
+domain,indepVars,oComp);
+    if ( retn == -1 ) return null;
+    if ( retn == null ) return syntaxError(), null;
+    if ( retn == 0 ) {
+        var initialsuccess = false;
+        return notifyField(initialsuccess, flag, fieldname);
+    }
+    var aUserAns=new Array();
+    var aCorrAns=new Array();
+    var aNegCorrAns=new Array();
+    aUserAns=getFactorArray(UserAns);
+    if (aUserAns==null) {
+        eqAppAlert(\facNoPropForm, 3);
+        return null;
+    }
+    if (aUserAns==-1) return null;
+    aCorrAns=getFactorArray(CorrAns);
+    if ( aCorrAns==null) {
+        app.beep(); console.show();
+        console.println("Author error in factorization, its not in %
+the proper form");
+        return null;
+    }
+    for ( var i=0; i< aCorrAns.length; i++) {
+        aNegCorrAns[i] = "-" + "(" + aCorrAns[i] + ")"}
+    var numCorrect = 0, match=0,signflag=0;
+    if ( aUserAns.length != aCorrAns.length )
+        return notifyField(false, flag, fieldname);
+    for ( var i=0; i< aCorrAns.length; i++) {
+        match = 0;
+        for ( var j=i; j< aUserAns.length; j++) {
+            var retn = _ProcResp(flag,aCorrAns[i],aUserAns[j],%
+n,epsilon,domain,indepVars,oComp);
+            if ( retn == -1 ) return null;
+            if ( retn == null ) return syntaxError(), null;
+            if (retn==1) {
+                var temp=aUserAns[j];
+                aUserAns[j]=aUserAns[i];
+                aUserAns[i]=temp;
+                match = match + 1;
+            }
+            else {
+                var retn = _ProcResp(flag,aNegCorrAns[i],aUserAns[j],%
+n,epsilon,domain,indepVars,oComp);
+                if ( retn == -1 ) return null;
+                if ( retn == null ) return syntaxError(), null;
+                if (retn==1) {
+                    var temp=aUserAns[j];
+                    aUserAns[j]=aUserAns[i];
+                    aUserAns[i]=temp;
+                    match = match + 1;
+                    signflag = signflag + 1;
+                }
+            }
+        }
+        numCorrect += (match) ? 1 : 0;
+    }
+    var success = ((numCorrect==aCorrAns.length)&&(signflag\%2==0));
+    if ( success == null ) return syntaxError(), null;
+    return notifyField(success, flag, fieldname);
+}
+function getFactorArray(str) {
+    var aFactors=new Array();
+    var i,j,front,factor,back,bInitGrped=true;
+    if (str.charAt(0) != "\(" ) {
+        bInitGrped=false;
+        i=str.indexOf("\(");
+        if ( i != -1 ) {
+            aFactors.push(str.substring(0,i));
+            str=str.substring(i);
+        }
+    }
+    while ( (i=str.indexOf("\(")) != -1 ) {
+        j=FindBalP(str,i,true);
+        front=str.substring(0,i);
+        factor=str.substring(i,j+1);
+        back = str.substring(j+1);
+        if ( back.charAt(0) == "\^" ) {
+            getExp=back.match(/\^\d+/);
+            theExp=back.substring(0,getExp[0].length);
+            factor+=(theExp);
+            aFactors.push(factor);
+            back=back.substring(getExp[0].length);
+        } else {
+            aFactors.push(factor);
+        }
+        str=front + back;
+        if ( factor.charAt(1)=="-" || factor.charAt(1)=="+" )
+            factor=factor.substring(2);
+        if (!/[+-]/.test(factor)) {
+            eqAppAlert(\noNotEncloseMonos, 3);
+            return -1;
+        }
+    }
+    if (/[A-Za-z]/.test(str)) {
+        var aExp = str.match(/[A-Za-z](\^\d+)*/);
+        factor=aExp[0];
+        i=aExp.index;
+        front=str.substring(0,i);
+        back=str.substring(i+factor.length);
+        str=front+back;
+        if (!bInitGrped) {
+            if (aFactors[0]=="-" || aFactors[0]=="+")
+                aFactors[0]=aFactors[0]+factor;
+            else
+                aFactors[0]="\("+aFactors[0]+"\)"+"\("+factor+"\)";
+        } else {
+            aFactors.push(str);
+            str="";
+        }
+    }
+    if (aFactors[0]=="-"||aFactors[0]=="+"||isFinite(aFactors[0])){
+        factor=aFactors.shift();
+        aFactors[0]=factor+aFactors[0];
+    }
+    return (str!="") ? null : aFactors
+}
+\end{newsegment}
+\end{library@holding}
+\@ifcheckedout{point}
+\newcommand{\pointErrorMsgi}{%
+    "I'm looking for a point. You need to use proper point notation."}
+\newcommand{\pointErrorMsgii}{"Parentheses are not balanced."}
+\newcommand{\pointErrorMsgiii}{"Incorrect number of components.
+    The answer requires "+ aCorrAns.length+" components."}
+\def\pointEmptyCompMsgiv(#1){
+    "You entered nothing for the component " +(#1+1)
+        +" of your answer. Please enter a component for the point."}
+\fi
+\begin{library@holding}{point}
+\begin{newsegment}{dljslib: Contrib - Processing a Point Response}
+function ProcPoint(flag,CorrAns,n,epsilon,domain,indepVars,oComp)
+{
+    if (!ProcessIt) return null;
+    ok2Continue = true;
+    var i, success, truthCnt=1;
+    var aScalar, scalar = 1;
+    var fieldname = event.target.name;
+    var bSubstVars=(arguments.length>7); // dps17
+    var UserAns=(bSubstVars)?arguments[7]:event.value;
+    UserAns = stripWhiteSpace (UserAns); // sets ok2Continue
+    CorrAns = stripWhiteSpace(CorrAns);
+    if ( !ok2Continue ) return null;
+    var isSpecResp=false;
+    for ( var i=0; i<aDlLibSpecResp.length; i++) {
+        if (CorrAns == aDlLibSpecResp[i]) {
+            isSpecResp=true; break;
+        }
+    }
+    for ( var i=0; i<aDlLibSpecResp.length; i++) {
+        if (UserAns == aDlLibSpecResp[i]) {
+            success = (CorrAns == UserAns);
+            return notifyField(success, flag, fieldname);
+        }
+    }
+    if (isSpecResp) return notifyField(false, flag, fieldname);
+    if (!/[()]/.test(UserAns)) {
+        return eqAppAlert(\pointErrorMsgi, 3), null;
+    }
+    if (!CkBalP(UserAns,"(",")")) {
+        return eqAppAlert(\pointErrorMsgii, 3), null;
+    }
+    var comp = ( typeof oComp == "object" ) ?
+       (typeof oComp.comp == "undefined" ) ?
+            diffCompare : oComp.comp : oComp;
+    CorrAns = CorrAns.replace(/[()]/g, ""); // strip off ( and )
+    UserAns = UserAns.replace(/[()]/g, "");
+    if ( typeof oComp == "object" &&
+        typeof oComp.priorParse != "undefined" ) {
+        if ( typeof oComp.priorParse == "object" ) {
+            for ( var i=0; i < oComp.priorParse.length; i++) {
+                var retn = oComp.priorParse[i](UserAns);
+                if ( retn == null ) return null;
+            }
+        } else {
+            var retn = oComp.priorParse(UserAns);
+            if ( retn == null ) return null;
+        }
+    }
+    aUserAns = UserAns.split(",");
+    aCorrAns = CorrAns.split(",");
+    if (scalar != 1)
+        for (i=0; i<aUserAns.length; i++)
+            aUserAns[i]=""+scalar+"*"+aUserAns[i];
+    if (aCorrAns.length != aUserAns.length) {
+        eqAppAlert(\pointErrorMsgiii,3);
+        return null;
+    }
+    indepVars = TypeParameters(indepVars);
+    for (i=0; i<aCorrAns.length; i++) {
+        aCorrAns[i] = ParseInput(aCorrAns[i]);
+        if (!ok2Continue) {
+            eqAppAlert(\SyntaxErrorAuthor, 3);
+            return null;
+        }
+        aUserAns[i] = ParseInput(aUserAns[i]);
+        if (aUserAns[i]==null) {
+            eqAppAlert(\pointEmptyCompMsgiv(i), 3);
+            return null;
+        }
+        if (!ok2Continue) return null;
+        success=randomPointCompare (
+            n,domain,indepVars,epsilon,aCorrAns[i],aUserAns[i],comp)
+        if ( success == null ) {
+            eqAppAlert(\eqSyntaxErrorUndefVar,3); return null; }
+        truthCnt *= (success) ? 1 : 0;
+    }
+    return notifyField(!!truthCnt, flag, fieldname);
+}
+\end{newsegment}
+\end{library@holding}
+\begin{library@holding}{intervals}
+\begin{newsegment}{dljslib: Contrib - Processing Interval Responses}
+function ProcRespIntervals(flag,CorrAns,n,epsilon,domain,%
+indepVars,oComp)
+{
+     ok2Continue = true;
+     if (!ProcessIt) return null;
+     var fieldname = event.target.name;
+    var bSubstVars=(arguments.length>7); // dps17
+    var UserAns=(bSubstVars)?arguments[7]:event.value;
+     UserAns = stripWhiteSpace(UserAns);
+     CorrAns = stripWhiteSpace(CorrAns);
+     if (!ok2Continue) return null;
+     UserAns = UserAns.replace(/inf/g, "x");
+     CorrAns = CorrAns.replace(/inf/g, "x");
+     indepVars = "x";
+     domain="[0,1]";
+     var aUserAns = UserAns.split("U");
+     var aCorrAns = CorrAns.split("U");
+     var numCorrect = 0;
+     var match = 0;
+     var matchparts = 0;
+     if ( aUserAns.length != aCorrAns.length )
+        return notifyField(false,flag, fieldname);
+     for ( var i=0; i< aCorrAns.length; i++) {
+         match = 0;
+         for ( var j=i; j< aUserAns.length; j++) {
+             CorrInt=aCorrAns[i];
+             UserInt=aUserAns[j];
+             var levaUser = UserInt.charAt(0);
+             var pravaUser = UserInt.charAt(UserInt.length-1);
+             var stredUser = UserInt.substring(1,UserInt.length-1);
+             UserInt = levaUser+","+stredUser+","+pravaUser;
+             var levaCorr = CorrInt.charAt(0);
+             var pravaCorr = CorrInt.charAt(CorrInt.length-1);
+             var stredCorr = CorrInt.substring(1,CorrInt.length-1);
+             CorrInt = levaCorr+","+stredCorr+","+pravaCorr;
+             var aCorrInt = CorrInt.split(",");
+             var aUserInt = UserInt.split(",");
+             if ( aUserInt.length != 4 )
+                return notifyField(false, flag, fieldname);
+             matchparts = 0;
+             if (aCorrInt[0] == aUserInt[0]) matchparts+=1;
+             if (aCorrInt[3] == aUserInt[3]) matchparts+=1;
+             var retn1 = _ProcResp(flag,aCorrInt[1],aUserInt[1],%
+n,epsilon,domain,indepVars,oComp);
+             if (retn1 == -1 ) return null;
+             if (retn1 == null) return syntaxError(), null;
+             if (retn1 == 1) matchparts+=1;
+             var retn2 = _ProcResp(flag,aCorrInt[2],aUserInt[2],%
+n,epsilon,domain,indepVars,oComp);
+             if (retn2 == -1 ) return null;
+             if (retn2 == null) return syntaxError(), null;
+             if (retn2 == 1) matchparts+=1;
+             if (matchparts == 4) {
+                 var temp=aUserAns[j];
+                 aUserAns[j]=aUserAns[i];
+                 aUserAns[i]=temp;
+                 match = match + 1;
+             }
+         }
+         numCorrect += (match) ? 1 : 0;
+     }
+     var success = (numCorrect == aCorrAns.length);
+     return notifyField(success, flag, fieldname);
+}
+\end{newsegment}
+\end{library@holding}
+\begin{library@holding}{indefIntegral}
+\begin{newsegment}{dljslib: Indefinite Integral Handling}
+function indefCompare(_a,_c,_v,_F,_G) {
+    var eqC;
+    var aAB = _a.split(",");
+    var aXY = _c.split(",");
+    var _V = _v.split(",");  // e.g. _V[0] = "i:x"
+    var _n = aXY.length
+        for (var _i=0; _i< _n; _i++) {
+            if (_V[_i].charAt(0) == "r" )
+                eval ( "var "+ _V[_i].charAt(2)
+                    + " = " + aAB[2*_i] + ";");
+            else // assume type "i"
+                eval ( "var "+ _V[_i].charAt(2)
+                    + " = " + Math.ceil(aAB[2*_i]) + ";");
+        }
+        var C = 0;
+        if ( app.viewerVersion >= 5)
+        {
+            var rtnCode = 0;
+            eval("try {if (isNaN(eqC = eval(_F)-eval(_G))) rtnCode=-1;}"
+                +" catch (e) { rtnCode=1; }");
+            switch(rtnCode)
+            {
+                case  0: break;
+                case  1: return null;
+                case -1: return -1;
+            }
+        }
+        else
+            if (isNaN(eqC = eval(_F)-eval(_G))) return -1;
+        for (var _i=0; _i< _n; _i++)
+        {
+            if (_V[_i].charAt(0) == "r" )
+                eval ( "var "+ _V[_i].charAt(2)
+                    + " = " + aXY[_i] + ";");
+            else // assume type "i"
+                eval ( "var "+ _V[_i].charAt(2)
+                    + " = " + Math.ceil(aXY[_i]) + ";");
+        }
+        _F = eval(_F);
+        if ( app.viewerVersion >= 5)
+        {
+            var rtnCode = 0;
+            eval("try { if(isNaN(_G = eval(_G))) rtnCode=-1; }"
+                +" catch (e) { rtnCode=1; }");
+            switch(rtnCode)
+            {
+                case  0: break;
+                case  1: return null;
+                case -1: return -1;
+            }
+        }
+        else
+            if(isNaN(_G = eval(_G))) return -1;
+        return Math.abs( _F - _G - eqC );
+}
+\end{newsegment}
+\end{library@holding}
+\@ifcheckedout{nodec}
+\newcommand\nodecAlertMsg{%
+    "A decimal answer is not acceptable here.
+     Please express your answer using fractions, square roots,
+     e, log, etc."}
+\fi
+\begin{library@holding}{nodec}
+\begin{newsegment}{dljslib: Contrib - No Decimals}
+function nodec(UserAns)
+{
+    var dot = /[\.\aebdecimalpoint]/;
+    if (dot.test(UserAns)) {
+        eqAppAlert(\nodecAlertMsg,3);
+        return null;
+    } else return true;
+}
+\end{newsegment}
+\end{library@holding}
+\@ifcheckedout{noBinFac}
+\newcommand\noBinFactBinCoeffAlertMsg{%
+    "You may not use this notation here.
+     Please evaluate the binomial coefficient.
+     You may present your answer as a product rather
+     than calculating a very large number."}
+\newcommand\noBinFactPermAlertMsg{%
+    "You may not use this notation here.
+     Please evaluate the permutation.
+     You may present your answer as a product rather
+     than calculating a very large number."}
+\newcommand\noBinFactFactAlertMsg{%
+    "You may not use this notation here.
+     Please evaluate the factorial.
+     You may present your answer as a product rather
+     than calculating a very large number."}
+\fi
+\begin{library@holding}{noBinFac}
+\begin{newsegment}{dljslib: Contrib - No Binomial Coefficients Allowed}
+aReFact = new Array(
+    /(?=\()?(\d+)(?=\))?!/,
+    /(?=\[)?(\d+)(?=\])?!/,
+    /(?=\{)?(\d+)(?=\})?!/
+);
+function noBinFac(UserAns)
+{
+    var bad = /(C\()/;
+    if (bad.test(UserAns)) {
+        eqAppAlert(\noBinFactBinCoeffAlertMsg,3);
+        return null;
+    }
+    bad = /(P\()/;
+    if (bad.test(UserAns)) {
+        eqAppAlert(\noBinFactPermAlertMsg,3);
+        return null;
+    }
+    for ( var i=0; i<aReFact.length; i++) {
+        if (aReFact[i].test(UserAns)) {
+            eqAppAlert(\noBinFactFactAlertMsg,3);
+            return null;
+        }
+    }
+    bad = /(fact)/;
+    if (bad.test(UserAns)) {
+        eqAppAlert(\noBinFactFactAlertMsg,3);
+        return null;
+    }
+    return true
+}
+\end{newsegment}
+\end{library@holding}
+\@ifcheckedout{limitArith}
+\newcommand{\allowWrngNormSciNotn}{\def\allowWrngNSN{true}}
+\def\allowWrngNSN{false}
+\newcommand{\DecimalsOnlyErrorMsg}{%
+    "Enter only an integer, e.g., 17, or a decimal number, e.g. 12.4.
+    Using arithmetic operations or built in function is not acceptable
+    for this problem."}
+\newcommand{\NoProductsErrorMsg}{%
+    "Multiplication is not allowed for this problem."}
+\newcommand{\NoDivisionErrorMsg}{%
+    "Division is not allowed for this problem."}
+\newcommand{\NoAddOrSubErrorMsg}{%
+    "Neither addition nor subtraction is allowed for this problem."}
+\newcommand{\NoExpAllowedErrorMsg}{%
+    "The use of exponents is not allowed for this problem."}
+\newcommand{\NoTrigAllowedErrorMsg}{%
+    "The use of trig functions in this problem is not allowed."}
+\newcommand{\NoPiAllowedErrorMsg}{%
+    "The use of PI or pi is not allowed in this problem."}
+\newcommand{\NoTrigLogAllowedErrorMsg}{%
+    "The use of trig and log functions is not allowed
+        in this problem."}
+\newcommand{\sciNotSyntaxError}{"Enter the answer in
+    scientific notation."}
+\newcommand{\sciNotNormalForm}{"The scientific notation entered
+    is not in normalized form."}
+\newcommand{\NoNegExpMsg}{"No negative exponents permitted,
+    keep working!"}
+\fi
+\begin{library@holding}{limitArith}
+\begin{newsegment}{dljslib: Limit Arithmetic and Built in Functions}
+function DecimalsOnly(UserAns) {
+    UserAns  = stripWhiteSpace(UserAns);
+    if ( !ok2Continue ) return null;
+    if( !isFinite( UserAns ) ) {
+        eqAppAlert(\DecimalsOnlyErrorMsg,3);
+        return null;
+    }
+    return true;
+}
+function NoProducts (UserAns) {
+    // Requires the ImplMulti option of dljslib
+    UserAns  = stripWhiteSpace(UserAns);
+    if ( !ok2Continue ) return null;
+    UserAns = Ck4Products(UserAns);
+    if ( /\*/.test( UserAns ) )
+        return eqAppAlert(\NoProductsErrorMsg,3), null;
+    return true;
+}
+function NoDivision (UserAns) {
+    if ( /\//.test( UserAns) )
+        return eqAppAlert(\NoDivisionErrorMsg,3), null;
+    return true;
+}
+function NoAddOrSub (UserAns) {
+    UserAns  = stripWhiteSpace(UserAns);
+    if ( !ok2Continue ) return null;
+    UserAns=ChngAllGrpsToParens(UserAns);
+    var result;
+    var re = /.[+-]/g;
+    re.lastIndex = 0;
+    while ( (result = re.exec( UserAns )) != null ) {
+        if ( result[0].charAt(0) != "\(" )
+            return eqAppAlert(\NoAddOrSubErrorMsg,3), null;
+    }
+    return true;
+}
+function NoArithAllowed (UserAns) {
+    var aNoArithmetic = new Array ( NoAddOrSub, NoProducts,
+        NoDivision, NoExpAllowed );
+    for ( var i = 0; i < aNoArithmetic.length; i++ )
+        if ( (retn = aNoArithmetic[i](UserAns)) == null ) return null;
+    return true;
+}
+function NoExpAllowed (UserAns) {
+    // Requires the ImplMulti option of dljslib
+    UserAns  = stripWhiteSpace(UserAns);
+    if ( !ok2Continue ) return null;
+    if ( /\^/.test( UserAns ) || /pow/.test( UserAns ) )
+        return eqAppAlert(\NoExpAllowedErrorMsg,3), null;
+    return true;
+}
+function NoTrigAllowed (UserAns)
+{
+  UserAns  = stripWhiteSpace(UserAns);
+  if ( !ok2Continue ) return null;
+  var aTrigfuncs = new Array
+  ( "acos","asin","atan","cos", "sin", "tan","sec","csc","cot",
+    "arcsin", "arccos", "arctan"
+  );
+  var re, regexp;
+  re = /[a-zA-Z]{2,}/g;
+  aF = UserAns.match(re);
+  if (  aF != null ) {
+    for (var i=0; i < aF.length; i++) {
+      for(var j=0; j < aTrigfuncs.length; j++) {
+        if ( aF[i].indexOf(aTrigfuncs[j]) != -1 )
+          return eqAppAlert(\NoTrigAllowedErrorMsg,3), null;
+      }
+    }
+  }
+  return true;
+}
+function NoPiAllowed(UserAns)
+{
+  UserAns  = stripWhiteSpace(UserAns);
+  if ( !ok2Continue ) return null;
+  var re=/PI|pi/;
+  if ( re.test(UserAns) )
+    return eqAppAlert(\NoPiAllowedErrorMsg,3), null;
+  return true;
+}
+function NoTrigLogAllowed (UserAns)
+{
+  UserAns  = stripWhiteSpace(UserAns);
+  if ( !ok2Continue ) return null;
+  var aTrigfuncs = new Array
+  ( "acos","asin","atan","cos", "sin",
+    "tan","sec","csc","cot", "arcsin", "arccos", "arctan",
+    "logc","log", "ln"
+  );
+  var re, regexp;
+  re = /[a-zA-Z]{2,}/g;
+  aF = UserAns.match(re);
+  if (  aF != null ) {
+    for (var i=0; i < aF.length; i++)
+    {
+      for(var j=0; j < aTrigfuncs.length; j++) {
+        if ( aF[i].indexOf(aTrigfuncs[j]) != -1 )
+          return eqAppAlert(\NoTrigLogAllowedErrorMsg,3), null;
+      }
+    }
+  }
+  return true;
+}
+var bAllowWrngNormSciNotn=false;
+var bItsNormSciNot=false;
+function SciNotNoNotify(UserAns) {
+    bAllowWrngNormSciNotn=true;
+    var rtn=SciNotResp(UserAns);
+    return rtn;
+}
+function SciNotResp(UserAns) {
+    bItsNormSciNot=false;
+    var _sciNotation, _a, _b;
+    _sciNotation = /^[+-]*(\d*)*(\.\d*)*E[+-]*\d+$/;
+    UserAns=stripWhiteSpace(UserAns);
+    if ( (_a=_sciNotation.exec(UserAns)) !=null) {
+        if (isNaN(_a[1])) {
+            if (bAllowWrngNormSciNotn)
+                return true;
+            else
+                return eqAppAlert(\sciNotNormalForm,3), null;
+        }
+        if (isNaN(_a[2])) _a[2]=0;
+        _b = Math.abs(Number(_a[1])+Number(_a[2]));
+        if ( _b < 1 || _b >= 10 ) {
+            if (bAllowWrngNormSciNotn)
+                return true;
+            else
+                return eqAppAlert(\sciNotNormalForm,3), null;
+        }
+        else {
+            bItsNormSciNot=true;
+            return true
+        }
+    } else
+        return eqAppAlert(\sciNotSyntaxError,3), null;
+}
+function sciNotResp(UserAns) {return SciNotResp(UserAns);}
+function postSciNotResp(UserAns) {
+    bAllowWrngNormSciNotn=false;
+    return bItsNormSciNot;
+}
+function NoNegExp (UserAns) {
+    var re=/(\^|\^\()+-/g;
+    UserAns=ChngAllGrpsToParens(UserAns);
+    if (re.test(UserAns))
+        return eqAppAlert(\NoNegExpMsg,3), null;
+    return true;
+}
+function noNegExp(UserAns){return NoNegExp(UserAns)}
+\end{newsegment}
+\end{library@holding}
+\begin{library@holding}{combinatorics}
+\begin{newsegment}{dljslib: Contrib - Combinatorial Functions}
+function ch(n,r)
+{
+    if ((n==r)||(r==0)) return(1);
+    if ((n==(r+1))||(r==1)) return(n);
+    if (r > (n-r))
+        var coeff = factorialCancel(
+            expandFactorial(r+1,n),expandFactorial(1,n-r));
+    else
+        var coeff = factorialCancel(
+            expandFactorial(n-r+1,n),expandFactorial(1,r));
+    return (eval(coeff));
+}
+function perm(n,r)
+{
+    if (r==0) return(1);
+    else
+        var coeff = factorialCancel(
+            expandFactorial(n-r+1,n),expandFactorial(1,n-r));
+    return (eval(coeff));
+}
+function expandFactorial(lo,hi)
+{
+    var f = lo;
+    for (var i=lo+1;i<=hi;i++) f = i+"*"+f;
+    return f;
+}
+function factorialCancel(top,bot)
+{
+    var num = top.split("*");
+    var denom = bot.split("*");
+    var len = denom.length;
+    var temp = 0;
+    var i, j;
+    for (i=0;i<=len-1;i++) {
+        for (j=0;j<=len-1;j++) {
+            temp = num[i]/denom[j];
+            if ((temp - Math.round(temp)) == 0) {
+                num[i] = temp;
+                denom[j] = 1;
+            }
+        }
+    }
+    var t = denom.join("");
+    var reg = /[^1]/;
+    if (reg.test(t)) {
+        temp = factorialCancel(denom.join("*"),num.join("*"));
+    } else {
+        temp = num.join("*");
+    }
+    return (temp);
+}
+function fact(num)
+{
+    var tot = 1;
+    for (var r=1; r <= num; r++) tot *= r;
+    return(tot);
+}
+\end{newsegment}
+\end{library@holding}
+\begin{library@holding}{ImplMulti}
+\begin{newsegment}{dljslib: Implied Multiplication}
+function Ck4Products(UserInput)
+{
+    var re, aR;
+    for (var i=0; i<JSf.length; i++)
+    {
+        re = new RegExp("("+JSf[i]+")(\\\()","g");
+        UserInput = UserInput.replace(re, "\\$1@$2");
+        re = new RegExp("([\\w\\\)])(\\"+JSf[i]+")(@\\\()","g");
+        UserInput = UserInput.replace(re, "$1*$2$3");
+    }
+    for (var i=0; i<JSc.length; i++)
+    {
+        re = new RegExp("("+JSc[i]+")","g");
+        if ( JSc[i] != "E" ) {
+            UserInput = UserInput.replace(re, "\\$1@");
+            re = new RegExp("([\\w\\\)])(\\"+JSc[i]+")(@)","g");
+        }
+    }
+    UserInput = UserInput.replace(
+        /([\d\)])([A-DF-Za-z\(\\])/g, "$1*$2");
+    UserInput = UserInput.replace(/(\))(\d)/g, "$1*$2");
+    UserInput = UserInput.replace(/([A-Za-z])([\d\(\\])/g, "$1*$2");
+    UserInput = UserInput.replace(/(@)([A-Za-z\d])/g, "$1*$2");
+    UserInput = UserInput.replace(/(\\)([A-Za-z]{1,})(@)/g, "$2");
+    re = /[A-Za-z]{1,}/g;
+    while ( (aR = re.exec(UserInput)) != null)
+    {
+        for (var i=0; i<JSf.length; i++) if ( aR[0] == JSf[i]) break;
+        if ( i < JSf.length ) continue;
+        for (var i=0; i<JSc.length; i++) if ( aR[0] == JSc[i]) break;
+        if ( i < JSc.length ) continue;
+        aR[0] = aR[0].replace(/([A-Za-z])\B/g,"$1*");
+        UserInput = UserInput.substring(0,aR.index)
+            +aR[0]+UserInput.substring(re.lastIndex);
+    }
+    return UserInput;
+}
+function Ck4Exponents(UserInput)
+{
+    var re, regexp, aP, RightP;
+    for (var i=0; (i<JSf.length) && (ok2Continue); i++)
+    {
+        re = new RegExp(JSf[i]+"\\^");
+        while ( re.test(UserInput) && (ok2Continue) )
+        {
+            regexp = new RegExp(JSf[i]+"\\^\\\(", "g");
+            if ( (aP = regexp.exec(UserInput)) != null ) {
+                // forward search
+                RightP=FindBalP(UserInput,regexp.lastIndex-1,1);
+                var offsetExp = RightP-regexp.lastIndex;
+                regexp = new RegExp(
+                    JSf[i]+"\\^\\(.{"+offsetExp+"}\\)\\\(", "g");
+                regexp.lastIndex=0;
+                if ( (aP = regexp.exec(UserInput)) != null ) {
+                    // forward search
+                    RightP=FindBalP(UserInput,regexp.lastIndex-1,1);
+                    var offsetArg = RightP - regexp.lastIndex;
+                    regexp = new RegExp("("+JSf[i]
+                        +")\\^\\((.{"+offsetExp+"})\\)\\((.{"
+                        +offsetArg+"})\\)");
+                    regexp.lastIndex=0;
+                    if (regexp.test(UserInput))
+                        UserInput=UserInput.replace(
+                            regexp,"(pow($1($3),$2))");
+                    else ok2Continue=false;
+                    continue;
+                }
+            }
+            regexp = new RegExp(JSf[i]
+                +"\\^([a-zA-Z]|[+-]?\\d+\\.?\\d*|[+-]?\\d*\\.?\\d+)"
+                +"\\\(","g");
+            if ( (aP = regexp.exec(UserInput)) != null ) {
+                // forward search
+                RightP=FindBalP(UserInput,regexp.lastIndex-1,1);
+                regexp = new RegExp("("
+                    +JSf[i]+")\\^([a-zA-Z]|[+-]?\\d+"
+                    +"\\.?\\d*|[+-]?\\d*\\.?\\d+)\\((.{"
+                    +eval(RightP-regexp.lastIndex)+"})\\)");
+                regexp.lastIndex=0;
+                if (regexp.test(UserInput))
+                    UserInput=UserInput.replace(
+                        regexp,"(pow($1($3),$2))");
+                else ok2Continue=false;
+            }
+            else ok2Continue=false;
+        }
+    }
+    for (var i=0; (i < JSc.length) && (ok2Continue); i++)
+    {
+        re = new RegExp(JSc[i]+"\\^", "g");
+        while ( re.test(UserInput) && (ok2Continue) )
+        {
+            re.lastIndex = 0;
+            aR = re.exec(UserInput);
+            if (UserInput.charAt(re.lastIndex)=='\(') {
+                // forward search
+                RightP=FindBalP(UserInput,re.lastIndex,1);
+                var offsetExp = RightP - re.lastIndex - 1;
+                re.lastIndex=0;
+                regexp = new RegExp("("+JSc[i]
+                    +")\\^\\((.{"+offsetExp+"})\\)");
+                if ( regexp.test(UserInput) )
+                    UserInput = UserInput.replace(
+                        regexp, "(pow($1,$2))");
+                else ok2Continue = false;
+            }
+            else
+            {
+                re.lastIndex=0;
+                regexp = new RegExp("("+JSc[i]
+                +")\\^([a-zA-Z]|[+-]?\\d+\\.?\\d*|[+-]?\\d*\\.?\\d+)");
+                if (regexp.test(UserInput))
+                    UserInput = UserInput.replace(
+                        regexp, "(pow($1,$2))");
+                else ok2Continue = false;
+            }
+        }
+    }
+    return UserInput;
+}
+\end{newsegment}
+\end{library@holding}
+\begin{library@holding}{dljslib}
+\end{insDLJS*}
+\end{library@holding}
+\immediate\closeout\dljslib@verbatim@out
+\advance\count17 by -1
+\input{dljslib.ljs}
+\endinput
+%%
+%% End of file `dljslib.sty'.

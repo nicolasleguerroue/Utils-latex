@@ -7,38 +7,40 @@
 \RequirePackage[xindy, acronym, nomain, toc,nonumberlist]{glossaries}  %Glossaries
 %################################################################
 \typeout{>>> Utils: Package 'Glossaries' loaded !}
-
+%############################################################
 % Default command for glossary (renewcommand) {gls}[1] #content
 
 \renewcommand{\glossary}[1]{%display glossarie #filename
 \addtocounter{glossaryCounter}{1} 
 \gls{#1}
+\footnote{#1:\glsdesc{#1}}  %glsname
 }
 
 \newcounter{glossaryCounter}  %Create new counter
 \setcounter{glossaryCounter}{0}
 
 \newcommand{\displayGlossaries}[1]{%Display the glossaries #tocName
-    \ifnum \value{glossaryCounter}>0
-    {
+    % \ifnum \value{glossaryCounter}>0
+    % {
         \renewcommand {\acronymname}{#1}
         \printnoidxglossaries
         \printglossaries
         \typeout{>>> Utils: Glossary loaded !}
         \addcontentsline{toc}{chapter}{#1}
-    } 
-    \else 
-    {
-        \typeout{>>> Utils: Glossary no loaded !}
-    }
-    \fi
+    % } 
+    % \else 
+    % {
+    %     \typeout{>>> Utils: Glossary no loaded !}
+    % }
+    % \fi
 }
 
 \newcommand{\addGlossaryInput}[3]{  %Add glossary input #name description meaning
     \newglossaryentry{#1}
     {
         name=#1,
-        description={\italic{#2} \\#3}
+        description={\italic{#2}  - #3}
+        %description={\italic{#2} \\#3}
     }
 }
 

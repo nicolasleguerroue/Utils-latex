@@ -1,0 +1,78 @@
+%%
+%% This is file `eqfr.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% exerquiz.dtx  (with options: `copyright,eqfr')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Exerquiz.sty package,                                %%
+%% Copyright (C) 1999-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ProvidesFile{eqfr.def}
+%%%%%%%%%%%%%%%%%%%%%%% eqfr.def %%%%%%%%%%%%%%%%%%%%%%%
+%% Foreign language support for the exerquiz package. %%
+%% Name of translator: Jean-Michel SARLAT             %%
+%% Language: French                                   %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand\exlabel{Exercice}
+\renewcommand\exlabelsol{\exlabel}
+
+\renewcommand{\eq@exsolafterDefault}{\textit{Solution} :}
+
+\renewcommand\exsectitle{Solutions des \exlabelsol s}
+\renewcommand\exsecrunhead{\exsectitle}
+
+\renewcommand\eq@sqslsectitle{Les r\'{e}ponses aux questionnaires}
+\renewcommand\sqslsectitle{\eq@sqslsectitle}
+
+\renewcommand\eq@sqslsecrunhead{Les r\'{e}ponses aux questionnaires}
+\renewcommand\sqslsecrunhead{\eq@sqslsecrunhead}
+
+\renewcommand\eq@sqsllabel{%
+   \protect\textbf{R\protect\'{e}ponse :}}
+\renewcommand\sqsllabel{\eq@sqsllabel}% User access
+
+\renewcommand\sqsolafter{\textit{Solution} :}
+
+\renewcommand\eq@sqlabel{\textcolor{red}{Question.}}
+\renewcommand\sqlabel{\eq@sqlabel}
+
+\renewcommand\eq@sqslrtnlabel{Retour au questionnaire.}
+\renewcommand\sqslrtnlabel{\eq@sqslrtnlabel}
+
+\renewcommand\eqsqrtmsg{"Exact !"}
+\renewcommand\eqsqwgmsg{"Faux !"}
+
+\renewcommand\eq@bqlabel{D\'ebut}
+\renewcommand\bqlabel{\eq@bqlabel}
+\renewcommand\eq@bqlabelISO{D\string\351but}
+\renewcommand\bqlabelISO{\eq@bqlabelISO}
+
+\renewcommand\eq@eqlabel{Fin}
+\renewcommand\eqlabel{\eq@eqlabel}
+\renewcommand\eq@Score{Score :}\renewcommand\eq@OutOf{sur}
+\renewcommand\eqInitQuizMsg{%
+   "Vous devez initialiser le questionnaire ! Clicker sur "+msg+"."}
+\renewcommand\eqMadeChoice{
+   "Vous avez d\string\\351j\string\\340 fait un choix,"
+   + " ce choix est ("+Responses[probno]+")."
+   + " Souhaitez vous le modifier ?"}
+\renewcommand\eq@local@CA{%
+    R\texorpdfstring{\'}{\string\351}ponses}
+\renewcommand\eq@local@RC{Correctes}
+\renewcommand\eq@local@AC{SVP !}
+\dlJSStr*[noquotes]{\limSelWarningMsg}{"Pour cette question,
+  vous \u00EAtes autoris\'{e} \`{a} faire au plus "
+  + n + " s\'{e}lections."}
+\endinput
+%%
+%% End of file `eqfr.def'.

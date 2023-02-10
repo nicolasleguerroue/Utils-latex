@@ -1,0 +1,174 @@
+%%
+%% This is file `edvipdfm.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% eforms.dtx  (with options: `copyright,edvipdfm')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% eForms package,                                      %%
+%% Copyright (C) 2002-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\noPeek#1#2{\@pdfm@mark{put @thispage << \noPeekAction{#1}{#2} >> }}
+\let\ef@adjHWxetex\relax
+\def\eq@choice@driver{\ef@adjHWxetex
+    \Hy@pdfstringtrue
+  \ifx\@vertRotate\ef@One
+    \let\W@temp\eq@rectW\edef\eq@rectW{\eq@rectH}%
+    \edef\eq@rectH{\W@temp}\fi\centerWidget\eq@rectH
+  \ifx\autoCenter\ef@n\eqcenterWidget=0pt\fi
+  \leavevmode\setbox\pdfm@box=%
+      \hbox{\lower\eqcenterWidget\ef@Bbox{\eq@rectW}{\eq@rectH}}%
+  \@pdfm@mark{ann @\Fld@name\space\dvipdfm@setdim
+  <<\common@choiceCode>>}\unhbox\pdfm@box\relax%
+  \@pdfm@mark{put @afields @\Fld@name}% record in @afields array
+  \ifisCalculate\@pdfm@mark{put @corder @\Fld@name}\fi
+  \dl@restorespcs
+  \endgroup
+}
+\def\eq@Button@driver{\Hy@pdfstringtrue
+  \ifx\eq@rectW\@empty\def\eq@rectW{\wd\eq@tmpbox}\ef@djXPD\fi
+  \ifx\@vertRotate\ef@One
+    \let\W@temp\eq@rectW\edef\eq@rectW{\eq@rectH}%
+    \edef\eq@rectH{\W@temp}\fi\centerWidget\eq@rectH
+  \ifx\autoCenter\ef@n\eqcenterWidget=0pt\fi
+  \setbox\pdfm@box=%
+      \hbox{\lower\eqcenterWidget\ef@Bbox{\eq@rectW}{\eq@rectH}}%
+  \@pdfm@mark{ann @\Fld@name\space\dvipdfm@setdim
+  << \common@pushButtonCode >>}\unhbox\pdfm@box\relax%
+  \@pdfm@mark{put @afields @\Fld@name}% record in @afields array
+  \endgroup
+  \dl@restorespcs
+}
+\def\parentRef#1#2{\csarg\gdef{parent@#1}{#2}}
+\def\ef@radioData#1#2{%\expandafter
+  \immediate\write\@mainaux{\string\parentRef{#1}{#2}}}
+\def\eq@Radio@driver{\ef@adjHWxetex\Hy@pdfstringtrue
+  \ifx\@vertRotate\ef@One
+    \let\W@temp\eq@rectW\edef\eq@rectW{\eq@rectH}%
+    \edef\eq@rectH{\W@temp}\fi\centerWidget\eq@rectH
+  \ifx\autoCenter\ef@n\eqcenterWidget=0pt\fi
+  \ifuseNewRadios
+    \ifx\isRadioParent\ef@YES\expandafter
+      \ifx\csname radio@\Fld@name\endcsname\relax\else
+        \immediate\@pdfm@mark{obj @parentobj\HyField@TheAnnotCount
+          << \radio@parent\space >>}%
+        \ef@radioData{\Fld@name}{@parentobj\HyField@TheAnnotCount}%
+        \ifx\eq@V\@empty\else
+            \csarg\xdef{value@\Fld@name}%
+              {\@nameuse{OnVal@\Fld@name}}%
+        \fi
+      \fi
+      \ifx\ef@multigroupradios\ef@YES
+        \csarg\gdef{multigroup@\Fld@name}%
+          {\let\ef@multigroupradios\ef@YES}%
+      \else
+        \csarg\gdef{multigroup@\Fld@name}%
+          {\let\ef@multigroupradios\ef@NO}%
+      \fi
+      \ifx\isRadiosInUnison\ef@YES
+        \csarg\gdef{uniradios@\Fld@name}%
+          {\let\isRadiosInUnison\ef@YES}%
+      \else
+        \csarg\gdef{uniradios@\Fld@name}%
+          {\let\isRadiosInUnison\ef@NO}%
+      \fi
+    \fi
+  \fi
+  \ifuseNewRadios\expandafter\ef@NewRadiosLateOpts\fi
+  \ifx\eq@rectW\@empty\def\eq@rectW{\wd\eq@tmpbox}\fi
+  \HyField@AdvanceAnnotCount
+  \setbox\pdfm@box=%
+    \hbox{\lower\eqcenterWidget\ef@Bbox{\eq@rectW}{\eq@rectH}}%
+  \ifx\annot@type\annot@type@checkbox\def\btn@type{check}\else
+    \def\btn@type{radio}\fi
+  \@pdfm@mark{ann @\btn@type\HyField@TheAnnotCount\space\dvipdfm@setdim
+  <<\common@RadioCode>>}\unhbox\pdfm@box\relax%
+  \ifuseNewRadios
+    \edef\x{\noexpand\g@addto@macro\noexpand
+      \ef@KidsArray{@parentobj\HyField@TheAnnotCount\space}}\x
+    \csarg\xdef{kid@\Fld@name}{\ef@KidsArray}%
+  \else
+    \@pdfm@mark{put @afields @\btn@type\HyField@TheAnnotCount}%
+  \fi
+  \endgroup
+  \dl@restorespcs
+}
+\def\eq@Check@driver{\ef@adjHWxetex\Hy@pdfstringtrue
+  \ifx\@vertRotate\ef@One
+    \let\W@temp\eq@rectW\edef\eq@rectW{\eq@rectH}%
+    \edef\eq@rectH{\W@temp}\fi\centerWidget\eq@rectH
+  \ifx\autoCenter\ef@n\eqcenterWidget=0pt\fi
+  \ifx\eq@rectW\@empty\def\eq@rectW{\wd\eq@tmpbox}\fi
+  \HyField@AdvanceAnnotCount
+  \setbox\pdfm@box=%
+    \hbox{\lower\eqcenterWidget\ef@Bbox{\eq@rectW}{\eq@rectH}}%
+  \ifx\annot@type\annot@type@checkbox\def\btn@type{check}\else
+    \def\btn@type{radio}\fi
+  \@pdfm@mark{ann @\btn@type\HyField@TheAnnotCount\space\dvipdfm@setdim
+  <<\common@CheckCode>>}\unhbox\pdfm@box\relax%
+  \@pdfm@mark{put @afields @\btn@type\HyField@TheAnnotCount}%
+  \endgroup
+  \dl@restorespcs
+}
+\def\eq@l@check@driver{%
+  \HyField@AdvanceAnnotCount
+  \setbox\pdfm@box=%
+    \hbox{\makebox[\eq@tmpdima]{\phantom{\link@@Content}}}%
+  \@pdfm@mark{ann @check\HyField@TheAnnotCount\space
+    \dvipdfm@setdim<<\common@CheckCode>>}%
+  \unhbox\pdfm@box\relax
+  \@pdfm@mark{put @afields @check\HyField@TheAnnotCount}%
+  \endgroup
+}
+\def\eq@TextField{\ef@adjHWxetex\Hy@pdfstringtrue
+  \ifx\@vertRotate\ef@One
+    \let\W@temp\eq@rectW\edef\eq@rectW{\eq@rectH}%
+    \edef\eq@rectH{\W@temp}\fi\centerWidget\eq@rectH
+  \ifx\autoCenter\ef@n\eqcenterWidget=0pt\fi
+  \leavevmode\setbox\pdfm@box=%
+    \hbox{\lower\eqcenterWidget\ef@Bbox{\eq@rectW}{\eq@rectH}}%
+  \@pdfm@mark{ann @\Fld@name\space\dvipdfm@setdim
+    << \common@TextFieldCode >>}\unhbox\pdfm@box\relax%
+  \@pdfm@mark{put @afields @\Fld@name}% record in @afields array
+  \ifisCalculate\@pdfm@mark{put @corder @\Fld@name}\fi
+  \endgroup
+  \dl@restorespcs
+}
+\def\eq@SigField{\ef@adjHWxetex\Hy@pdfstringtrue
+  \ifx\@vertRotate\ef@One
+    \let\W@temp\eq@rectW\edef\eq@rectW{\eq@rectH}%
+    \edef\eq@rectH{\W@temp}\fi\centerWidget\eq@rectH
+  \ifx\autoCenter\ef@n\eqcenterWidget=0pt\fi
+  \leavevmode\setbox\pdfm@box=%
+    \hbox{\lower\eqcenterWidget\ef@Bbox{\eq@rectW}{\eq@rectH}}%
+  \@pdfm@mark{ann @\Fld@name\space\dvipdfm@setdim
+    << \common@SigFieldCode >>}\unhbox\pdfm@box\relax%
+  \@pdfm@mark{put @afields @\Fld@name}% record in @afields array
+  \endgroup
+  \dl@restorespcs
+}
+\def\setLink@driver{%
+  \@eqBS{}\leavevmode
+  \@pdfm@mark{bann
+    <</Subtype/Link\eq@Border\common@LinkCode>>}%
+    \Hy@colorlink{\@linkcolor}\link@@Box\Hy@endcolorlink
+  \@pdfm@mark{eann}%
+  \endgroup
+  \dl@restorespcs
+}
+\def\ef@setTabOrder{\ifx\ef@taborder\@empty\else
+  \@pdfm@mark{ put @thispage << /Tabs/\ef@taborder >> }%
+  \fi\endgroup
+}
+\endinput
+%%
+%% End of file `edvipdfm.def'.

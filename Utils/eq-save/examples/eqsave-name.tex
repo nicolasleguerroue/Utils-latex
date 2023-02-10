@@ -1,0 +1,134 @@
+\documentclass{article}
+\usepackage[fleqn]{amsmath}
+\usepackage{web}
+\usepackage{exerquiz}
+\usepackage[!devmode]{eq-save}
+\usepackage[ImplMulti]{dljslib}
+
+\def\lfootScore{\sField{.25in}{11bp}}
+\def\lfootOutOf{\ooField{.25in}{11bp}}
+\def\rfootPtsScore{\psField{.25in}{11bp}}
+\def\rfootPtsOutOf{\pooField{.25in}{11bp}}
+
+\lfooter{Score {\lfootScore} out of {\lfootOutOf}}
+\rfooter{Points {\rfootPtsScore} out of {\rfootPtsOutOf}}
+
+
+\previewOff
+\sqTurnOffAlerts
+\PTsHook{($\eqPTs^{\text{pts}}$)}
+
+\parindent0pt
+
+\begin{document}
+
+\begin{center}\bfseries\large
+    Demonstrating the \texttt{eq-save} package\\
+      Gatekeeper commands present\\[3pt]
+      \normalfont\normalsize Herr Dr Prof Story
+\end{center}
+
+Answer some of the questions, save the document, then reopen it and continue
+the `worksheet'. The tallies should continue from the values current at the
+time the document was saved.\medskip
+
+Begin by entering your name in the input box below.\medskip
+
+\textbf{Warning:} Clearing or changing the name field clears all quizzes. After you begin, do not change
+your name field or all entries will be lost.\bigskip
+
+Ihr Name: \nameField{IhrName}{2in}{11bp}
+
+\newpage
+% separate the name field from the rest of the content, insert \BeginNoPeeking
+\BeginNoPeeking
+
+\begin{oQuestion}{oQ1}
+It is well known that $ 1 + 16 = \RespBoxMath{17}{1}{.0001}{[0,1]}$
+\end{oQuestion}
+
+\begin{shortquiz*}[sQ1]
+Solve each of the following without error.
+\begin{questions}
+
+\item Calculate: $ 8 \cdot 11 = \RespBoxMath{88}{1}{.0001}{[0,1]}$
+\item Enter the \emph{last name} of the Herr Dr Prof of this course.
+\[
+  \text{The Herr Dr Prof is }\RespBoxTxt{1}{0}{1}{Story}
+\]
+    \item Which of the following is true
+\begin{answers}{4}
+\bChoices
+  \Ans1 true\eAns
+  \Ans0 false\eAns
+\eChoices
+\end{answers}
+\item From the list below, select the mathematicians recognized as the originators of Calculus.
+\begin{manswers}{4}
+\bChoices
+  \Ans1 Newton\eAns
+  \Ans0 Gauss\eAns
+  \Ans1 Leibniz\eAns
+  \Ans0 Banach\eAns
+\eChoices
+\end{manswers}
+\end{questions}
+\end{shortquiz*}
+
+
+\useBeginQuizButton
+\useEndQuizButton
+
+\begin{quiz*}{qz1}
+Solve each without error.
+\begin{questions}
+    \item Which of the following is true
+\begin{answers}{2}
+  \Ans1 true & \Ans0 false
+\end{answers}
+\item Calculate: $ 8 \cdot 11 = \RespBoxMath{88}{1}{.0001}{[0,1]}$
+\item From the list below, select the mathematicians recognized as the originators of Calculus.
+\begin{manswers}{4}
+\bChoices
+  \Ans1 Newton\eAns
+  \Ans0 Gauss\eAns
+  \Ans1 Leibniz\eAns
+  \Ans0 Banach\eAns
+\eChoices
+\end{manswers}
+\end{questions}
+\end{quiz*}\quad\ScoreField\currQuiz\olBdry\CorrButton\currQuiz
+
+
+
+\newpage
+
+The quiz on this page has points associated with each question, the points are tabulated separately,
+and entered into the fields in the right footer. The questions above are figured in as 1 point each.
+
+\begin{quiz*}{qz2}
+Solve each without error.
+\begin{questions}
+    \item\PTs{2} Which of the following is true
+\begin{answers}{2}
+\bChoices
+  \Ans1 true\eAns
+  \Ans0 false\eAns
+\eChoices
+\end{answers}
+\item\PTs{3} Calculate: $ 8 \cdot 11 = \RespBoxMath{88}{1}{.0001}{[0,1]}$
+\item\PTs{4} From the list below, select the mathematicians recognized as the originators of Calculus.
+\begin{manswers}{4}
+\bChoices
+  \Ans1 Newton\eAns
+  \Ans0 Gauss\eAns
+  \Ans1 Leibniz\eAns
+  \Ans0 Banach\eAns
+\eChoices
+\end{manswers}
+\end{questions}
+\end{quiz*}\quad\PointsField\currQuiz\olBdry\CorrButton\currQuiz
+
+
+\medskip\noindent\sooField{1in}{11bp}\olBdry\clearAllField{}{11bp}
+\end{document}

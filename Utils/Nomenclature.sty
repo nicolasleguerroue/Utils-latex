@@ -7,11 +7,11 @@
 \RequirePackage{nomencl}  %Nomenclature
 %################################################################
 \typeout{>>> Utils: Package 'Nomenclature' loaded !}
+%################################################################
 
 \makenomenclature
 
-%##### Convention [Nomenclature]
-  \renewcommand{\nomgroup}[1]{%Set nomenclature #nomenclatureName
+\renewcommand{\nomgroup}[1]{  
   \item[\bfseries
   \ifthenelse{\equal{#1}{P}}{Constantes physiques}{%
   \ifthenelse{\equal{#1}{O}}{Autres symboles}{%
@@ -19,7 +19,7 @@
   \ifthenelse{\equal{#1}{A}}{Amplificateurs Opérationnels}{ 
   \ifthenelse{\equal{#1}{M}}{Mécanique}{ 
   \ifthenelse{\equal{#1}{E}}{Électronique}{}}}}}}%
-  ]}
+]}
 
 
   % Add unit on convention [nomenclature]

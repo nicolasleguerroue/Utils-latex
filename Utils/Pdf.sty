@@ -1,10 +1,16 @@
 %############################################################
-%###### Package 'Titles' 
-%###### This package contains some tools to set title color
+%###### Package 'Pdf' 
+%###### This package contains some tools to include PDF file
 %###### Author  : Nicolas LE GUERROUE
 %###### Contact : nicolasleguerroue@gmail.com
 %############################################################
-\RequirePackage{pdfpages} 
-%################################################################
+\RequirePackage{pdfpages} %Include PDF
+%############################################################
 \typeout{>>> Utils: Package 'Pdf' loaded !}
-%\includepdf[⟨options⟩]{⟨fichier⟩}
+%############################################################
+
+
+\newcommand{\includeFile}[2] %Include PDF file #pages file
+{
+    \includepdf[#1]{#2}
+}

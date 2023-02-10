@@ -1,0 +1,187 @@
+%%
+%% This is file `websec.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% web.dtx  (with options: `copyright,websectioning')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Web package,                                         %%
+%% Copyright (C) 1999-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% History: Noel Vaillant began developing a better web.sty
+%%   based on my earlier published web.sty. Many thanks
+%%   to him for starting me off.
+%%---------------------------------------------------------
+\renewcommand*\thesection{\arabic{section}}
+\renewcommand*\thesubsection{\thesection.\arabic{subsection}}
+\renewcommand*{\thesubsubsection}
+  {\texorpdfstring{$\bullet$}{\textbullet}}
+\renewcommand{\section}{\renewcommand{\@seccntformat}[1]{%
+ \@nameuse{the##1}\web@finalDot\enspace}%
+ \@startsection{section}{1}{\z@}%
+ {-3ex\@plus -1ex \@minus-.2ex}%
+ {1ex\@plus .2ex}% 6pt
+ {\noindent\normalfont\normalsize\bfseries
+  \color{\web@sectionsColorOld}}}%
+\renewcommand{\subsection}{\renewcommand{\@seccntformat}[1]{%
+ \@nameuse{the##1}\web@finalDot\enspace}%
+ \@startsection{subsection}{2}{\z@}%
+ {-2.5ex\@plus -1ex \@minus -.2ex}%
+ {1ex\@plus .2ex}%
+ {\noindent\normalfont\normalsize\bfseries
+  \color{\web@sectionsColorOld}}}
+\renewcommand{\subsubsection}{%
+ \renewcommand{\@seccntformat}[1]{\color{\web@sectionsColorOld}\large
+ $\bullet$\enspace}%
+ \@startsection{subsubsection}{3}{\z@}%
+   {-2ex\@plus -1ex \@minus -.2ex}%
+   {.5ex\@plus .2ex}%
+   {\noindent\normalfont\normalsize\bfseries}}
+\def\tocPartTitle#1{\def\web@tocPartTitle##1{#1}}
+\tocPartTitle{\thepart\hspace{1em}#1}
+\newcommand\@webpart{\secdef\web@@part\web@@spart}
+\def\web@@part[#1]#2{\newpage
+  \def\@currentlabelname{#1}%
+  \ifnum\Hy@secnum@part>\c@secnumdepth
+    \phantomsection
+  \fi
+    \ifnum \c@secnumdepth >\m@ne
+      \refstepcounter{part}%
+      \addcontentsline{toc}{part}{\web@tocPartTitle{#1}}%
+    \else
+      \addcontentsline{toc}{part}{#1}%
+    \fi
+    {\web@makeparthead{#2}}%
+    \nobreak
+    \vskip 1ex
+    \@afterheading
+}
+\def\web@@spart#1{%
+  \Hy@GlobalStepCount\Hy@linkcounter
+  \xdef\@currentHref{part*.\the\Hy@linkcounter}%
+  \Hy@raisedlink{\hyper@anchorstart{\@currentHref}\hyper@anchorend
+  }{\web@makesparthead{#1}}%
+  \nobreak
+  \vskip 1ex
+  \@afterheading
+}
+\let\web@save@part\part
+\let\part\@webpart
+\newcommand{\formatPartTitle}[1]{%
+  \def\web@formatPartTitle##1{#1}}
+\def\web@defaultFormatPartTitle#1{\large\bfseries
+   \ifnum \c@secnumdepth >\m@ne
+     \partname~\thepart:\space
+  \fi#1}
+\let\web@formatPartTitle\web@defaultFormatPartTitle
+\newcommand{\restorePartTitleFormat}{%
+  \let\web@formatPartTitle\web@defaultFormatPartTitle}
+\def\noPartNumbers{\formatPartTitle{\large\bfseries##1}%
+  \tocPartTitle{##1}}
+\def\web@makeparthead#1{%
+  \parindent\z@\raggedright
+  \interlinepenalty \@M
+  \normalfont
+  \web@formatPartTitle{#1}%
+  \markboth{}{}\par
+}
+\def\web@makesparthead#1{%
+  \parindent\z@\raggedright
+  \interlinepenalty \@M
+  \normalfont
+  \large\bfseries #1\par
+}
+\@ifundefined{chapter}{}{%
+  \newcommand\@webchapter{%
+      \global\@topnum\z@
+      \@afterindentfalse
+      \secdef\web@@chapter\web@@schapter
+  }
+  \let\web@save@chapter\chapter
+  \let\chapter\@webchapter
+  \def\web@@chapter[#1]#2{%
+    \def\@currentlabelname{#1}%
+    \def\Hy@next{%
+      \Hy@GlobalStepCount\Hy@linkcounter
+      \xdef\@currentHref{\Hy@chapapp*.\the\Hy@linkcounter}%
+      \Hy@raisedlink{%
+        \hyper@anchorstart{\@currentHref}\hyper@anchorend
+      }%
+    }%
+    \ifnum\c@secnumdepth>\m@ne
+      \@ifundefined{if@mainmatter}%
+      \iftrue{\@nameuse{if@mainmatter}}%
+        \let\Hy@next\relax
+      \fi
+    \fi
+    \Hy@next
+    \ifnum \c@secnumdepth >\m@ne
+      \if@mainmatter
+        \refstepcounter{chapter}%
+        \typeout{\@chapapp\space\thechapter.}%
+        \addcontentsline{toc}{chapter}%
+          {\protect\numberline{\thechapter}#1}%
+      \else
+        \addcontentsline{toc}{chapter}{{}{}#1}%
+      \fi
+    \else
+      \addcontentsline{toc}{chapter}{{}{}#1}%
+    \fi
+    \chaptermark{#1}%
+    \addtocontents{lof}{\protect\addvspace{10\p@}}%
+    \addtocontents{lot}{\protect\addvspace{10\p@}}%
+    \if@twocolumn
+      \@topnewpage[\web@makechapterhead{#2}]%
+    \else
+      \web@makechapterhead{#2}%
+      \@afterheading
+    \fi
+  }
+  \def\web@@schapter#1{%
+    \if@twocolumn
+    \@topnewpage[\@makeschapterhead{#1}]%
+    \else
+    \web@makeschapterhead{#1}%
+    \@afterheading
+    \fi
+  }
+  \long\def\formatChapterNumber#1{\def\web@formatChapterNumber{#1}}
+  \formatChapterNumber{\large\bfseries
+    \@chapapp\space\thechapter\par\nobreak}
+  \long\def\formatChapterTitle#1{\def\web@formatChapterTitle##1{#1}}
+  \formatChapterTitle{%
+    \interlinepenalty\@M
+    \noindent\hspace{1em}\large\bfseries#1\par\nobreak
+  }
+  \def\web@makechapterhead#1{%
+    \vspace{3\p@}{%
+      \parindent\z@ \raggedright \normalfont
+      \ifnum \c@secnumdepth >\m@ne
+        \if@mainmatter\web@formatChapterNumber\fi
+      \fi
+      \web@formatChapterTitle{#1}\vskip 12\p@
+    }%
+  }
+  \def\web@makeschapterhead#1{%
+    \vspace{3\p@}{%
+      \parindent\z@\raggedright
+      \normalfont
+      \interlinepenalty\@M
+      \large\bfseries #1\par\nobreak
+      \vskip 12\p@
+    }%
+  }
+}     % end \@ifundefined{chapter}
+\endinput
+%%
+%% End of file `websec.def'.

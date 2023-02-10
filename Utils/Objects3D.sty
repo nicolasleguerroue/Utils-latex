@@ -1,35 +1,30 @@
 %############################################################
-%###### Package 'name' 
-%###### This package contains ...
+%###### Package 'Object3D' 
+%###### This package contains tools to display 3D Objects
 %###### Author  : Nicolas LE GUERROUE
 %###### Contact : nicolasleguerroue@gmail.com
 %############################################################
-
-\RequirePackage{csvsimple} 
-\RequirePackage{tikz}  
-\RequirePackage{pgfplots}  
-\RequirePackage{pgf}  
-\RequirePackage{version}            %use commented code
-
+\RequirePackage{tikz}  %Schematic
+\RequirePackage{pgfplots}  %Plot
+\RequirePackage{pgf}  %Plot
 \RequirePackage{graphics} %include figures
 \RequirePackage{graphicx} %include figures
-\RequirePackage{caption}
-\RequirePackage{subcaption} %Add
-\RequirePackage{version}            %use commented code
-\pgfplotsset{compat=1.7}
-\typeout{>>> Utils: Package 'Objects3D' loaded !}
-%############################################################
+\RequirePackage{caption}    %caption
+\RequirePackage{subcaption} %Subcaption
 %################################################################
-%1 : color
-%2 : diameter
-\newcommand{\ball}[2]{%create a 3D ball #color size
-    \tikz\path[shading=ball,
-    ball color=#1] circle (#2mm);
+\typeout{>>> Utils: Package 'Objects3D' loaded !}
+%################################################################
+\pgfplotsset{compat=1.7}
+%################################################################
+\newcommand{\ball}[2] %Create a 3D ball #color size
+{  
+    \tikz\path[shading=ball,ball color=#1] circle (#2mm);
 }
-
 %############################################################
-    \newcommand{\plot}[2]{%Create a 3D plot #title equation
-        \raiseMessage{Creating new plot [title='#1']}
+
+\newcommand{\plot}[2] %Create a 3D plot #title equation
+{
+    \raiseMessage{Creating new plot [title='#1']}
     \begin{tikzpicture}
     \setGraphic %command to display with frenchb babel
      \begin{axis}[title={#1}, xlabel=x, ylabel=y]

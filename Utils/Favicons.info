@@ -12,4 +12,6 @@
 \rowColor{white}  faviconFile & cmd & Get File logo  & 0\\ \hline
 \rowColor{white}  faviconGear & cmd & Get Gear logo  & 0\\ \hline
 \rowColor{white}  faviconClose & cmd & Get Close logo  & 0\\ \hline
+\rowColor{white}  faviconWarning & cmd & Get Warning logo  & 0\\ \hline
+\rowColor{white}  faviconInfo & cmd & Get Info logo  & 0\\ \hline
 \end{tabular}

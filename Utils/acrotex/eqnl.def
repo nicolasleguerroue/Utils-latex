@@ -1,0 +1,81 @@
+%%
+%% This is file `eqnl.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% exerquiz.dtx  (with options: `copyright,eqnl')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Exerquiz.sty package,                                %%
+%% Copyright (C) 1999-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ProvidesFile{eqnl.def}
+%%%%%%%%%%%%%%%%%%% eqnl.def %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Foreign language support for the exerquiz package. %%
+%% Name of translator: Henny Wilbrink                 %%
+%% e-mail address: wsdwhw@win.tue.nl                  %%
+%% Language: Dutch                                    %%
+%%                                                    %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand\exlabel{Opgave}
+\renewcommand\exlabelsol{\exlabel}
+
+\renewcommand\exsectitle{Oplossingen van de Opgaven}
+\renewcommand\exsecrunhead{\exsectitle}
+
+\renewcommand{\eq@exsolafterDefault}{\textit{Oplossing}:}
+
+\renewcommand\eq@sqslsectitle{Oplossingen van de Toetsen}
+\renewcommand\sqslsectitle{\eq@sqslsectitle}
+
+\renewcommand\eq@sqslsecrunhead{Oplossingen van de Toetsen}
+\renewcommand\sqslsecrunhead{\eq@sqslsecrunhead}
+
+\renewcommand{\eq@exsolafterDefault}{\textit{Oplossing}:}
+
+\renewcommand\eq@sqsllabel{\string\textbf{Oplossing van Toets:}}
+\renewcommand\sqsllabel{\eq@sqsllabel}
+
+\renewcommand\sqsolafter{\textit{Oplossing}:}
+
+\renewcommand\eq@sqlabel{\textcolor{red}{Toets.}}
+\renewcommand\sqlabel{\eq@sqlabel}
+
+\renewcommand\eq@sqslrtnlabel{Terug naar Toets}
+\renewcommand\sqslrtnlabel{\eq@sqslrtnlabel}
+
+\renewcommand\eqsqrtmsg{"Goed!"}
+\renewcommand\eqsqwgmsg{"Fout!"}
+
+\renewcommand\eq@bqlabel{Begin Toets}
+\renewcommand\bqlabel{\eq@bqlabel}
+\renewcommand\eq@bqlabelISO{\eq@bqlabel}
+\renewcommand\bqlabelISO{\eq@bqlabel}
+
+\renewcommand\eq@eqlabel{Einde Toets}
+\renewcommand\eqlabel{\eq@eqlabel}
+
+\renewcommand\eq@Score{Score:}\renewcommand\eq@OutOf{van de}
+
+\renewcommand\eqInitQuizMsg{%
+  "U moet de Toets initialiseren! Klik op "+msg+"."}
+\renewcommand\eqMadeChoice{%
+   "U hebt al een keuze gemaakt.
+    Uw keuze was ("+Responses[probno]+").
+    Wil u dit veranderen?"}
+\renewcommand\eq@local@CA{Corrigeer}
+\renewcommand\eq@local@RC{Mijn Antwoorden!}
+\renewcommand\eq@local@AC{AUB!}
+\dlJSStr*[noquotes]{\limSelWarningMsg}{"Voor deze vraag mag je maximaal "
+  + n + " selecties maken."}
+\endinput
+%%
+%% End of file `eqnl.def'.

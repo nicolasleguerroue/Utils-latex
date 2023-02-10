@@ -15,7 +15,12 @@ class Command():
     OLDFILENAME = ""
     CONTENT_FILE = ""
     
+    LAST_PARSED_FILE = ""
+    
     INCLUDE_CONTENT_FILE = ""
+    READ_LAST_FILE = False
+    
+    COLORS = [] #All personnal colors
 
     def __init__(self, name, description, args=[], type=NEWCOMMAND, file=""):
 
@@ -24,10 +29,10 @@ class Command():
         self.__args = args
         self.__type = type
         self.__file = file
+                
+    def setLastParsedFile(self, file):
+        Command.LAST_PARSED_FILE = file
         
-        self.__oldFilename = ""
-        
-
     def __str__(self):
 
         return "<Command : "+self.__name+" des='"+self.__description+"'>"
@@ -54,11 +59,16 @@ class Command():
             self.color = "\\rowColor{red}"
 
         if(Command.OLDFILENAME!=self.__file):
-            if(Command.COUNTER!=0):
-                file = open(Command.OLDFILENAME.replace(".sty", ".info"), "w")
-                Command.CONTENT_FILE+="\\end{tabular}"
-                Command.INCLUDE_CONTENT_FILE +="\\end{tabular}"
-                file.write(Command.INCLUDE_CONTENT_FILE+Command.CONTENT_FILE)
+            if(Command.COUNTER!=0 or (self.__file==Command.LAST_PARSED_FILE)):
+                file = None
+                if(Command.COUNTER!=0):
+                    file = open(Command.OLDFILENAME.replace(".sty", ".info"), "w")
+                    Command.CONTENT_FILE+="\\end{tabular}"
+                    Command.INCLUDE_CONTENT_FILE +="\\end{tabular}"
+                    file.write(Command.INCLUDE_CONTENT_FILE+Command.CONTENT_FILE)
+                if(self.__file==Command.LAST_PARSED_FILE):
+                    file = open(self.__file.replace(".sty", ".info"), "w")
+
             Command.CONTENT_FILE = "\\section{Liste des fonctions}\n\\begin{tabular}{|l|l|l|l|}\\hline \n\\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Type} & \color{white}{Description} & \color{white}{Argument}\\\\ \\hline\n"
             Command.INCLUDE_CONTENT_FILE = "\\section{Liste des dépendances}\n\\begin{tabular}{|l|l|}\\hline \n\\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Description} \\\\ \\hline\n"
             Command.OLDFILENAME=self.__file
@@ -92,7 +102,7 @@ class Command():
             return content
         
         if(self.__type == Command.NEWCOLOR):
-            
+            print("AA")
             Command.CONTENT_FILE += self.color+" "+self.__name+" & "+str(self.typeCommand)+" & "+self.__description+" & "+str(len(self.__args))+"\\\\ \\hline\n"
             content += "\""+self.__description+"\": {\n"
             content += "\t \"scope\" : \"tex, latex\",\n"
@@ -168,8 +178,8 @@ class Snippet():
 
         os.chdir(self.__directory)
         files = os.listdir(os.getcwd())
+        
         for f in files:
-            
             if(".sty" in f or f=="Colors.tex"):
                 tmpLines =  []
 
@@ -243,9 +253,12 @@ class Snippet():
                 elif("newenvironment" in l):
                     counter += 1
                     commands.append(Command(self.__getName(l), self.__getDescription(l),  self.__getArgs(l), Command.ENVIRONMENT, filename))
-
+                
+                if(".sty" in filename and len(commands)>0):
+                    commands[0].setLastParsedFile(filename)
+                
         print("Command Counter : "+str(counter))
-
+        #Save last parsed file
         data = "{\n"
         for c in commands:
             r = c.create()

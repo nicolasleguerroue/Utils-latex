@@ -1,0 +1,116 @@
+%%
+%% This is file `eqcz.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% exerquiz.dtx  (with options: `copyright,eqcz')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Exerquiz.sty package,                                %%
+%% Copyright (C) 1999-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ProvidesFile{eqcz.def}
+%%%%%%%%%%%%%%%%%%% eqcat.def %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Foreign language support for the exerquiz package.  %%
+%% Name of translator: Robert Marik                    %%
+%% e-mail address: marik@mendelu.cz                    %%
+%% Language:  (czech)                                  %%
+%%                                                     %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SFW{1.75in}
+
+\renewcommand\exlabel{Cvi\v{c}en\'{\i}}
+\renewcommand\exlabelsol{Cvi\protect\v{c}en\protect\'{\protect\i}}
+
+\renewcommand\exsectitle{\texorpdfstring{\v{R}e\v{s}en\'{\i}
+    ke cvi\v{c}en\'{\i}m}
+    {Resen\355{} ke cvicen\355m}} %% change to @ form
+\renewcommand\exsecrunhead{%
+    \string\v{R}e\string\v{s}en\string\'{\string\i}
+    ke cvi\string\v{c}en\string\'{\string\i}m}
+
+\renewcommand{\eq@exsolafterDefault}{\textit{\v{R}e\v{s}en\'\i}:}
+
+\renewcommand\eq@sqslsectitle{\texorpdfstring{\v{R}e\v{s}en\'{\i}
+    kv\'{\i}z\r{u}}{Resen\355{} kv\355zu}}
+\renewcommand\sqslsectitle{\eq@sqslsectitle}
+
+\renewcommand\eq@sqslsecrunhead{\v{R}e\v{s}en\'{\i} kv\'{\i}z\r{u}}
+\renewcommand\sqslsecrunhead{\eq@sqslsecrunhead}
+
+\renewcommand\eq@sqsllabel{\string\textbf{%
+    \string\v{R}e\string\v{s}en\string\'{\string\i}
+    kv\string\'{\string\i}zu:}}
+\renewcommand\sqsllabel{\eq@sqsllabel}
+
+\renewcommand\sqsolafter{\textit{\v{R}e\v{s}en\'{\i}}:}
+
+\renewcommand\eq@sqlabel{\textcolor{red}{Kv\'{\i}z.}}
+\renewcommand\sqlabel{\eq@sqlabel}
+
+\renewcommand\eq@sqslrtnlabel{Zp\string\v{e}t na ot\string\'{a}zky}
+\renewcommand\sqslrtnlabel{\eq@sqslrtnlabel}
+
+\renewcommand\eqsqrtmsg{"Spravne !"}
+\renewcommand\eqsqwgmsg{"Spatne !"}
+
+\renewcommand\eq@bqlabel{Zacatek kvizu}
+\renewcommand\bqlabel{\eq@bqlabel}
+\renewcommand\eq@bqlabelISO{Zacatek kvizu}
+\renewcommand\bqlabelISO{Zacatek kvizu}
+
+\renewcommand\eq@eqlabel{Konec kvizu}
+\renewcommand\eqlabel{\eq@eqlabel}
+\renewcommand\eq@Score{}
+\renewcommand\eq@OutOf{z celkovych}
+\renewcommand\eqInitQuizMsg{%
+  "Chcete-li pracovat s kvizem, musite jej nejprve spustit!
+    Kliknete na "+msg+"."}
+\renewcommand\eqMadeChoice{%
+  "Uz jste si jednou odpoved vybral(a). Vase odpoved byla (" +
+   Responses[probno]+"). Chcete ji opravdu zmenit?"}
+\renewcommand\eq@local@CA{Opravit}
+\renewcommand\eq@local@RC{odpovedi!}
+\renewcommand\eq@local@AC{Prosim!}
+\renewcommand\eqerrABS{"Spatne uzavrena absolutni hodnota.
+    Opravte prosim."}
+\renewcommand\eqerrBadMathFunc{"Vyraz `"+aF[i]+"' neni ani
+    definovanou funkci ani  " +", ani platnym matematickym vyrazem."}
+\renewcommand\eqParens{"Zavorky (kulate)"}
+\renewcommand\eqBrackets{"Hranate zavorky"}
+\renewcommand\eqBraces{"Slozene zavorky"}
+\renewcommand\eqerrDelimNotBal{aGroup[i][2] + " nejsou parove.
+    Opravte je prosim."}
+\renewcommand\eqerrBadExp{"Spatny matematicky vyraz - problem v nekterem
+    exponentu. Opravte jej prosim."}
+\renewcommand\eqerrUnfinishQuiz{"Chyba: Nektery kviz mate nedokonceny.
+    Musite jej dokoncit, nez budete pokracovat u dalsiho kvizu. Pokud si
+    nepamatuje, ktery kviz jste nechali rozpracovany, zavrete cely
+    soubor, znovu jej otevrete a k testu, ktery chcete vyplnovat,
+    se vratte."}
+\renewcommand\noPeekMsg{"Prohlizeni reseni neni povoleno pred dokoncenim
+    kvizu!"}
+\renewcommand\highThresholdMsg{"Musite odpovedet na vsechny otazky, nez
+    ukoncite kviz."}
+\renewcommand\eqSyntaxErrorUndefVar{"Chyba: Pravdepodobne pouzivate
+    nespravnou promennou nebo mate preklep ve jmenu nektere funkce."}
+\renewcommand{\promptButtonMsg}{%
+        "Chcete ted videt spravnou odpoved? "\r\t\t
+        + "Hodnocena bude Vase soucasna odpoved. "\r\t\t
+        + "Kliknete-li na \\"Yes\\", uvidite spravnou odpoved, ale svou
+           stavajici odpoved na tuto otazku uz nebudete moct zmenit."
+}
+\dlJSStr*[noquotes]{\limSelWarningMsg}{"Pro tuto ot\string\341zku
+  m\u016F\u017Eete prov\'{e}st maxim\'{a}ln\u011B "
+  + n + " v\u00FDb\u0115ry."}
+\endinput
+%%
+%% End of file `eqcz.def'.

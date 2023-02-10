@@ -1,0 +1,89 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.8.29)  18 DEC 2022 17:52
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**eq-save.ins
+(./eq-save.ins
+LaTeX2e <2021-11-15> patch level 1
+L3 programming layer <2022-01-21>
+(/usr/share/texlive/texmf-dist/tex/latex/base/docstrip.tex
+\blockLevel=\count185
+\emptyLines=\count186
+\processedLines=\count187
+\commentsRemoved=\count188
+\commentsPassed=\count189
+\codeLinesPassed=\count190
+\TotalprocessedLines=\count191
+\TotalcommentsRemoved=\count192
+\TotalcommentsPassed=\count193
+\TotalcodeLinesPassed=\count194
+\NumberOfFiles=\count195
+\inFile=\read2
+\inputcheck=\read3
+\off@0=\count196
+\off@1=\count197
+\off@2=\count198
+\off@3=\count199
+\off@4=\count266
+\off@5=\count267
+\off@6=\count268
+\off@7=\count269
+\off@8=\count270
+\off@9=\count271
+\off@10=\count272
+\off@11=\count273
+\off@12=\count274
+\off@13=\count275
+\off@14=\count276
+\off@15=\count277
+\@maxfiles=\count278
+\@maxoutfiles=\count279
+
+Utility: `docstrip' v2.6a <2020-11-23>
+English documentation    <2020-11-23>
+
+**********************************************************
+* This program converts documented macro-files into fast *
+* loadable files by stripping off (nearly) all comments! *
+**********************************************************
+
+********************************************************
+* No Configuration file found, using default settings. *
+********************************************************
+
+(./eq-save.ins
+
+Generating file(s) ./eq-save.sty 
+\openout0 = `./eq-save.sty'.
+
+
+Processing file eq-save.dtx (copyright,package) -> eq-save.sty
+File eq-save.dtx ended by \endinput.
+Lines  processed: 679
+Comments removed: 247
+Comments  passed: 11
+Codelines passed: 412
+
+***************************************************************
+*
+*  To finish the installation you have to copy the files 
+*
+*  *.sty, *.cfg and *.def into a directory searched by TeX
+*
+***************************************************************
+) ) ) 
+Here is how much of TeX's memory you used:
+ 338 strings out of 478287
+ 3584 string characters out of 11599289
+ 12296260 words of memory out of 24000000
+ 18627 multiletter control sequences out of 15000+600000
+ 469259 words of font info for 28 fonts, out of 12000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 15i,0n,15p,209b,123s stack positions out of 5000i,500n,10000p,12000000b,80000s
+
+No pages of output.
+PDF statistics:
+ 0 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

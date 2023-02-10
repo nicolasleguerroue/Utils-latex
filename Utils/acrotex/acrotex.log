@@ -1,0 +1,258 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2022.8.29)  18 DEC 2022 17:52
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**acrotex.ins dljslib.ins eforms.ins exerquiz.ins insdljs.ins taborder.ins web.
+ins
+(./acrotex.ins
+LaTeX2e <2021-11-15> patch level 1
+L3 programming layer <2022-01-21>
+(/usr/share/texlive/texmf-dist/tex/latex/base/docstrip.tex
+\blockLevel=\count185
+\emptyLines=\count186
+\processedLines=\count187
+\commentsRemoved=\count188
+\commentsPassed=\count189
+\codeLinesPassed=\count190
+\TotalprocessedLines=\count191
+\TotalcommentsRemoved=\count192
+\TotalcommentsPassed=\count193
+\TotalcodeLinesPassed=\count194
+\NumberOfFiles=\count195
+\inFile=\read2
+\inputcheck=\read3
+\off@0=\count196
+\off@1=\count197
+\off@2=\count198
+\off@3=\count199
+\off@4=\count266
+\off@5=\count267
+\off@6=\count268
+\off@7=\count269
+\off@8=\count270
+\off@9=\count271
+\off@10=\count272
+\off@11=\count273
+\off@12=\count274
+\off@13=\count275
+\off@14=\count276
+\off@15=\count277
+\@maxfiles=\count278
+\@maxoutfiles=\count279
+
+Utility: `docstrip' v2.6a <2020-11-23>
+English documentation    <2020-11-23>
+
+**********************************************************
+* This program converts documented macro-files into fast *
+* loadable files by stripping off (nearly) all comments! *
+**********************************************************
+
+********************************************************
+* No Configuration file found, using default settings. *
+********************************************************
+
+(./acrotex.ins
+
+Generating file(s) ./web.sty ./websec.def ./webpro.def 
+\openout0 = `./web.sty'.
+
+\openout1 = `./websec.def'.
+
+\openout2 = `./webpro.def'.
+
+
+Processing file web.dtx (copyright,package) -> web.sty
+                        (copyright,websectioning) -> websec.def
+                        (copyright,webpro) -> webpro.def
+File web.dtx ended by \endinput.
+Lines  processed: 5398
+Comments removed: 2141
+Comments  passed: 16
+Codelines passed: 3203
+
+
+Generating file(s) ./exerquiz.sty ./aebjs.def ./aebrandom.def ./aebsumrytbls.de
+f ./usemcfi.def ./rbmintrvl.def ./eqcolor.def ./template.def ./eqfr.def ./eqde.
+def ./eqno.def ./eqnl.def ./eqes.def ./eqit.def ./eqru.def ./eqda.def ./eqpo.de
+f ./eqfin.def ./eqcat.def ./eqcz.def ./eqbr.def ./eqtr.def 
+\openout0 = `./exerquiz.sty'.
+
+\openout1 = `./aebjs.def'.
+
+\openout2 = `./aebrandom.def'.
+
+\openout3 = `./aebsumrytbls.def'.
+
+\openout4 = `./usemcfi.def'.
+
+\openout5 = `./rbmintrvl.def'.
+
+\openout6 = `./eqcolor.def'.
+
+\openout7 = `./template.def'.
+
+\openout8 = `./eqfr.def'.
+
+\openout9 = `./eqde.def'.
+
+\openout10 = `./eqno.def'.
+
+\openout11 = `./eqnl.def'.
+
+\openout12 = `./eqes.def'.
+
+\openout13 = `./eqit.def'.
+
+\openout14 = `./eqru.def'.
+
+\openout15 = `./eqda.def'.
+
+
+Processing file exerquiz.dtx (copyright,package) -> exerquiz.sty
+                             (copyright,aebjs) -> aebjs.def
+                             (copyright,randomize) -> aebrandom.def
+                             (copyright,sumrytbls) -> aebsumrytbls.def
+                             (copyright,mcfi) -> usemcfi.def
+                             (copyright,rbmIntrvl) -> rbmintrvl.def
+                             (copyright,eqcolor) -> eqcolor.def
+                             (copyright,template) -> template.def
+                             (copyright,eqfr) -> eqfr.def
+                             (copyright,eqde) -> eqde.def
+                             (copyright,eqno) -> eqno.def
+                             (copyright,eqnl) -> eqnl.def
+                             (copyright,eqes) -> eqes.def
+                             (copyright,eqit) -> eqit.def
+                             (copyright,eqru) -> eqru.def
+                             (copyright,eqda) -> eqda.def
+Lines  processed: 15180
+Comments removed: 6637
+Comments  passed: 121
+Codelines passed: 7912
+
+\openout0 = `./eqpo.def'.
+
+\openout1 = `./eqfin.def'.
+
+\openout2 = `./eqcat.def'.
+
+\openout3 = `./eqcz.def'.
+
+\openout4 = `./eqbr.def'.
+
+\openout5 = `./eqtr.def'.
+
+
+Processing file exerquiz.dtx (copyright,eqpo) -> eqpo.def
+                             (copyright,eqfin) -> eqfin.def
+                             (copyright,eqcat) -> eqcat.def
+                             (copyright,eqcz) -> eqcz.def
+                             (copyright,eqbr) -> eqbr.def
+                             (copyright,eqtr) -> eqtr.def
+Lines  processed: 15180
+Comments removed: 6637
+Comments  passed: 121
+Codelines passed: 7912
+
+
+Generating file(s) ./eforms.sty ./epdfmark.def ./epdftex.def ./edvipdfm.def ./u
+ieforms.def ./setcorder.def ./pdfdochex.def 
+\openout0 = `./eforms.sty'.
+
+\openout1 = `./epdfmark.def'.
+
+\openout2 = `./epdftex.def'.
+
+\openout3 = `./edvipdfm.def'.
+
+\openout4 = `./uieforms.def'.
+
+\openout5 = `./setcorder.def'.
+
+\openout6 = `./pdfdochex.def'.
+
+
+Processing file eforms.dtx (copyright,package) -> eforms.sty
+                           (copyright,epdfmark) -> epdfmark.def
+                           (copyright,epdftex) -> epdftex.def
+                           (copyright,edvipdfm) -> edvipdfm.def
+                           (copyright,userinterface) -> uieforms.def
+                           (copyright,setcorder) -> setcorder.def
+                           (copyright,hexoctcodes) -> pdfdochex.def
+File eforms.dtx ended by \endinput.
+Lines  processed: 5688
+Comments removed: 2743
+Comments  passed: 12
+Codelines passed: 2902
+
+
+Generating file(s) ./insdljs.sty ./dljscc.def ./altadbfncs.def 
+\openout0 = `./insdljs.sty'.
+
+\openout1 = `./dljscc.def'.
+
+\openout2 = `./altadbfncs.def'.
+
+
+Processing file insdljs.dtx (copyright,package) -> insdljs.sty
+                            (copyright,cc4js) -> dljscc.def
+                            (copyright,altadbfncs) -> altadbfncs.def
+Lines  processed: 3006
+Comments removed: 1903
+Comments  passed: 11
+Codelines passed: 1077
+
+
+Generating file(s) ./dljslib.sty 
+\openout0 = `./dljslib.sty'.
+
+
+Processing file dljslib.dtx (copyright,package) -> dljslib.sty
+File dljslib.dtx ended by \endinput.
+Lines  processed: 2917
+Comments removed: 1097
+Comments  passed: 11
+Codelines passed: 1800
+
+
+Generating file(s) ./taborder.sty 
+\openout0 = `./taborder.sty'.
+
+
+Processing file taborder.dtx (copyright,package) -> taborder.sty
+File taborder.dtx ended by \endinput.
+Lines  processed: 239
+Comments removed: 137
+Comments  passed: 11
+Codelines passed: 82
+
+***************************************************************
+*
+*  To finish the installation you have to copy the files 
+*
+*  *.sty, *.cfg and *.def into a directory searched by TeX
+*
+***************************************************************
+)
+Overall statistics:
+Files  processed: 7
+Lines  processed: 47608
+Comments removed: 21295
+Comments  passed: 303
+Codelines passed: 24888
+ ) ) 
+Here is how much of TeX's memory you used:
+ 653 strings out of 478287
+ 7268 string characters out of 11599289
+ 12301845 words of memory out of 24000000
+ 18906 multiletter control sequences out of 15000+600000
+ 469259 words of font info for 28 fonts, out of 12000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 17i,0n,15p,295b,291s stack positions out of 5000i,500n,10000p,12000000b,80000s
+
+No pages of output.
+PDF statistics:
+ 0 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

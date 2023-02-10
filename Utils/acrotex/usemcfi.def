@@ -1,0 +1,76 @@
+%%
+%% This is file `usemcfi.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% exerquiz.dtx  (with options: `copyright,mcfi')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Exerquiz.sty package,                                %%
+%% Copyright (C) 1999-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\bMCFI{\withinMCFItrue
+  \ifx\qRadionActionsHook\@empty
+    \let\qRadionActionsHook@SAVE\@empty
+    \def\qRadionActionsHook{\jsR
+    qRadioButtonMCFI(\Ans@choice,"\currQuiz",\thequestionno);}\else
+    \let\qRadionActionsHook@SAVE\qRadionActionsHook
+    \def\qRadionActionsHook{\qRadionActionsHook@SAVE\jsR
+    qRadioButtonMCFI(\Ans@choice,"\currQuiz",\thequestionno);}\fi
+  \ifx\every@RespBoxMath\@empty
+    \let\every@RespBoxMath@SAVE\@empty
+    \def\every@RespBoxMath{%
+    \AddAAKeystroke{mcfiKeyStroke("\currQuiz",\thequestionno);}}%
+  \else
+    \let\every@RespBoxMath@SAVE\every@RespBoxMath
+    \expandafter\def\expandafter\every@RespBoxMath\expandafter
+    {\every@RespBoxMath@SAVE
+    \AddAAKeystroke{mcfiKeyStroke("\currQuiz",\thequestionno);}}%
+  \fi
+}
+\def\eMCFI{%
+  \ifx\qRadionActionsHook@SAVE\@empty
+    \let\qRadionActionsHook\@empty\else
+    \let\qRadionActionsHook\qRadionActionsHook@SAVE\fi
+  \ifx\every@RespBoxMath@SAVE\@empty
+    \let\every@RespBoxMath\@empty\else
+    \let\every@RespBoxMath\every@RespBoxMath@SAVE\fi
+  \withinMCFIfalse
+}
+\def\eqNA{-43252452452}
+\@ifundefined{text}{\let\MCFIMarkup@BOX\mbox}{\let\MCFIMarkup@BOX\text}
+\newcommand\mcfiMarkupfmt{\cgBdry
+  ${}^{\MCFIMarkup@BOX{\aeb@creditmarkup}}$}
+\def\mcfiMarkup{\addtocounter{questionno}{-1}\mcfiMarkupfmt
+  \stepcounter{questionno}}
+\newcommand{\clickChkBxMCFI}{"Click the check box preceding this
+    math input field to enter text."}
+\begin{insDLJS}{mcf}{Eq: Supports MCFI-type questions}
+function mcfiKeyStroke(qname,n) {
+    if (event.change=="") return;
+    var qNumMC=--n;
+    var mcName="mc."+qname+"."+qNumMC;
+    var mc= this.getField(mcName);
+    var aExpVs=mc.exportValues;
+    var l=aExpVs.length-1;
+    if (!mc.isBoxChecked(l)) {
+        eqAppAlert(\clickChkBxMCFI,3);
+        event.rc=false;
+    }
+}
+function qRadioButtonMCFI(key,qname,n) {
+    var fname = "obj."+qname+"."+(n+1);
+    if ( key == 0) this.resetForm(fname);
+}
+\end{insDLJS}
+\endinput
+%%
+%% End of file `usemcfi.def'.

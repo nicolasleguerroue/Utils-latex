@@ -5,12 +5,12 @@
 %###### Contact : nicolasleguerroue@gmail.com
 %############################################################
 \RequirePackage{cite} %Ref to bibliography
-\RequirePackage{epigraph}
-\RequirePackage{quotchap}
-
-%################################################################
+\RequirePackage{epigraph} %Epigraph
+\RequirePackage{quotchap} %Quote format
 \typeout{>>> Utils: Package 'Quotes' loaded !}
 
-\newcommand{\addQuote}[2]{ %Create quote #content author
-   \epigraph{\textit{\og #1 \fg{}}}{#2}
+
+\newcommand{\addQuote}[2] %Create quote #content author
+{ 
+   \epigraph{\textit{\og #1 \fg{}}}{#2}B
 }

@@ -1,0 +1,680 @@
+% \iffalse
+%<*copyright>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% eq-save package,                                     %%
+%% Copyright (C) 2017-2021                              %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1.2 of    %%
+%% the License, or (at your option) any later version.  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%</copyright>
+%<package>\NeedsTeXFormat{LaTeX2e}[1997/12/01]
+%<package>\ProvidesPackage{eq-save}
+%<package> [2021/04/27 v1.2.5 eq-save: save exerquiz quizzes and resume (dps)]
+%<*driver>
+\documentclass{ltxdoc}
+\usepackage[colorlinks,hyperindex=false]{hyperref}
+\usepackage{calc}
+\let\uif\textsf\let\app\textsf
+\let\pkg\textsf\let\env\texttt
+\let\opt\texttt
+\def\ameta#1{$\langle\textit{\texttt{#1}}\rangle$}
+\def\psf#1{\textsf{\textbf{#1}}}
+%\pdfstringdefDisableCommands{\let\\\textbackslash}
+\OnlyDescription  % comment out for implementation details
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\InputIfFileExists{aebdocfmt.def}{\PackageInfo{eq-save}{Inputting aebdocfmt.def}}
+    {\def\IndexOpt{\DescribeMacro}\def\IndexKey{\DescribeMacro}\let\setupFullwidth\relax
+     \PackageInfo{eq-save}{aebdocfmt.def cannot be found}}
+\begin{document}
+\def\CMD#1{\textbackslash#1}
+  \GetFileInfo{eq-save.sty}
+  \title{\textsf{eq-save}: Saving \pkg{exerquiz} quizzes and resuming}
+  \author{D. P. Story\\
+    Email: \texttt{dpstory@acrotex.net}}
+  \date{processed \today}
+  \maketitle
+  \tableofcontents
+  \let\Email\texttt
+  \renewenvironment{theglossary}{%
+    \let\efill\relax
+    \begin{itemize}}{\end{itemize}}
+   \value{GlossaryColumns}=1
+  \DocInput{eq-save.dtx}
+\IfFileExists{\jobname.ind}{\newpage\setupFullwidth\par\PrintIndex}{\paragraph*{Index} The index goes here.\\Execute
+    \texttt{makeindex -s gind.ist -o eq-save.ind eq-save.idx} on the command line and recompile
+    \texttt{eq-save.dtx}.}
+\IfFileExists{\jobname.gls}{\PrintChanges}{\paragraph*{Change History} The list of changes goes here.\\Execute
+    \texttt{makeindex -s gglo.ist -o eq-save.gls eq-save.glo} on the command line and recompile
+    \texttt{eq-save.dtx}.}
+\end{document}
+%</driver>
+% \fi
+% \MakeShortVerb{|}
+% \InputIfFileExists{aebdonotindex.def}{\PackageInfo{web}{Inputting aebdonotindex.def}}
+%    {\PackageInfo{web}{cannot find aebdonotindex.def}}
+%    \begin{macrocode}
+%<*package>
+%    \end{macrocode}
+%    The option \IndexOpt{devmode}\opt{devmode} does not require the user to enter his or  her name
+%    in the name field, if the \cs{nameField} and \cs{BeginNoPeeking} commands are present; otherwise it has no effect.
+%    The \IndexOpt{!devmode}\opt{!devmode} is the logical negation of \opt{devmode}, its the same as no option
+%    passed.
+%    \begin{macrocode}
+\DeclareOption{devmode}{\def\devMode{true}}
+\DeclareOption{!devmode}{\def\devMode{false}}
+\def\devMode{false}
+\ProcessOptions
+\RequirePackage{exerquiz}[2017/07/30]
+\RequirePackage{atbegshi}
+\edef\ap@restoreCats{%
+  \catcode`\noexpand\"=\the\catcode`\"\relax
+  \catcode`\noexpand\,=\the\catcode`\,\relax
+  \catcode`\noexpand\(=\the\catcode`\(\relax
+  \catcode`\noexpand\!=\the\catcode`\!\relax
+}
+\@makeother\"\@makeother\,\@makeother\(\@makeother\!
+%    \end{macrocode}
+%   \changes{v1.0}{2017/08/12}{Wrote initial documentation, set version as v1.0}
+%   \section{Introduction}
+%   Work, on what ultimately became this package, was initiated by a user Manfred~S. He and his team were writing
+%   practice documents for their students that included \env{oQuestion}, \env{shortquiz}, and \env{quiz} environments from the
+%   \pkg{exerquiz} package. It was desired for the student to enter his/her name first, then begin the practice document.
+%   After a while, the student may become tired or disinterested, so he/she save the document.
+%   He wanted to take advantage of the ability of Adobe Acrobat Reader 11 or greater (DC and beyond) to save the form data,
+%   something it couldn't do prior. Later the student becomes motivated and returns to the document to continue working through
+%   the questions.
+%
+%   Sounds good, but wait! \env{oQuestion}, \env{shortquiz}, and \env{quiz} environments were not designed
+%   for this. There are a lot of JavaScript variables, arrays, objects containing information about the quizzes as they are
+%   attempted. This data is normally disposed of when the reader takes another quiz. Certainly, as the user saves and closes
+%   the document all variables, arrays, objects are lost. This package attempts to save all essential information when
+%   the user saves the document, the information is saved in a hidden text field. Upon opening the document again,
+%   the essential data is restored.
+%
+%   A professor might want this feature for a tutorial. The tutorial (rather long) can have questions from
+%   \env{oQuestion}, \env{shortquiz}, and \env{quiz} environments. The student can save, and return to the
+%   reading of the tutorial and the answering of the questions. A self-paced tutorial does not need a name field
+%   to act as a `gatekeeper' to the document, as is the need of Manfred~S.
+%
+%
+%   \section{Commands of this package}
+%   The \DescribeMacro{\nameField}\cs{nameField} command inserts a text field into which the student enters
+%   his name; otherwise, he cannot continue to the next page. Changing your name after you've begun to work
+%   on the questions clears the answer to all quizzes; this is an annoyance factor, a feeble attempt to reduce
+%   cheating. When \cs{nameField} is used, the top of the next page should be \cs{BeginNoPeeking}.
+%    \begin{macrocode}
+\newcommand\nameField[4][]{\textField[#1
+  \AAkeystroke{chk4PassToQuestions(event);}
+  \AAformat{if(typeof oRecordOfQuizData=="undefined") \r\t
+    var oRecordOfQuizData=new Object();\r
+    try{IhrNameFormat(event);}catch(e){}
+  }]{#2}{#3}{#4}}
+%    \end{macrocode}
+%    \DescribeMacro{\hiddenScoreData}is a text field that has zero dimensions, it takes up no (horizontal) {\TeX} space, and is hidden.
+%    This field, when the document is saved, receive all essential quiz data. It is read again when the document
+%    is opened to restore the quiz data. We give this field an initial value, for otherwise, the PDF viewer will
+%    not scan this field on opening.
+%    \begin{macrocode}
+\newcommand{\hiddenScoreData}{\makebox[0pt][l]{%
+\textField[\F\FHidden\V{({})}\DV{({})}\AAformat{%
+  if(typeof oRecordOfQuizData=="undefined")\r\t
+  oRecordOfQuizData={};}\BG{}\BC{}]{holdScoreData}{0bp}{0bp}}}
+\AtBeginShipoutFirst{\hiddenScoreData}
+%    \end{macrocode}
+%    We place this field on the first page, upper left corner. It will be scanned by the PDF viewer (Reader)
+%    and it will define the object \texttt{oRecordOfQuizData} that will hold essential quiz data.
+%
+%    \paragraph*{Displaying and clearing results} As the user/student progresses through the document, he
+%    can see his success rate by viewing the text fields below.
+%
+%    The \DescribeMacro{\sooField}\cs{sooField} (soo=score out of) displays the combined score: `12 out of 16', for example.
+%    The phase may be redefined for language purposes by redeclaring the command \DescribeMacro{\declareScorePhrase}\cs{declareScorePhrase}, the English
+%    declaration is \verb~\declareScorePhrase{#1+"\space\eqOutOf\space"+#2}~, see the documentation above for this command.
+%
+%    The \DescribeMacro{\sField}\cs{sField} is one the field that holds only the score, while
+%    \DescribeMacro{\ooField}\cs{ooField} holds the `out of' value.
+%    \begin{macrocode}
+\newcommand{\sField}[3][]{\textField[\Ff{\FfReadOnly}#1]%
+  {\eqsroot.Score}{#2}{#3}}
+\newcommand{\ooField}[3][]{\textField[\Ff{\FfReadOnly}#1]%
+  {\eqsroot.OutOf}{#2}{#3}}
+\newcommand{\sooField}[3][]{\textField[\Ff{\FfReadOnly}#1]%
+   {\eqsroot.ScoreComb}{#2}{#3}}
+%    \end{macrocode}
+%    Now we do the same thing for the points score. \DescribeMacro{\psField}\cs{psField} holds the total
+%    number of points awarded; \DescribeMacro{\pooField}\cs{pooField} is the total number of points;
+%    \DescribeMacro{\psooField}\cs{psooField} is the `points out of' field.
+%    \begin{macrocode}
+\newcommand{\psField}[3][]{\textField[\Ff{\FfReadOnly}#1]%
+  {\eqsroot.ptScore}{#2}{#3}}
+\newcommand{\pooField}[3][]{\textField[\Ff{\FfReadOnly}#1]%
+  {\eqsroot.ptOutOf}{#2}{#3}}
+\newcommand{\psooField}[3][]{\textField[\Ff{\FfReadOnly}#1]%
+   {\eqsroot.ptScoreComb}{#2}{#3}}
+%    \end{macrocode}
+%    We supply a global clearing button. This button clear all results in the document, questions posed
+%    by \env{oQuestions}, \env{shortquiz}, and \env{quiz} environments.
+%    \begin{macrocode}
+\newcommand{\clearAllField}[3][]{\pushButton[\CA{Clear All}#1
+  \AAmouseup{clearAllSQElements();}]{globalClearAll}{#2}{#3}}
+%    \end{macrocode}
+%
+%   \paragraph*{Set action keys} We modify certain action keys to save the information we'll need later when the document is saved.
+%   The \cs{setActionKeys} is a new feature of \pkg{exerquiz} (2017/07/29) and is used to add JavaScript
+%   actions to certain key elements of the quiz environments. This is how we are able to preserve and later
+%   restore the quiz data. The command \DescribeMacro{\eqsSetActionKeys}\cs{eqsSetActionKeys} is expanded
+%   when \cs{DeclareReportRootName} is expanded. If the author declares a new root, the \cs{setActionKeys},
+%   which depend on \cs{eqsroot}, must be re-emitted.
+%    \begin{macrocode}
+\newcommand{\eqsSetActionKeys}{%
+  \setActionKeys{%
+%    \end{macrocode}
+%    (2018/04/07) Removing \cs{AddAAFormat}, there is no test for null later in the code.
+%    \changes{v1.1}{2018/04/07}{No need for the change to \string\cs{AddAAFormat}}
+%    \begin{macrocode}
+%    \AddAAFormat{\if\eqQuizType\isSQZ
+%      if (typeof event.target.isCorrect=="undefined")\r\t
+%      event.target.isCorrect=null;\fi}
+    \AddAAKeystroke{\if\eqQuizType\isSQZ
+      event.target.isCorrect=(retn)?1:0;\r\t
+      oRecordOfQuizData[event.target.name]=event.target.isCorrect;\r\t
+      cntCorrectResponses();\fi}
+    \AddAAMouseUpMC{\if\eqQuizType\isSQZ
+      event.target.isCorrect=\Ans@choice;\r
+      oRecordOfQuizData[event.target.name]=event.target.isCorrect;\r
+      cntCorrectResponses();\fi}
+    \AddAAMouseUpMS{\if\eqQuizType\isSQZ
+      event.target.isCorrect=\Ans@choice;\r
+      oRecordOfQuizData[event.target.name]=event.target.isCorrect;\r
+      cntCorrectResponses();\fi}
+  }%
+}
+%    \end{macrocode}
+% \paragraph*{Modify actions of Begin Quiz and End Quiz} These actions may be modified using the
+% two commands \cs{postInitQuiz} and \cs{postSubmitQuiz}. They are used to insert the \texttt{cntCorrectResponses()} call
+% into the action performed by the `Begin Quiz' and `End Quiz' buttons. \emph{It is assumed the document
+% author is not otherwise using these two commands.}
+%    \begin{macrocode}
+\def\postInitQuiz{%
+  var f=this.getField("ScoreData.\oField");\r
+  f.value="0;0;0;0";\r
+  cntCorrectResponses();}
+\def\postSubmitQuiz{%
+  oRecordOfQuizData["ScoreData.\oField"]=%
+    [1*Score,1*NQuestions,1*ptScore,1*NPointTotal];\r\t\t
+  cntCorrectResponses();\r
+}
+%    \end{macrocode}
+%   \paragraph*{Open Page Action} We add a page open event to restore the data as needed. We only do this once
+%   per document session. The script used in contained in the command \DescribeMacro\restoreQD\cs{restoreQD}.
+%   \changes{v1.2.3}{2019/27/07}{Made the open doc script into a macro \string\cs{resoreQD}}
+%   \changes{v1.2.4}{2019/08/01}{Changed to page open}
+%   \changes{v1.2.5}{2019/08/07}{added dirty=false to \string\cs{restoreQD}}
+%    \begin{macrocode}
+\def\restoreQD{if(!restoreQuizData.hasRestoredData)\r\t
+  var rqdTO=(app.setTimeOut("try{restoreQuizData()}catch(e){};%
+  app.clearTimeOut(rqdTO);%
+  restoreQuizData.hasRestoredData=true;dirty=false;",1000));}
+%\addToDocOpen{\JS{\restoreQD}}
+\thisPageAction{\JS{\restoreQD}}{}
+%\thisPageAction{\JS{if(!restoreQuizData.hasRestoredData)\r\t
+%  var rqdTO=(app.setTimeOut("restoreQuizData();%
+%  app.clearTimeOut(rqdTO);%
+%  restoreQuizData.hasRestoredData=true",1000));}}{}
+%    \end{macrocode}
+%   \paragraph*{Action prior to saving} It is important to save the quiz data, we can only do that if we save
+%   it to a field, the value of the field will be saved. We save the data to a hidden text field
+%   \texttt{"holdScoreData"}, this field is required.
+%    \begin{macrocode}
+\begin{willSave}
+isAQuizUnfinishedAtSave();
+if (typeof oRecordOfQuizData !="undefined") collectQuizData();
+\end{willSave}
+%    \end{macrocode}
+% \paragraph*{No peeking} If the \cs{nameField} command is used,
+% use \DescribeMacro{\BeginNoPeeking}\cs{BeginNoPeeking} command can optionally appear on the
+% first page that contain content the author does not want the user to peek at. The
+% JavaScript string \DescribeMacro{\EnterNameFirstMsg}\cs{EnterNameFirstMsg} appears in the alert
+% box if the user goes to a forbidden page without first enther his name into the \cs{nameField}.
+% May be redefined for local languages.
+%    \begin{macrocode}
+\flJSStr[noquotes,noparens]{\EnterNameFirstMsg}{You must enter
+  your name first!}
+\def\declareScorePhrase#1{\def\dclScorePhse(##1)(##2){#1}}
+\declareScorePhrase{#1+"\space\eqOutOf\space"+#2}
+\def\BeginNoPeeking{\def\IhrNamePO{\thisPageAction{%
+  \JS{if(!_docDevMode&&!_passToQuestions){\r\t
+    this.pageNum=0;\r\t
+    NoNameMsg=app.setTimeOut("app.alert('\EnterNameFirstMsg');%
+    app.clearTimeOut(NoNameMsg);",25);}}}{}}%
+%    \end{macrocode}
+% Page option for this page
+%    \begin{macrocode}
+  \IhrNamePO
+%    \end{macrocode}
+% Page open for all other pages
+%    \begin{macrocode}
+  \AtBeginShipout{\IhrNamePO}%
+}
+%    \end{macrocode}
+%     The command \DescribeMacro{\DeclareReportRootName}\cs{DeclareReportRootName} may never need to be used, but just
+%     in case, it can only be used once in the preamble. It names the parent (or root) name of the text fields that
+%     will contain the running summary of the user's efforts in the document. The default root name is \texttt{SUMRY}.
+%    \begin{macrocode}
+\newcommand{\DeclareReportRootName}[1]{\def\eqsroot{#1}%
+  \eqsSetActionKeys}
+\DeclareReportRootName{SUMRY}
+\@onlypreamble{\DeclareReportRootName}
+%    \end{macrocode}
+%   One of the problems is the quizzes and shortquizzes are not known when the document is first
+%   opened. Normally this is not a problem, but in this application we need to know them. This problem
+%   is solved by two events: at the end of the document the list of quizzes is known, it is save to
+%   the auxiliary file \texttt{qzlist-\string\jobname.cut}, then this file is input back into the preamble, parsed,
+%   and entered into the document level JavaScript through the command \cs{jsCodeForQzs}. The contents
+%   of the aux file may look like: \texttt{\string\jsForQzs\space qz1;qz2;oQ1;sQ1;\string\@nil}. The internal command
+%   \DescribeMacro{\jsCodeForQzs}\cs{jsCodeForQzs} parses this line at the semicolons; as a result, \cs{jsCodeForQzs}
+%   expands to
+%\begin{verbatim}
+%var qz1=new Object();
+%var qz2=new Object();
+%var oQ1=new Object();
+%var sQ1=new Object();
+%\end{verbatim}
+%    \begin{macrocode}
+\let\jsCodeForQzs\@empty\def\semiColon{;}\let\itsNonEmpty=0
+\def\jsForQzs#1\@nil{\jsForQzsi#1;;\@nil}
+\def\jsForQzsi#1;#2\@nil{\def\argii{#2}\ifx\argii\semiColon
+  \let\eqs@next\relax\else
+  \let\itsNonEmpty=1%
+  \g@addto@macro\jsCodeForQzs{var #1=new Object();^^J}%
+  \def\eqs@next{\jsForQzsi#2\@nil}\fi\eqs@next}
+%    \end{macrocode}
+%    We input the file that is created at the end of the document. We do a \cs{AtEndOfPackage} because
+%    the command \cs{jsCodeForQzs} must be well defined by the time the document JavaScript are inserted.
+%    \begin{macrocode}
+\AtEndOfPackage{\InputIfFileExists{qzlist-\jobname.cut}{}{}}
+%    \end{macrocode}
+%   At the end of the document after all quizzes and shortquizzes are known, we save them to
+%   the file \texttt{qzlist-\string\jobname.cut}, they are then input in the preamble.
+%   The \DescribeMacro{\saveListofQzs}\cs{saveListofQzs} writes the name of each quiz to an
+%   semi-colon delimited list.
+%    \begin{macrocode}
+\let\jsForQzsHold\@empty
+\let\cListOfQuizNames\@empty
+\let\cListOfSQuizNames\@empty
+\let\eqsHandleOpen=0
+\def\saveListofQzs{%
+  \ifx\ListOfQuizNames\@empty\else
+    \let\jsForQzsHold\@empty
+    \let\cListOfQuizNames\@empty
+    \edef\ListOfQuizNames{\expandafter\@gobble\ListOfQuizNames}
+    \immediate\openout\CommentStream=qzlist-\jobname.cut
+    \let\eqsHandleOpen=1
+      \expandafter\@for\expandafter
+        \@qz\expandafter:\expandafter=\ListOfQuizNames\do{%
+        \edef\@tmpExp{\noexpand
+          \g@addto@macro\noexpand\jsForQzsHold{\@qz;}}\@tmpExp
+        \edef\@tmpExp{\noexpand
+          \g@addto@macro\noexpand\cListOfQuizNames{,"\@qz"}}\@tmpExp
+      }%
+  \fi
+  \ifx\ListOfSQuizNames\@empty\else
+    \if\eqsHandleOpen0
+      \let\jsForQzsHold\@empty
+      \immediate\openout\CommentStream=qzlist-\jobname.cut
+      \let\eqsHandleOpen=1\fi
+    \let\cListOfSQuizNames\@empty
+    \edef\ListOfSQuizNames{\expandafter\@gobble\ListOfSQuizNames}
+    \expandafter\@for\expandafter\@qz
+      \expandafter:\expandafter=\ListOfSQuizNames\do{%
+      \edef\@tmpExp{\noexpand\g@addto@macro\noexpand
+        \jsForQzsHold{\@qz;}}\@tmpExp
+        \edef\@tmpExp{\noexpand
+          \g@addto@macro\noexpand\cListOfSQuizNames{,"\@qz"}}\@tmpExp
+    }%
+    \immediate\write\CommentStream{%
+      \string\jsForQzs\space\jsForQzsHold\string\@nil}
+  \fi
+  \if\eqsHandleOpen1
+    \ifx\ListOfQuizNames\@empty\else
+      \immediate\write\CommentStream{%
+        \string\def\string\cListOfQuizNames{\expandafter
+          \@gobble\cListOfQuizNames}}
+    \fi
+    \ifx\ListOfSQuizNames\@empty\else
+      \immediate\write\CommentStream{%
+        \string\def\string\cListOfSQuizNames{\expandafter
+          \@gobble\cListOfSQuizNames}}
+    \fi
+  \fi
+}
+%    \end{macrocode}
+%   Expand \cs{saveListofQzs} at the end of the document.
+%    \begin{macrocode}
+\AtEndDocument{\saveListofQzs}
+%    \end{macrocode}
+%   \section{Document JavaScript}
+%    \begin{macrocode}
+\dlJSStr{\eqerrUnfinishQuizAtSave}
+  {One of your quizzes is not finished, you will lose those responses.}
+\begin{insDLJS}{gcnt}{eq-save: Save and Resume JS support}
+var _passToQuestions=false;
+var oRecordOfQuizData;
+var _docDevMode=\devMode;
+var aQzList=new Array(\cListOfQuizNames);
+var aSqList=new Array(\cListOfSQuizNames);
+\jsCodeForQzs%
+cntCorrectResponses.nCorrectInDoc=0;
+cntCorrectResponses.nOutOfInDoc=0;
+cntCorrectResponses.nPtsCorrectInDoc=0;
+cntCorrectResponses.nPtsOutOfInDoc=0;
+%    \end{macrocode}
+%\leavevmode\IndexJS{cntCorrectResponses()}is the workhorse of \pkg{eq-save}. It keeps tabs on the
+%total number of correct answers and the total number of questions. All \env{shortquiz}es are known immediately,
+%but results from \env{quiz} environments are not known until the student presses the `End Quiz' button.
+%    \begin{macrocode}
+function cntCorrectResponses() {
+  var f=this.getField("\eqsroot");
+  if (f==null) return;
+  var g=f.getArray();
+%    \end{macrocode}
+%  \textbf{Naming convention:}\\\null\qquad\texttt{\string\eqsroot.ScoreComb},
+%  \texttt{\string\eqsroot.Score}, \texttt{\string\eqsroot.OutOf}\\[3pt]
+%  It is expected that the length \texttt{g.length=1\string|2\string|3}\\\null\quad
+%  if \texttt{g.length=1}, we expect the field to be \texttt{\string\eqsroot.ScoreComb},\\\null\quad
+%  if \texttt{g.length=2}, we expect \texttt{\string\eqsroot.Score}
+%    and \texttt{\string\eqsroot.OutOf}, and\\\null\quad
+%  if \texttt{g.length=3}, report all three
+%    \begin{macrocode}
+  var fld1="\eqsroot.Score";
+  var fld2="\eqsroot.OutOf";
+  var fld3="\eqsroot.ScoreComb";
+  var fld4="\eqsroot.ptScore";
+  var fld5="\eqsroot.ptOutOf";
+  var fld6="\eqsroot.ptScoreComb";
+  cntCorrectResponses.nCorrectInDoc=0;
+  cntCorrectResponses.nOutOfInDoc=0;
+  cntCorrectResponses.nPtsCorrectInDoc=0;
+  cntCorrectResponses.nPtsOutOfInDoc=0;
+  var pos,baseName;
+  for (var i=0; i<this.numFields; i++) {
+    fname=this.getNthFieldName(i);
+    baseName=fname+"..";
+    pos=baseName.indexOf(".");
+    baseName=baseName.substring(pos+1);
+    pos=baseName.indexOf(".");
+    baseName=baseName.substring(0,pos);
+    if (aQzList.indexOf(baseName)!=-1) {
+      continue;
+    }
+    pos=fname.indexOf(".");
+    var root=fname.substring(0,pos);
+    if (root=="obj"|root=="grpobj") {
+      var f=this.getField(fname);
+%    \end{macrocode}
+%    Removing test for isCorrect, it can lead to some field not being
+%    included when they should.
+%    \changes{v1.1}{2018/04/07}{Removed test for isCorrect}
+%    \begin{macrocode}
+%      if (typeof f.isCorrect=="undefined") continue;
+      cntCorrectResponses.nOutOfInDoc+=1;
+      if (f.isCorrect==1) {
+          cntCorrectResponses.nCorrectInDoc+=1;
+      }
+    } else if (root=="mcq"||root=="mck"){
+        continue;
+      } else if (fname.substring(0,2)=="mc") {
+%    \end{macrocode}
+%      For MC within a quiz, there are two fields, name as indicated above.
+%      if the second field exists, we ignore this field and continue.
+%    \begin{macrocode}
+      var tst4qz="mcq"+fname.substring(2);
+      var otst4qz=this.getField(tst4qz);
+      if (otst4qz!=null)continue;
+%    \end{macrocode}
+%     Distinguish between multiple choice and multiple selection
+%    \begin{macrocode}
+      var f=this.getField(fname);
+      var aResults=fname.match(/\./g);
+      if (aResults.length>2) {
+        // multiple selection
+        if (f.exportValues[0][0]==1) {
+          cntCorrectResponses.nOutOfInDoc+=1;
+          if (f.isBoxChecked(0)) {
+            cntCorrectResponses.nCorrectInDoc+=1;
+          }
+        }
+      } else {
+        // multiple choice
+        cntCorrectResponses.nOutOfInDoc+=1;
+        if (f.value[0]==1) {
+            cntCorrectResponses.nCorrectInDoc+=1;
+        }
+      }
+    }
+  }
+  addInQuizResults();
+%    \end{macrocode}
+%    We now display the totals results.
+%    \begin{macrocode}
+  f=this.getField(fld1);
+  if(f!=null)f.value=cntCorrectResponses.nCorrectInDoc;
+  f=this.getField(fld2);
+  if(f!=null)f.value=cntCorrectResponses.nOutOfInDoc
+  var f=this.getField(fld3);
+  if (f!=null)f.value=(\dclScorePhse(cntCorrectResponses.nCorrectInDoc)%
+(cntCorrectResponses.nOutOfInDoc));
+  f=this.getField(fld4);
+  if(f!=null)f.value=cntCorrectResponses.nPtsCorrectInDoc;
+  f=this.getField(fld5);
+  if(f!=null)f.value=cntCorrectResponses.nPtsOutOfInDoc
+  var f=this.getField(fld6);
+  if (f!=null)
+    f.value=(\dclScorePhse(cntCorrectResponses.nPtsCorrectInDoc)%
+(cntCorrectResponses.nPtsOutOfInDoc));
+}
+%    \end{macrocode}
+%   \leavevmode\IndexJS{addInQuizResults()} is called by \texttt{cntCorrectResponses()} to add in the results
+%   from the quizzes, if known. Because `Begin Quiz' and `End Quiz' can be links (not recommended) we save
+%   the results of the quiz as the value of the field \texttt{ScoreData.\ameta{quizName}}. \pkg{exerquiz}
+%   package save the quiz data in the form \texttt{"Score;\penalty0NQuestions;\penalty0ptScore;\penalty0NPointTotal"}.
+%   This string can be split and the individual
+%   values may be retrieved.
+%    \begin{macrocode}
+function addInQuizResults() {
+  var results,value,score,outof;
+%    \end{macrocode}
+% Coming into this function, the calculations so far are for \env{oQuestion} and \env{shortquiz} environments, these normally
+% don't have points assigned, and we do not support them if they do. Instead, we'll assign them to the points
+%    \begin{macrocode}
+  cntCorrectResponses.nPtsCorrectInDoc=%
+cntCorrectResponses.nCorrectInDoc;
+  cntCorrectResponses.nPtsOutOfInDoc=cntCorrectResponses.nOutOfInDoc;
+  for (var i=0; i<aQzList.length; i++) {
+    var f=this.getField("ScoreData."+aQzList[i]);
+    if (f!=null) {
+      if (f.value!="") {
+        aTmp=f.value.split(";");
+        cntCorrectResponses.nCorrectInDoc+=(1*aTmp[0]);
+        cntCorrectResponses.nOutOfInDoc+=(1*aTmp[1]);
+        cntCorrectResponses.nPtsCorrectInDoc+=(1*aTmp[2]);
+        cntCorrectResponses.nPtsOutOfInDoc+=(1*aTmp[3]);
+      }
+    }
+  }
+}
+%    \end{macrocode}
+%   \leavevmode\IndexJS{clearAllSQElements()} clears all the quiz fields (all types). Much of the code
+%   here is copied from \pkg{exerquiz}.
+%    \begin{macrocode}
+function clearAllSQElements() {
+  var fname;
+  // clear any short quizzes and any supportive elements
+  for (var i=0; i<aSqList.length; i++) {
+    ProcessIt = false;
+    if ( typeof eval(aSqList[i])== "undefined" )
+      eval(aSqList[i])= new Object();
+    if (typeof appAlerts[aSqList[i]] == "undefined")
+      appAlerts[aSqList[i]] = new Object();
+    this.resetForm(new Array("mc."+aSqList[i],"obj."+aSqList[i],%
+"tally."+aSqList[i],"grpobj."+aSqList[i]));
+    var f = this.getField("obj."+aSqList[i]);
+    if ( f != null ) f.strokeColor=\ifx\defaultColorJSLoc\@empty%
+\defaultColorJS\else\defaultColorJSLoc\fi;
+    f = this.getField("grpobj."+aSqList[i]);
+    if ( f != null ) f.strokeColor=\ifx\defaultColorJSLoc\@empty%
+\defaultColorJS\else\defaultColorJSLoc\fi;
+    f = this.getField("rbmarkup."+aSqList[i]);
+    if ( f != null ) f.display=display.hidden;
+    eval(aSqList[i]).Grp = {};
+    appAlerts[aSqList[i]].bAfterValue=false;
+    ProcessIt=true;
+  }
+  isAQuizUnfinished.check=true;
+  // clear any quizzes and any supportive elements
+  for (var i=0; i<aQzList.length; i++) {
+    InitializeQuiz(aQzList[i],1);
+    aQuizControl[aQzList[i]] = 0;
+  }
+%    \end{macrocode}
+%   Here's where we clear all the field with parent names of
+%   \cs{eqsroot} (\texttt{SUMRY}), \texttt{holdScoreData}, and \texttt{ScoreData}.
+%    \begin{macrocode}
+  this.resetForm(["\eqsroot","holdScoreData","ScoreData"]);
+  oRecordOfQuizData=new Object();
+}
+%    \end{macrocode}
+%   \leavevmode\IndexJS{chk4PassToQuestions()} This function is used in the keystroke and format
+%   phase of the \cs{nameField} command. If the student/user clears the field or changes the value
+%   of the field once it has been committed, \texttt{chk4PassToQuestions()} then calls \texttt{clearAllSQElements()}
+%   to clear all fields.
+%    \begin{macrocode}
+chk4PassToQuestions.entered=false;
+function chk4PassToQuestions(event) {
+  if(event.willCommit) {
+    if (chk4PassToQuestions.entered) {
+      _passToQuestions=false;
+      clearAllSQElements();
+      this.dirty=false;
+      return;
+    }
+    if(event.value!="") {
+      var value=""+event.value;
+      value = value.replace(/\s/g,"");
+      if(value==null || value.length==0) {
+        _passToQuestions=false;
+        chk4PassToQuestions.entered=false;
+      } else {
+        _passToQuestions=true;
+        chk4PassToQuestions.entered=true;
+        clearAllSQElements();
+        this.dirty=false;
+      }
+    }
+  }
+}
+%    \end{macrocode}
+%   \leavevmode\IndexJS{collectQuizData()} is called by the \texttt{willSave} event. It save
+%   the object \texttt{oRecordOfQuizData} to the field \texttt{holdScoreData} as a string.
+%    \begin{macrocode}
+function collectQuizData() {
+  var f=this.getField("holdScoreData");
+  f.value=(oRecordOfQuizData.toSource());
+}
+%    \end{macrocode}
+%   \leavevmode\IndexJS{restoreQuizData()} is called when the document is opened and attempts to
+%   transfer the value of \texttt{holdScoreData} back into \texttt{oRecordOfQuizData}.
+%   \changes{v1.2}{2019/07/02}{Added ProbDist array}
+%   \changes{v1.2.1}{2019/07/05}{Added RightWrong array}
+%    \begin{macrocode}
+restoreQuizData.hasRestoredData=false;
+function restoreQuizData() {
+  var f=this.getField("holdScoreData");
+  try{oRecordOfQuizData=eval(f.value);}catch(e){return;}
+  for (fname in oRecordOfQuizData) {
+    f=this.getField(fname);
+    if (typeof oRecordOfQuizData[fname]=="object") {
+      // name of field is endQuiz.qzname
+      var pos=fname.indexOf(".");
+      var qzName=fname.substring(pos+1);
+      var qzRoot=fname.substring(0,pos);
+ %    \end{macrocode}
+%    (2021/02/17) Conditional to handle \texttt{ScoreData} only, this enables other
+%    data that are objects to be present in \texttt{oRecordOfQuizData}.
+%   \changes{v1.2}{2021/02/17}{Added conditional to process \texttt{ScoreData} only}
+%   \changes{v1.2.5}{2021/04/27}{Added a switch (JS) for more complex decision within
+%   \string\texttt{restoreQuizData}}
+%    \begin{macrocode}
+     switch(qzRoot) {
+        case "ScoreData":
+          lstOfQuizzes[qzName]=eval(qzName);
+          Score=1*oRecordOfQuizData[fname][0];
+          NQuestions=1*oRecordOfQuizData[fname][1];
+          ptScore=1*oRecordOfQuizData[fname][2];
+          NPointTotal=1*oRecordOfQuizData[fname][3];
+          var h=this.getField("ScoreData."+qzName);
+          h.value=Score+";"+NQuestions+";"+ptScore+";"+NPointTotal;
+          break;
+        case "ProbDist":
+          ProbDist=eval(oRecordOfQuizData[fname]);
+          break;
+        case "RightWrong":
+          RightWrong=eval(oRecordOfQuizData[fname]);
+          break;
+        default:
+          console.println("name not recognized:"+fname);
+      }
+    } else f.isCorrect=oRecordOfQuizData[fname];
+  }
+}
+%    \end{macrocode}
+%   \leavevmode\IndexJS{IhrNameFormat()} is the format script for the \cs{nameField} command.
+%    \begin{macrocode}
+function IhrNameFormat(event){
+  if(event.value!="") {
+    var value=""+event.value;
+    value = value.replace(/\s/g,"");
+    if(value==null || value.length==0) {
+      _passToQuestions=false;
+      chk4PassToQuestions.entered=false;
+    } else {
+      _passToQuestions=true;
+      chk4PassToQuestions.entered=true;
+      this.dirty=false;
+    }
+  } else {
+  	chk4PassToQuestions.entered=false;
+  	_passToQuestions=false;
+  }
+}
+%    \end{macrocode}
+%   \leavevmode\IndexJS{isAQuizUnfinishedAtSave()} is a variation on the JavaScript function
+%   \texttt{isAQuizUnfinished} defined in \pkg{exerquiz}. When there is an unfinished quiz
+%   and the user saves the document, this function (call by \texttt{willSave}) warns the user
+%   that he will lose the answer entered into the quiz. It is too late to stop the save, there
+%   is no JavaScript command for doing that.
+%    \begin{macrocode}
+function isAQuizUnfinishedAtSave()
+{
+    for ( var qtfield in aQuizControl )
+        if ( aQuizControl[qtfield] == 1 )
+        {
+            eqAppAlert(\eqerrUnfinishQuizAtSave, 3);
+            return false;
+        }
+    return true;
+}
+\end{insDLJS}
+%    \end{macrocode}
+%    \begin{macrocode}
+\ap@restoreCats
+%</package>
+%    \end{macrocode}
+\endinput

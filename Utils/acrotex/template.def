@@ -1,0 +1,256 @@
+%%
+%% This is file `template.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% exerquiz.dtx  (with options: `copyright,template')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Exerquiz.sty package,                                %%
+%% Copyright (C) 1999-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ProvidesFile{template.def}
+ [2021/10/03 v8.8.5 %
+ Exerquiz template for language support (dps)]
+%%------------- Instructions ------------------------------------
+%% Make your language localizations to this file and rename it to
+%% something like \texttt{eq<mylang>.def}, where \texttt{<mylang>}
+%% is a short 2-letter designator of the language. Test the tile
+%% by inputting it in the preamble of your document
+%% \input{eq<mylang>.def}. When satisfied, send it to me at
+%% dpstory@uakron.edu or dpstory@acrotex.net.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Web.sty                                            %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Language dependent definitions for Web.sty
+\DeclareOption{newlanguage}{%
+  \AtEndOfPackage{%
+    \def\today{\ifcase\month\or January
+            \or February \or March \or April
+            \or May \or June  \or July  \or August
+            \or September  \or October  \or November
+            \or December \fi \the\day,  \the\year}
+    \def\web@versionlabel{Version}
+    \def\web@toc{Table of Contents}
+    \def\web@continued{cont.}
+    \def\web@article{Begin \hyperlink{section.1}{Article}}
+    \def\web@directory{Directory}
+    \def\web@revision{Last Revision Date:}
+    \def\web@copyright{Copyright}
+    \def\web@section{Section}
+    % Label Navibar
+    \def\web@back{Back}
+    \def\web@doc{Doc}} % restricted to three characters
+    \PassOptionsToPackage{newlanguage}{exerquiz}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Exerquiz.sty                                       %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareOption{newlanguage}{%
+   \def\LangRedefinitions{\InputIfFileExists{eqlang.def}%
+   {\PackageInfo{exerquiz}{Inputting a New Language Option}}%
+   {\PackageInfo{exerquiz}{Language Option: Cannot find the file
+    eqpo.def, using the default, English.}}}}
+
+% The exercise label
+% Accents: \renewcommand\exlabel{\"Ubung} (German)
+\renewcommand\exlabel{Exercise}
+% The value of this macro is written to \jobname.sol,
+% accented characters must be protected with a \protect
+% E.g., \renewcommand\exlabelsol{\protect\"Ubung} (German)
+\renewcommand\exlabelsol{\exlabel}
+
+% Title of exercise solution section
+% E.g.: \renewcommand\exsectitle
+%            {L\"osungen der \exlabel en} (German)
+\renewcommand\exsectitle{Solutions to \exlabel s}
+\renewcommand\exsecrunhead{\exsectitle} %% change to @ form
+
+% Solution label for solutionafter option for exercise
+\renewcommand\exsolafter{\textit{Solution}:}
+
+% Title of short quiz solution section
+% Example: \renewcommand\eq@sqslsectitle
+%               {L\"osungen der Aufgaben} (German)
+\renewcommand\eq@sqslsectitle{Solutions to Quizzes}
+\renewcommand\sqslsectitle{\eq@sqslsectitle}
+
+% Running header/section title for solutions to short quizzes
+\renewcommand\eq@sqslsecrunhead{Solutions to Quizzes}
+% User access
+\renewcommand\sqslsecrunhead{\eq@sqslsecrunhead}
+
+% Label for solutions to short quizzes, appears
+% in solutions sections
+% Protect accents with \protect
+% E.g.: \renewcommand\eq@sqsllabel
+%       {\string\textbf{L\protect\"osung zu Aufgabe:}} (German)
+\renewcommand\eq@sqsllabel{\string\textbf{Solution to Quiz:}}
+% User access
+\renewcommand\sqsllabel{\eq@sqsllabel}
+
+% Solution label for solutionafter option for shortquiz
+\renewcommand\sqsolafter{\textit{Solution}:}
+
+% User access to shortquiz label
+\renewcommand\sqlabel{\eq@sqlabel}
+% Here is the default short quiz label.
+\sqDefaultFmtTitle{\textcolor{red}{Quiz.}}
+
+% Here is the default short quiz return label
+% No formatting allowed
+\renewcommand\eq@sqslrtnlabel{End Quiz}
+% User access to shortquiz label
+\renewcommand\sqslrtnlabel{\eq@sqslrtnlabel}
+
+% Short quiz feedback messages
+\renewcommand\eqsqrtmsg{"Right!"}
+\renewcommand\eqsqwgmsg{"Wrong!"}
+\renewcommand\doNotShowAgainMsg{Do not show this message again}
+
+% Here is the default quiz label.
+% No formatting allowed
+% For Example: \renewcommand\eq@bqlabel{D\'ebut}  (French)
+\renewcommand\eq@bqlabel{Begin Quiz}
+% User access to shortquiz label
+\renewcommand\bqlabel{\eq@bqlabel}
+% Used for writing JavaScript Messages on screen.
+% Use PDFDocEncoding
+% For Example:
+% \renewcommand\eq@bqlabelISO{D\string\351but}  (French)
+% Use \string not \protect, this helps out
+% TeX4ht by Eitan Gurari.
+\renewcommand\eq@bqlabelISO{\eq@bqlabel}
+\renewcommand\bqlabelISO{\eq@bqlabel}
+% Default title for a quiz used for \verb!\@currentlablename!
+\setDefShortQuizLabelName{Quiz}
+\setDefQuizLabelName{Quiz}
+
+% Here is the default quiz label.
+% No formatting allowed
+\renewcommand\eq@eqlabel{End Quiz}
+% User access to shortquiz label
+\renewcommand\eqlabel{\eq@eqlabel}
+
+% JavaScript Messages for Quiz Environments. Use PDFDocEncoding
+% Note: Use  \string rather than \protect for escape codes,
+% i.e. \string\374
+%
+% In the Text Field showing the score, there is the default
+% phrase in English
+% Score: 2 out of 3, the word "Score" and "out of" needs
+% translation.
+\renewcommand\eq@Score{Score:}\renewcommand\eq@OutOf{out of}
+\renewcommand\eq@ptScore{Score:}
+% used in summary tables
+\renewcommand\stOutOf{of}
+% If you are taking a quiz and click on an alternative without
+% initializing the quiz
+% first, this message appears.
+% This string is placed in the DLJS, so the escape sequences
+% need to be protected more. Instead of \string\340 we need
+% \string\\340.
+% Example: \renewcommand\eqInitQuizMsg{%    (German)
+%   "Sie m\string\\374ssen die Aufgaben initialisieren!
+%    Bitte klicken Sie auf "+msg+"."}
+\renewcommand\eqInitQuizMsg{%
+  "You must initialize the Quiz! Click on "+msg+"."}
+
+% This macro doesn't usually need translation, it uses \eqScore
+% and \eqOutOf. However, if the sentence "Score: 2 out of 3"
+% does not translate conveniently into a particular language,
+% this macro may have to be modified.  It's the one that puts
+% the message in the message box.
+\renewcommand\eqQuizTotalMsg
+ {"\eqScore\space"+Score+" \eqOutOf\space"+nQuestions}
+\renewcommand\eqQuizPointsMsg{%
+  "\eqptScore\space"+ptScore+" \eqOutOf\space"+nPointTotal}
+\renewcommand\eqQuizPercentMsg{pcScore+"\%"}
+\renewcommand\eqQuizGradeMsg{quizGrade}
+
+% In the link form of a quiz, of you change your choice,
+% this message appears. This string is placed in the
+% DLJS, so the escape sequences need to be protected more.
+% Instead of \string\340 we need \string\\340.
+% For Example: \renewcommand\eqMadeChoice{%
+% "Vous avez d\string\\351j\string\\340 fait un choix,
+%   ce choix est ("+Responses[probno]+").
+%   Souhaitez vous le modifier ?"}  (French)
+\renewcommand\eqMadeChoice{%
+  "You have already made a choice.
+   Your choice was ("+Responses[probno]+").
+   Do you want to change it?"}
+% Default button labels for \eqButton
+% Accents are handled as above:
+% A French Language Example
+% \renewcommand\eq@local@CA{R\string\351ponses}
+% \renewcommand\eq@local@RC{Correctes}
+% \renewcommand\eq@local@AC{SVP !}
+\renewcommand\eq@local@CA{Correct}
+\renewcommand\eq@local@RC{My Answers!}
+\renewcommand\eq@local@AC{Please!}
+
+% Default button label of \CorrAnsButton.
+\renewcommand\eq@local@CorrAnsButton{Ans}
+% Default button label of \sqClearButton
+\renewcommand{\eq@local@sqClearButton}{Clear}
+% Short string used by the \PromptButton
+\renewcommand{\AnsPromptBtnStr}{Answer:\space}
+
+% These (error) messages are generated when the user enters an
+% invalid math expression into a math fill-in response box.
+% The messages come in the form of an eqAppAlert() so
+% PDFDocEncoding needs to be used.
+\renewcommand\eqerrABS{"Absolute values not balanced. Please correct."}
+\renewcommand\eqerrBadMathFunc{"The expression \""+aF[i]+"\" is neither
+    a defined " +"function, nor a valid math expression."}
+\renewcommand\eqParens{"Parentheses"}
+\renewcommand\eqBrackets{"Brackets"}
+\renewcommand\eqBraces{"Braces"}
+\renewcommand\eqerrDelimNotBal{aGroup[i][2] + " not balanced.
+    Please correct."}
+\renewcommand\eqerrBadExp{"Invalid mathematical expression.
+    A problem with one of the exponents. Please correct."}
+\renewcommand\eqerrUnfinishQuiz{"There is an unfinished quiz,
+    please finish before moving on to another."}
+\renewcommand\noPeekMsg{"Viewing Solutions to quizzes is not allowed
+    until you take or finish this quiz!"}
+\renewcommand\highThresholdMsg{"You are required to respond to all
+    questions before the quiz is evaluated."}
+\renewcommand\eqSyntaxErrorUndefVar{"Syntax Error: Possibly an
+    undefined variable present."}
+\newcommand{\eqSyntaxErrorComma}{"Syntax Error: A comma was found"
+    + " in your response \\""
+    + UserAns + "\\". Please remove the comma, or this answer"
+    + " will be marked as wrong."}
+\renewcommand{\limSelWarningMsg}{"For this questions, you are allowed to
+    make at most " + n + " selections."}
+\renewcommand{\promptButtonMsg}{%
+    "Would you like to see the correct answer at this time? "
+    + "Your current answer will be the one that will be scored. "
+    + "If you click on \\"Yes\\",
+        you will not be able to change your answer."
+}
+\renewcommand{\defaultReqFormMsg}{%
+    "The expression is not in the expected form."}
+\renewcommand\eqAnd{and}
+%%%%%%%%%%%%%%%%%%%%%% End Message Section %%%%%%%%%%%%%
+%% Some typeout messages                              %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\typeout{Inputting French Option}
+\typeout{French Option: Cannot find the file eqfr.def, using the
+    default, English.}
+\typeout{Solutions not allowed with this option}
+\typeout{Check: `#1' is not an acceptable option, inserting
+    default, `check'.}
+\endinput
+%%
+%% End of file `template.def'.

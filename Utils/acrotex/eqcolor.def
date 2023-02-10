@@ -1,0 +1,85 @@
+%%
+%% This is file `eqcolor.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% exerquiz.dtx  (with options: `copyright,eqcolor')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Exerquiz.sty package,                                %%
+%% Copyright (C) 1999-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\eq@getCmdName#1#2{\edef#1{\expandafter\@gobble\string#2}}
+\def\eq@getfirst#1#2\@nil{\def\eq@argi{#1}}
+\def\eq@checkValidityModel#1{%
+  \if#1g\else\if#1r\else\if#1c\else
+    \PackageError{exerquiz}
+    {JavaScript does not support this model}
+    {Use a named color from one of the models gray, rgb, or cmyk.}
+  \fi\fi\fi
+}
+\def\eq@jsSetColorMsg#1#2{\PackageWarning{exerquiz}
+  {The argument `#2' of \string#1\MessageBreak
+  is not of the right form.\MessageBreak Using the default}}
+\def\eqModelInfo#1#2{%
+  \uppercase{\def\eq@ucmodel{#1}}\def\eq@modelspec{#2}%
+  \eq@getfirst#1\@nil\eq@ResetModelForGray{\eq@argi}%
+  \eq@checkValidityModel{\eq@argi}%
+}
+\def\eq@ResetModelForGray#1{\if#1g\def\eq@ucmodel{G}\fi}
+\def\eq@checkRawJSColor#1{%
+  \edef\eq@argi{#1}\ifx\eq@argi\@empty
+    \def\eq@next{\let\eq@rawJSCol\eq@YES}\else
+  \def\eq@next{\expandafter\eq@@checkRawJSColor#1\@nil}\fi\eq@next
+}
+\def\eq@@checkRawJSColor#1#2#3\@nil{\let\eq@rawJSCol\eq@NO
+  \let\eqpredefineJSCol\eq@NO
+  \if[#1\if#2"\let\eq@rawJSCol\eq@YES\fi\fi
+  \ifx\eq@rawJSCol\eq@NO\if#1c\if#2o\let\eq@rawJSCol\eq@YES
+  \let\eqpredefineJSCol\eq@YES\fi\fi\fi
+}
+\def\eq@jsColorWXColori#1#2{\edef\eq@colorDefn{#2}%
+  \ifx\eq@colorDefn\@empty
+    \ifx\is@Defined\eq@YES
+      \edef\eq@colorDefn{\csname\cmdName Def\endcsname}\else
+      \PackageError{exerquiz}{JS color \string#1 has an
+        empty definition}{}\fi
+  \fi
+  \eq@checkRawJSColor{\eq@colorDefn}%
+  \ifx\eq@rawJSCol\eq@NO
+  \extractcolorspec{\eq@colorDefn}{\eq@tmp@color}%
+  \expandafter\eqModelInfo\eq@tmp@color
+  \edef#1{["\eq@ucmodel",\eq@modelspec]}%
+  \else\edef#1{\eq@colorDefn}\fi
+}
+\def\eq@jsColorWOXColori#1#2{\def\eq@colorDefn{#2}%
+  \ifx\eq@colorDefn\@empty
+    \ifx\is@Defined\eq@YES
+      \edef\eq@colorDefn{\csname cmdName Def\endcsname}\else
+      \PackageError{exerquiz}{JS color \string#1 has an
+          empty definition}{}\fi
+  \fi
+  \eq@checkRawJSColor{\eq@colorDefn}%
+  \ifx\eq@rawJSCol\eq@YES\edef#1{\eq@colorDefn}\else
+    \eq@jsSetColorMsg{#1}{#2}\fi
+}
+\def\jsColor#1#2{\eq@getCmdName{\cmdName}{#1}%
+  \let\is@Defined\eq@YES
+  \expandafter\ifx\csname\cmdName\endcsname\relax
+    \PackageWarning{exerquiz}{\string#1 is not a command used by
+    exerquiz.\MessageBreak Will define it anyway}%
+    \let\is@Defined\eq@NO\fi
+  \HyColor@IfXcolor{\eq@jsColorWXColori{#1}{#2}}%
+    {\eq@jsColorWOXColori{#1}{#2}}%
+}
+\endinput
+%%
+%% End of file `eqcolor.def'.

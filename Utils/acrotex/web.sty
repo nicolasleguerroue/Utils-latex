@@ -1,0 +1,2117 @@
+%%
+%% This is file `web.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% web.dtx  (with options: `copyright,package')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Web package,                                         %%
+%% Copyright (C) 1999-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% History: Noel Vaillant began developing a better web.sty
+%%   based on my earlier published web.sty. Many thanks
+%%   to him for starting me off.
+%%---------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}[1997/12/01]
+\ProvidesPackage{web}
+ [2021/05/06 v6.1.7 web: A Screen Design Package (dps)]
+\RequirePackage{xkeyval}
+\RequirePackage{ifpdf}[2006/02/20]
+\RequirePackage{ifxetex}[2006/08/21]
+\IfFileExists{xcolor.sty}{%
+  \def\eq@ColorPackage{xcolor}%
+  \PassOptionsToPackage{xcolor}{table,hyperref}%
+}{\def\eq@ColorPackage{color}}
+\DeclareOptionX{noxcolor}{\def\eq@ColorPackage{color}}
+\let\i@web@ddtoHyOpts\@empty
+\let\eq@driver@name\@empty
+\let\web@YES=y \let\web@NO=n
+\let\web@One=1 \let\web@Zero=0
+\DeclareOptionX{dvipsone}{%
+  \def\eq@drivernum{0}\def\eq@driver@name{dvipsone}%
+  \let\web@set@paper\@empty
+  \@namedef{papersize@for@\eq@driver@name}{\AtBeginDocument
+    {\special{papersize=\the\paperwidth,\the\paperheight}}}%
+}
+\DeclareOptionX{dviwindo}{%
+  \def\eq@drivernum{4}\def\eq@driver@name{dviwindo}%
+  \@namedef{papersize@for@\eq@driver@name}{\def\web@set@paper
+    {\special{papersize=\the\paperwidth,\the\paperheight}}}%
+}
+\DeclareOptionX{dvipdfm}{%
+  \def\eq@drivernum{2}\def\eq@driver@name{dvipdfm}\web@opts@xdvipdfmx
+}
+\DeclareOptionX{dvipdfmx}{%
+ \def\eq@drivernum{2}\def\eq@driver@name{dvipdfmx}\web@opts@xdvipdfmx
+}
+\DeclareOptionX{xetex}{%
+ \def\eq@drivernum{2}\def\eq@driver@name{xetex}\web@opts@xdvipdfmx
+}
+\newcommand{\web@opts@xdvipdfmx}{%
+  \@namedef{papersize@for@\eq@driver@name}%
+    {\def\web@set@paper{\AtBeginDvi
+    {\special{papersize=\the\paperwidth,\the\paperheight}}}}%
+}
+\DeclareOptionX{dvips}{%
+  \def\eq@drivernum{0}\def\eq@driver@name{dvips}%
+  \def\i@web@ddtoHyOpts{setpagesize=false}%
+  \let\web@set@paper\@empty
+  \@namedef{papersize@for@\eq@driver@name}{\AtBeginDocument
+    {\special{papersize=\the\paperwidth,\the\paperheight}}}%
+}
+\DeclareOptionX{pdftex}{\ifx\eq@driver@name\@empty
+   \def\eq@drivernum{1}\def\eq@driver@name{pdftex}%
+   \def\i@web@ddtoHyOpts{setpagesize}\def\web@set@paper{}\fi
+}
+\DeclareOptionX{luatex}{\ifx\eq@driver@name\@empty
+   \def\eq@drivernum{1}\def\eq@driver@name{luatex}%
+   \def\i@web@ddtoHyOpts{setpagesize}\def\web@set@paper{}\fi
+}
+\DeclareOptionX{textures}{%
+  \def\eq@drivernum{3}\def\eq@driver@name{textures}%
+  \@namedef{papersize@for@\eq@driver@name}%
+    {\def\web@set@paper{\bgroup
+    \dimen2=\origpaperheight \advance\dimen2 by -\topmargin
+    \dimen0\dimen2 \advance\dimen0-\paperheight
+    \xdef\@pdfpagescrop{0 \strip@pt\dimen0 \space
+    \strip@pt\paperwidth\space \strip@pt\dimen2}%
+    \egroup}\AtEndOfPackage
+      {\edef\origpaperwidth{\the\paperwidth}%
+      \edef\origpaperheight{\the\paperheight}}%
+  }%
+}
+\@ifundefined{ifequsecolor}{\newif\ifequsecolor \equsecolorfalse}{}
+\DeclareOptionX{forpaper}{\equsecolorfalse\eqforpapertrue
+  \PassOptionsToPackage{forpaper}{eqexam}
+  \PassOptionsToPackage{monochrome}{\eq@ColorPackage}%
+  \PassOptionsToPackage{forpaper}{exerquiz}}
+\DeclareOptionX{forcolorpaper}{\equsecolortrue\eqforpapertrue
+  \PassOptionsToPackage{forcolorpaper}{eqexam}
+  \PassOptionsToPackage{forcolorpaper}{exerquiz}}
+\DeclareOptionX{latexlayout}{%
+  \let\web@layout\web@NO\ExecuteOptionsX{forcolorpaper}}
+\DeclareOptionX{uselatexsectioning}{%
+  \web@sectioningfalse
+}
+\newif\ifweb@sectioning \web@sectioningtrue
+\DeclareOptionX{weblikeclass}{%
+  \ExecuteOptionsX{latexlayout}%
+  \ExecuteOptionsX{nobullets}%
+  \ExecuteOptionsX{uselatexsectioning}%
+}
+\DeclareOptionX{nodirectory}{\let\web@directory@option\web@NO}
+\DeclareOptionX{usedirectory}{\let\web@directory@option\web@YES}
+\DeclareOptionX{latextoc}{\let\web@latextoc\web@YES}
+\DeclareOptionX{nobullets}{\let\web@bullets\web@NO
+    \let\web@latextoc\web@YES\forceSubSubNumbers}
+\def\web@MargScrDimOpts#1#2#3#4#5#6{%
+  \margins{#1}{#2}{#3}{#4} % left,right,top, bottom
+  \screensize{#5}{#6}      % height, width
+  \let\margins\@@margins\let\screensize\@gobbletwo
+}
+\DeclareOptionX{designi}{\AtEndOfPackage{%
+  \web@MargScrDimOpts{.25in}{.25in}{24pt}{.25in}{3.736in}{4.67in}}}
+\DeclareOptionX{designii}{\AtEndOfPackage{%
+  \web@MargScrDimOpts{.25in}{.25in}{24pt}{.25in}{4.5in}{5in}}}
+\DeclareOptionX{designiii}{\AtEndOfPackage{%
+  \web@MargScrDimOpts{.25in}{.25in}{24pt}{.25in}{5in}{6in}}}
+\DeclareOptionX{designiv}{\AtEndOfPackage{%
+  \web@MargScrDimOpts{.25in}{.25in}{24pt}{.25in}{4in}{5in}}}
+\DeclareOptionX{designv}{\AtEndOfPackage{%
+  \web@MargScrDimOpts{.25in}{.25in}{24pt}{.25in}{4.5in}{6in}}}
+\DeclareOptionX{designvi}{\AtEndOfPackage{%
+  \web@MargScrDimOpts{.25in}{.25in}{24pt}{.25in}{4.17in}{4.67in}}}
+\DeclareOptionX{designvii}{\AtEndOfPackage{%
+  \web@MargScrDimOpts{.5in}{.5in}{24pt}{.5in}{7.5in}{10in}}}
+\DeclareOptionX{designviii}{\AtEndOfPackage{%
+  \web@MargScrDimOpts{.5in}{.5in}{24pt}{.5in}{3.75in}{6.67in}}}
+\DeclareOptionX{designix}{\AtEndOfPackage{%
+  \web@MargScrDimOpts{.5in}{.5in}{24pt}{.5in}{3.75in}{6in}}}
+\DeclareOptionX{usesf}{%
+  \def\aeb@defaultfamily{\sffamily}
+  \def\itdefault{sl}
+  \renewcommand{\familydefault}{\sfdefault}
+  \selectfont
+  \renewcommand\labelitemi{\textrm{\textbullet}}
+  \AtEndOfPackage{\def\web@copyright@symbol{\textrm{\copyright}}}
+}
+\def\aeb@defaultfamily{\rmfamily}
+\DeclareOptionX{unicode}{\def\aeb@useunicode{unicode}}
+\let\aeb@useunicode\@gobble
+\newif\if@web@hyperref \@web@hyperreftrue
+\DeclareOptionX{xhyperref}{\@web@hyperreffalse}
+\define@choicekey+{webHyOpts}{pdfencoding}[\val\nr]%
+  {auto,pdfdoc,unicode}[pdfdoc]{\edef\web@Hypdfencoding{\val}}
+  {\PackageWarning{web}{Bad choice for pdfencoding,
+  permissible values\MessageBreak
+  are auto, pdfdoc, and unicode.\MessageBreak Try again}}
+\let\web@Hypdfencoding\@empty
+\let\u@web@ddtoHyOpts\@empty
+\let\u@web@ddtoHySetup\@empty
+\def\web@addtoHyOpts#1{\g@addto@macro\u@web@ddtoHyOpts{#1}}
+\def\web@addtoHySetup#1{\g@addto@macro\u@web@ddtoHySetup{#1}}
+\define@key{web.sty}{addtoHyOpts}[]{%
+  \setkeys*{webHyOpts}{#1}\web@addtoHyOpts{#1}}
+\define@key{web.sty}{addtoHyOpts*}[]{%
+  \setkeys*{webHyOpts}{#1}\web@addtoHySetup{#1}}
+\DeclareOptionX{useui}{\PassOptionsToPackage{useui}{eforms}}
+\DeclareOptionX{forceSubSubNumbers}{\ExecuteOptionsX{nobullets}}
+\DeclareOptionX{centertitlepage}{\@centertitlepagetrue}
+\newif\if@centertitlepage \@centertitlepagefalse
+\DeclareOptionX{centertitlepagefull}{\@centertitlepagefulltrue}
+\newif\if@centertitlepagefull \@centertitlepagefullfalse
+\DeclareOptionX{pro}{\let\webpro@loaded\web@YES}
+\DeclareOptionX{extended}{\let\webpro@loaded\web@YES}
+\let\webpro@loaded\web@NO
+\def\loadwebpro{\InputIfFileExists{webpro.def}{}{}}
+\newif\ifweb@allowtemplates \web@allowtemplatestrue
+\DeclareOptionX{draft}{\web@allowtemplatesfalse}
+\DeclareOptionX{usetemplates}{\def\@usetemplates{1}}
+\DeclareOptionX{leftpanel}%
+  {\def\@panelconfig{1}\def\@usetemplates{1}}
+\DeclareOptionX{rightpanel}%
+  {\def\@panelconfig{2}\def\@usetemplates{1}}
+\newif\iftemplatesforpaper \templatesforpaperfalse
+\DeclareOptionX{templatesforpaper}{\templatesforpapertrue
+  \ExecuteOptionsX{forcolorpaper}}
+\DeclareOptionX{rightpanelprt}{\ifeqforpaper\else
+  \ExecuteOptionsX{rightpanel}\fi}
+\DeclareOptionX{leftpanelprt}{\ifeqforpaper\else
+  \ExecuteOptionsX{leftpanel}\fi}
+\def\templatedefaults{\def\@panelsep{0pt}\def\@usetemplates{0}%
+  \def\@panelconfig{0}\def\@textX{0}\def\@panelX{0}}
+\templatedefaults
+\DeclareOptionX{navibar}{\web@navibartrue}
+\DeclareOptionX{navibar*}{\AtEndOfPackage{\ifeqforpaper\else\web@navibartrue\fi}}
+\DeclareOptionX{tight}{\AtEndOfPackage{\tightsettings}}
+\DeclareOptionX{tight*}{\AtEndOfPackage{\tightsettings*}}
+\let\web@tight\web@NO
+\DeclareOptionX{uselatexparts}{%
+  \AtEndOfPackage{\@ifundefined{part}{}{\let\part\web@save@part}}}
+\DeclareOptionX{uselatexchapters}{%
+  \AtEndOfPackage{\@ifundefined{chapter}{}
+    {\let\chapter\web@save@chapter}}}
+\DeclareOptionX{french}{%
+  \AtEndOfPackage{%
+  % Recouvrement de \today
+  \def\today{\the\day\ \ifcase\month\or janvier
+    \or f\'evrier \or mars  \or avril
+    \or mai \or juin  \or juillet  \or ao\^ut
+    \or septembre  \or octobre  \or novembre
+    \or d\'ecembre \fi \the\year}
+  \def\web@toc{Table des mati\`{e}res}
+  \def\web@continued{suite}
+  \def\web@article{D\'{e}but \hyperlink{\web@Start.1}{Document}}
+  \def\web@directory{R\'{e}pertoire}
+  \def\web@revision{Mise \`{a} jour :}
+  \def\web@copyright{Copyright}
+  \def\web@versionlabel{Version}
+  \def\web@back{Retour}}
+  \PassOptionsToPackage{french}{exerquiz}
+}
+\DeclareOptionX{german}{%
+  \AtEndOfPackage{%
+  \def\today{\the\day. \ifcase\month\or Januar
+    \or Februar \or M\"{a}rz  \or April
+    \or Mai \or Juni  \or Juli  \or August
+    \or September  \or Oktober  \or November
+    \or Dezember \fi \the\year}
+  \def\web@versionlabel{Version}
+  \def\web@toc{Inhaltsverzeichnis}
+  \def\web@continued{Forts.}
+  \def\web@article{Anfang \hyperlink{\web@Start.1}{Artikel}}
+  \def\web@directory{\"Ubersicht}
+  \def\web@revision{Letzte \"Anderung:}
+  \def\web@copyright{Copyright}
+  \def\web@section{Abschnitt}
+  \def\web@back{Zur\"uck}
+  \def\web@doc{Dok}}
+  \PassOptionsToPackage{german}{exerquiz}
+}
+\DeclareOptionX{norsk}{\AtEndOfPackage{%
+  \def\today{\ifcase\month\or Januar
+    \or Februar \or Mars \or April
+    \or Mai \or Juni  \or Juli  \or August
+    \or September  \or Oktober  \or November
+    \or Desember \fi \the\day,  \the\year}
+  \def\web@versionlabel{Versjon}
+  \def\web@toc{Innholdsfortegnelse}
+  \def\web@continued{forts.}
+  \def\web@article{Start \hyperlink{\web@Start.1}{artikkel}}
+  \def\web@directory{Katalog}
+  \def\web@revision{Sist endret:}
+  \def\web@copyright{Copyright}
+  \def\web@section{Avsnitt}
+  \def\web@back{Tilbake}
+  \def\web@doc{Dok}}
+  \PassOptionsToPackage{norsk}{exerquiz}
+}
+\DeclareOptionX{dutch}{\AtEndOfPackage{%
+  \def\today{\the\day~\ifcase\month\or januari
+    \or februari \or maart \or april
+    \or mei \or juni  \or juli  \or augustus
+    \or september  \or oktober  \or november
+    \or december \fi \space \the\year}
+  \def\web@versionlabel{Versie}
+  \def\web@toc{Inhoudsopgave}
+  \def\web@continued{vervolg}
+  \def\web@article{Begin \hyperlink{\web@Start.1}{Artikel}}
+  \def\web@directory{Overzicht}
+  \def\web@revision{Laatste wijziging:}
+  \def\web@copyright{Copyright}
+  \def\web@section{Sectie}
+  \def\web@back{Terug}
+  \def\web@doc{Doc}}
+  \PassOptionsToPackage{dutch}{exerquiz}
+}
+\DeclareOptionX{spanish}{\AtEndOfPackage{%
+  \def\today{\the\day\ de \ifcase\month\or Enero
+    \or Febrero \or Marzo \or Abril
+    \or Mayo \or Junio  \or Julio  \or Agosto
+    \or Septiembre  \or Octubre  \or Noviembre
+    \or Deciembre \fi de \the\year}
+  \renewcommand\web@versionlabel{Versi\noexpand\'{o}n}
+  \renewcommand\web@toc{Tabla de Contenido}
+  \renewcommand\web@continued{cont.}
+  \renewcommand\web@article{Inicio
+  \hyperlink{\web@Start.1}{Art\'{\i}culo}}
+  \renewcommand\web@directory{Directorio}
+  \renewcommand\web@revision{Actualizado el:}
+  \renewcommand\web@copyright{Copyright}
+  \renewcommand\web@section{Secci\'on}
+  \renewcommand\web@back{Volver}
+  \renewcommand\web@doc{Doc}}
+  \PassOptionsToPackage{spanish}{exerquiz}
+}
+\DeclareOptionX{italian}{\AtEndOfPackage{%
+  \def\today{\ifcase\month\or Gennaio
+    \or Febbraio \or Marzo \or Aprile
+    \or Maggio \or Giugno  \or Luglio  \or Agosto
+    \or Settembre  \or Ottobre  \or Novembre
+    \or Dicembre \fi \the\day,  \the\year}
+  \renewcommand\web@versionlabel{Versione}
+  \renewcommand\web@toc{Indice}
+  \renewcommand\web@continued{cont.}
+  \renewcommand\web@article{Inizio \hyperlink{\web@Start.1}{Articolo}}
+  \renewcommand\web@directory{Directory}
+  \renewcommand\web@revision{Data Ultima Revisione:}
+  \renewcommand\web@copyright{Copyright}
+  \renewcommand\web@section{Sezione}
+  \renewcommand\web@back{Back}
+  \renewcommand\web@doc{Doc}}
+  \PassOptionsToPackage{italian}{exerquiz}
+}
+\DeclareOptionX{russian}{\ExecuteOptionsX{unicode}%
+  \AtEndOfPackage{%
+  \def\today{\the\day\ \ifcase\month
+    \or \cyrya\cyrn\cyrv\cyra\cyrr\cyrya
+    \or \cyrf\cyre\cyrv\cyrr\cyra\cyrl\cyrya
+    \or \cyrm\cyra\cyrr\cyrt\cyra
+    \or \cyra\cyrp\cyrr\cyre\cyrl\cyrya
+    \or \cyrm\cyra\cyrya
+    \or \cyri\cyryu\cyrn\cyrya
+    \or \cyri\cyryu\cyrl\cyrya
+    \or \cyra\cyrv\cyrg\cyru\cyrs\cyrt\cyra
+    \or \cyrs\cyre\cyrn\cyrt\cyrya\cyrb\cyrr\cyrya
+    \or \cyro\cyrk\cyrt\cyrya\cyrb\cyrr\cyrya
+    \or \cyrn\cyro\cyrya\cyrb\cyrr\cyrya
+    \or \cyrd\cyre\cyrk\cyrya\cyrb\cyrr\cyrya \fi{ }%
+    \the\year\ \cyrg.}
+  \gdef\eq@protected##1##2{{\ifhmode ##2\else
+    \ifvmode ##2\else\ifinner##2\else\noexpand ##1\fi\fi\fi}}%
+  \def\cyrCommand##1##2{\def##1{\eq@protected##1{##2}}}%
+    \cyrCommand\web@toc{\CYRO\cyrg\cyrl\cyra\cyrv\cyrl\cyre\cyrn%
+    \cyri\cyre}
+  \cyrCommand\web@continued{\cyrp\cyrr\cyro\cyrd\cyro\cyrl%
+    \cyrzh\cyre\cyrn\cyri\cyre}
+  \cyrCommand\web@article{\CYRN\cyra\cyrch\cyra\cyrl\cyro{ }%
+  \hyperlink{\web@Start.1}{\cyrd\cyro\cyrk\cyru\cyrm\cyre%
+    \cyrn\cyrt\cyra}}
+  \cyrCommand\web@directory{\CYRS\cyro\cyrd\cyre\cyrr\cyrzh%
+    \cyra\cyrn\cyri\cyre}
+  \cyrCommand\web@revision{\CYRP\cyro\cyrs\cyrl\cyre\cyrd\cyrn%
+    \cyrya\cyrya{ }\cyrr\cyre\cyrv\cyri\cyrz\cyri\cyrya:}
+  \let\web@copyright\@gobble
+  \cyrCommand\web@versionlabel{\CYRV\cyre\cyrr\cyrs\cyri\cyrya}
+  \cyrCommand\web@back{\CYRN\cyra\cyrz\cyra\cyrd}
+  \cyrCommand\web@section{\CYRCH\cyra\cyrs\cyrt\cyrsftsn}}
+  \PassOptionsToPackage{russian}{exerquiz}
+}
+\DeclareOptionX{dansk}{\AtEndOfPackage{%
+  \def\today{\ifcase\month\or Januar
+    \or Februar \or Marts \or April
+    \or Maj \or Juni  \or Juli  \or August
+    \or September  \or Oktober  \or November
+    \or December \fi \the\day,  \the\year}
+  \renewcommand\web@versionlabel{Version}
+  \renewcommand\web@toc{Indholdsfortegnelse}
+  \renewcommand\web@continued{forts.}
+  \renewcommand\web@article{Begin \hyperlink{\web@Start.1}{Artikel}}
+  \renewcommand\web@directory{Katalog}
+  \renewcommand\web@revision{Sidst revideret:}
+  \renewcommand\web@copyright{Copyright}
+  \renewcommand\web@section{Afsnit}
+  % Label Navibar
+  \renewcommand\web@back{Tilbage}
+  \renewcommand\web@doc{Dok}}   % restricted to three characters
+  \PassOptionsToPackage{dansk}{exerquiz}
+}
+\DeclareOptionX{polish}{\AtEndOfPackage{%
+  \def\today{\ifcase\month\or {Stycze\'{n}}
+    \or Luty \or Marzec \or {Kwiecie\'{n}}
+    \or Maj \or Czerwiec  \or Lipiec  \or {\'{S}ierpie\'{n}}
+    \or {Wrzesie\'{n}}  \or {Pa\'{z}dziernik}  \or Listopad
+    \or {Grudzie\'{n}} \fi \the\day,  \the\year}
+  \renewcommand\web@versionlabel{Wersja}
+  \renewcommand\web@toc{Spis Tre\'{s}ci}
+  \renewcommand\web@continued{verte}
+  \renewcommand\web@article{Pocz\k{a}tek do
+    \hyperlink{\web@Start.1}{Tekstu}}
+  \renewcommand\web@directory{Zawarto\'{s}\'{c}}
+  \renewcommand\web@revision{Ostatnia zmiana:}
+  \renewcommand\web@copyright{Copyright}
+  \renewcommand\web@section{Cze\'{s}\'{c}}
+  \renewcommand\web@back{Wstecz}
+  \renewcommand\web@doc{Dok}}% restricted to three characters
+  \PassOptionsToPackage{polish}{exerquiz}
+}
+\DeclareOptionX{finnish}{\AtEndOfPackage{%
+  \def\today{\the\day\ \ifcase\month\or Tammikuu
+    \or Helmikuu \or Maaliskuu  \or Huhtikuu
+    \or Toukokuu \or Kes\"{a}kuu  \or Hein\"{a}kuu  \or Elokuu
+    \or Syyskuu  \or Lokakuu  \or Marraskuu
+    \or Joulukuu \fi \the\year}
+  \def\web@toc{Sis\"{a}llys}
+  \def\web@continued{jatka}
+  \def\web@article{Aloita \hyperlink{section.1}{Artikkeli}}
+  \def\web@directory{Hakemisto}
+  \def\web@revision{Muutettu viimeeksi:}
+  \def\web@copyright{Copyright}
+  \def\web@section{Kappale}
+  \def\web@versionlabel{Versio}
+  \def\web@back{Takaisin}}
+  \PassOptionsToPackage{finnish}{exerquiz}
+}
+\DeclareOptionX{catalan}{\AtEndOfPackage{%
+  \def\today{\the\day\ de \ifcase\month\or Gener
+    \or Febrer \or Mar\c{c} \or Abril
+    \or Maig \or Juny  \or Juliol  \or Agost
+    \or Setembre  \or Octubre  \or Novembre
+    \or Desembre \fi de \the\year}
+  \renewcommand\web@versionlabel{Versi\noexpand\'{o}}
+  \renewcommand\web@toc{Taula de Contingut}
+  \renewcommand\web@continued{cont.}
+  \renewcommand\web@article{Inici \hyperlink{\web@Start.1}{Article}}
+  \renewcommand\web@directory{Directori}
+  \renewcommand\web@revision{Actualizat el:}
+  \renewcommand\web@copyright{Copyright}
+  \renewcommand\web@section{Secci\'o}
+  \renewcommand\web@back{Tornar}
+  \renewcommand\web@doc{Doc}}
+  \PassOptionsToPackage{catalan}{exerquiz}
+}
+\DeclareOptionX{czech}{\AtEndOfPackage{%
+  \def\today{\number\day. \ifcase\month\or ledna\or \'unora\or
+    b\v{r}ezna\or dubna\or kv\v{e}tna\or \v{c}ervna\or \v{c}ervence\or
+    srpna\or z\'a\v{r}\'\i\or \v{r}\'{\i}jna\or listopadu\or prosince\fi
+    \space\number\year}
+  \def\web@versionlabel{Verze}
+  \def\web@toc{Obsah}
+  \def\web@continued{pokr.}
+  \def\web@article{Za\v{c}\'{a}tek \hyperlink{\web@Start.1}{textu}}
+  \def\web@directory{Rozcestn\'{\i}k}
+  \def\web@revision{Posledn\'{\i} zm\v{e}na}
+  \def\web@copyright{Copyright}
+  \def\web@section{Kapitola}
+  \def\web@back{Zp\v{e}t}
+  \def\web@doc{Dok}}
+  \PassOptionsToPackage{czech}{exerquiz}
+}
+\DeclareOptionX{brazil}{\AtEndOfPackage{%
+  \def\today{\the\day\ de \ifcase\month\or janeiro
+    \or fevereiro \or mar\c{c}o \or abril
+    \or maio \or junho  \or julho  \or agosto
+    \or setembro  \or outubro  \or novembro
+    \or dezembro \fi de \the\year}
+  \renewcommand\web@versionlabel{Vers\~{a}o}
+  \renewcommand\web@toc{Tabela de Conte\'{u}do}
+  \renewcommand\web@continued{cont.}
+  \renewcommand\web@article{Inicie o
+  \hyperlink{\web@Start.1}{Artigo}}
+  \renewcommand\web@directory{Diret\'{o}rio}
+  \renewcommand\web@revision{Atualizado em:}
+  \renewcommand\web@copyright{Copyright}
+  \renewcommand\web@section{Se\c{c}\noexpand\~{a}o}
+  \renewcommand\web@back{Voltar}
+  \renewcommand\web@doc{Doc}}
+  \PassOptionsToPackage{brazil}{exerquiz}
+}
+\DeclareOptionX{turkish}{\ExecuteOptionsX{unicode}%
+  \AtEndOfPackage{%
+  \def\today{\the\day\ \ifcase\month\or Ocak
+    \or \c{S}ubat \or Mart  \or Nisan
+    \or May{\i}s \or Haziran  \or Temmuz  \or A\u{g}ustos
+    \or Eyl\"ul  \or Ekim  \or Kas{\i}m
+    \or Aral{\i}k \fi \the\year}
+  \def\web@toc{{\.I}\c{c}indekiler}
+  \def\web@continued{suite}
+  \def\web@article{\hyperlink{\web@Start.1}{D\"ok\"umanta} ba{\c s}la}
+  \def\web@directory{Dosya}
+  \def\web@revision{Son versiyon tarihi :}
+  \def\web@copyright{Copyright}
+  \def\web@versionlabel{Versiyon}
+  \def\web@section{K{\i}s{\i}m}
+  \def\web@back{Geri}
+  \def\web@doc{D\"ok}}
+  \PassOptionsToPackage{turkish}{exerquiz}
+}
+\DeclareOptionX*{\PassOptionsToPackage{\CurrentOption}
+  {\eq@ColorPackage}}
+\@ifpackageloaded{xcolor}{%
+  \@ifpackagelater{xcolor}{2004/07/04}{}{%
+  \PackageError{web}{%
+  *************************************************\MessageBreak
+  * Your Version of `xcolor.sty' is too old!\MessageBreak
+  * You need the version from 2004/07/04 or newer\MessageBreak
+  * or use: \string\usepackage[noxcolor]{web}\MessageBreak
+  * or \string\documentclass[noxcolor]{article}\MessageBreak
+  *************************************************}{}%
+}}{}
+\newif\ifweb@navibar\web@navibarfalse
+\def\NaviBarOn{\global\web@navibartrue}
+\def\NaviBarOff{\global\web@navibarfalse}
+\newif\ifeqforpaper \eqforpaperfalse  % for those who insist on paper
+\newif\ifweb@papersize@set \web@papersize@setfalse
+\newif\ifweb@margins@set \web@margins@setfalse
+\newif\if@defaultsubsubding \@defaultsubsubdingtrue
+\def\forceSubSubNumbers{\ifx\web@latextoc\web@YES\else
+  \PackageWarning{webpro}{\string\forSubSubNumbers\space
+  requested,\MessageBreak I'm adding the option of latextoc}\fi
+  \let\web@latextoc\web@YES\@defaultsubsubdingfalse
+}
+\@ifclassloaded{report}{\newif\if@mainmatter\@mainmattertrue}{}
+\newcommand\NewPage{\ifeqforpaper\else\newpage\fi}
+\let\web@directory@option\web@NO
+\let\web@latextoc\web@NO
+\let\web@layout\web@YES
+\let\web@bullets\web@YES
+\def\web@finalDot{.}
+\def\noFinalDot{\let\web@finalDot\@empty}
+\@onlypreamble\noFinalDot
+\def\minPanelWidth#1{\def\web@minpanelwidth{#1}}
+\minPanelWidth{1in}
+\let\bWebCustomize\endinput
+\let\eWebCustomize\relax
+\ifpdf\ExecuteOptionsX{pdftex}\else
+  \ifxetex\ExecuteOptionsX{xetex}\else
+    \let\ExecuteOptions@SAVE\ExecuteOptions
+    \let\ExecuteOptions\ExecuteOptionsX
+    \InputIfFileExists{web.cfg}{}
+    {\@ifundefined{l@tex@@@@driver}{\ExecuteOptionsX{dvips}}
+      {\ExecuteOptionsX{dvipsone}}}%
+    \let\ExecuteOptions\ExecuteOptions@SAVE
+  \fi
+\fi
+\providecommand{\inputWebCfg}{%
+  \let\bWebCustomize\relax
+  \let\eWebCustomize\endinput
+  \let\ExecuteOptions@SAVE\ExecuteOptions
+  \let\ExecuteOptions\@gobble
+  \makeatletter
+  \InputIfFileExists{web.cfg}{}{}\makeatother
+  \let\ExecuteOptions\ExecuteOptions@SAVE
+  \let\bWebCustomize\endinput
+  \let\eWebCustomize\relax
+}
+\@onlypreamble\inputWebCfg
+\ProcessOptionsX
+\ifx\web@Hypdfencoding\@empty\else
+  \let\aeb@useunicode\@gobble\fi
+\def\w@csarg#1#2{\expandafter#1\csname#2\endcsname}
+\@nameuse{papersize@for@\eq@driver@name}
+\ifx\web@layout\web@YES\else\templatedefaults\fi
+\@ifundefined{ifpdfmarkup}{\newif\ifpdfmarkup}
+\pdfmarkupfalse\ifpdf\else\ifxetex\else\pdfmarkuptrue\fi\fi
+\iftemplatesforpaper\def\@usetemplates{1}\fi
+\if@centertitlepagefull\@centertitlepagetrue\fi
+\RequirePackage{\eq@ColorPackage}
+\RequirePackage{calc}
+\RequirePackage{amssymb}% used for navibar
+\edef\web@RequireHyperref{\noexpand\RequirePackage[%
+  \ifpdf\else\ifxetex\else\eq@driver@name,\fi\fi
+  bookmarks,bookmarksnumbered,bookmarksopen,%
+  colorlinks,\aeb@useunicode,linkcolor=webgreen,%
+  filecolor=webbrown,citecolor=webgreen,%
+  urlcolor=webbrown,pagebackref,pdfpagemode=UseNone,%
+  pdfstartview=Fit,pdfpagelayout=SinglePage%
+  \ifx\u@web@ddtoHyOpts\@empty\else,\u@web@ddtoHyOpts\fi
+  \ifx\i@web@ddtoHyOpts\@empty\else,\i@web@ddtoHyOpts\fi]{hyperref}%
+}
+\def\w@isHyLoaded{\@ifpackageloaded{hyperref}{}{\PackageError{web}
+  {The xhyperref option used, but hyperref is not\MessageBreak
+  already loaded. Will load hyperref with the options\MessageBreak
+  chosen by web}{Remove xhyperref or load hyperref prior to the web
+  package.}\web@RequireHyperref}%
+}
+\if@web@hyperref\expandafter\web@RequireHyperref\else
+  \expandafter\w@isHyLoaded\fi
+\ifx\u@web@ddtoHySetup\@empty\else\edef\x{\noexpand\hypersetup
+    {\u@web@ddtoHySetup}}\expandafter\x\fi
+\def\@pdfcreator{The AcroTeX eDucation Bundle}
+\RequirePackage{aeb-comment}
+\def\web@commentChkMsg{\@ifpackageloaded{comment}
+  {\PackageWarningNoLine{web}
+    {The comment package is incompatible with the\MessageBreak
+     aeb-comment package, do not use the comment package}}{}}
+\AtBeginDocument{\web@commentChkMsg}
+\ifnum\@usetemplates=\@ne\def\x{%
+  \RequirePackage{graphicx}
+  \RequirePackage{eso-pic}}\expandafter\x\fi
+\def\getargs#1#2{\def\aeb@argi{#1}\def\aeb@argii{#2}}
+\let\getargsii\getargs
+\newlength{\textscreenwidth}
+\setlength{\textscreenwidth}{\paperwidth}
+\newlength{\@panelwidth}
+\def\panelscreenwidth{\@panelwidth}
+\newdimen\@Leftmargin   \@Leftmargin=0pt
+\newdimen\@Rightmargin  \@Rightmargin=0pt
+\newdimen\@Bottommargin \@Bottommargin=0pt
+\newdimen\@Topmargin    \@Topmargin=0pt
+\newdimen\web@Topmargin \web@Topmargin=8pt
+\newcommand{\websetheadheight}{8pt}
+\newcommand{\web@footskip}{4pt}
+\def\web@additionalheadsep{0pt}
+\pagestyle{empty}
+\def\InitLayout{%
+  \ifeqforpaper\else
+    \setlength\headheight{\websetheadheight}
+    \hoffset=0pt \voffset=0pt
+    {\@tempdima=\paperwidth
+      \addtolength{\@tempdima}{-\@Leftmargin}%
+      \addtolength{\@tempdima}{-\@Rightmargin}%
+      \xdef\fullscreenwidth{\the\@tempdima}}\fi
+  \ifx\web@layout\web@YES\else\templatedefaults\fi
+  \ifeqforpaper\else
+    \setlength{\textwidth}{\paperwidth}
+    \setlength{\textheight}{\paperheight}
+    \addtolength{\textheight}{-\@Topmargin}
+    \addtolength{\textheight}{-\@Bottommargin}
+    \setlength{\headsep}{\@Topmargin}
+    \addtolength\headsep{-\headheight}
+    \setlength{\topmargin}{\web@Topmargin}
+    \addtolength\headsep{-\topmargin}
+    \addtolength\headsep{\web@additionalheadsep}
+    \addtolength{\topmargin}{-1in}
+    \setlength\footskip{\@Bottommargin}
+    \addtolength{\footskip}{-\web@footskip} % depth of navibar
+    \ifcase\@panelconfig
+      \setlength{\oddsidemargin}{\@Leftmargin}
+      \setlength{\evensidemargin}{\@Leftmargin}
+    \or
+      \setlength{\oddsidemargin}{\@panelwidth}
+      \setlength{\evensidemargin}{\@panelwidth}
+    \or
+      \setlength{\oddsidemargin}{\@Leftmargin}
+      \setlength{\evensidemargin}{\@Leftmargin}
+    \fi
+    \addtolength{\evensidemargin}{-1in}
+    \addtolength{\oddsidemargin}{-1in}
+    \fi
+    \ifx\web@layout\web@YES
+      \ifcase\@panelconfig
+        \addtolength{\textwidth}{-\@Leftmargin}
+        \addtolength{\textwidth}{-\@Rightmargin}
+      \or % leftpanel
+        \addtolength{\textwidth}{-\@panelwidth}
+        \addtolength{\textwidth}{-\@Rightmargin}
+      \or % rightpanel
+        \addtolength{\textwidth}{-\@panelwidth}
+        \addtolength{\textwidth}{-\@Leftmargin}
+      \fi
+      \ifnum\@usetemplates=\@ne
+        \setlength{\textscreenwidth}{\paperwidth}
+        \def\@textX{0}
+        \ifnum\@panelconfig=\@ne % leftpanel
+          \addtolength{\textwidth}{-\@panelsep}
+          \addtolength{\oddsidemargin}{\@panelsep}
+          \addtolength{\evensidemargin}{\@panelsep}
+          \addtolength{\textscreenwidth}{-\@panelwidth}
+          \def\@textX{\strip@pt\@panelwidth}
+          \def\@panelX{0}
+        \fi
+        \ifnum\@panelconfig=\tw@ % rightpanel
+          \addtolength{\textwidth}{-\@panelsep}
+          \addtolength{\textscreenwidth}{-\@panelwidth}
+          \def\@textX{0}
+          \def\@panelX{\strip@pt\textscreenwidth}
+        \fi
+        \calculatefullwidth
+      \fi
+    \fi
+}
+\def\@convLtoP#1#2{\afterassignment
+  \@convLtoP@i\dimen@#2bp\relax{#1}{#2}}
+\def\@convLtoP@i#1\relax#2#3{%
+ \if!#1!\def#2{#3}\else
+    \dimen@.99626\dimen@\edef#2{\strip@pt\dimen@}\fi}
+\providecommand\setPageDevice[3][600]{\bgroup
+  \@convLtoP{\width}{#2}\@convLtoP{\height}{#3}
+  \ifpdfmarkup\headerps@out{<< /HWResolution [#1 #1] %
+    /PageSize [\width\space\height] >> setpagedevice}\else
+  \PackageWarning{web}{This is a distiller only command,\MessageBreak
+    ignoring \string\setPageDevice}\fi\egroup}
+\providecommand\allowTransparency{\bgroup
+  \ifpdfmarkup\headerps@out{<< %
+  /AllowTransparency true >> setdistillerparams}\else
+  \PackageWarning{web}{This is a distiller only command,\MessageBreak
+  ignoring \string\allowTransparency}\fi\egroup}
+\@onlypreamble\setPageDevice
+\@onlypreamble\allowTransparency
+\def\screensize#1#2{%
+  \def\webSaveSSDim{{#1}{#2}}%
+  \begingroup
+    \ifeqforpaper
+      \ifx\web@layout\web@YES
+        \setlength{\@tempdima}{#2}\global
+        \textwidth\@tempdima
+        \addtolength{\@tempdima}{-\@Leftmargin}%
+        \addtolength{\@tempdima}{-\@Rightmargin}%
+        \xdef\fullscreenwidth{\the\@tempdima}\else
+        \xdef\fullscreenwidth{\the\textwidth}\fi
+    \else
+      \setlength{\@tempdima}{#1}\global
+      \paperheight\@tempdima
+      \setlength{\@tempdima}{#2}\global
+      \paperwidth\@tempdima
+    \fi
+  \endgroup
+  \web@papersize@settrue
+  \web@set@paper
+  \let\screensize\@gobbletwo
+  \InitLayout
+}
+\let\screensize@web@save\screensize
+\newcommand{\setScreensizeFromGraphic}[2][]{%
+  \getDimsFromGraphic[#1]{#2}%
+    {\web@graphicScreenWidth}{\web@graphicScreenHeight}%
+  \screensize{\web@graphicScreenHeight}{\web@graphicScreenWidth}%
+}
+\@onlypreamble\setScreensizeFromGraphic
+\newcommand{\getDimsFromGraphic}[4][]{\bgroup
+  \setbox\z@=\hbox{\includegraphics[draft,#1]{#2}}%
+  \dimen@=\dp\z@ \advance\dimen@\ht\z@
+  \xdef#3{\the\wd\z@ }\xdef#4{\the\dimen@}\egroup
+}
+\def\web@getSSDims#1#2{\edef\web@@height{#1}\edef\web@@width{#2}}
+\def\addToWebHWError{\PackageError{web}{%
+  You must declare screen size first by using\MessageBreak
+  the \string\screensize\space command, or by declaring \MessageBreak
+  a design in the web option list}%
+  {Do as is suggested in error message!}}
+\newcommand{\addtoWebHeight}[1]{%
+  \ifx\screensize\@gobbletwo
+  \expandafter\web@getSSDims\webSaveSSDim
+  \screensize@web@save{\web@@height+#1}{\web@@width}%
+  \else\addToWebHWError\fi
+}
+\newcommand{\addtoWebWidth}[1]{%
+  \ifx\screensize\@gobbletwo
+  \expandafter\web@getSSDims\webSaveSSDim
+  \screensize@web@save{\web@@height}{\web@@width+#1}%
+  \else\addToWebHWError\fi
+}
+\@onlypreamble\addtoWebHeight
+\@onlypreamble\addtoWebWidth
+\newcommand{\@margins}[5][\web@minpanelwidth]{%
+  \def\webSaveMargDim{[#1]{#2}{#3}{#4}{#5}}%
+  \setlength{\@panelwidth}{#1}%
+  \ifdim\@panelwidth<\web@minpanelwidth
+    \setlength{\@panelwidth}{\web@minpanelwidth}\fi
+  \setlength{\@Leftmargin}{#2}%
+  \setlength{\@Rightmargin}{#3}%
+  \setlength{\@Topmargin}{#4}%
+  \setlength{\@Bottommargin}{#5}%
+  \web@margins@settrue
+  \InitLayout
+}
+\let\margins\@margins
+\let\margins@web@save\margins
+\newcommand{\@@margins}[5][]{}
+\let\marginsize\margins
+\newcommand\get@MargDim[5][]{%
+  \def\currPanelWidth{#1}%
+  \def\currLeftMarg{#2}\def\currRightMarg{#3}%
+  \def\currTopMarg{#4}\def\currBottomMarg{#5}}
+\newcommand{\resetmargins}[5][\web@minpanelwidth]{%
+  \expandafter\get@MargDim\webSaveMargDim
+  \begingroup
+    \let\incby\currPanelWidth
+    \def\web@arg{#1}\ifx\web@arg\@empty
+    \setlength{\@tempdima}{\currPanelWidth}\else
+    \setlength{\@tempdima}{#1}\fi
+    \xdef\newPanelWidth{\the\@tempdima}%
+    \let\incby\currLeftMarg
+    \def\web@arg{#2}\ifx\web@arg\@empty
+    \setlength{\@tempdima}{\currLeftMarg}\else
+    \setlength{\@tempdima}{#2}\fi
+    \xdef\newLeftMarg{\the\@tempdima}%
+    \let\incby\currRightMarg
+    \def\web@arg{#3}\ifx\web@arg\@empty
+    \setlength{\@tempdima}{\currRightMarg}\else
+    \setlength{\@tempdima}{#3}\fi
+    \xdef\newRightMarg{\the\@tempdima}%
+    \let\incby\currTopMarg
+    \def\web@arg{#4}\ifx\web@arg\@empty
+    \setlength{\@tempdima}{\currTopMarg}\else
+    \setlength{\@tempdima}{#4}\fi
+    \xdef\newTopMarg{\the\@tempdima}%
+    \let\incby\currBottomMarg
+    \def\web@arg{#4}\ifx\web@arg\@empty
+    \setlength{\@tempdima}{\currBottomMarg}\else
+    \setlength{\@tempdima}{#5}\fi
+    \xdef\newBottomMarg{\the\@tempdima}%
+  \endgroup
+  \margins@web@save[\newPanelWidth]{\newLeftMarg}{\newRightMarg}
+    {\newTopMarg}{\newBottomMarg}%
+}
+\@onlypreamble\resetscreensize
+\let\web@save@title\title
+\def\title{\@ifnextchar[{\@web@title}{\@web@title[]}}
+\def\@web@title[#1]#2{\gdef\webtitle{#2}\hypersetup{pdftitle={#2}}%
+  \def\webArg{#1}\ifx\webArg\@empty\gdef\shortwebtitle{#2}\else
+  \gdef\shortwebtitle{#1}\fi\web@save@title{#2}}
+\let\web@saved@author\author
+\def\author#1{\gdef\webauthor{#1}\hypersetup{pdfauthor={#1}}%
+    \web@saved@author{#1}}
+\def\subject{\@ifnextchar[{\@subject}{\@subject[]}}
+\def\@subject[#1]#2{%
+  \def\webArg{#1}\ifx\webArg\@empty\gdef\shortwebsubject{#2}\else
+  \gdef\shortwebsubject{#1}\fi\gdef\websubject{#2}%
+  \hypersetup{pdfsubject={#2}}}
+\def\email#1{\gdef\webemail{#1}}
+\def\thewebemail{\href{mailto:\webemail}{\webemail}}
+\def\keywords#1{\gdef\webkeywords{#1}\hypersetup{pdfkeywords={#1}}}
+\def\pdfLang#1{\def\web@pdfLang{#1}\hypersetup{pdflang={#1}}}
+\let\web@pdfLang\@empty
+\def\university#1{\gdef\webuniversity{#1}}
+\def\version#1{\gdef\web@version@value{#1}%
+  \edef\webversion{\ifx\web@version@value\@empty\else
+    \noexpand\web@versionlabel\noexpand\
+    \noexpand\web@version@value\fi}%
+}
+\let\web@version@value\@empty
+\def\versionLabel#1{\def\web@versionlabel{#1}}
+\versionLabel{Version}
+\def\copyrightyears#1{\gdef\webcopyrightyears{#1}}
+\newcommand{\tocName}[1]{\def\web@toc{#1}}
+\tocName{Table of Contents}
+\newcommand{\tocNameCont}[1]{\def\web@continued{#1}}
+\tocNameCont{cont.}
+\newcommand{\dirContentLink}[1]{\def\web@article{#1}}
+\dirContentLink{Begin \hyperlink{\web@Start.1}{Article}}
+\newcommand{\directoryName}[1]{\def\web@directory{#1}}
+\directoryName{Directory}
+\newcommand{\revisionLabel}[1]{\def\web@revision{#1}}
+\revisionLabel{Last Revision Date:}
+\def\norevisionLabel{\let\web@revision\@gobble}
+\newcommand{\copyrightLabel}[1]{\def\web@copyright{#1}}
+\copyrightLabel{Copyright}
+\def\nocopyright{\let\web@copyright\@gobble}
+\def\nocopyrightNotice{\let\web@copyright\@gobblethree}
+\def\web@section{Section}
+\def\web@back{Back}
+\def\web@doc{Doc}   % restricted to three characters
+\title{}\author{}\email{}\subject{}\keywords{}\version{}
+\university{}\copyrightyears{\the\year}
+\let\IF@AorBswitch\ifeqforpaper
+\def\prtscr{\@ifstar{\prtscrV}{\prtscrA}}
+\def\prtscrA#1#2{\ifeqforpaper#1\else#2\fi}
+\newtoks\webtoksi
+\newbox\webtempboxi
+\newbox\webtempboxii
+\providecommand\SHOWTEMPBOXi{\unhbox\webtempboxi}
+\providecommand\TRUEACTIONi{\aftergroup\SETTEMPBOXii}
+\providecommand\TRUEACTIONia{\aftergroup\SHOWTEMPBOXi}
+\providecommand\FALSEACTIONii{\aftergroup\SETTEMPBOXi}
+\providecommand\FALSEACTIONiia{\aftergroup\SHOWTEMPBOXi}
+\providecommand\SETTEMPBOXi{\IF@AorBswitch\else
+  \afterassignment\TRUEACTIONia\fi
+  \setbox\webtempboxi=\hbox}
+\providecommand\SETTEMPBOXii{\IF@AorBswitch
+  \afterassignment\FALSEACTIONiia\fi
+  \setbox\webtempboxii=\hbox}
+\def\prtscrV{\let\IF@AorBswitch\ifeqforpaper
+  \ifeqforpaper
+    \def\web@next{\afterassignment\TRUEACTIONi\SETTEMPBOXi}\else
+    \def\web@next{\afterassignment\FALSEACTIONii\SETTEMPBOXii}\fi
+  \web@next}
+\newcommand{\web@aboveOptPgMatDef}{\minimumskip\vspace{\stretch{1}}}
+\newcommand{\aboveOPMvspace}{\web@aboveOptPgMatDef}
+\newcommand{\optionalPageMatter}[2][\web@aboveOptPgMatDef]{%
+  \def\aboveOPMvspace{#1}\def\optionalpagematter{#2}}
+\def\optionalpagematter{}
+\@ifundefined{thechapter}
+  {\def\web@Start{section}}{\def\web@Start{chapter}}
+\newcommand{\titleauthorproportion}{.33}
+\newcommand{\hproportionwebuniversity}{.7}
+\newcommand{\hproportionwebtitle}{.7}
+\newcommand{\hproportionwebauthor}{.4}
+\newcommand{\minimumskip}{\medskip}
+\def\web@copyright@symbol{\copyright}
+\newcommand{\copyrightSymbol}[1]{\def\web@copyright@symbol{#1}}
+\def\nocopyrightsymbol{\let\web@copyright@symbol\@gobble}
+\newcommand{\trailerFontSize}{\footnotesize}
+\def\maketitle@trailer@ul{\web@copyright\ \web@copyright@symbol\
+  \webcopyrightyears}
+\def\maketitle@trailer@ll{\web@revision\ \@date}
+\def\maketitle@trailer@ur{\thewebemail}
+\def\maketitle@trailer@lr{\webversion}
+\newcommand{\titlepageTrailer}{%
+  \makebox[\linewidth]{\parbox{\linewidth}{%
+    \maketitle@trailer@ul\hfill\maketitle@trailer@ur\\
+    \maketitle@trailer@ll\hfill\maketitle@trailer@lr}}%
+}
+\newcommand{\webdirectory}{\par
+  \ifeqforpaper\else\minimumskip\fi\vspace{\stretch{1}}%
+  \web@priorDirMatter
+  \begin{flushleft}{\web@formatWordDirectory\web@directory}%
+  \web@priorDirList
+  \vspace{\vspaceAfterDirName}%
+  \begin{itemize}\setlength{\itemsep}{-3pt}\web@formatDirectoryItems
+    \ifx\web@removeDirTOC\web@YES\else\item\relax\dirTOCItem\fi
+    \ifx\web@removeDirArticle\web@YES\else
+      \item\relax\dirArticleItem\fi
+    \web@addtoDirList
+  \end{itemize}
+  \web@afterDirList
+  \end{flushleft}
+  \web@afterDirMatter
+}
+\newcommand{\directoryhook}[1]{\def\web@directory@hook##1{#1}}
+\let\web@directory@hook\@empty
+\newcommand{\vspaceAfterDirName}{-3pt}
+\newcommand{\dirTOCItem}{\hyperlink{webtoc}{\web@toc}}
+\newcommand{\dirArticleItem}{\web@article}
+\newcommand{\removeDirTOC}{\let\web@removeDirTOC\web@YES}
+\let\web@removeDirTOC\web@NO
+\newcommand{\removeDirArticle}{\let\web@removeDirArticle\web@YES}
+\let\web@removeDirArticle\web@NO
+\let\web@addtoDirList\@empty
+\newcommand{\formatWordDirectory}[1]{\def\web@formatWordDirectory{#1}}
+\formatWordDirectory{\bfseries\large}
+\newcommand{\formatDirectoryItems}[1]{\def\web@formatDirectoryItems{#1}}
+\formatDirectoryItems{\bfseries}
+\newcommand{\addtoDirList}[1]{\g@addto@macro\web@addtoDirList{\item #1}}
+\newcommand{\priorDirList}[1]{\def\web@priorDirList{#1}}
+\let\web@priorDirList\@empty
+\newcommand{\afterDirList}[1]{\def\web@afterDirList{#1}}
+\let\web@afterDirList\@empty
+\newcommand{\priorDirMatter}[1]{\def\web@priorDirMatter{#1}}
+\let\web@priorDirMatter\@empty
+\newcommand{\afterDirMatter}[1]{\def\web@afterDirMatter{#1}}
+\let\web@afterDirMatter\@empty
+\newcommand{\universityColor}[1]{\def\webuniversity@color{#1}}
+\universityColor{blue}
+\newcommand{\titleColor}[1]{\def\webtitle@color{#1}}
+\titleColor{black}
+\newcommand{\authorColor}[1]{\def\webauthor@color{#1}}
+\authorColor{black}
+\newcommand{\subjectColor}[1]{\def\websubject@color{#1}}
+\subjectColor{black}
+\def\aboveTopTitleSkip#1{\def\web@aboveTopTitleSkip{#1}}
+\aboveTopTitleSkip{0pt}
+\newcommand{\topTitlePage}{%
+  \vglue\web@aboveTopTitleSkip
+  \noindent\makebox[\linewidth]{%
+    \parbox{\hproportionwebuniversity\linewidth}%
+  {\bfseries\color{\webuniversity@color}\ifeqforpaper\large\fi
+  \centering\webuniversity}}\par\ifeqforpaper\else\minimumskip\fi
+  \vspace{\stretch{1}}\noindent
+  \makebox[\linewidth]{%
+    \parbox{\hproportionwebtitle\linewidth}%
+    {\bfseries\color{\webtitle@color}\ifeqforpaper\Large\else
+    \large\fi\centering\webtitle}}\par
+  \ifeqforpaper
+    \vspace{2\baselineskip}\else\minimumskip\vspace{\stretch{1}}\fi
+  \noindent
+  \makebox[\linewidth]{%
+    \parbox{\hproportionwebauthor\linewidth}%
+    {\bfseries\color{\webauthor@color}\ifeqforpaper
+    \large\fi\centering\webauthor}}
+}
+\newcommand{\allowHeadingsTitlePage}{\let\web@titlepagestyle\@gobble}
+\def\web@titlepagestyle#1{#1}
+\newcommand{\coverpagemargin}{1in}
+\newcommand{\maketitlepreamble}{%
+  \web@titlepagestyle{\thispagestyle{empty}}%
+  \ifeqforpaper\if@centertitlepage
+    \begingroup % closes in \maketitlepostamble
+      \if@centertitlepagefull
+        \@tempdima=\coverpagemargin
+      \else
+        \@tempdima\paperwidth
+        \advance\@tempdima-\textwidth
+        \@tempdima=.5\@tempdima
+        \edef\coverpagemargin{\the\@tempdima}%
+      \fi
+      \@tempdimb\paperwidth
+      \addtolength{\@tempdimb}{-2\@tempdima}%
+      \edef\fullscreenwidth{\the\@tempdimb}%
+      \linewidth\fullscreenwidth
+      \textwidth\fullscreenwidth
+      \hfuzz\linewidth
+      \setlength{\oddsidemargin}{\coverpagemargin-1in}%
+      \setlength{\evensidemargin}{\oddsidemargin}%
+      \marginparsep=0pt
+      \marginparwidth=0pt
+      \parindent0pt
+    \fi\fi
+}
+\newcommand{\maketitlepostamble}{\newpage
+    \ifeqforpaper\if@centertitlepage\endgroup\fi\fi
+}
+\newcommand{\web@maketitle}{%
+  \maketitlepreamble
+  \ifeqforpaper\vspace*{2\baselineskip}\else
+  \vbox to\titleauthorproportion\textheight\bgroup\fi
+  \topTitlePage
+  \ifeqforpaper\else\egroup\fi % end of \vbox for title and author
+  \ifx\optionalpagematter\@empty\par\else
+  \begingroup\par
+  \aboveOPMvspace
+  \noindent\parbox{\linewidth}{\optionalpagematter}%
+  \par\endgroup\fi
+  \vspace{\stretch{1}}
+  \ifx\web@directory@option\web@YES\web@directory@hook\webdirectory\fi
+  \par\ifeqforpaper\else\minimumskip\fi\vspace{\stretch{1}}
+  \vfill\noindent\begingroup
+  \trailerFontSize\titlepageTrailer\par\endgroup
+  \maketitlepostamble
+}
+\let\web@save@maketitle\maketitle
+\let\maketitle\web@maketitle
+\newcommand{\makeinlinetitle}{\noindent
+  \makebox[\linewidth][c]{%
+  \bfseries\color{\webtitle@color}\webtitle}
+  \makebox[\linewidth]{%
+    \shortstack[l]{\strut\\
+      \makebox[0pt][l]{\webuniversity}\\
+      \makebox[0pt][l]{\@ifundefined{aeb@prepared}
+        {\@date}{\aeb@prepared}%
+      }%
+    }\hfill
+    \shortstack[c]{\strut\webauthor\\\strut}\hfill
+    \shortstack[r]{\strut\makebox[0pt][r]{\thewebemail}\\
+      \makebox[0pt][r]{%
+        \@ifundefined{aeb@talksite}{\webversion}
+          {\ifx\aeb@talksite\@empty\webversion
+           \else\aeb@talksite\fi}%
+      }%
+    }%
+  }%
+  \bigskip
+}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\ifeqforpaper\else
+  \clubpenalty=50 \widowpenalty=50 \fi
+\let\web@save@listi\@listi
+\let\web@save@listii\@listii
+\let\web@save@listiii\@listiii
+\let\web@save@normalsize\normalsize
+\let\web@save@partopsep\partopsep
+\let\web@normalsize\normalsize
+\def\w@ppp#1#2#3{#1\p@ \@plus#2\p@ \@minus#3\p@}
+\def\w@zpp#1#2{\z@ \@plus#1\p@ \@minus#2\p@}
+\def\tightsettings@z{%
+  \setlength\partopsep{\w@ppp{2}{}{}} % unchanged
+  \def\web@listi{\leftmargin\leftmargini
+  \parsep \w@ppp{2}{2}{}% 4+2-1
+  \topsep \w@ppp{2}{1}{}% 8+2-4
+  \itemsep\w@ppp{2}{1}{}}% 4+2-1
+  \let\@listi\web@listi
+  \let\@listI\@listi
+  \@listi
+  \def\web@listii {\leftmargin\leftmarginii
+    \labelwidth\leftmarginii
+    \advance\labelwidth-\labelsep
+    \topsep    \w@zpp{}{}% 4+2-1
+    \parsep    \w@zpp{}{}% 2+1-1
+    \itemsep   \parsep}% unchanged
+  \def\web@listiii{\leftmargin\leftmarginiii
+     \labelwidth\leftmarginiii
+     \advance\labelwidth-\labelsep
+     \topsep \w@zpp{}{}% 2+1-1
+     \parsep    \z@         % unchanged
+     \partopsep \w@ppp{}{}{}% unchanged
+     \itemsep   \topsep
+  }% unchanged
+  \let\@listii\web@listii
+  \let\@listiii\web@listiii
+  \renewcommand\web@normalsize{%
+     \@setfontsize\normalsize\@xpt\@xiipt
+     \abovedisplayskip \w@ppp{5}{3}{}% 10+2-5
+     \abovedisplayshortskip \w@zpp{3}{0}% unchanged
+     \belowdisplayshortskip \w@ppp{3}{2}{2}% 6+3-3
+     \belowdisplayskip \abovedisplayskip
+     \let\@listi\@listI}%
+  \let\normalsize\web@normalsize
+  \normalsize
+}
+\def\tightsettings@i{%
+  \setlength\partopsep{\w@ppp{2}{}{}}% 3+1-1
+  \def\web@listi{\leftmargin\leftmargini
+  \parsep \w@ppp{2.5}{2}{}% 4.5+2-1
+  \topsep \w@ppp{4.5}{1.5}{2.5}% 9+3-5
+  \itemsep \w@ppp{2.5}{}{}}% 4.5+2-1
+  \let\@listi\web@listi
+  \let\@listI\@listi
+  \@listi
+  \def\web@listii {\leftmargin\leftmarginii
+     \labelwidth\leftmarginii
+     \advance\labelwidth-\labelsep
+     \topsep    \w@ppp{}{}{}% 4.5+2-1
+     \parsep    \w@ppp{}{}{}% 2+1-1
+     \itemsep   \parsep}% unchanged
+  \def\web@listiii{\leftmargin\leftmarginiii
+     \labelwidth\leftmarginiii
+     \advance\labelwidth-\labelsep
+     \topsep    \w@ppp{}{}{}% 2+1-1
+     \parsep    \z@         % unchanged
+     \partopsep \w@ppp{}{}{}% unchanged
+     \itemsep   \topsep}% unchanged
+  \let\@listii\web@listii
+  \let\@listiii\web@listiii
+  \renewcommand\web@normalsize{%
+     \@setfontsize\normalsize\@xipt{13.6}%
+     \abovedisplayskip \w@ppp{5.5}{3}{3}% 11+3-6
+     \abovedisplayshortskip \w@zpp{}{0}% unchanged
+     \belowdisplayshortskip \w@ppp{4}{2}{2}% 6.5+3.5-3
+     \belowdisplayskip \abovedisplayskip
+     \let\@listi\@listI}%
+  \let\normalsize\web@normalsize
+  \normalsize
+}
+\def\tightsettings@ii{%
+  \setlength\partopsep{\w@ppp{3}{2}{2}}% unchanged
+  \def\web@listi{\leftmargin\leftmargini
+  \parsep \w@ppp{3}{2}{}% 5+2.5-1
+  \topsep \w@ppp{5}{2}{3}% 10+4-6
+  \itemsep\w@ppp{2.5}{}{}}% 5+2.5-1
+  \let\@listi\web@listi
+  \let\@listI\@listi
+  \@listi
+  \def\web@listii {\leftmargin\leftmarginii
+     \labelwidth\leftmarginii
+     \advance\labelwidth-\labelsep
+     \topsep    \w@ppp{2.5}{}{}% 5+2.5-1
+     \parsep    \w@ppp{2}{}{}% 2.5+1-1
+     \itemsep   \parsep}% unchanged
+  \def\web@listiii{\leftmargin\leftmarginiii
+     \labelwidth\leftmarginiii
+     \advance\labelwidth-\labelsep
+     \topsep    \w@ppp{1.5}{}{}% 2.5+1-1
+     \parsep    \z@            % unchanged
+     \partopsep \w@ppp{}{}{}% unchanged
+     \itemsep   \topsep}% unchanged
+  \let\@listii\web@listii
+  \let\@listiii\web@listiii
+  \renewcommand\web@normalsize{%
+     \@setfontsize\normalsize\@xiipt{14.5}%
+     \abovedisplayskip \w@ppp{6}{1.5}{3.5}% 12+3-7
+     \abovedisplayshortskip \w@zpp{3}{0}% unchanged
+     \belowdisplayshortskip \w@ppp{4}{2}{2}% 6.5+3.5-3
+     \belowdisplayskip \abovedisplayskip
+     \let\@listi\@listI}%
+  \let\normalsize\web@normalsize
+  \normalsize
+}
+\def\tightsettings{\@ifstar{\ifeqforpaper\else\tightsettings@cont\fi}
+  {\tightsettings@cont}}
+\def\tightsettings@cont{\let\web@tight\web@YES
+  \ifcase\@ptsize
+    \tightsettings@z\or
+    \tightsettings@i\or
+    \tightsettings@ii\fi
+}
+\def\restorenormalsettings{\let\web@tight\web@NO
+  \let\@listi\web@save@listi
+  \let\@listii\web@save@listii
+  \let\@listiii\web@save@listiii
+  \let\normalsize\web@save@normalsize
+  \let\partopsep\web@save@partopsep
+  \let\@listI\@listi
+  \@listi
+  \normalsize
+}
+\def\navibarTextColor#1{\def\@menucolor{#1}}
+\def\@menucolor{webblue}
+\def\navibarBgColor#1{\def\@menuBgColor{#1}}
+\def\@menuBgColor{webgray}
+\newcommand{\newNaviIcon}[1][\@empty]{%
+  \ifx#1m\let\web@next\@newNaviIconMenu
+  \else\ifx#1j\let\web@next\@newNaviIconJS
+  \else\ifx#1l\let\web@next\@newNaviIconLink
+  \else\ifx#1\@empty\let\web@next\@newNaviIconLink
+  \else\let\web@next\relax
+  \PackageWarning{web}{\string\newNaviIcon: unknown first parameter}
+  \fi\fi\fi\fi\web@next
+}
+\def\web@colorbox@w@transparency#1{%
+  \ifx#1\@empty\setlength{\fboxrule}{0pt}\let\aeb@next\fbox\else
+  \def\aeb@next{\colorbox{#1}}\fi\aeb@next}
+\newcommand{\@newNaviIconMenu}[6][I]{%
+  \def#2{{\setlength{\fboxsep}{0pt}\def\@pdfhighlight{/#1}%
+    \Acrobatmenu{#6}{\web@colorbox@w@transparency{\@menuBgColor}{%
+      \parbox[c][#4][c]{#3}%
+      {\normalsize\centering\color{\@menucolor}#5}}}%
+  }}%
+}
+\newcommand{\@newNaviIconJS}[6][I]{%
+  \ifcase\eq@drivernum
+    \def#2{{\setlength{\fboxsep}{0pt}%
+        \pdf@rect{\web@colorbox@w@transparency{\@menuBgColor}%
+          {\parbox[c][#4][c]{#3}%
+          {\normalsize\centering\color{\@menucolor}#5}}}%
+        \literalps@out{%
+        [ /Rect [pdf@llx pdf@lly pdf@urx pdf@ury]
+        /Border [ 0 0 0 ]/H/#1\space
+        /Action <</S/JavaScript/JS (#6) >>
+        /Subtype/Link
+        /ANN pdfmark}%
+    }}%
+  \or
+    \def#2{{\setlength{\fboxsep}{0pt}%
+      \leavevmode\pdfstartlink
+          attr {/Border [0 0 0 ] /H/#1}%
+          user{ /Subtype /Link
+          /A << /S/JavaScript/JS (#6) >>}%
+          \web@colorbox@w@transparency{\@menuBgColor}%
+          {\parbox[c][#4][c]{#3}%
+          {\normalsize\centering\color{\@menucolor}#5}}%
+      \pdfendlink
+    }}%
+  \or
+    \def#2{{\setlength{\fboxsep}{0pt}%
+        \@pdfm@mark{bann
+          <<
+            /Border [0 0 0 ] /H/#1\space
+            /Subtype /Link
+            /A << /S/JavaScript/JS (#6) >>
+          >>}\web@colorbox@w@transparency{\@menuBgColor}%
+        {\parbox[c][#4][c]{#3}%
+        {\normalsize\centering\color{\@menucolor}#5}}%
+      \@pdfm@mark{eann}%
+    }}%
+  \fi
+}
+\newcommand{\@newNaviIconLink}[6][I]{%
+  \def#2{{\setlength{\fboxsep}{0pt}\def\@pdfhighlight{/#1}%
+    #6{\web@colorbox@w@transparency{\@menuBgColor}%
+    {\parbox[c][#4][c]{#3}%
+    {\normalsize\centering\color{\@menucolor}#5}}}%
+  }}%
+}
+\let\insertwebtoc\relax
+\def\insert@webtoc{\web@TOC\ }
+\def\web@TocText{Toc}
+\newNaviIcon[l]{\web@TOC}{\web@nb@width}{\web@nb@height}
+  {\footnotesize\web@TocText}{\hyperlink{webtoc}}
+\newcommand\navibariconWidth[1]{\def\web@nb@width{#1}}
+\newcommand\navibariconHeight[1]{\def\web@nb@height{#1}}
+\navibariconWidth{34pt}\navibariconHeight{10pt}
+\@newNaviIconMenu{\web@FirstPage}{\web@nb@width}{\web@nb@height}
+  {\web@FirstPageText}{FirstPage}
+\def\web@FirstPageText{$\blacktriangleleft\blacktriangleleft$}
+\@newNaviIconMenu{\web@LastPage}{\web@nb@width}{\web@nb@height}
+  {\web@LastPageText}{LastPage}
+\def\web@LastPageText{$\blacktriangleright\blacktriangleright$}
+\@newNaviIconMenu{\web@PrevPage}{\web@nb@width}{\web@nb@height}
+  {\web@PrevPageText}{PrevPage}
+\def\web@PrevPageText{$\blacktriangleleft$}
+\@newNaviIconMenu{\web@NextPage}{\web@nb@width}{\web@nb@height}
+  {\web@NextPageText}{NextPage}
+\def\web@NextPageText{$\blacktriangleright$}
+\@newNaviIconMenu{\web@GoBack}{\web@nb@width}{\web@nb@height}
+  {\footnotesize\web@back}{GoBack}
+\@newNaviIconMenu{\web@GoBackDoc}{\web@nb@width}{\web@nb@height}
+  {$\blacktriangleleft$\ \footnotesize\web@doc}{GoBackDoc}
+\@newNaviIconMenu{\web@GoForwardDoc}{\web@nb@width}{\web@nb@height}
+  {\footnotesize\web@doc\ \normalsize$\blacktriangleright$}
+  {GoForwardDoc}
+\@newNaviIconMenu{\web@FS}{\web@nb@width}{\web@nb@height}
+  {\footnotesize\web@FSText}{FullScreen}
+\def\web@FSText{FS}
+\@newNaviIconMenu{\web@GoToPage}{\web@nb@width}{\web@nb@height}
+  {\footnotesize\web@GoToPageText}{GoToPage}
+\def\web@GoToPageText{Page...}
+\newcommand\web@navigationbar{%
+  \hfil\bfseries\footnotesize
+  \insertwebtoc
+  \web@FirstPage\
+  \web@LastPage\
+  \web@PrevPage\
+  \web@NextPage\
+  \web@GoBack
+  %\web@GoBackDoc\
+  %\web@GoForwardDoc
+  \hfil
+}
+\newcommand{\panelgroupWidth}[1]{\global
+  \let\chkpanelgroup\web@chkpanelgroup
+  \def\web@pg@width{#1}}
+\newcommand{\panelgroupHeight}[1]{\global
+  \let\chkpanelgroup\web@chkpanelgroup
+  \def\web@pg@height{#1}}
+\newcommand{\panelgroupSep}[1]{\global
+  \let\chkpanelgroup\web@chkpanelgroup
+  \def\web@pg@sep{#1}}
+\@newNaviIconMenu{\panel@FirstPage}{\web@pg@width}{\web@pg@height}
+  {\web@FirstPageText}{FirstPage}
+\@newNaviIconMenu{\panel@LastPage}{\web@pg@width}{\web@pg@height}
+  {\web@LastPageText}{LastPage}
+\@newNaviIconMenu{\panel@PrevPage}{\web@pg@width}{\web@pg@height}
+  {\web@PrevPageText}{PrevPage}
+\@newNaviIconMenu{\panel@NextPage}{\web@pg@width}{\web@pg@height}
+  {\web@NextPageText}{NextPage}
+\@newNaviIconMenu{\panel@GoBack}{\web@pg@width}{\web@pg@height}
+  {\footnotesize\web@back}{GoBack}
+\@newNaviIconMenu{\panel@GoBackDoc}{\web@pg@width}{\web@pg@height}
+  {$\blacktriangleleft$\,\footnotesize\web@doc}{GoBackDoc}
+\@newNaviIconMenu{\panel@GoForwardDoc}{\web@pg@width}{\web@pg@height}
+  {\footnotesize\web@doc\,\normalsize$\blacktriangleright$}
+  {GoForwardDoc}
+\@newNaviIconMenu{\panel@Close}{\web@pg@width}{\web@pg@height}
+  {\footnotesize Close}{Close}
+\def\web@CloseText{Close}
+\@newNaviIconMenu{\panel@FS}{\web@pg@width}{\web@pg@height}
+  {\footnotesize\web@FSText}{FullScreen}
+\@newNaviIconMenu{\panel@GoToPage}{\web@pg@width}{\web@pg@height}
+  {\footnotesize\web@GoToPageText}{GoToPage}
+\newcommand{\web@chkpanelgroup}{\bgroup
+    \setlength{\@tempdima}{\web@pg@width+\web@pg@width+\web@pg@sep}%
+    \ifdim\@tempdima>\@panelwidth\PackageError{web}{Width of
+    \string\panelNaviGroup\space is wider than the panel}{}\else
+    \xdef\panelNavigroupWidth{\the\@tempdima}\fi
+  \egroup
+  \global\let\chkpanelgroup\@empty
+}
+\panelgroupWidth{28pt}\panelgroupHeight{15pt}
+\panelgroupSep{2pt}
+\newcommand{\panelrowsep}{1pt}
+\newcommand\panelNaviGroup{\chkpanelgroup
+  \parbox[c]{\panelNavigroupWidth}{%
+    \offinterlineskip
+    \panelIconGroup}}
+\newcommand{\panelIconGroup}{%
+  \panel@FirstPage\hfill\panel@LastPage\\[\panelrowsep]
+  \panel@PrevPage\hfill\panel@NextPage\\[\panelrowsep]
+  \panel@GoBack\hfill\panel@Close
+}
+\let\ins@NaviBar\@empty
+\newcommand\insNaviBar{\@ifstar{\@gdefInsNaviBar}{\@defInsNaviBar}}
+\def\@gdefInsNaviBar#1{\gdef\ins@NaviBar{#1}}
+\def\@defInsNaviBar#1{\def\ins@NaviBar{#1}}
+\newcommand\insNaviBarOff{\global\let\ins@NaviBar\@empty}
+\def\web@ifOnThisPage#1#2{\ifnum\c@page=\@thispage\relax
+    #1\else#2\fi}
+\newcommand{\insertnaviiconhere}[1]{%
+  \xdef\@thispage{\the\c@page}%
+  \def\web@insToRight{%
+  \ifeqforpaper
+    \makebox[0pt][l]{\ifdim\marginparsep>\z@
+      \hspace{\marginparsep}\else\ \fi#1}\else
+    \makebox[0pt][l]{%
+      \ifnum\@panelconfig=\tw@
+        \hspace{\@panelsep}\else
+        \hspace{\@Rightmargin}\fi
+    \makebox[0pt][r]{#1}}\fi
+  }\expandafter\rheader\expandafter
+    {\expandafter\web@ifOnThisPage
+    \expandafter{\web@rightheader\web@insToRight}%
+    {\web@defaultrightheader}}%
+}
+\def\insertnaviiconhereafter#1{\def\web@insToLeft{%
+  \ifeqforpaper
+    \makebox[0pt][r]{#1\ifdim\marginparsep>\z@
+      \hspace{\marginparsep}\else\ \fi}\else
+    \makebox[0pt][r]{\makebox[0pt][l]{#1}%
+      \ifnum\@panelconfig=\@ne
+        \hspace{\@panelsep}\else
+        \hspace{\@Leftmargin}\fi}\fi
+  }\expandafter\lheader\expandafter
+    {\expandafter\web@insToLeft\web@lhead}}
+\def\removehereaftericon{\lheader{\aeb@setmarks}}
+\let\defaultpageheader\removehereaftericon
+\newcommand\ArrowUp[1]{%
+  \normalsize\ifeqforpaper
+  \setlength{\fboxsep}{6pt}\else
+  \setlength{\fboxsep}{4pt}\fi
+  \raisebox{\depth-\fboxsep}[0pt][0pt]{%
+  #1{\web@colorbox@w@transparency{\web@directionIconBgColor}%
+  {\textcolor{\web@directionIconTextColor}{$\bigl\Uparrow$}}}}%
+}
+\newcommand\ArrowDown[1]{%
+  \normalsize\ifeqforpaper
+  \setlength{\fboxsep}{6pt}\else
+  \setlength{\fboxsep}{4pt}\fi
+  \raisebox{\depth-\fboxsep}[0pt][0pt]{%
+  #1{\web@colorbox@w@transparency{\web@directionIconBgColor}%
+  {\textcolor{\web@directionIconTextColor}{$\bigl\Downarrow$}}}}%
+}
+\def\directionIconTextColor#1{\def\web@directionIconTextColor{#1}}
+\def\web@directionIconTextColor{webblue}
+\def\directionIconBgColor#1{\def\web@directionIconBgColor{#1}}
+\def\web@directionIconBgColor{webgray}
+\def\web@defaultrightheader{\ifnum\value{page}=1\relax\else\thepage\fi}
+\let\web@headerhook\@empty
+\let\web@headerprivate\@empty
+\let\web@footerhook\@empty
+\let\web@footerprivate\@empty
+\def\lheader#1{\gdef\web@lhead{#1}}
+\def\cheader#1{\gdef\web@chead{#1}}
+\def\rheader#1{\gdef\web@rightheader{#1}}
+\lheader{\rightmark}
+\cheader{}
+\rheader{\web@defaultrightheader}
+\def\lfooter#1{\gdef\web@lfoot{#1}}
+\def\cfooter#1{\gdef\web@cfoot{#1}}
+\def\rfooter#1{\gdef\web@rfoot{#1}}
+\lfooter{}\rfooter{}
+\newcommand{\placeScreenNavibar}{%
+    \ifweb@navibar\web@navigationbar\else
+    \ins@NaviBar\global\let\ins@NaviBar\@empty\fi}
+\cfooter{\placeScreenNavibar}
+\newcommand{\clearHeaders}{%
+  \let\web@lhead@save\web@lhead
+  \let\web@chead@save\web@chead
+  \let\web@rightheader@save\web@rightheader
+  \let\web@lhead\@empty\let\web@chead\@empty
+  \let\web@rightheader\@empty}
+\newcommand{\restoreHeaders}{%
+  \let\web@lhead\web@lhead@save
+  \let\web@chead\web@chead@save
+  \let\web@rightheader\web@rightheader@save}
+\newcommand{\clearFooters}{%
+  \let\web@lfoot@save\web@lfoot
+  \let\web@cfoot@save\web@cfoot
+  \let\web@rfoot@save\web@lfoot
+  \let\web@lfoot\@empty\let\web@cfoot\@empty
+  \let\web@rfoot\@empty}
+\newcommand{\restoreFooters}{%
+  \let\web@lfoot\web@lfoot@save
+  \let\web@cfoot\web@cfoot@save
+  \let\web@rfoot\web@rfoot@save}
+\def\headerformat#1{\def\web@headerhook{#1}}
+\headerformat{}
+\def\footerformat#1{\def\web@footerhook{#1}}
+\footerformat{}
+\let\webheadwrapper\@empty
+\let\webfootwrapper\@empty
+\newcommand{\headWrapper}[1]{\def\webheadwrapper##1{#1}}
+\newcommand{\footWrapper}[1]{\def\webfootwrapper##1{#1}}
+\newcommand{\ps@webheadings}{%
+  \renewcommand{\@oddhead}{\webheadwrapper{%
+    \normalfont\ifeqforpaper\else\footnotesize\fi
+    \web@headerprivate\web@headerhook\web@lhead\hfil\web@chead\hfil
+    \web@rightheader}}
+  \renewcommand{\@evenhead}{\@oddhead}
+  \renewcommand{\@oddfoot}{\webfootwrapper{%
+    \normalfont\ifeqforpaper\else\footnotesize\fi
+    \web@footerprivate\web@footerhook\web@lfoot\hfil
+    \web@cfoot\hfil\web@rfoot}}
+  \renewcommand{\@evenfoot}{\@oddfoot}
+}
+\renewcommand{\sectionmark}[1]{%
+  \markboth{}{\web@section\ \thesection: #1}}
+\newcommand{\noHeadersOnSectionPage}{%
+  \gdef\web@headerpolicy{%
+    \expandafter\aeb@gettopmark\topmark{}{}%
+    \expandafter\aeb@getbotmark\botmark{}{}%
+    \ifx\aeb@topmark\aeb@botmark\rightmark\fi
+  }%
+}
+\noHeadersOnSectionPage
+\newcommand{\headersOnSectionPage}{%
+  \gdef\web@headerpolicy{\rightmark}%
+}
+\def\aeb@gettopmark#1#2{\def\aeb@topmark{#2}}
+\def\aeb@getbotmark#1#2{\def\aeb@botmark{#2}}
+\def\aeb@setmarks{\web@headerpolicy}
+\lheader{\aeb@setmarks}
+\AtEndOfPackage{\pagestyle{webheadings}}
+\newcommand{\sectionColor}[1]{\def\web@sectionsColorOld{#1}
+  \def\aeb@sectioncolor{#1}}
+\sectionColor{blue}
+\def\web@inputsectiondefs{\InputIfFileExists{websec.def}{}
+  {\PackageError{web}{Cannot find the file websec.def}{}}
+}
+\ifweb@sectioning\expandafter\web@inputsectiondefs\fi
+\def\aebwritelastpage{%
+  \immediate\write\@auxout{%
+  \string\w@csarg\string\gdef{aebLastPage}{\arabic{page}}}%
+}
+\AtEndDocument{%
+  \clearpage\addtocounter{page}{-1}\aebwritelastpage
+  \addtocounter{page}{1}}
+\def\useFullWidthForPaper{\ifeqforpaper
+    \setlength{\textwidth}{\paperwidth-2in}
+    \setlength{\textheight}
+      {\paperheight-2in-\footskip-\topmargin-\headheight-\headsep}
+    \oddsidemargin=0pt
+    \evensidemargin=0pt
+    \marginparsep=0pt
+    \marginparwidth=0pt
+  \fi
+}
+\def\maxtextscreentext{%
+  \iftemplatesforpaper\else\ifeqforpaper
+    \ifnum\@usetemplates=\@ne
+      \ifnum\@panelconfig=\@ne % left panel
+        \setlength{\oddsidemargin}%
+          {\@panelwidth+\@panelsep-1in}%
+        \setlength{\textwidth}%
+          {\paperwidth-\@panelwidth-\@panelsep-%
+          \marginparwidth-\marginparsep}%
+      \else
+        \ifnum\@panelconfig=\tw@ % right panel
+          \setlength{\oddsidemargin}{0in}%
+          \setlength{\textwidth}%
+            {\paperwidth-\@panelwidth-\@panelsep-%
+            \oddsidemargin-\marginparwidth-\marginparsep}%
+      \else
+        \useFullWidthForPaper
+      \fi\fi\fi
+  \fi\fi
+}
+\newcommand{\centertextonpage}{%
+  \ifeqforpaper\AtBeginDocument{\web@centertextonpage}\fi}
+\def\web@centertextonpage{%
+  \setlength{\oddsidemargin}{\paperwidth-\textwidth-2in}%
+  \oddsidemargin=.5\oddsidemargin
+  \evensidemargin=\oddsidemargin
+}
+\definecolor{webgreen}{rgb}{0,.5,0}
+\definecolor{webbrown}{rgb}{.6,0,0}
+\definecolor{webyellow}{rgb}{0.98,0.92,0.73}
+\definecolor{webgray}{rgb}{.753,.753,.753}
+\definecolor{webgrey}{rgb}{.753,.753,.753}
+\definecolor{webblue}{rgb}{0,0,.8}
+\definecolor{wheat}{rgb}{.96, .87, .70}
+\definecolor{oldlace}{rgb}{.992, .96187, .902}
+\definecolor{snow}{rgb}{1, .98, .98}
+\definecolor{ghostwhite}{rgb}{.973, .973, 1}
+\definecolor{cornsilk}{rgb}{1, .973, .863}
+\definecolor{honeydew}{rgb}{.941, 1, .941}
+\definecolor{lavenderdark}{rgb}{.8, .8, .9529411}
+\definecolor{lavender}{rgb}{.902, .902, .980}
+\definecolor{lightblue}{rgb}{.8, .8, .95}
+\definecolor{lightgray}{rgb}{.827, .827, .827}
+\definecolor{lightsteelblue}{rgb}{.690, .769, .871}
+\definecolor{lightturquoise}{rgb}{.686, .933, .933}
+\definecolor{darkgreen}{rgb}{.0, .392, .0}
+\definecolor{yellowgreen}{rgb}{.604, .804, .196}
+\definecolor{vlightblue}{rgb}{.88, .85, .95}
+\definecolor{khaki}{rgb}{.741, .718, .42}
+\ifx\web@latextoc\web@YES
+  \ifx\web@bullets\web@YES
+    \@ifundefined{chapter} {%
+      \renewcommand*\l@subsubsection{\@dottedtocline{3}{3.8em}{1.2em}}
+    }{%
+      \renewcommand*\l@subsubsection{\@dottedtocline{3}{7.0em}{1.2em}}
+    }%
+  \fi
+\fi
+\def\tocColor#1{\def\web@tocColor{#1}\def\aeb@toccolor{#1}}
+\tocColor{blue}
+\newcommand{\allowHeadingsTocPage}{\let\web@Tocpagestyle\@gobble}
+\def\web@Tocpagestyle#1{#1}
+\let\web@latextoc@save\tableofcontents
+\ifx\web@bullets\web@YES
+  \def\tableofcontents{\global
+    \let\insertwebtoc\insert@webtoc
+    \def\contentsname{\web@toc}%
+    \pdfbookmark[1]{\web@toc}{toc}%
+    \web@Tocpagestyle{\thispagestyle{empty}}%
+    \markright{{\normalfont\small \web@toc\ (\web@continued)}}%
+    \@ifundefined{sectionToc}{%
+      \begin{center}\hypertarget{webtoc}{}%
+      \normalfont\bfseries\Large\color{\web@tocColor}%
+      \contentsname
+      \end{center}
+    }{\sectionToc{\web@toc}}\par
+    \ifx\web@latextoc\web@YES
+      \@starttoc{toc}%  LaTeX toc listing with page numbers
+    \else
+      \noindent\webtableofcontents
+    \fi
+    \newpage
+  }
+\else
+  \PackageInfo{web}{No Bullets Requested}
+  \def\tableofcontents{%
+    \begingroup
+      \def\contentsname{\web@toc}%
+      \let\web@save@mkboth\@mkboth
+      \def\@mkboth{\protect\hypertarget{webtoc}{}\web@save@mkboth}%
+      \ifx\web@finalDot\@empty\else
+      \def\numberline##1{\hb@xt@\@tempdima{##1.\hfil}}\fi
+      \web@latextoc@save
+    \endgroup
+    \newpage
+  }
+  \renewcommand\subsubsection{\renewcommand{\@seccntformat}[1]{%
+    \@nameuse{the##1}\web@finalDot\enspace}
+    \@startsection{subsubsection}{3}{\z@}%
+      {-2ex\@plus -1ex \@minus -.2ex}{.5ex \@plus .2ex}%
+      {\noindent\normalfont\normalsize\bfseries}}
+  \renewcommand*{\thesubsubsection}
+    {\thesubsection.\arabic{subsubsection}}
+\fi
+\def\widestNumber#1{\def\widest@Number{#1\ }}
+\widestNumber{0.0.}
+\newcommand{\tocIndent}[1]{\def\toc@indent{#1}}
+\tocIndent{20pt}
+\def\tocIndentByNumber#1{{%
+  \settowidth{\@tempdima}{\normalfont\textbf{#1\ }}%
+  \xdef\toc@indent{\the\@tempdima}%
+}}
+\tocIndentByNumber{00.}
+\let\tocindent\tocIndent
+\let\tocindentByNumber\tocIndentByNumber
+\def\webtableofcontents{%
+  \begingroup
+    \global\let\isChapter\web@NO
+    \parskip0pt\parindent\toc@indent\relax
+    \settowidth{\@tempdima}{\normalfont
+      \textbf{\widest@Number}}%
+    \@tempdimb\@tempdima
+    \advance\@tempdimb by\parindent
+    \edef\web@subsubSecIndent{\the\@tempdimb}%
+    \def\par{\endgraf\leftskip=0pt}%
+    \let\numberline\web@numberline
+    \let\contentsline\web@contentsline
+    \def\web@section##1##2##3{\web@parse##1\\%
+      \web@toc@section{##1}{##2}{##3}}%
+    \def\web@subsection##1##2##3{\web@parse##1\\%
+      \web@toc@subsection{##1}{##2}{##3}}%
+    \def\web@subsubsection##1##2##3{\web@parse##1\\%
+      \web@toc@subsubsection{##1}{##2}{##3}}%
+    \def\web@part##1##2##3{\web@toc@part{##1}{##2}{##3}}%
+    \def\web@chapter##1##2##3{\web@parse##1\\%
+      \web@toc@chapter{##1}{##2}{##3}}%
+    \@starttoc{toc}%
+    \setlength{\@tempdimb}{\ifx\isChapter\web@YES
+      \parindent+\web@subsubSecIndent\else\web@subsubSecIndent\fi}%
+    \leftskip\@tempdimb
+    \par
+  \endgroup
+}
+\def\web@numberline#1{\makebox[0pt]{#1\enspace}}%
+\def\web@contentsline#1#2#3#4{%
+  \@nameuse{web@#1}{#2}{#3}{#4}}%
+\def\web@parse#1#2#3\\{%
+  \def\web@title{#3}\def\numberline{#2}}%
+\def\web@toc@part#1#2#3{\par\noindent
+  {\bfseries\hyperlink{#3}{#1}}\par\smallskip}
+\def\web@toc@chapter#1#2#3{\global\let\isChapter\web@YES
+  \par\mbox{}{\bfseries
+    \ifx\numberline\@empty
+      \@ifundefined{d@DingToc}{\hyperlink{#3}{\web@title}}{%
+        \ifx\d@DingToc\@empty
+          \hyperlink{#3}{\web@title}%
+        \else
+          \if\aeb@use@section@numbers\web@Zero
+            \makebox[0pt][r]{\color{\d@DingTocColor}%
+              \d@DingToc\space}\hyperlink{#3}{\web@title}\else
+            \hyperlink{#3}{\web@title}\fi
+        \fi
+      }%
+  \else
+    \makebox[0pt][r]{\hyperlink{#3}{%
+      \numberline\web@finalDot}\space}\web@title
+  \fi}\par\smallskip
+}
+\def\web@toc@section#1#2#3{\penalty-500\par
+  \hspace*{\if\isChapter y\parindent\else0pt\fi}\mbox{}{\bfseries
+  \ifx\numberline\@empty
+    \@ifundefined{d@DingToc}{\hyperlink{#3}{\web@title}}{%
+      \ifx\d@DingToc\@empty
+        \hyperlink{#3}{\web@title}%
+      \else
+        \if\aeb@use@section@numbers\web@Zero
+          \makebox[0pt][r]{\color{\d@DingTocColor}%
+            \d@DingToc\space}\hyperlink{#3}{\web@title}\else
+          \hyperlink{#3}{\web@title}\fi
+      \fi
+    }%
+  \else
+    \makebox[0pt][r]{\hyperlink{#3}{%
+      \numberline\web@finalDot}\space}\web@title
+  \fi}\endgraf
+}%
+\def\web@toc@subsection#1#2#3{\par
+  \setlength{\@tempdimb}{\ifx\isChapter\web@YES
+      \parindent+\@tempdima\else\@tempdima\fi}%
+  \penalty-50 \hspace*{\@tempdimb}\mbox{}{\bfseries
+  \ifx\numberline\@empty
+    \@ifundefined{dd@DingToc}{\hyperlink{#3}{\web@title}}{%
+      \ifx\dd@DingToc\@empty
+        \hyperlink{#3}{\web@title}\else
+        \makebox[0pt][r]{\color{\dd@DingTocColor}%
+          \dd@DingToc\space}\hyperlink{#3}{\web@title}\fi
+    }%
+  \else
+    \makebox[0pt][r]{\makebox[\@tempdima][l]%
+    {\hyperlink{#3}{\numberline\web@finalDot}}}\web@title
+  \fi}\endgraf
+}
+\def\web@toc@subsubsection#1#2#3{%
+  \def\numberline{\strut$\bullet$}%
+  \setlength{\@tempdimb}{\ifx\isChapter\web@YES
+      \parindent+\web@subsubSecIndent\else\web@subsubSecIndent\fi}%
+  \leftskip\@tempdimb\noindent\unskip\mbox{}\penalty-50
+  \@ifundefined{ddd@DingToc}{}{%
+  \if\aeb@use@section@numbers\web@Zero\ifx\ddd@DingToc\@empty\else
+    \def\numberline{\color{\ddd@DingTocColor}\strut\ddd@DingToc}%
+  \fi\fi}\hyperlink{#3}{\numberline}~\web@title\enspace\allowbreak
+}%
+\let\web@textTemplate\@empty
+\newcommand{\@AddToTextTemplate}{\g@addto@macro\web@textTemplate}
+\newcommand{\template}[2][]{%
+  \ifweb@allowtemplates
+    \def\web@argi{#1}\ifx\web@argi\@empty
+    \xdef\web@template@opt@args{\web@addtotemplateArgs}\else
+    \xdef\web@template@opt@args{\web@addtotemplateArgs,#1}\fi
+    \gdef\web@template{#2}\fi
+}
+\let\web@template\@empty
+\def\addtotemplateArgs#1{\gdef\web@addtotemplateArgs{#1}}
+\def\cleartemplateArgs{\global\let\web@addtotemplateArgs=\@empty}
+\let\web@addtotemplateArgs\@empty
+\let\text@scaletype\@empty
+\newcommand{\textBgColor}[1]{\gdef\web@textBgColor{#1}}
+\let\web@textBgColor\@empty
+\let\listAddToTemplates\@empty
+\newcommand{\AddToTemplate}[1]{%
+  \global\w@csarg\let{eqTmpl#1}\web@YES
+  {\toks@=\expandafter{\listAddToTemplates}%
+  \xdef\listAddToTemplates{\the\toks@\noexpand\\{#1}}}%
+  \ifweb@allowtemplates
+  \@AddToTextTemplate{%
+    \w@csarg\ifx{eqTmpl#1}\web@YES
+      \fboxsep=0pt\setlength{\unitlength}{1pt}%
+      \put(\@textX,0){\@nameuse{#1}}%
+    \fi
+  }%
+  \else
+    \w@csarg\ifx{#1}\BGColorAndGraphic
+      \@AddToTextTemplate{%
+        \w@csarg\ifx{eqTmpl#1}\web@YES
+          \fboxsep=0pt\setlength{\unitlength}{1pt}%
+          \put(\@textX,0){\@nameuse{#1}}%
+        \fi
+      }%
+    \fi
+    \w@csarg\ifx{#1}\BGColorAndGraphicFullWidth
+      \@AddToTextTemplate{%
+        \w@csarg\ifx{eqTmpl#1}\web@YES
+          \fboxsep=0pt\setlength{\unitlength}{1pt}%
+          \put(\@textX,0){\@nameuse{#1}}\fi
+      }%
+    \fi
+  \fi
+}
+\newcommand\placeTemplateInLayer[2][webTextBG]{%
+  \@ifpackageloaded{aeb_pro}
+    {\@ifundefined{xBld}{\PackageWarning{web}
+      {The uselayers option
+        of aeb_pro is\MessageBreak required with
+        \string\placeTemplateInLayer}}
+      {\def\b@webTextLayer{\xBld[#2]{#1}}%
+       \def\e@webTextLayer{\eBld}}}%
+    {\PackageWarning{web}{\string\placeTemplateInLayer\space
+      requires the\MessageBreak aeb_pro package}}%
+}
+\let\b@webTextLayer\@empty \let\e@webTextLayer\@empty
+\newcommand{\BGColorAndGraphic}{%
+  \b@webTextLayer\web@colorbox@w@transparency{\web@textBgColor}%
+  {%
+    \parbox[b][\paperheight]{\textscreenwidth}%
+    {%
+      \ifx\web@template\@empty
+        \hfill\vfill
+      \else
+        \hfuzz=1pt\vfuzz=1pt\expandafter
+        \includegraphics\expandafter[\web@template@opt@args,%
+        width=\textscreenwidth,height=\paperheight]%
+        {\web@template}
+      \fi
+    }%
+  }\e@webTextLayer
+}
+\AddToTemplate{BGColorAndGraphic}
+\let\web@panelTemplate\@empty
+\newcommand{\@AddToPanelTemplate}{\g@addto@macro\web@panelTemplate}
+\let\listAddToPanelTemplates=\@empty
+\newcommand{\AddToPanelTemplate}[1]{%
+  \global\w@csarg\let{eqPanTmpl#1}\web@YES
+  {\toks@=\expandafter{\listAddToPanelTemplates}%
+  \xdef\listAddToPanelTemplates{\the\toks@\noexpand\\{#1}}}%
+  \ifweb@allowtemplates
+    \@AddToPanelTemplate{%
+        \w@csarg\ifx{eqPanTmpl#1}\web@YES
+        \fboxsep=0pt\setlength{\unitlength}{1pt}%
+        \put(\@panelX,0){\@nameuse{#1}}\fi
+    }%
+  \else
+    \w@csarg\ifx{#1}\stdPanelBG
+      \@AddToPanelTemplate{%
+        \w@csarg\ifx{eqPanTmpl#1}\web@YES
+        \fboxsep=0pt\setlength{\unitlength}{1pt}%
+        \put(\@panelX,0){\@nameuse{#1}}\fi
+      }%
+  \fi
+    \w@csarg\ifx{#1}\stdbldpanel
+      \@AddToPanelTemplate{%
+        \w@csarg\ifx{eqPanTmpl#1}\web@YES
+        \fboxsep=0pt\setlength{\unitlength}{1pt}%
+        \put(\@panelX,0){\@nameuse{#1}}\fi
+      }%
+    \fi
+  \fi
+}
+\newcommand{\paneltemplate}[2][]{%
+  \ifweb@allowtemplates\def\web@argi{#1}%
+    \ifx\web@argi\@empty
+      \edef\web@paneltemplate@opt@args
+        {\web@addtopaneltemplateArgs}\else
+      \edef\web@paneltemplate@opt@args
+        {\web@addtopaneltemplateArgs,#1}\fi
+    \gdef\web@paneltemplate{#2}%
+  \fi
+}
+\let\web@paneltemplate\@empty
+\def\addtopaneltemplateArgs#1{\gdef\web@addtopaneltemplateArgs{#1}}
+\def\clearpaneltemplateArgs{%
+  \global\let\web@addtopaneltemplateArgs=\@empty}
+\let\web@addtopaneltemplateArgs=\@empty
+\let\panel@scaletype\@empty
+\newcommand\panelsep[1]{\bgroup
+  \setlength\@tempdima{#1}%
+  \xdef\@panelsep{\the\@tempdima}\egroup}
+\panelsep{10bp}
+\def\panelSep{\@panelsep}
+\newcommand{\panelwidth}[1]{%
+  \let\web@next\relax
+  \iftemplatesforpaper\else\ifnum\@panelconfig>\z@
+    \ifnum\@panelconfig=\@ne % left panel
+      \ifx\web@layout\web@YES
+        \addtolength{\textwidth}{\@panelwidth}%
+        \addtolength{\textwidth}{\@Rightmargin}%
+      \fi
+      \addtolength{\textwidth}{\@panelsep}%
+      \addtolength{\oddsidemargin}{-\@panelsep}%
+      \addtolength{\evensidemargin}{-\@panelsep}%
+      \addtolength{\textscreenwidth}{\@panelwidth}%
+    \fi
+    \ifnum\@panelconfig=\tw@ % panel right
+      \ifx\web@layout\web@YES
+        \addtolength{\textwidth}{\@panelwidth}%
+        \addtolength{\textwidth}{\@Leftmargin}%
+      \fi
+      \addtolength{\textwidth}{\@panelsep}%
+      \addtolength{\textscreenwidth}{\@panelwidth}%
+    \fi
+    \setlength{\@panelwidth}{#1}%
+    \ifdim\@panelwidth<\web@minpanelwidth
+    \setlength{\@panelwidth}{\web@minpanelwidth}\fi
+    \def\web@next{\InitLayout}%
+  \fi\fi\web@next
+}
+\newcommand{\panelBgColor}[1]{\gdef\web@panelBgColor{#1}}
+\let\web@panelBgColor\@empty
+\newcommand\placePanelTemplateInLayer[2][webPanelBG]{%
+  \@ifpackageloaded{aeb_pro}
+    {\@ifundefined{xBld}{\PackageWarning{web}
+      {The uselayers option
+          of aeb_pro is\MessageBreak required with
+          \string\placePanelTemplateInLayer}}
+      {\def\b@webPanelLayer{\xBld[#2]{#1}}%
+       \def\e@webPanelLayer{\eBld}}}%
+    {\PackageWarning{web}{\string\placePanelTemplateInLayer\space
+      requires the\MessageBreak aeb_pro package}}%
+}
+\let\b@webPanelLayer\@empty \let\e@webPanelLayer\@empty
+\newcommand\stdPanelBG{%
+  \b@webPanelLayer\web@colorbox@w@transparency{\web@panelBgColor}%
+  {\parbox[b][\paperheight]{\@panelwidth}%
+  {\ifx\web@paneltemplate\@empty\hfill\vfill\else
+  \hfuzz=1pt\vfuzz=1pt\expandafter
+  \includegraphics\expandafter[\web@paneltemplate@opt@args,%
+  width=\@panelwidth,height=\paperheight]%
+  {\web@paneltemplate}\fi}}\e@webPanelLayer
+}
+\AddToPanelTemplate{stdPanelBG}
+\newcommand{\buildpanel}[1]{%
+  \gdef\stdbldpanel{%
+    \parbox[b][\paperheight]{\@panelwidth}{%
+      \normalsfcodes\normalfont\normalsize
+      \spaceskip=0pt\xspaceskip=0pt
+      \par\medskip\vfil
+      \centering#1%
+      \par\medskip\vfil
+    }%
+  }%
+}
+\let\stdbldpanel\@empty
+\AddToPanelTemplate{stdbldpanel}
+\newcommand{\useStandardPanel}{%
+  \buildpanel{%
+    \web@panel@top
+    \par\vspace{\stretch{1}}%
+    \web@panel@middle
+    \par\vspace{\stretch{1}}%
+    \web@panel@bottom
+  }%
+}
+\newcommand{\panelTop}[1]{\def\web@panel@top{#1}}
+\panelTop{}
+\newcommand{\panelMiddle}[1]{\def\web@panel@middle{#1}}
+\panelMiddle{}
+\newcommand{\panelBottom}[1]{\def\web@panel@bottom{#1}}
+\panelBottom{\panelNaviGroup}
+\newcommand{\ClearTextTemplate}{%
+  \global\let\web@textBgColor\@empty
+  \global\let\web@template\@empty
+}
+\newcommand{\ClearPanelTemplate}{%
+  \global\let\web@panelBgColor\@empty
+  \global\let\web@paneltemplate\@empty
+}
+\newcommand{\ClearBuildPanel}
+  {\global\let\stdbldpanel\@empty}
+
+\newcommand{\ClearAllTemplates}{%
+  \ClearTextTemplate
+  \ClearPanelTemplate
+}
+\newcommand{\ClearTextTemplateBuffer}
+  {\global\let\web@textTemplate\@empty}
+\newcommand{\ClearPanelTemplateBuffer}
+  {\global\let\web@panelTemplate\@empty}
+\newcommand{\saveElements}[1]{%
+  \begingroup
+    \global\w@csarg\let{web@SaveTmpls#1}\@empty
+    \toks@={}%
+    \def\web@addtoSaveToks##1{%
+      \edef\web@let{\global\expandafter
+        \let\expandafter\noexpand\csname#1##1\endcsname=%
+        \expandafter\noexpand\csname##1\endcsname}%
+      \web@let
+      \edef\web@SaveTmpls{\the\toks@\noexpand\\{##1}%
+        \expandafter\noexpand\csname#1##1\endcsname}%
+        \toks@=\expandafter{\web@SaveTmpls}%
+    }%
+    \web@addtoSaveToks{web@textBgColor}%
+    \web@addtoSaveToks{web@template}%
+    \web@addtoSaveToks{stdbldpanel}%
+    \web@addtoSaveToks{web@panelBgColor}%
+    \web@addtoSaveToks{web@paneltemplate}%
+    \w@csarg\xdef{web@SaveTmpls#1}{\the\toks@}%
+  \endgroup
+}
+\newcommand{\saveClearElements}[1]{%
+  \saveElements{#1}\ClearAllTemplates\ClearBuildPanel
+}
+\newcommand{\restoreElements}[1]{%
+  \ClearAllTemplates\ClearBuildPanel
+  \begingroup
+    \toks@=\expandafter{\csname web@SaveTmpls#1\endcsname}%
+    \def\\##1##2{\global\w@csarg\let{##1}=##2}\the\toks@
+  \endgroup
+}
+\newcommand{\disableScreens}[1]{%
+  \begingroup
+    \toks@=\expandafter{\listAddToTemplates}%
+    \toks2={}%
+    \def\\##1{\w@csarg\ifx{eqTmpl##1}\web@YES
+      \disableTemplate{##1}%
+      \xdef\web@saveAddTo{\the\toks2 \noexpand\\{##1}}%
+      \toks2=\expandafter{\web@saveAddTo}\fi}%
+    \the\toks@
+  \endgroup
+  \w@csarg\let{web@DisabledTmpls#1}\web@saveAddTo
+}
+\newcommand{\restoreScreens}[1]{%
+  \begingroup
+    \toks@=\expandafter{\csname web@DisabledTmpls#1\endcsname}%
+    \def\\##1{\enableTemplate{##1}}\the\toks@
+  \endgroup
+}
+\newcommand{\disablePanels}[1]{%
+  \begingroup
+    \toks@ = \expandafter{\listAddToPanelTemplates}%
+    \toks2 = {}%
+    \def\\##1{\w@csarg\ifx{eqPanTmpl##1}\web@YES
+      \disablePanelTemplate{##1}%
+      \xdef\web@saveAddTo{\the\toks2 \noexpand\\{##1}}%
+      \toks2 =\expandafter{\web@saveAddTo}\fi}%
+    \the\toks@
+  \endgroup
+  \global\w@csarg\let{web@DisabledPanelTmpls#1}\web@saveAddTo
+}
+\newcommand{\restorePanels}[1]{%
+  \begingroup
+    \toks@=\expandafter{\csname web@DisabledPanelTmpls#1\endcsname}%
+    \def\\##1{\enablePanelTemplate{##1}}\the\toks@
+  \endgroup
+}
+\newcommand{\disableTemplate}[1]{{%
+  \global\w@csarg\let{eqTmpl#1}\web@NO}}
+\newcommand{\enableTemplate}[1]{{%
+  \global\w@csarg\let{eqTmpl#1}\web@YES}}
+\newcommand{\disablePanelTemplate}[1]{{%
+  \global\w@csarg\let{eqPanTmpl#1}\web@NO}}
+\newcommand{\enablePanelTemplate}[1]{{%
+  \global\w@csarg\let{eqPanTmpl#1}\web@YES}}
+\let\fullscreenwidthadj\@empty
+\def\web@leftMargAdj{0pt}
+\def\web@rightMargAdj{0pt}
+\def\calculatefullwidth{%
+  \ifeqforpaper
+      \let\fullscreenwidthadj\@empty
+  \else
+    \ifnum\@panelconfig=\@ne % leftpanel
+      \bgroup
+        \setlength{\@tempdima}{-\@panelwidth-\@panelsep+\@Leftmargin}%
+        \xdef\web@leftMargAdj{\the\@tempdima}%
+        \setlength{\@tempdima}{-\@panelwidth-\@panelsep+\@Rightmargin}%
+        \xdef\web@rightMargAdj{\the\@tempdima}%
+      \egroup
+      \def\fullscreenwidthadj{\hspace{\web@leftMargAdj}}%
+    \fi
+  \fi
+}
+\newcommand{\makeFullwidthhead}{%
+  \global\let\web@save@oddhead\@oddhead
+  \renewcommand{\@oddhead}{\fullscreenwidthadj
+    \hbox to\fullscreenwidth{\normalfont\footnotesize
+    \web@headerhook\web@lhead\hfil\web@chead\hfil
+    \web@rightheader}\hss}%
+}
+\newcommand{\restoreSavedHead}{%
+  \global\let\@oddhead\web@save@oddhead
+  \let\web@save@oddhead\@empty
+}
+\def\webNotPaneledWarning{%
+  The Fullwidthtext environment is valid only\MessageBreak
+  for a paneled document, ignoring this\MessageBreak
+  environment}
+\newenvironment{Fullwidthtext}{%
+  \ifnum\@panelconfig=\@ne
+    \PackageWarning{web}{\webNotPaneledWarning}%
+    \let\web@next\relax
+  \else
+    \def\web@next{%
+    \enableTemplate{BGColorAndGraphicFullWidth}%
+    \list{}{%
+      \setlength{\textwidth}{\fullscreenwidth}%
+      \setlength{\linewidth}{\fullscreenwidth}%
+      \setlength{\itemindent}{0pt}\setlength{\itemsep}{0pt}%
+      \setlength{\topsep}{0pt}\setlength{\parsep}{0pt}%
+      \setlength{\listparindent}{\parindent}%
+      \setlength{\leftmargin}{\web@leftMargAdj}%
+      \setlength{\rightmargin}{-\web@rightMargAdj}%
+    }\item\relax}%
+  \fi\web@next
+}{%
+  \ifnum\@panelconfig=\z@
+    \let\web@next\relax\else
+    \def\web@next{\endlist\newpage
+    \disableTemplate{BGColorAndGraphicFullWidth}}%
+  \fi\web@next
+}
+\newcommand{\pushToFullWidthPage}{%
+  \ifnum\@panelconfig>\z@
+    \disableScreens{gofullwidth}%
+    \disablePanels{gofullwidth}%
+    \makeFullwidthhead
+    \let\web@save@footwrapper\webfootwrapper
+    \def\webfootwrapper{\fullscreenwidthadj
+      \makebox[\fullscreenwidth]}%
+  \fi
+  \begin{Fullwidthtext}
+}
+\newcommand{\popFromFullWidthPage}{%
+  \end{Fullwidthtext}
+  \ifnum\@panelconfig>\z@
+    \restoreScreens{gofullwidth}%
+    \restorePanels{gofullwidth}%
+    \restoreSavedHead
+    \let\webfootwrapper\web@save@footwrapper
+  \fi
+}
+\def\addtofullwidthtemplateArgs#1{%
+    \gdef\web@addtofullwidthtemplateArgs{#1}}
+\def\clearfullwidthtemplateArgs{%
+    \global\let\web@addtofullwidthtemplateArgs\@empty}
+\let\web@addtofullwidthtemplateArgs\@empty
+\newcommand{\fullwidthBgColor}[1]{\gdef\web@fullwidthBgColor{#1}}
+\let\web@fullwidthBgColor\@empty
+\let\web@fullwidthtemplate\@empty
+\newcommand{\fullwidthtemplate}[2][]{%
+  \ifweb@allowtemplates
+    \def\web@arg{#1}\ifx\web@argi\@empty
+    \xdef\web@fullwidthtemplate@opt@args
+      {\web@addtofullwidthtemplateArgs}%
+    \else
+      \xdef\web@fullwidthtemplate@opt@args
+        {\web@addtofullwidthtemplateArgs,#1}%
+    \fi\gdef\web@fullwidthtemplate{#2}%
+  \fi
+}
+\newcommand\BGColorAndGraphicFullWidth{%
+  \put(-\@textX,0){%
+    \web@colorbox@w@transparency{\web@fullwidthBgColor}%
+    {%
+      \parbox[b][\paperheight]{\paperwidth}%
+      {%
+        \ifx\web@fullwidthtemplate\@empty
+          \hfill\vfill
+        \else
+          \hfuzz=1pt\vfuzz=1pt
+          \expandafter\includegraphics\expandafter
+          [\web@fullwidthtemplate@opt@args,%
+          width=\paperwidth,height=\paperheight]%
+          {\web@fullwidthtemplate}%
+        \fi
+      }%
+    }%
+  }%
+}
+\AddToTemplate{BGColorAndGraphicFullWidth}
+\disableTemplate{BGColorAndGraphicFullWidth}
+\ifnum\@usetemplates>\z@
+  \ifnum\@panelconfig>\z@
+    \AtBeginDocument{%
+      \AddToShipoutPicture{\web@textTemplate\web@panelTemplate}}
+  \else
+    \AtBeginDocument{\AddToShipoutPicture{\web@textTemplate}}
+  \fi
+\fi
+\raggedbottom
+\ifx\webpro@loaded\web@YES\expandafter\loadwebpro\fi
+\endinput
+%%
+%% End of file `web.sty'.

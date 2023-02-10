@@ -1,0 +1,66 @@
+%%
+%% This is file `eqit.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% exerquiz.dtx  (with options: `copyright,eqit')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Exerquiz.sty package,                                %%
+%% Copyright (C) 1999-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ProvidesFile{eqit.def}
+%%%%%%%%%%%%%%%%%%% eqit.def %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Foreign language support for the exerquiz package. %%
+%% Name of translator:  PierLuigi Zezza               %%
+%% e-mail address:  pzezza@cce.unifi.it               %%
+%% Language: Italian                                  %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand\exlabel{Esercizio}
+\renewcommand\exlabelsol{\exlabel}
+\renewcommand\exsectitle{Soluzioni degli Esercizi }
+\renewcommand\exsecrunhead{\exsectitle}
+\renewcommand{\eq@exsolafterDefault}{\textit{Soluzione}:}
+\renewcommand\eq@sqslsectitle{Soluzioni dei Quiz}
+\renewcommand\sqslsectitle{\eq@sqslsectitle}
+\renewcommand\eq@sqslsecrunhead{Soluzioni dei Quiz}
+\renewcommand\sqslsecrunhead{\eq@sqslsecrunhead}
+\renewcommand\eq@sqsllabel{\string\textbf{Soluzione del Quiz:}}
+\renewcommand\sqsllabel{\eq@sqsllabel}
+\renewcommand\sqsolafter{\textit{Soluzione}:}
+\renewcommand\eq@sqlabel{\textcolor{red}{Quiz.}}
+\renewcommand\sqlabel{\eq@sqlabel}
+\renewcommand\eq@sqslrtnlabel{Fine Quiz}
+\renewcommand\sqslrtnlabel{\eq@sqslrtnlabel}
+\renewcommand\eqsqrtmsg{"Giusto!"}
+\renewcommand\eqsqwgmsg{"Sbagliato!"}
+\renewcommand\eq@bqlabel{Inizio Test}
+\renewcommand\bqlabel{\eq@bqlabel}
+\renewcommand\eq@bqlabelISO{\eq@bqlabel}
+\renewcommand\bqlabelISO{\eq@bqlabel}
+\renewcommand\eq@eqlabel{Fine Test}
+\renewcommand\eqlabel{\eq@eqlabel}
+\renewcommand\eq@Score{Punteggio:}\renewcommand\eq@OutOf{su}
+\renewcommand\eqInitQuizMsg{"Dovete inizializzare il Quiz!
+    Click su "+msg+"."}
+\renewcommand\eqMadeChoice{%
+   "Avete gi\string\\340 fatto una scelta.
+    La vostra scelta era ("+Responses[probno]+").
+    Volete cambiarla ?"}
+\renewcommand\eq@local@CA{Correggere}
+\renewcommand\eq@local@RC{Le mie risposte!}
+\renewcommand\eq@local@AC{Per favore!}
+\dlJSStr*[noquotes]{\limSelWarningMsg}{"Per questa domanda,
+  \`{e} possibile effettuare al massimo "
+  + n + " selezioni."}
+\endinput
+%%
+%% End of file `eqit.def'.

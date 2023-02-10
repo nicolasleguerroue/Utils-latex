@@ -1,0 +1,81 @@
+%%
+%% This is file `eqfin.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% exerquiz.dtx  (with options: `copyright,eqfin')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Exerquiz.sty package,                                %%
+%% Copyright (C) 1999-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ProvidesFile{eqfin.def}
+%%%%%%%%%%%%%%%%%%%% eqfin.def %%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Foreign language support for the exerquiz package.  %%
+%% Name of translator: Paivi Porras                    %%
+%% e-mail address: paivi.porras@lut.fi                 %%
+%% Language: Finnish                                   %%
+%%                                                     %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand\exlabel{Harjoitus}
+\renewcommand\exlabelsol{Harjoitus}
+
+\renewcommand\exsectitle{Ratkaisut}
+\renewcommand\exsecrunhead{Ratkaisu \exlabelsol }
+
+\renewcommand{\eq@exsolafterDefault}{\textit{Ratkaisu}:}
+
+\renewcommand\eq@sqslsectitle{Vastaukset testikysymyksiin}
+\renewcommand\sqslsectitle{\eq@sqslsectitle}
+
+\renewcommand\eq@sqslsecrunhead{Vastaukset testikysymyksiin}
+\renewcommand\sqslsecrunhead{\eq@sqslsecrunhead}
+
+\renewcommand\eq@sqsllabel{%
+   \string\textbf{Vastaus testikysymykseen:}}
+\renewcommand\sqsllabel{\eq@sqsllabel}
+
+\renewcommand\sqsolafter{\textit{Ratkaisu}:}
+
+\renewcommand\eq@sqlabel{\textcolor{red}{Testikysymys}}
+\renewcommand\sqlabel{\eq@sqlabel}
+
+\renewcommand\eq@sqslrtnlabel{Lopeta testi}
+\renewcommand\sqslrtnlabel{\eq@sqslrtnlabel}
+
+\renewcommand\eqsqrtmsg{"Oikein!"} %muokattu
+\renewcommand\eqsqwgmsg{"V\string\344\string\344rin!"} %m
+
+\renewcommand\eq@bqlabel{Aloita testi}
+\renewcommand\bqlabel{\eq@bqlabel}
+\renewcommand\eq@bqlabelISO{\eq@bqlabel}
+\renewcommand\bqlabelISO{\eq@bqlabelISO}
+
+\renewcommand\eq@eqlabel{Lopeta testi}
+\renewcommand\eqlabel{\eq@eqlabel}
+
+\renewcommand\eq@Score{Pisteet:}\renewcommand\eq@OutOf{/}
+\renewcommand\eqInitQuizMsg{%m
+   "Testi on aloitettava painamalla  "+msg+"."}
+\renewcommand\eqMadeChoice{%m
+   "Olet jo kerran valinnut.
+    Valintasi oli ("+Responses[probno]+")."
++" Haluatko vaihtaa?"}
+\AtEndOfPackage{%
+\renewcommand\eq@local@CA{Oikein}
+\renewcommand\eq@local@RC{Omat vastaukset!}
+\renewcommand\eq@local@AC{Ole hyv\string\344!}}
+\dlJSStr*[noquotes]{\limSelWarningMsg}{"T\string\344h\string\344n
+  kysymykseen, voit tehd\string\344 enint\string\344\string\344n  "
+  + n + " valintoja."}
+\endinput
+%%
+%% End of file `eqfin.def'.

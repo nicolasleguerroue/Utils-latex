@@ -1,0 +1,113 @@
+%%
+%% This is file `eqde.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% exerquiz.dtx  (with options: `copyright,eqde')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Exerquiz.sty package,                                %%
+%% Copyright (C) 1999-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ProvidesFile{eqde.def}
+%%%%%%%%%%%%%%%%%%%% eqde.def %%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Foreign language support for the exerquiz package. %%
+%% Name of translator: Michael Wiedmann               %%
+%% e-mail address: michael.wiedmann@detewe.de         %%
+%% Language: German                                   %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand\exlabel{\"Ubung}
+\renewcommand\exlabelsol{\protect\"Ubung}
+
+\renewcommand\exsectitle{L\"osungen der \exlabel en}
+\renewcommand\exsecrunhead{L\protect\"osungen der \exlabelsol en}
+
+\renewcommand{\eq@exsolafterDefault}{\textit{L\"osung}:}
+
+\renewcommand\eq@sqslsectitle{L\"osungen der Aufgaben}
+\renewcommand\sqslsectitle{\eq@sqslsectitle}
+
+\renewcommand\eq@sqslsecrunhead{L\"osungen der Aufgaben}
+\renewcommand\sqslsecrunhead{\eq@sqslsecrunhead}
+
+\renewcommand\eq@sqsllabel{%
+   \protect\textbf{L\protect\"osung zu Aufgabe:}}
+\renewcommand\sqsllabel{\eq@sqsllabel}
+
+\renewcommand\sqsolafter{\textit{L\"osung}:}
+
+\renewcommand\eq@sqlabel{\textcolor{red}{Aufgabe}}
+\renewcommand\sqlabel{\eq@sqlabel}
+
+\renewcommand\eq@sqslrtnlabel{zur\"{u}ck zur Aufgabe}
+\renewcommand\sqslrtnlabel{\eq@sqslrtnlabel}
+
+\renewcommand\eqsqrtmsg{"Richtig!"}
+\renewcommand\eqsqwgmsg{"Falsch!"}
+
+\renewcommand\eq@bqlabel{Test starten}
+\renewcommand\bqlabel{\eq@bqlabel}
+\renewcommand\eq@bqlabelISO{\eq@bqlabel}
+\renewcommand\bqlabelISO{\eq@bqlabelISO}
+
+\renewcommand\eq@eqlabel{Test beenden}
+\renewcommand\eqlabel{\eq@eqlabel}
+\renewcommand\eq@Score{Punkte:}\renewcommand\eq@OutOf{von}
+\renewcommand\eq@ptScore{Punkte:}
+\renewcommand\eqInitQuizMsg{%
+   "Sie m\374ssen die Aufgaben zuerst initialisieren!"
+   + " Bitte klicken Sie hierf\374r auf "+msg+" am Anfang des Tests."}
+\renewcommand\eqMadeChoice{%
+   "Sie haben bereits geantwortet. Ihre Antwort war
+   ("+Responses[probno]+")." + " Wollen Sie dies \string\344ndern?"}
+\renewcommand\eq@local@CA{Korrigiere}
+\renewcommand\eq@local@RC{Meine Antworten!}
+\renewcommand\eq@local@AC{Bitte!}
+\renewcommand{\AnsPromptBtnStr}{Antwort:\space}
+\renewcommand\eqerrABS{"Betr\string\344ge sind nicht ausgeglichen.
+    Bitte korrigieren Sie das."}
+\renewcommand\eqerrBadMathFunc{"Der Ausdruck '"+aF[i]+"' ist weder
+    eine definierte Funktion noch ein g\string\374ltiger mathematischer
+    Ausdruck."}
+\renewcommand\eqParens{"runde Klammern"} % ( )
+\renewcommand\eqBrackets{"eckige Klammern"} % [ ]
+\renewcommand\eqBraces{"geschweifte Klammern"} % { }
+\renewcommand\eqerrDelimNotBal{aGroup[i][2] + " sind nicht ausgeglichen.
+    Bitte korrigieren Sie das."}
+\renewcommand\eqerrBadExp{"Ung\string\374ltiger mathematischer Ausdruck.
+     Es gibt ein Problem mit einem der Exponenten.
+     Bitte korrigieren Sie das!"}
+\renewcommand\eqerrUnfinishQuiz{"Sie haben einen Test nicht beendet.
+    Bitte beenden Sie diesen, bevor Sie einen neuen Test beginnen."}
+\dlJSStr*[noquotes]{\noPeekMsg}{"Bevor Sie den Test nicht beendet
+    haben, ist es nicht erlaubt, die L\"{o}sungen anzuschauen!"}
+\renewcommand\highThresholdMsg{"Sie m\string\374ssen alle Fragen
+    beantworten, bevor der Test ausgewertet wird."}
+\dlJSStr*[noquotes]{\eqSyntaxErrorUndefVar}{"Syntax Error: Es existiert
+    m\"{o}glicherweise eine undefinierte Variable oder ein Ausdruck
+    ist nicht im erwarteten Format geschrieben."}
+\dlJSStr[noquotes]{\eqSyntaxErrorComma}{"Syntax Error: Ein Komma wurde"
+    + " in Ihrer Antwort \""
+    + UserAns + "\" gefunden. Bitte entfernen Sie das Komma,"
+    + " sonst wird diese Antwort als falsch gewertet."}
+\dlJSStr*[noquotes]{\limSelWarningMsg}{"F\"{u}r diese Aufgabe k\"{o}nnen
+    sie h\"{o}chstens " + n + " ausw\string\344hlen."}
+\flJSStr*[noquotes]{\promptButtonMsg}{%
+    "M\"{o}chten Sie die richtige Antwort jetzt sehen?"
+    + " Ihre derzeitige Antwort ist diejenige, die gewertet wird."
+    + " Wenn Sie auf \\"Yes\\" klicken, k\"{o}nnen Sie ihre Antwort
+    nicht mehr \string\344ndern."
+}
+\renewcommand{\defaultReqFormMsg}{%
+    "Der Ausdruck ist nicht in der erwarteten Form."}
+\endinput
+%%
+%% End of file `eqde.def'.

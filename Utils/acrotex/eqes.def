@@ -1,0 +1,80 @@
+%%
+%% This is file `eqes.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% exerquiz.dtx  (with options: `copyright,eqes')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Exerquiz.sty package,                                %%
+%% Copyright (C) 1999-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ProvidesFile{eqes.def}
+%%%%%%%%%%%%%%%%%%% eqes.def %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Foreign language support for the exerquiz package. %%
+%% Name of translator: Pedro Luis Luque               %%
+%% e-mail address: calvo@cica.es                      %%
+%% Language:  (spanish)                               %%
+%%                                                    %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand\exlabel{Ejercicio}
+\renewcommand\exlabelsol{\exlabel}
+
+\renewcommand\exsectitle{Soluciones a los \exlabel s}
+\renewcommand\exsecrunhead{\exsectitle} %% change to @ form
+
+\renewcommand{\eq@exsolafterDefault}{\textit{Soluci\'{o}n}:}
+
+\renewcommand\eq@sqslsectitle{Soluciones a los Tests}
+\renewcommand\sqslsectitle{\eq@sqslsectitle}
+
+\renewcommand\eq@sqslsecrunhead{Soluciones a los Tests}
+\renewcommand\sqslsecrunhead{\eq@sqslsecrunhead}
+
+\renewcommand\eq@sqsllabel{%
+  \string\textbf{Soluci\protect\'{o}n al Test:}}
+\renewcommand\sqsllabel{\eq@sqsllabel}
+
+\renewcommand\sqsolafter{\textit{Soluci\'{o}n}:}
+
+\renewcommand\eq@sqlabel{\textcolor{red}{Test.}}
+\renewcommand\sqlabel{\eq@sqlabel}
+
+\renewcommand\eq@sqslrtnlabel{Final del Test}
+\renewcommand\sqslrtnlabel{\eq@sqslrtnlabel}
+
+\renewcommand\eqsqrtmsg{"Correcto!"}
+\renewcommand\eqsqwgmsg{"Incorrecto!"}
+
+\renewcommand\eq@bqlabel{Inicio del Test}
+\renewcommand\bqlabel{\eq@bqlabel}
+\renewcommand\eq@bqlabelISO{\eq@bqlabel}
+\renewcommand\bqlabelISO{\eq@bqlabel}
+
+\renewcommand\eq@eqlabel{Final del Test}
+\renewcommand\eqlabel{\eq@eqlabel}
+\renewcommand\eq@Score{Puntos:}\renewcommand\eq@OutOf{de}
+\renewcommand\eqInitQuizMsg{"Debes inicializar el Test!
+    Click sobre "+msg+"."}
+\renewcommand\eqMadeChoice{%
+   "Ya has elegido una respuesta.
+    Tu respuesta fue ("+Responses[probno]+").
+    Quieres cambiarla?"}
+\renewcommand\eq@local@CA{Correctas}
+\renewcommand\eq@local@RC{Mis Respuestas!}
+\renewcommand\eq@local@AC{Por Favor!}
+\dlJSStr*[noquotes]{\limSelWarningMsg}{"Para esta pregunta,
+  se le permite hacer como m\'{a}ximo "
+  + n + " selecciones."}
+\endinput
+%%
+%% End of file `eqes.def'.

@@ -1,0 +1,86 @@
+%%
+%% This is file `eqbr.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% exerquiz.dtx  (with options: `copyright,eqbr')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Exerquiz.sty package,                                %%
+%% Copyright (C) 1999-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ProvidesFile{eqbr.def}
+%%%%%%%%%%%%%%%%%%% eqbr.def %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Foreign language support for the exerquiz package. %%
+%% Name of translator: Koichi Sameshima               %%
+%% e-mail address: ksameshi@usp.br                    %%
+%% Language:  (brazil)                                %%
+%%                                                    %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand\exlabel{Exerc\texorpdfstring{\'{\i}}{\string\355}cio}
+\renewcommand\exlabelsol{Exerc\string\'{\string\i}cio}
+
+\renewcommand\exsectitle{Solu\texorpdfstring{\c{c}}{\string\347}%
+    \texorpdfstring{\~{o}}{%
+    \string\365}es dos  Exerc\texorpdfstring{\'{\i}}{\string\355}cios}
+    %{Solu\string\\347\string\\363es dos Exerc\string\\355cios}}
+\renewcommand\exsecrunhead{%
+    Solu\protect\c{c}\protect\~{o}es dos Exerc\protect\'{i}cios}
+
+\renewcommand{\eq@exsolafterDefault}{\textit{Solu\c{c}\~{a}o}:}
+
+\renewcommand\eq@sqslsectitle{Solu\c{c}\~{o}es
+    dos Testes}
+\renewcommand\sqslsectitle{\eq@sqslsectitle}
+
+\renewcommand\eq@sqslsecrunhead{Solu\protect\c{c}\protect\~{o}es
+    dos Testes}
+\renewcommand\sqslsecrunhead{\eq@sqslsecrunhead}
+
+\renewcommand\eq@sqsllabel{%
+  \string\textbf{Solu\protect\c{c}\protect\~{a}o do Teste:}}
+\renewcommand\sqsllabel{\eq@sqsllabel}
+
+\renewcommand\sqsolafter{\textit{Solu\protect\c{c}\protect\~{a}o}:}
+
+\renewcommand\eq@sqlabel{\textcolor{red}{Teste.}}
+\renewcommand\sqlabel{\eq@sqlabel}
+
+\renewcommand\eq@sqslrtnlabel{Finaliza Teste}
+\renewcommand\sqslrtnlabel{\eq@sqslrtnlabel}
+
+\renewcommand\eqsqrtmsg{"Correto!"}
+\renewcommand\eqsqwgmsg{"Incorreto!"}
+
+\renewcommand\eq@bqlabel{Inicia Teste}
+\renewcommand\bqlabel{\eq@bqlabel}
+\renewcommand\eq@bqlabelISO{\eq@bqlabel}
+\renewcommand\bqlabelISO{\eq@bqlabel}
+
+\renewcommand\eq@eqlabel{Finaliza Teste}
+\renewcommand\eqlabel{\eq@eqlabel}
+\renewcommand\eq@Score{Pontos:}\renewcommand\eq@OutOf{de}
+\renewcommand\eqInitQuizMsg{% ******
+   "Voc\string\352 precisa iniciar o Teste! Clique sobre "+msg+"."}
+\renewcommand\eqMadeChoice{%
+   "Voc\string\352 j\string\341 respondeu.
+    Sua resposta foi ("+Responses[probno]+").
+    Quer alter\string\341-la?"}
+\renewcommand\eq@local@CA{Corretas}
+\renewcommand\eq@local@RC{Minhas Respostas!}
+\renewcommand\eq@local@AC{Por Favor!}
+\dlJSStr*[noquotes]{\limSelWarningMsg}{"Pro tuto ot\string\341zku
+  m\u016F\u017Eete prov\'{e}st maxim\'{a}ln\u011B "
+  + n + " v\u00FDb\u0115ry."}
+\endinput
+%%
+%% End of file `eqbr.def'.

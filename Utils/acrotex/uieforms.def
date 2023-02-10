@@ -1,0 +1,409 @@
+%%
+%% This is file `uieforms.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% eforms.dtx  (with options: `copyright,userinterface')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% eForms package,                                      %%
+%% Copyright (C) 2002-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\@equi#1{}
+\ifHy@colorlinks\def\eq@bordervisibledefault{0}\@eqW{}\else
+\def\eq@bordervisibledefault{1}\@eqW{1}\fi
+\def\getargs#1#2{\def\aeb@argi{#1}\def\aeb@argii{#2}}
+\newtoks\ef@flagtoks
+\newtoks\ef@jstoks
+\define@choicekey{eforms}{border}[\val\nr]{visible,invisible}
+{%
+  \ifcase\nr
+    \def\eq@visibleborder{1}%
+    \ifx\eq@W\@empty
+      \ifx\eq@W@buffered\@empty\@eqW{1}\else
+      \@eqW{\eq@W@buffered}\fi
+    \else
+      \ifnum\eq@W@value=0 \@eqW{1}\fi
+      \ifx\eq@W@buffered\@empty\else
+      \@eqW{\eq@W@buffered}\fi
+    \fi
+    \@eqBorder{0 0 \eq@W@value}%
+  \or
+    % author has chosen invisible border
+    \def\eq@visibleborder{0}\@eqW{}%
+    \@eqBorder{0 0 0}\@eqBC{}%
+  \fi
+}
+\define@choicekey{eforms}{linewidth}[\val\nr]{thin,medium,thick}
+{%
+  \ifx\annot@type\annot@type@link
+    \ifx\eq@visibleborder\@empty
+      \ifnum\eq@bordervisibledefault=0
+        \edef\eq@W@buffered{\ifcase\nr 1\or2\or3\fi}%
+        \@eqW{}%
+      \else
+        \ifcase\nr\@eqW{1}\or\@eqW{2}\or
+          \@eqW{3}\else\@eqW{1}\fi
+          \@eqBorder{0 0 \eq@W@value}%
+      \fi
+    \else
+      \ifnum\eq@visibleborder=1 % visible border
+        \ifcase\nr\@eqW{1}\or\@eqW{2}\or
+          \@eqW{3}\else\@eqW{1}\fi
+        \@eqBorder{0 0 \eq@W@value}%
+      \fi
+    \fi
+  \else
+    \ifx\eq@visibleborder\@empty
+      \ifcase\nr \@eqW{1}\or\@eqW{2}\or
+        \@eqW{3}\else\@eqW{1}\fi
+      \@eqBorder{0 0 \eq@W@value}%
+      \edef\eq@W@buffered{\ifcase\nr1\or2\or3\fi}%
+    \else
+      \ifnum\eq@visibleborder>0
+        \ifcase\nr \@eqW{1}\or\@eqW{2}\or
+          \@eqW{3}\else\@eqW{1}\fi
+        \@eqBorder{0 0 \eq@W@value}%
+      \fi
+    \fi
+  \fi
+}
+\let\eq@visibleborder\@empty
+\let\eq@W@buffered\@empty
+\define@choicekey{eforms}{highlight}[\val\nr]{none,invert,outline,%
+    inset,push}
+{%
+    \ifcase\nr
+      \@eqH{}\or\@eqH{I}\or\@eqH{O}\or\@eqH{P}\or\@eqH{P}\fi
+}{}
+\define@key{eforms}{bordercolor}[]{%
+    \ifx\annot@type\annot@type@link\@eqColor{#1}\else
+    \ifx\eq@visibleborder\@empty\@eqBC{#1}\else
+        \ifnum\eq@visibleborder>0\relax\@eqBC{#1}\fi\fi\fi
+}
+\define@choicekey{eforms}{linestyle}[\val\nr]{solid,dashed,underlined,%
+    beveled,inset}
+{%
+    \ifcase\nr\relax
+        \@eqS{S}\or\@eqS{D}\or\@eqS{U}%
+        \or\@eqS{B}\or\@eqS{I}\else\@eqS{S}%
+    \fi
+}
+\define@key{eforms}{dasharray}[3]{\@eqD{#1}}
+\define@key{eforms}{linktxtcolor}[]{%
+    \let\ef@linktxtcolor@set=1\@eqlinktxtcolor{#1}}
+\let\ef@linktxtcolor@set=0
+\define@key{eforms}{annotflags}[]{\ef@flagtoks={}%
+  \setkeys{annotflags}{#1}}
+\@tfor\ef@flagopts:={{hidden}{FHidden}}{{print}{FPrint}}{{noprint}%
+  {FNoPrint}}{{-print}{FNoPrint}}{{noview}{FNoView}}{{lock}{FLock}}%
+  \do{\expandafter\getargs\ef@flagopts
+    \edef\temp@expand@def{\noexpand
+    \define@key{annotflags}{\aeb@argi}[true]{%
+      \noexpand\ef@flagtoks=\noexpand
+        \expandafter{\noexpand\ef@passedArgs}%
+      \noexpand\edef\noexpand\ef@passedArgs{\noexpandiii
+        \F{\noexpandiii\@nameuse{\aeb@argii\noexpandiii}}%
+        \noexpand\the\noexpand\ef@flagtoks}%
+    }%
+  }\temp@expand@def
+}
+\define@key{eforms}{fieldflags}[]{\ef@flagtoks={}%
+  \setkeys{fieldflags}{#1}}
+\@tfor\ef@flagopts:={{readonly}{FfReadOnly}}{{required}{FfRequired}}%
+  {{noexport}{FfNoExport}}{{multiline}{FfMultiline}}%
+  {{password}{FfPassword}}{{notoggleoff}{FfNoToggleToOff}}%
+  {{radio}{FfRadio}}{{pushbutton}{FfPushButton}}{{combo}{FfCombo}}%
+  {{edit}{FfEdit}}{{sort}{FfSort}}{{fileselect}{FfFileSelect}}%
+  {{multiselect}{FfMultiSelect}}{{nospellcheck}{FfDoNotSpellCheck}}%
+  {{noscrolling}{FfDoNotScroll}}{{comb}{FfComb}}%
+  {{radiosinunison}{FfRadiosInUnison}}%
+  {{commitonchange}{FfCommitOnSelChange}}{{richtext}{FfRichText}}\do{%
+  \expandafter\getargs\ef@flagopts
+  \edef\temp@expand@def{\noexpand
+    \define@key{fieldflags}{\aeb@argi}[true]{\noexpand
+      \ef@flagtoks=\noexpand\expandafter{\noexpand
+        \ef@passedArgs}\noexpand
+      \edef\noexpand\ef@passedArgs{\noexpandiii
+        \Ff{\noexpandiii\@nameuse{\aeb@argii\noexpandiii}}%
+        \noexpand\the\noexpand\ef@flagtoks}%
+    }%
+  }\temp@expand@def
+}
+\define@key{eforms}{tooltip}{\@eqTU{#1}}
+\define@key{eforms}{default}{\@eqDV{#1}}
+\define@key{eforms}{defaultstyle}{\@eqDS{#1}}
+\define@key{eforms}{value}{\@eqV{#1}}
+\define@key{eforms}{richvalue}{\@eqRV{#1}}
+\define@key{eforms}{apprD}{\@eqAP{#1}}
+\define@choicekey{eforms}{rotate}[\val\nr]{0,90,180,270}
+    {\expandafter\@eqR\expandafter{\val}}{}
+\define@key{eforms}{bgcolor}[]{\@eqBG{#1}}
+\define@key{eforms}{uptxt}{\@eqCA{#1}}
+\define@key{eforms}{downtxt}{\@eqAC{#1}}
+\define@key{eforms}{rollovertxt}{\@eqRC{#1}}
+\define@choicekey{eforms}{align}[\val\nr]{left,centered,right}{%
+    \ifx\annot@type\annot@type@text
+        \expandafter\@eqQ\expandafter{\nr}\fi}{}
+\define@key{eforms}{textfont}{\@eqtextFont{#1}}
+\define@key{eforms}{textsize}{\@eqtextSize{#1}}
+\define@key{eforms}{textcolor}{\@eqtextColor{#1}}
+\define@key{eforms}{maxlength}{\@eqMaxLen{#1}}
+\define@key{eforms}{normappr}{\@eqI{#1}}
+\define@key{eforms}{rollappr}{\@eqRI{#1}}
+\define@key{eforms}{downappr}{\@eqIX{#1}}
+\define@choicekey{eforms}{layout}[\val\nr]{labelonly,icononly,%
+  icontop,iconbottom,iconleft,iconright,labelover}{%
+  \ifx\annot@type\annot@type@button\expandafter
+    \@eqTP\expandafter{\nr}\fi}{}
+\define@choicekey{eforms}{scalewhen}[\val\nr]{always,never,%
+  iconbig,iconsmall}{%
+  \ifx\annot@type\annot@type@button
+  \ifcase\nr\relax
+    \def\eq@@SW{A}\or
+    \def\eq@@SW{N}\or
+    \def\eq@@SW{B}\or
+    \def\eq@@SW{S}\else
+    \def\eq@@SW{A}\fi
+  \expandafter\@eqSW\expandafter{\eq@@SW}\fi}{}
+\define@choicekey{eforms}{scale}[\val\nr]{proportional,%
+  nonproportional}{%
+  \ifx\annot@type\annot@type@button
+  \ifcase\nr\relax
+      \def\eq@@ST{P}\or
+      \def\eq@@ST{A}\else
+      \def\eq@@ST{P}\fi
+  \expandafter\@eqST\expandafter{\eq@@ST}\fi}{}
+\define@key{eforms}{position}{\@eqPA{#1}}
+\define@choicekey{eforms}{fitbounds}[\val\nr]{true,false}[true]{%
+  \ifx\annot@type\annot@type@button
+    \ifcase\nr\relax
+      \def\eq@@FB{true}\or
+      \def\eq@@FB{false}\else
+      \def\eq@@FB{false}\fi
+  \expandafter\@eqFB\expandafter{\eq@@FB}\fi}{}
+\define@key{efappr}{norm}[]{\def\efappr@norm{#1}}
+\define@key{efappr}{roll}[]{\def\efappr@roll{#1}}
+\define@key{efappr}{down}[]{\def\efappr@down{#1}}
+\setkeys{efappr}{norm,roll,down}
+\define@key{efappr@state}{on}[]{\expandafter
+  \def\csname \ef@state @on\endcsname{#1}}
+\define@key{efappr@state}{off}[]{\expandafter
+  \def\csname \ef@state @off\endcsname{#1}}
+\let\norm@on\@empty\let\norm@off\@empty
+\let\roll@on\@empty\let\roll@off\@empty
+\let\down@on\@empty\let\down@off\@empty
+\define@key{eforms}{appr}{\setkeys{efappr}{#1}%
+  \def\ef@state{norm}%
+  \edef\ef@edef@tmp{\noexpand\setkeys{efappr@state}{\efappr@norm}}%
+  \ef@edef@tmp\def\ef@state{roll}%
+  \edef\ef@edef@tmp{\noexpand\setkeys{efappr@state}{\efappr@roll}}%
+  \ef@edef@tmp\def\ef@state{down}%
+  \edef\ef@edef@tmp{\noexpand\setkeys{efappr@state}{\efappr@down}}%
+  \ef@edef@tmp\def\eq@AP{%
+    /AP<<%
+      \ifx\efappr@norm\@empty\else/N <<%
+        \eq@On\space{\norm@on}/Off {\norm@off}>>\fi
+      \ifx\efappr@roll\@empty\else/R <<%
+        \eq@On\space{\roll@on}/Off {\roll@off}>>\fi
+      \ifx\efappr@down\@empty\else/D <<%
+        \eq@On\space{\down@on}/Off {\down@off}>>\fi
+    \space>>
+  }%
+}
+\define@choicekey{eforms}{autocenter}[\val\nr]{yes,no}
+{%
+  \ifcase\nr\relax\@eqautoCenter{y}\or
+  \@eqautoCenter{n}\fi
+}{}
+\define@choicekey{eforms}{inline}[\val\nr]{yes,no}
+{%
+  \ifcase\nr\relax\@eqinline{y}\or
+  \@eqinline{n}\fi
+}{}
+\define@choicekey{eforms}{mlfix}[\val\nr]{yes,no}
+{%
+  \ifcase\nr\relax\@eqmlfix{y}\or
+  \@eqmlfix{n}\fi
+}{}
+\define@choicekey{eforms}{importicons}[\val\nr]{yes,no}
+{%
+  \ifcase\nr\relax\@eqimportIcons{y}\or
+  \@eqimportIcons{n}\fi
+}{}
+\define@key{eforms}{mlstrut}[\strut]{\@eqmlstrut{#1}}
+\define@key{eforms}{mlcrackat}[]{\@eqmlcrackat{#1}}
+\define@key{eforms}{mlcrackinat}[]{\@eqmlcrackinsat{#1}}
+\define@choicekey{eforms}{mlhyph}[\val\nr]{yes,no}
+{%
+  \ifcase\nr\relax\@eqmlhyph{y}\or
+  \@eqmlhyph{n}\fi
+}{}
+\define@key{eforms}{cmd}[]{\@eqcmd{#1}}
+\define@key{eforms}{presets}{\ef@jstoks=\expandafter{#1}%
+  \edef\ef@temp@expand{\noexpand\setkeys{eforms}{\the\ef@jstoks}}%
+  \ef@temp@expand
+}
+\define@key{eforms}{epresets}{\ef@jstoks=\expandafter{#1}%
+  \edef\@rgs{#1}\ef@jstoks=\expandafter{\@rgs}%
+  \edef\ef@temp@expand{\noexpand\setkeys{eforms}{\the\ef@jstoks}}%
+  \ef@temp@expand
+}
+\define@choicekey{eforms}{symbolchoice}[\val\nr]%
+  {check,circle,cross,diamond,square,star}
+  {\expandafter\@eqsymbolchoice\expandafter{\val}}{}
+\define@key{eforms}{rectW}{\@eqrectW{#1}}
+\define@key{eforms}{rectH}{\@eqrectH{#1}}
+\define@key{eforms}{width}{\@eqwidth{#1}}
+\define@key{eforms}{height}{\@eqheight{#1}}
+\define@key{eforms}{scalefactor}{\@eqscalefactor{#1}}
+\define@key{eforms}{lock}{\setkeys{lckflds}{#1}%
+  \ifx\lckFlds\@empty
+    \edef\ActnArgs{\noexpand\Action\noexpand\All}\else
+    \edef\ActnArgs{\noexpand\Action\expandafter
+      \noexpand\lckActnArg{\lckFlds}}\fi
+  \expandafter\@eqLock\expandafter{\ActnArgs}%
+}
+\define@choicekey{lckflds}{action}[\val\nr]{all,include,exclude}
+{%
+  \ifcase\nr\relax
+  \def\lckActnArg{\All}\or
+  \def\lckActnArg{\IncludeFields}\or
+  \def\lckActnArg{\ExcludeFields}\fi
+}{}
+\define@key{lckflds}{fields}{\def\lckFlds{#1}}
+\let\lckFlds\@empty
+\define@key{eforms}{goto}[]{%
+    \cxkvsetkeys{efgoto}{#1}%
+    \ifx\ef@goto@url\@empty
+        \ifx\ef@goto@file\@empty
+            % Jump within the file
+            \def\ef@subtype{/S/GoTo }%
+            \ifcase\eq@drivernum
+              \def\ef@formatpage{{Page\ef@page}}\or
+              \def\ef@formatpage{\pdfpageref\ef@page\space\space 0 R}\or
+              \def\ef@formatpage{@page\ef@page}\fi
+            \let\ef@open\@empty
+            \let\ef@formatfile\@empty
+        \else
+            % Jump to another PDF
+            \def\ef@subtype{/S/GoToR }%
+            \count0=\ef@page\advance\count0by-1
+            \edef\ef@formatpage{\the\count0 }%
+            \def\ef@formatfile{/F (\ef@goto@file)}%
+        \fi
+        \ifx\ef@goto@targetdest\@empty
+            \ifx\ef@labeldest\@empty
+            % we will jump to a page, it might be the default page
+              \expandafter\@eqA\expandafter{\ef@subtype
+                /D[\ef@formatpage\ef@view]\ef@formatfile\ef@open}\else
+            % jump to a label
+              \expandafter\@eqA\expandafter{\ef@subtype%
+                /D (\labelRef{\ef@labeldest})%
+                \ef@formatfile\ef@open}\fi
+        \else
+        % jump to a target
+          \expandafter\@eqA\expandafter{\ef@subtype%
+            /D (\ef@goto@targetdest)\ef@formatfile\ef@open}%
+        \fi
+    \else % go to url
+        \ifx\ef@goto@openparams\@empty
+          \@eqA{/S/URI/URI(\ef@goto@url)}\else
+          \@eqA{/S/URI/URI(\ef@goto@url\#\ef@goto@openparams)}%
+        \fi
+    \fi
+}
+\define@key{efgoto}{file}[]{\def\ef@goto@file{#1}}
+\let\ef@goto@file\@empty
+\define@key{efgoto}{url}[]{%
+    \if\ef@linktxtcolor@set0\@eqlinktxtcolor{\@urlcolor}\fi
+    \def\ef@goto@url{#1}%
+}
+\let\ef@goto@url\@empty
+\define@key{efgoto}{openparams}[]{\def\ef@goto@openparams{#1}}
+\let\ef@goto@openparams\@empty
+\define@key{efgoto}{targetdest}[]{\def\ef@goto@targetdest{#1}}
+\let\ef@goto@targetdest\@empty
+\define@key{efgoto}{labeldest}[]{\def\ef@labeldest{#1}}
+\let\ef@labeldest\@empty
+\define@key{efgoto}{page}[1]{\def\ef@page{#1}}
+\def\ef@page{1}
+\def\ef@view{/Fit}%
+\define@choicekey{efgoto}{view}[\val\nr]{fitpage,actualsize,fitwidth,%
+    fitheight,fitvisible,inheritzoom}
+{%
+    \edef\ef@view{\csname dl@\val\endcsname}%
+}{}
+\define@choicekey{efgoto}{open}[\val\nr]{userpref,new,existing}
+{%
+  \ifcase\nr\relax
+    \let\ef@open\@empty\or
+    \def\ef@open{/NewWindow true }\or
+    \def\ef@open{/NewWindow false }\fi
+}{}
+\let\ef@open\@empty
+\define@key{eforms}{launch}[]{%
+  \cxkvsetkeys{eflaunch}{#1}%
+  \@eqA{/S/Launch\ifx\ef@launch@file\@empty\else
+    /F(\ef@launch@file)\fi\ef@launch@open
+    \ifx\ef@launch@win\@empty\else
+      /Win<<\ifx\ef@launchwin@file\@empty
+      /F(\ef@launch@file)\else/F(\ef@launchwin@file)\fi
+      \ifx\ef@launchwin@params\@empty\else
+        /P(\ef@launchwin@params)\fi
+      \ifx\ef@launchwin@open\@empty\else
+        /O(\ef@launchwin@open)\fi
+      \ifx\ef@launchwin@dir\@empty\else
+        /D(\ef@launchwin@dir)\fi>>
+    \fi
+  }%
+}
+\define@key{eflaunch}{file}[]{\def\ef@launch@file{#1}}
+\let\ef@launch@file\@empty
+\define@choicekey{eflaunch}{open}[\val\nr]{userpref,new,existing}
+{%
+  \ifcase\nr\relax
+    \let\ef@launch@open\@empty\or
+    \def\ef@launch@open{/NewWindow true }\or
+    \def\ef@launch@open{/NewWindow false }\fi
+}{}
+\let\ef@launch@open\@empty
+\define@key{eflaunch}{winParams}[]{\def\ef@launch@win{#1}%
+    \setkeys{eflaunchwin}{#1}%
+}\let\ef@launch@win\@empty
+\define@key{eflaunchwin}{file}[]{\def\ef@launchwin@file{#1}}
+\let\ef@launchwin@file\@empty
+\define@key{eflaunchwin}{directory}[]{\def\ef@launchwin@dir{#1}}
+\let\ef@launchwin@dir\@empty
+\define@key{eflaunchwin}{open}[]{\def\ef@launchwin@open{#1}}
+\let\ef@launchwin@open\@empty
+\define@key{eflaunchwin}{params}[]{\def\ef@launchwin@params{#1}}
+\let\ef@launchwin@params\@empty
+\define@key{eforms}{js}[]{\@eqA{\JS{#1}}}
+\@tfor\ef@AActions:={{mouseup}{AAmouseup}}{{mousedown}{AAmousedown}}%
+  {{onenter}{AAmouseenter}}{{onexit}{AAmouseexit}}%
+  {{onfocus}{AAonfocus}}{{onblur}{AAonblur}}%
+  {{format}{AAformat}}{{keystroke}{AAkeystroke}}%
+  {{validate}{AAvalidate}}{{calculate}{AAcalculate}}%
+  {{pageopen}{AApageopen}}{{pageclose}{AApageclose}}%
+  {{pagevisible}{AApagevisible}}%
+  {{pageinvisible}{AApageinvisible}}\do{%
+  \expandafter\getargs\ef@AActions\ef@jstoks={#1}%
+  \edef\temp@expand@def{\noexpand\define@key{eforms}{\aeb@argi}[]%
+  {\noexpand\csname @eq\aeb@argii\noexpand\endcsname%
+      {\the\ef@jstoks}}}%
+  \temp@expand@def
+}
+\define@key{eforms}{objdef}{\@eqobjdef{#1}}
+\define@key{eforms}{taborder}{\@eqtaborder{#1}}
+\endinput
+%%
+%% End of file `uieforms.def'.

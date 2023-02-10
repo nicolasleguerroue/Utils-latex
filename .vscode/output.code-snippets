@@ -1,4 +1,12 @@
 {
+" \newcommand{\messageBox}[5]{ ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.MessageBox.messageBox",
+	 "body" : [
+	 "\\messageBox{${1:title}}{${2:colorframe}}{${3:backgroundColor}}{${4:content}}{${5:titleColor}}"
+	 ], 
+	 "description" : " \newcommand{\messageBox}[5]{ ",
+},
 "Display message box ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.MessageBox.messageBox",
@@ -6,6 +14,14 @@
 	 "\\messageBox{${1:title}}{${2:colorframe}}{${3:backgroundColor}}{${4:content}}{${5:titleColor}}"
 	 ], 
 	 "description" : "Display message box ",
+},
+" \newenvironment{myidea}{\begin{myideabox}\centering\LARGE\faLightbulbO\tcblower} ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.MessageBox.myidea",
+	 "body" : [
+	 "\\begin{myidea}\n\\end{myidea}"	 
+], 
+	 "description" : " \newenvironment{myidea}{\begin{myideabox}\centering\LARGE\faLightbulbO\tcblower} ",
 },
 "Get GitHub logo ": {
 	 "scope" : "tex, latex",
@@ -62,6 +78,22 @@
 	 "\\faviconClose"
 	 ], 
 	 "description" : "Get Close logo ",
+},
+"Get Warning logo ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Favicons.faviconWarning",
+	 "body" : [
+	 "\\faviconWarning"
+	 ], 
+	 "description" : "Get Warning logo ",
+},
+"Get Info logo ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Favicons.faviconInfo",
+	 "body" : [
+	 "\\faviconInfo"
+	 ], 
+	 "description" : "Get Info logo ",
 },
 "Center element newenvironment{center}  ": {
 	 "scope" : "tex, latex",
@@ -423,6 +455,14 @@
 	 ], 
 	 "description" : "Add update version ",
 },
+"Include PDF file ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Pdf.includeFile",
+	 "body" : [
+	 "\\includeFile{${1:pages}}{${2:file}}"
+	 ], 
+	 "description" : "Include PDF file ",
+},
 "Dynamic source of image ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Images.rootImages",
@@ -487,13 +527,13 @@
 	 ], 
 	 "description" : "Display content in color ",
 },
-"create a 3D ball ": {
+"Create a 3D ball ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Objects3D.ball",
 	 "body" : [
 	 "\\ball{${1:color}}{${2:size}}"
 	 ], 
-	 "description" : "create a 3D ball ",
+	 "description" : "Create a 3D ball ",
 },
 "Create a 3D plot ": {
 	 "scope" : "tex, latex",
@@ -502,6 +542,22 @@
 	 "\\plot{${1:title}}{${2:equation}}"
 	 ], 
 	 "description" : "Create a 3D plot ",
+},
+"utiple Choice Question ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Quizz.mcq",
+	 "body" : [
+	 "\\begin{mcq}\n\\end{mcq}"	 
+], 
+	 "description" : "utiple Choice Question ",
+},
+"Logical answer ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Quizz.logicalAnswer",
+	 "body" : [
+	 "\\logicalAnswer{${1:Answer}}{${2:isCorrect?}}"
+	 ], 
+	 "description" : "Logical answer ",
 },
 "Display the index ": {
 	 "scope" : "tex, latex",
@@ -646,14 +702,6 @@
 	 "\\begin{List}{${1:color}}{${2:labelForm}}\n\\item\n\\item\n\\end{List}"	 
 ], 
 	 "description" : "Create list (List)",
-},
-"Set nomenclature ": {
-	 "scope" : "tex, latex",
-	 "prefix" : "Latex.Nomenclature.nomgroup",
-	 "body" : [
-	 "\\nomgroup{${1:nomenclatureName}}"
-	 ], 
-	 "description" : "Set nomenclature ",
 },
 "Add unit in nomenclature ": {
 	 "scope" : "tex, latex",

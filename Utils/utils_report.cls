@@ -9,8 +9,3 @@
 \RequirePackage[french]{babel}  
 \RequirePackage{Utils/Utils}        %Utils package
 
-
-
-%\listfiles
-
-%################################################################

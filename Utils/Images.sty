@@ -10,11 +10,14 @@
 \RequirePackage{float}              %image floating
 \RequirePackage{wrapfig}            %Float figures
 \RequirePackage{subcaption}         %Subcaption
-%################################################################
 \RequirePackage{animate}            %Gif
 \RequirePackage{media9}             %Animations
+%############################################################
+\typeout{>>> Utils: Package 'Images' loaded !}
+%############################################################
 
-\DeclareGraphicsExtensions{.png,.pdf,.jpeg,.jpg,.gif}
+
+\DeclareGraphicsExtensions{.png,.pdf,.jpeg,.jpg}
 \newcounter{imgCounter}  %Create new counter
 
 \newcommand{\rootImages} %Dynamic source of image #

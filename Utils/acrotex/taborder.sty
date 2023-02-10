@@ -1,0 +1,92 @@
+%%
+%% This is file `taborder.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% taborder.dtx  (with options: `copyright,package')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% taborder.sty package,                                %%
+%% Copyright (C) 2009--2016  D. P. Story                %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\NeedsTeXFormat{LaTeX2e}[1997/12/01]
+\ProvidesPackage{taborder}
+ [2009/09/04 v0.1 taborder: Sets the tab order, Acrobat Distiller only (dps)]
+\DeclareOption{structure}{\let\to@earlyendinput\relax}
+\let\to@earlyendinput\endinput
+\let\setTabOrderByList\relax\let\setTabOrderByNumber\relax
+\ProcessOptions
+\newif\ifto@structOrder\to@structOrderfalse
+\newcommand{\setTabOrder}[1]{\begingroup
+    \global\to@structOrderfalse
+    \def\to@to@C{C}\def\to@to@R{R}\def\to@to@S{S}%
+    \def\to@to@W{W}\def\to@to@A{A}\def\to@to@us{UNSPECIFIED}%
+    \uppercase{\def\ef@taborder{#1}}%
+    \ifx\ef@taborder\@empty
+    \else\ifx\ef@taborder\to@to@us
+    \let\ef@taborder\@empty
+    \else\ifx\to@to@C\ef@taborder
+    \else\ifx\to@to@R\ef@taborder
+    \else\ifx\to@to@S\ef@taborder
+        \ifx\to@earlyendinput\endinput
+            \PackageWarning{taborder}{%
+            The structure (S) option is supported only\MessageBreak
+            with Acrobat Distiller. Using the default\MessageBreak
+            value of 'unspecified'}\let\ef@taborder\@empty
+        \else\global\to@structOrdertrue\fi
+    \else\ifx\to@to@W\ef@taborder
+    \else\ifx\to@to@A\ef@taborder
+    \else\PackageWarning{taborder}{%
+        Invalid value for \string\setTabOrder. Permissible \MessageBreak
+        values are R, C, S, W, A, and unspecified. Using \MessageBreak
+        the default value of 'unspecified'}\let\ef@taborder\@empty
+    \fi\fi\fi\fi\fi\fi\fi\ef@setTabOrder
+}
+\to@earlyendinput
+\def\ef@setTabOrder{%
+    \ifx\ef@taborder\@empty\else\literalps@out{%
+    [ {ThisPage} <</Tabs/\ef@taborder>> /PUT pdfmark}\fi
+    \endgroup
+}
+\newcommand{\setTabOrderByList}{%
+    \global\to@settabsbylisttrue
+    \global\let\setStructTabOrder\to@setStructTabOrder
+}
+\newcommand{\setTabOrderByNumber}{%
+    \global\to@settabsbylistfalse
+    \global\let\setStructTabOrder\@gobble
+}
+\newcommand{\to@setStructTabOrder}[1]{%
+    \@setStructTabOrder#1\end
+}
+\newif\ifto@settabsbylist\to@settabsbylisttrue
+\let\setStructTabOrder\to@setStructTabOrder
+\define@key{structOpts}{title}[]{\def\structOpts@title{#1}}
+\define@key{structOpts}{type}[Form]{\def\structOpts@type{#1}}
+\newcommand{\@setStructTabOrder}[2][]{%
+    \setkeys{structOpts}{title,type,#1}
+    \ifx#2\end\else\literalps@out{%
+        [/Subtype/\structOpts@type\ifx\structOpts@title\@empty
+            \else/Title (\structOpts@title)\fi/StPNE pdfmark
+        [/Obj {#2} /StOBJ pdfmark
+        [/StPop pdfmark}\expandafter\@setStructTabOrder
+    \fi
+}
+\def\to@insertStrucTabOrder#1{%
+    \ifto@structOrder\ifx\eq@objdef\@empty\else
+    \ifx\eq@taborder\@empty\else\literalps@out{%
+        [/Subtype/#1/At \eq@taborder/StPNE pdfmark
+        [/Obj {\eq@objdefName} /StOBJ pdfmark [/StPop pdfmark}%
+    \fi\fi\fi
+}
+\endinput
+%%
+%% End of file `taborder.sty'.

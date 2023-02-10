@@ -1,0 +1,107 @@
+%%
+%% This is file `eqtr.def',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% exerquiz.dtx  (with options: `copyright,eqtr')
+%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Exerquiz.sty package,                                %%
+%% Copyright (C) 1999-2021  D. P. Story                 %%
+%%   dpstory@uakron.edu                                 %%
+%%                                                      %%
+%% This program can redistributed and/or modified under %%
+%% the terms of the LaTeX Project Public License        %%
+%% Distributed from CTAN archives in directory          %%
+%% macros/latex/base/lppl.txt; either version 1 of the  %%
+%% License, or (at your option) any later version.      %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ProvidesFile{eqtr.def}
+%%%%%%%%%%%%%%%%%%%% eqtr.def %%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Foreign language support for the exerquiz package. %%
+%% Name of translator: Mahmut Ko\c{c}ak               %%
+%% e-mail address: mkocak@ogu.edu.tr                  %%
+%% Language: Turkish                                  %%
+%%                                                    %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\renewcommand\exlabel{Al\i \c st\i rma}
+\renewcommand\exlabelsol{\noexpand\c C\noexpand\"oz\noexpand\"um}
+\renewcommand\exsectitle{\exlabel lar{\i}n \c C\"oz\"umleri  }
+\renewcommand\exsecrunhead{Al\noexpand\i \noexpand\c st\noexpand\i rma
+    \exlabelsol leri }
+\renewcommand\exsolafter{\textbf{\c C\"oz\"um}:}
+\renewcommand\eq@sqslsectitle{Kuizlerin \c C\"oz\"umleri }
+\renewcommand\sqslsectitle{\eq@sqslsectitle}
+\renewcommand\eq@sqslsecrunhead{Kuizlerin \c C\"oz\"umleri}
+\renewcommand\sqslsecrunhead{\eq@sqslsecrunhead}
+\renewcommand\eq@sqsllabel{%
+   \protect\textbf{Kuiz \noexpand\c C\noexpand\"oz\noexpand\"um%
+    \noexpand\"u:}}
+\renewcommand\sqsllabel{\eq@sqsllabel}
+\renewcommand\sqsolafter{\textit{\c C\"oz\"um}:}
+\renewcommand\eq@sqlabel{\textcolor{red}{Soru}}
+\renewcommand\sqlabel{\eq@sqlabel}
+\renewcommand\eq@sqslrtnlabel{Kuizi Bitir}
+\renewcommand\sqslrtnlabel{\eq@sqslrtnlabel}
+\renewcommand\eqsqrtmsg{"Do\protect\u011Fru!"}
+\renewcommand\eqsqwgmsg{"Yanl\protect\u0131\protect\u015F!"}
+\renewcommand\eq@bqlabel{Kuize Ba\c sla}
+\renewcommand\bqlabel{\eq@bqlabel}
+\renewcommand\eq@bqlabelISO{\eq@bqlabel}
+\renewcommand\bqlabelISO{\eq@bqlabelISO}
+\renewcommand\eq@eqlabel{Kuizi Bitir}
+\renewcommand\eqlabel{\eq@eqlabel}
+\renewcommand\eq@Score{Skor:}
+\renewcommand\eq@OutOf{\protect\374zerinden}
+\renewcommand\eqQuizTotalMsg{%
+  "\eqScore\space"+Score+" \eqOutOf\space"+nQuestions}
+  \renewcommand\eqQuizPointsMsg{%
+  "\eqptScore\space"+ptScore+" \eqOutOf\space"+nPointTotal}
+\renewcommand\eq@local@CorrAnsButton{Cevap}
+\renewcommand\eqInitQuizMsg{%
+  "Kuizi Bitirdiniz. Do\protect\u011Fru cevaplar\protect\u0131
+    g\protect\u00F6rmek i\protect\u00E7in 'cevap'
+    tu\protect\u015Flar\protect\u0131na
+    bas\protect\u0131n\protect\u0131z."}
+\renewcommand\eqMadeChoice{%
+   "Bir se\protect\u00E7im yapt\protect\u0131n\protect\u0131z.
+   Se\protect\u00E7iminiz ("+Responses[probno]+") idi."
+    +" Se\protect\u00E7iminizi de\protect\u011Fi\protect\u015Ftirmek
+    istermisiniz?"}
+\renewcommand\eqerrABS{"Mutlak de\protect\u011Fer do\protect\u011Fru
+    degil. L\protect\u00FCtfen d\protect\u00FCzeltiniz."}
+\renewcommand\eqerrBadMathFunc{" `"+aF[i]+"' ifadesi
+    tan\protect\u0131ml\protect\u0131 bir fonksiyon veya
+    ge\protect\u00E7erli bir matematiksel ifade de\protect\u011Fil."}
+\renewcommand\eqParens{"Parentezler"}
+\renewcommand\eqBrackets{"S\protect\u00FCsl\protect\u00FC Parentazle"}
+\renewcommand\eqBraces{"K\protect\u00F6\protect\u015Feli Parentezler"}
+\renewcommand\eqerrDelimNotBal{aGroup[i][2] + " do\protect\u011Fru
+    de\protect\u011Fil. L\protect\u00FCtfen d\protect\u00FCzeltiniz."}
+\renewcommand\eqerrBadExp{"Ge\protect\u00E7ersiz matematiksel ifade.
+    \protect\u00FCstel ifadeli bir hata.
+    L\protect\u00FCtfen d\protect\u00FCzeltiniz."}
+\renewcommand\eqerrUnfinishQuiz{"Bitirilmemi\protect\u015F bir kuiz var,
+    di\protect\u011Fer kuize ge\protect\u00E7meden \protect\u00F6nce
+    bu kuizi tamamlay\protect\u0131n."}
+\renewcommand\noPeekMsg{"Kuizi bitirmeden yada kuizden
+    ba\protect\u015Far\protect\u0131l\protect\u0131 olana kadar
+    \protect\u00E7\protect\u00F6z\protect\u00FCmleri
+    g\protect\u00F6remezsiniz.!"}
+\renewcommand\highThresholdMsg{"Kuiz sonucu hesaplanmadan
+    \protect\u00F6nce b\protect\u00FCt\protect\u00FCn
+    sorular\protect\u0131 cevapland\protect\u0131rmal\protect
+    \u0131s\protect\u0131n\protect\u0131z."}
+\renewcommand\eqSyntaxErrorUndefVar{"Syntax Error: Tan\protect
+    \u0131mlanmam\protect\u0131\protect\u015F de\protect\u011Fi\protect
+    \u015Fken veya ifadeler istenilen formatta yaz\protect
+    \u0131lmam\protect\u0131\protect\u015Ft\protect\u0131r."}
+\renewcommand\eq@local@CA{Dogru}
+\renewcommand\eq@local@RC{Benim Cevaplar\protect\u0131m!}
+\renewcommand\eq@local@AC{L\protect\374tfen!}
+\dlJSStr*[noquotes]{\limSelWarningMsg}{"Bu soru i\u00E7in, en fazla "
+  + n + " se\u00E7im yapmak i\u00E7in izin verilir."}
+\endinput
+%%
+%% End of file `eqtr.def'.
