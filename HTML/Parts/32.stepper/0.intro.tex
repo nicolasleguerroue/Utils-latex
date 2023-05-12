@@ -1,0 +1,278 @@
+%\addPartText{Théorie sur les moteurs pas-à-pas et applications pratiques avec Arduino et ESP8266}
+\partImg{Les moteurs pas-à-pas}{\rootImages/img.jpg}{0.4}
+\chapter{Présentation}
+
+
+\newcommand{\pap}{moteur pas-à-pas~} \index{Moteurs pas-à-pas}
+\newcommand{\paps}{moteurs pas-à-pas~}
+
+Les \pap sont utilisés lorsqu'on souhaite un asservissement en position d'un axe de rotation 
+avec une précision inégalée par les servomoteurs.
+\index{asservissement}
+
+
+\subsection{Constitution}
+
+Les \pap sont constitués de :
+\begin{items}{blue}{\Triangle}
+\item Plusieurs bobines (un pôle forme une paire de bobines)
+\item Un aimant qui sert d'axe de rotation
+\end{items} \index{bobine}
+
+\subsection{Les types de \pap}
+
+\begin{items}{blue}{\Triangle}
+  \item \pap à phase bipolaire
+  \img{\rootImages/moteur_bipolaire.png}{\pap bipolaire}{0.4}
+  \item \pap à phases unipolaires
+  \img{\rootImages/step_wire.png}{\pap unipolaires}{0.4}
+  \item \pap à reluctance variable (non abordés ici)
+  \end{items}
+
+\subsection{Principe}
+
+En faisant varier le champ électromagnétique des différentes phases, on peut faire varier la position angulaire de l'aimant.
+
+\subsubsection{Exemples avec phases bipolaires}
+
+En alimentant une paire de phases avec une tension positif, l'aimant se place dans l'alignement du champ électromagnétique 
+formé par la paire de phase.\\
+En alimentant la paire de phase avec une tension négative, l'aimant se place dans le sens contraire.\\
+
+\img{\rootImages/step1.png}{Pas 1}{0.3}
+\img{\rootImages/step2.png}{Pas 2}{0.3}
+\img{\rootImages/step3.png}{Pas 3}{0.3}
+
+
+\subsubsection{Exemples avec phases unipolaires}
+
+\img{\rootImages/ste2.png}{Pas 1}{0.3}
+\img{\rootImages/ste21.png}{Pas 2}{0.3}
+\img{\rootImages/ste22.png}{Pas 3}{0.3}
+
+Les moteurs possèdent plus de phases car un débattement de 45° est vite limité.
+\img{\rootImages/inside.png}{Un intérieur de moteur}{1}
+
+Les \pap unipolaires présentent l'avantage de faire circuler un courant positif dans le circuit de commande. 
+Ils sont donc plus simples à mettre en oeuvre mais ils nécessitent plus de bobinage.
+
+\chapter{Commande des \paps}
+
+\section{Moteurs unipolaires}
+Les \pap unipolaires ont besoins d'être contrôlés via un circuit adaptés, le plus connu est le \lbl{blue}{REF}{ULN2803}
+
+\img{\rootImages/udn.jpg}{Driver ULN2803}{0.6}
+
+
+Pour les moteurs unipolaires, il faut mettre une des phases à la masse pour faire circuler le courant dans la phase \footnote{Due au cable relié à l'alimentation positive du moteur}
+
+On constate sur la figure suivante un montage Darlington : deux transistors NPN forme un seul transistor dont le coefficient
+$\beta$ est le produit de chacun des coefficients $\beta$ de chaque transistor.
+
+Cela permet de contrôler des charges avec très peu de courant de commande. \footnote{Se référer à la partie \bold{Circuits de puissance}}
+
+\img{\rootImages/darlington.png}{Contrôle d'une phase}{0.6}
+
+\img{\rootImages/uln_pinout.png}{Driver de controle}{0.6}
+
+\section{Moteurs bipolaires}
+
+On a vu qu'il fallait inverser la tension de commande au borne des bobines. Pour cela on peut utiliser le montage en pont en H.
+
+\img{\rootImages/pont.png}{Structure du pont en H}{0.5}
+
+\begin{items}{blue}{\Bullet}
+  \item En activant S1 et S4 (fermeture du circuit), la charge est parcourue par un courant allant de gauche à droite
+  \item En activant S2 et S3 (fermeture du circuit), la charge est parcourue par un courant allant de droite à gauche
+\end{items}
+
+Et qui dit inversion de courant dit inversion de tension. Notre objectif est atteint, nous pouvons mettre des tensions positives 
+et négatives aux bornes des phases de nos moteurs.\\
+
+Ce principe est également utilisé pour contrôler les moteurs à courant continu
+
+On peut utiliser le circuit \lbl{blue}{REF}{L298}
+
+\img{\rootImages/l298.jpg}{Un pont en H intégré}{0.3}
+
+\subsection{Avantages et inconvénients des \paps}
+
+\begin{items}{green}{\Bullet}
+    \item Très grande précision en boucle ouverte \footnote{Contrôle sans asservissement, contrairement aux servomoteurs}
+    \item Couple élevé en bas régime
+\end{items}
+
+\begin{items}{red}{\Bullet}
+  \item Plus lent qu'un servomoteur
+  \item Complexité de mise en oeuvre
+\end{items}
+
+
+\subsection{Domaines d'application}
+
+\begin{items}{blue}{\Bullet}
+    \item Imprimantes
+    \item Machines CNC
+\end{items}
+
+
+\section{Comment distinguer les différents types de moteurs ?}
+
+
+\begin{items}{blue}{\Bullet}
+  \item 2 fils = moteur à courant continue
+  \item 3 fils = servomoteurs
+  \item 4 fils = \pap bipolaire
+  \item 5 fils = \pap unipolaire
+\end{items}
+
+
+\chapter{Exemples}
+
+\section{Mise en pratique avec Arduino} 
+
+Nous utiliserons un \pap \bold{28BYJ-48} de type unipolaire. 
+
+\img{\rootImages/byj.png}{Le moteur 28BYJ-48 }{0.3}
+
+Les caractéristiques sont les suivantes : 
+\begin{items}{blue}{\Bullet}
+  \item Nombre de pas : 2048
+  \item Tension d'alimentation : 5V
+\end{items}
+
+Pour augmenter le nombre de pas, on ajoute un train d'engrenage.
+\img{\rootImages/reduce.jpg}{Une augmentation du nombre de pas}{0.8}
+
+\subsection{Liste du matériel}
+
+\begin{items}{blue}{\Bullet}
+  \item Carte Arduino Uno
+  \item Driver ULN2803
+  \item Moteur \pap 28BYJ-48 ou équivalent
+  \item Câbles
+\end{items}
+
+
+\subsection{Branchements}
+
+Nous utiliserons les broches 8, 9, 10 et 11 et  l'alimentation 5V du moteur sera fournie par la broche +5V de l'Arduino
+
+\begin{items}{blue}{\Bullet}
+  \item D1 sur IN1
+  \item D2 sur IN3
+  \item D5 sur IN2
+  \item D6 sur IN4
+  \item Vin sur Vcc
+  \item Gnd sur Gnd
+\end{items}
+
+\img{\rootImages/arduino.png}{Schéma Arduino}{0.2}
+
+\subsection{Code Arduino}
+
+Ce code fait tourner le moteur d'un tour, attend 2 secondes puis fait un tour dans l'autre sens avec un délai de 2s.
+
+\begin{Cpp}{Code minimaliste Arduino}
+
+#include <Stepper.h> //Inclusion de la bibliothèque Stepper
+
+int nbPas = 2048; //Nombre de pas pour le moteur 28BYJ-48
+
+#define IN1 8  //Broche IN1
+#define IN2 9  //Broche IN2
+#define IN3 10  //Broche IN3
+#define IN4 11  //Broche IN4
+
+Stepper moteur(nbPas, IN1, IN3, IN2, IN4); //Création de l'objet moteur
+   
+  void setup() {
+
+    moteur.setSpeed(10); //On définit la vitesse à 10 tr/min
+
+  }//Fin setup
+   
+  void loop() {
+
+    moteur.step(nbPas);   //On avance de nbPas pas, c'est à dire un tour complet (sens horaire)
+    delay(2000);          //pause de 2s
+    moteur.step(-nbPas);  //On avance de -nbPas pas, c'est à dire un tour complet (sens anti-horaire)
+    delay(2000);          //pause de 2s
+
+  }//Fin loop
+\end{Cpp} %ENDCODE
+
+
+\section{Mise en pratique avec ESP8266} 
+
+Nous utiliserons le même \pap 28BYJ-48
+
+\subsection{Liste du matériel}
+
+\begin{items}{blue}{\Bullet}
+  \item Carte ESP8266 NodeMCU (ESP-12)
+
+  \img{\rootImages/mcu.jpeg}{ESP12 NodeMCU}{0.8}
+
+  Cette carte fait partie de la famille des ESP8266 et se programme directement avec l’Éditeur Arduino. 
+  L'installation des bibliothèques pour l'ESP12 est détaillée en annexe du document.
+  \item Driver ULN2803
+  \item Moteur \pap 28BYJ-48 ou équivalent (\pap unipolaire)
+  \item Câbles
+\end{items}
+
+
+\subsection{Branchements}
+
+Les numéros des broches sont différents sur les cartes ESP812 (modèle NodeMCU).\\
+Voici les équivalences des broches entre le code et l'emplacement physique.
+
+\img{\rootImages/nodeMCU.png}{Broches ESP12}{0.4}
+
+Nous utiliserons les broches D1, D2, D5 et D6 et  l'alimentation 5V du moteur sera fournie par la broche Vin de l'ESP12
+
+\begin{items}{blue}{\Bullet}
+  \item D1 sur IN1
+  \item D2 sur IN3
+  \item D5 sur IN2
+  \item D6 sur IN4
+  \item Vin sur Vcc
+  \item Gnd sur Gnd
+\end{items}
+
+\img{\rootImages/nodemcu.png}{Schéma ESP12}{0.4}
+
+\subsection{Code ESP12}
+
+Ce code fait tourner le moteur d'un tour, attend 2 secondes puis fait un tour dans l'autre sens avec un délai de 2s.
+
+\begin{Cpp}{Code minimaliste ESP12}
+
+  #include <Stepper.h> //Inclusion de la bibliothèque Stepper
+  
+  int nbPas = 2048; //Nombre de pas pour le moteur 28BYJ-48
+  
+  #define IN1 D1  //Broche IN1
+  #define IN2 D5  //Broche IN2
+  #define IN3 D2  //Broche IN3
+  #define IN4 D6  //Broche IN4
+  
+  Stepper moteur(nbPas, IN1, IN3, IN2, IN4); //Création de l'objet moteur
+     
+    void setup() {
+  
+      moteur.setSpeed(10); //On définit la vitesse à 10 tr/min
+  
+    }//Fin setup
+     
+    void loop() {
+  
+      moteur.step(nbPas);   //On avance de nbPas pas, c'est à dire un tour complet (sens horaire)
+      delay(2000);          //pause de 2s
+      moteur.step(-nbPas);  //On avance de -nbPas pas, c'est à dire un tour complet (sens anti-horaire)
+      delay(2000);          //pause de 2s
+  
+    }//Fin loop
+  \end{Cpp}
+  
+

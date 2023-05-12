@@ -17,7 +17,7 @@ Une des moyens pour créer notre circuit de puissance est le transistor bipolair
   <li> l'émetteur (E)
 </li>
 </ul>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/bjt.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/bjt.png' class='alignnone size-medium' style='max-width:10%;'></a><figcaption>Figure - La représentation du transistor bipolaire</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ElectPuissance/bjt.png' class='alignnone size-medium' style='max-width:10%;'><figcaption>Figure - La représentation du transistor bipolaire</figcaption></div></figure>
 <h3>Conventions</h3>
 Afin de simplifier les calculs par la suite, posons les normes suivantes : 
 
@@ -33,26 +33,26 @@ Afin de simplifier les calculs par la suite, posons les normes suivantes :
   <li> La tension entre le Collecteur et l’Émetteur est appelée \(V_{ce}\)
 </li>
 </ul>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/courants.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/courants.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Conventions du transistor bipolaire</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ElectPuissance/courants.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Conventions du transistor bipolaire</figcaption></div></figure>
 Les flèches au sein du transistor indiquent le sens de déplacement du courant sur les broches.
 
 <h4>Les familles de transistors bipolaires</h4>
 Les transistors bipolaires sont classés en deux catégories : 
 
 <ul>
-  <li> Les transistors NPN<span title="Le nom de ces familles provient du type de jonction utilisé en interne. Pour plus de renseignements, consulter les diodes et semi-conducteurs" style='color:grey;'><sup>[note]</sup></span>
+  <li> Les transistors NPN<span title="Le nom de ces familles provient du type de jonction utilisé en interne. Pour plus de renseignements, consulter les diodes et semi-conducteurs" style='color:grey;'><sup>[Note 67]</sup></span>
 </li>
   <li> Les transistors PNP
 </li>
 </ul>
 Le principe de fonctionnement est similaire entre ces deux familles, seul le branchement et le niveau de commande diffère. Dans ce document, nous utiliserons essentiellement des transistors NPN car ces derniers utilisent des grandeurs positives.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/pnppnp.jpeg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/pnppnp.jpeg' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Transistors NPN et PNP</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ElectPuissance/pnppnp.jpeg' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Transistors NPN et PNP</figcaption></div></figure>
 <h3>Les paramètres de sélection du transistor</h3>
 Notre transistor doit dans un premier temps répondre à deux contraintes : 
 
 <ul>
-  <li> La tension admissible sur \(V_{ce}\)<span title="Cette tension est indiquée dans les documentations techniques" style='color:grey;'><sup>[note]</sup></span> doit être supérieure à la tension d'alimentation de notre circuit.
+  <li> La tension admissible sur \(V_{ce}\)<span title="Cette tension est indiquée dans les documentations techniques" style='color:grey;'><sup>[Note 68]</sup></span> doit être supérieure à la tension d'alimentation de notre circuit.
 </li>
   Concrètement, si notre circuit est alimenté en 48V mais que le transistor ne supporte pas plus de 30V, il va être détruit.
 
@@ -68,17 +68,17 @@ Ce type de transistor fonctionne comme une vanne pour une canalisation. Il est p
 
 Le transistor bipolaire permet de contrôler un courant important avec un faible courant.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/barrage.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/barrage.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Le rôle du transistor</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ElectPuissance/barrage.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Le rôle du transistor</figcaption></div></figure>
 Ici, notre transistor joue le rôle de la vanne et permet de bloquer le courant (électrons) ou bien de les laisser passer. 
 
 Le courant de l'élément à contrôler (moteur, résistance de puissance) transite entre le collecteur et l'émetteur et le courant de commande passe par la base, comme l'illustre la figure suivante.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/courant_main.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/courant_main.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Courant de commande et de puissance</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ElectPuissance/courant_main.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Courant de commande et de puissance</figcaption></div></figure>
 La relation fondamentale reliant le courant de puissance et de commande est la suivante : 
 
 \( \boxed{ I_{C} = \beta \cdot I_{B} }\)
 
-Le paramètre \(\beta\), appelé <b>gain du transistor</b><span title="le gain  est sans dimension (unité) et est appelé \( h_fe\) dans les documentations" style='color:grey;'><sup>[note]</sup></span> est une caractéristique interne de notre transistor, c'est à dire qu'il dépend du type de transistor que nous choisissons.
+Le paramètre \(\beta\), appelé <b>gain du transistor</b><span title="le gain  est sans dimension (unité) et est appelé \( h_fe\) dans les documentations" style='color:grey;'><sup>[Note 69]</sup></span> est une caractéristique interne de notre transistor, c'est à dire qu'il dépend du type de transistor que nous choisissons.
 Les courants \(I_{C}, I_{B},I_{E}\) sont exprimés dans la même unité (Ampère, milliampères..) pour une formule homogène.
 
 Les transistors de puissance possède des gains de l'ordre de la dizaine alors que les transistors de signal (faibles courants) ont un gain pouvant facilement atteindre 200 ou 300.
@@ -127,11 +127,11 @@ Nous choisissons un transistor permettant de commuter 1A (sécurité) avec \(\be
     <b>La résistance va servir à imposer le courant dans la base de notre transistor</b>.
     Nous obtenons donc le schéma suivant.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/schema_pnp.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/schema_pnp.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Branchement du transistor bipolaire</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ElectPuissance/schema_pnp.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Branchement du transistor bipolaire</figcaption></div></figure>
     <h4>Dimensionnement de la résistance</h4>
     On souhaite obtenir un courant de \(16 mA\) dans notre base et on sait que l'Arduino délivre du \(5V\) en sortie.
 
-    Nous somme donc tentés de dire que \(R_b = \frac{U_{arduino}}{ I_{B}} = \frac{5}{0.016} = 312 \Omega\) <span title="On part de la loi de Ohm qui dit que \(U=R.I\)" style='color:grey;'><sup>[note]</sup></span>
+    Nous somme donc tentés de dire que \(R_b = \frac{U_{arduino}}{ I_{B}} = \frac{5}{0.016} = 312 \Omega\) <span title="On part de la loi de Ohm qui dit que \(U=R.I\)" style='color:grey;'><sup>[Note 70]</sup></span>
 
     Hélas, il y a peu de chance que votre moteur tourne dans les conditions optimales.
 
@@ -193,7 +193,7 @@ void loop() {
 
      Ces derniers sont assez contraignants à mettre en oeuvre car ils sont commandés en courant.
 
-     Nous allons utiliser cette fois-ci la technologie des <span title="Metal Oxide Semiconductor Field Effect Transistorl : Transistor à effet de champ à structure métal-oxyde-semiconducteur" style='color:blue;'>MOSFET</span> <span title="MOSFET : Metal Oxide Semiconductor Field Effect Transistor = Transistor à effet de champ à structure métal-oxyde-semi-conducteur" style='color:grey;'><sup>[note]</sup></span> car ces derniers ont l'avantage d'être contrôlés en <b>tension</b>.
+     Nous allons utiliser cette fois-ci la technologie des <span title="Metal Oxide Semiconductor Field Effect Transistorl : Transistor à effet de champ à structure métal-oxyde-semiconducteur" style='color:blue;'>MOSFET</span> <span title="MOSFET : Metal Oxide Semiconductor Field Effect Transistor = Transistor à effet de champ à structure métal-oxyde-semi-conducteur" style='color:grey;'><sup>[Note 71]</sup></span> car ces derniers ont l'avantage d'être contrôlés en <b>tension</b>.
      Ce composant possède trois broches : 
 
      
@@ -203,7 +203,7 @@ void loop() {
 
        <li> Le drain (D)
 </li>
-       <li> la porte (G)<span title="G pour Gate" style='color:grey;'><sup>[note]</sup></span>
+       <li> la porte (G)<span title="G pour Gate" style='color:grey;'><sup>[Note 72]</sup></span>
 </li>
        <li> la source (S)
 </li>
@@ -212,7 +212,7 @@ void loop() {
 </ul>
      
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/mosfet.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/mosfet.png' class='alignnone size-medium' style='max-width:10%;'></a><figcaption>Figure - La représentation du transistor MOSFET</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ElectPuissance/mosfet.png' class='alignnone size-medium' style='max-width:10%;'><figcaption>Figure - La représentation du transistor MOSFET</figcaption></div></figure>
      
 
      <h3>Conventions</h3>
@@ -246,7 +246,7 @@ void loop() {
 <ul>
      
 
-       <li> Les transistors MOSFET à canal N <span title="Le nom de ces familles provient du type de jonction utilisé en interne. Pour plus de renseignement, consulter les diodes et semi-conducteurs" style='color:grey;'><sup>[note]</sup></span>
+       <li> Les transistors MOSFET à canal N <span title="Le nom de ces familles provient du type de jonction utilisé en interne. Pour plus de renseignement, consulter les diodes et semi-conducteurs" style='color:grey;'><sup>[Note 73]</sup></span>
 </li>
        <li> Les transistors MOSFET à canal P
 </li>
@@ -263,7 +263,7 @@ void loop() {
 
      
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/mos.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/mos.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Transistors à canal N et P</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ElectPuissance/mos.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Transistors à canal N et P</figcaption></div></figure>
      <h3>Les paramètres de sélection du transistor</h3>
      
 
@@ -292,7 +292,7 @@ void loop() {
 
      
 
-     Les transistors MOSFET deviennent passant<span title="Le transistor laisse passer tout le courant autorisé." style='color:grey;'><sup>[note]</sup></span> lorsque la tension sur la porte dépasse une tension de déclenchement appelée \(V_{GS_{th}}\).
+     Les transistors MOSFET deviennent passant<span title="Le transistor laisse passer tout le courant autorisé." style='color:grey;'><sup>[Note 74]</sup></span> lorsque la tension sur la porte dépasse une tension de déclenchement appelée \(V_{GS_{th}}\).
 
      Cette valeur est généralement comprise entre \(2\) et \(4\) Volts.
 
@@ -326,7 +326,7 @@ void loop() {
      Enfin, il ne nous reste plus qu'à relier une sortie numérique de l'Arduino vers notre porte <b>sans</b> résistance. Nous obtenons donc le schéma suivant.
  
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/schema_mosfet.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/schema_mosfet.png' class='alignnone size-medium' style='max-width:45%;'></a><figcaption>Figure - Branchement du transistor MOSFET</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ElectPuissance/schema_mosfet.png' class='alignnone size-medium' style='max-width:45%;'><figcaption>Figure - Branchement du transistor MOSFET</figcaption></div></figure>
   
 
      <h4>Exemple de programme Arduino</h4>
@@ -389,10 +389,10 @@ void loop() {
  L'intégralité des informations disponibles pour un transistor sont disponibles dans un document complet appelé <b>Datasheet</b>.
  Ce document détaille les broches, les caractéristiques électriques, propose des schémas d'exemples....
 
- Par exemple, voici quelques extraits de la documentation du transistors IRF520<span title="Transistor de puissance" style='color:grey;'><sup>[note]</sup></span> :
+ Par exemple, voici quelques extraits de la documentation du transistors IRF520<span title="Transistor de puissance" style='color:grey;'><sup>[Note 75]</sup></span> :
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/irf520.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/irf520.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Extrait n°1 du IRF520</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/rdson.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/rdson.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Extrait n°2 du IRF520</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ElectPuissance/irf520.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Extrait n°1 du IRF520</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ElectPuissance/rdson.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Extrait n°2 du IRF520</figcaption></div></figure>
  On retrouve sur cette figure la valeur de \(R_{DS_{on}}\) et de \(V_{GS_{th}}\)
 
 

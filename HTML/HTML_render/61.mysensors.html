@@ -159,27 +159,27 @@ Lors de la première compilation d'un programme, il se peut que des bibliothèqu
 
 C'est ce que nous allons voir. Pour cela, ouvrez le programme de la sonde (<b>Sonde MySensors.ino</b>) sans brancher de carte Arduino.
 Ensuite, cliquez sur le bouton <b>Vérifier</b> (bouton de gauche) et patientez quelques secondes.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/verifier.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/verifier.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Bouton de vérification</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/verifier.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Bouton de vérification</figcaption></div></figure>
 Si la bibliothèque MySensors est manquante, vous obtiendrez l'erreur suivante: 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/error.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/error.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - La bibliothèque MySensors manquante</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/cocci-bot/error.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - La bibliothèque MySensors manquante</figcaption></div></figure>
 Pour installer la bibliothèque, il suffit d'aller dans <b>Croquis > Inclure une bibliothèque >Ajouter la bibliothèque .ZIP</b>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/place.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/place.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Ajout d'une bibliothèque</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/place.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Ajout d'une bibliothèque</figcaption></div></figure>
 Il ne reste qu'à trouver le fichier <b>Bibliothèque MySensors.zip</b> et à faire <b>OK</b>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/lib.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/lib.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Sélection du fichier ZIP</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/lib.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Sélection du fichier ZIP</figcaption></div></figure>
 Un message de confirmation d'ajout est affichée en bas de la page du logiciel Arduino.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/message.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/message.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - La bibliothèque MySensors est ajoutée</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/message.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - La bibliothèque MySensors est ajoutée</figcaption></div></figure>
 On clique à nouveau sur le bouton <b>Vérifier</b> pour afficher les éventuelles erreurs.
 <div class='alert alert-warning' ><h4>Important</h4>Dans certains cas, la bibliothèque \bold{Adafruit sensor</div>
  
 
 On refait ensuite le bouton <b>Vérifier</b> et si la bibliothèque <b>DHT</b> n'est pas installé, on obtient de nouveau : 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/dht.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/dht.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - La bibliothèque DHT manquante</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/dht.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - La bibliothèque DHT manquante</figcaption></div></figure>
 On procède de la même façon, on va importer le fichier <b>Bibliothèque DHT.zip</b> dans <b>Croquis > Inclure une bibliothèque >Ajouter la bibliothèque .ZIP</b>
 Une fois toutes les bibliothèques installées, le message suivant apparaît: 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/compilation.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/compilation.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - La compilation est terminée</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/compilation.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - La compilation est terminée</figcaption></div></figure>
 On va ensuite s'occuper de la vérification de la communication entre les cartes Arduino et l'ordinateur.
 
 Programmer une carte Arduino pro-mini avec une carte Arduino évite d'acheter un module FTDI.
@@ -190,18 +190,18 @@ L'objectif est de programmer la carte Pro-mini sur la sonde MySensors.
 
 <h3>Liste du matériel</h3>
 <ul>
-    <li> 5 câbles Dupont mâles-femelles<span title="Il est possible de faire des liaisons mâles-femelles avec des câbles mâles-mâles et femelles-femelles" style='color:grey;'><sup>[note]</sup></span>
+    <li> 5 câbles Dupont mâles-femelles<span title="Il est possible de faire des liaisons mâles-femelles avec des câbles mâles-mâles et femelles-femelles" style='color:grey;'><sup>[Note 64]</sup></span>
 </li>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/wire.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/wire.jpg' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Les câbles de connexion</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/wire.jpg' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Les câbles de connexion</figcaption></div></figure>
     <li> Une carte Arduino Pro-Mini
 </li>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/promini.jpeg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/promini.jpeg' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - La carte Arduino Pro-mini</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/promini.jpeg' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - La carte Arduino Pro-mini</figcaption></div></figure>
     <li> Une carte Arduino Uno
 </li>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/a1.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/a1.jpg' class='alignnone size-medium' style='max-width:5%;'></a><figcaption>Figure - La carte Arduino Uno</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/a1.jpg' class='alignnone size-medium' style='max-width:5%;'><figcaption>Figure - La carte Arduino Uno</figcaption></div></figure>
 <div class='alert alert-danger' ><h4>Important</h4>Il faut retirer le microcontrôleur de la carte Arduino Uno pour pouvoir programmer la carte Pro-Mini. Pour le retirer, on prend un petit tournevis et on soulève délicatement la puce. On prendra le soin de repérer l'orientation de la puce sur la carte (méplat vers l'extérieur de la carte) </div>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/step1.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/step1.jpg' class='alignnone size-medium' style='max-width:5%;'></a><figcaption>Figure - On retire le microcontrôleur</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/a2.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/a2.jpg' class='alignnone size-medium' style='max-width:5%;'></a><figcaption>Figure - La carte Arduino Uno sans son microcontrôleur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/step1.jpg' class='alignnone size-medium' style='max-width:5%;'><figcaption>Figure - On retire le microcontrôleur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/a2.jpg' class='alignnone size-medium' style='max-width:5%;'><figcaption>Figure - La carte Arduino Uno sans son microcontrôleur</figcaption></div></figure>
     
 
  
@@ -225,11 +225,11 @@ L'objectif est de programmer la carte Pro-mini sur la sonde MySensors.
     <li> <b>RX UNO</b> vers <b>RX PRO-MINI</b></li>
     <li> <b>TX UNO</b> vers <b>TX PRO-MINI</b></li>
 </ul>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/pinout.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/pinout.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Les broches du Pro-Mini</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/pinout.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Les broches du Pro-Mini</figcaption></div></figure>
 <div class='alert alert-warning' ><h4>Remarque</h4>Ici, la liaison série (<b>RX</b> et <b>TX</b>) n'est pas croisée, le <b>RX</b> de la carte Uno  va sur le <b>RX</b> de la Pro-Mini, idem pour le TX</div>
  
 
-  Vous pouvez ouvrir le programme Arduino que vous désirez charger<span title="Vous pouvez charger le programme de clignotement de la LED pour l'exemple" style='color:grey;'><sup>[note]</sup></span> sur la carte Arduino Pro-Mini.
+  Vous pouvez ouvrir le programme Arduino que vous désirez charger<span title="Vous pouvez charger le programme de clignotement de la LED pour l'exemple" style='color:grey;'><sup>[Note 65]</sup></span> sur la carte Arduino Pro-Mini.
 
   Voici un programme minimal pour faire clignoter la LED du pro-mini. 
 
@@ -267,9 +267,9 @@ Une fois le programme ouvert, voici les étapes pour compiler le programme.
   <h3>Téléversement</h3>
 <ul>
     <li> 1) Sélectionner la carte <b>Arduino Pro-mini</b> dans <b>Outils > Types de carte</b></li>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/type.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/type.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Type de carte</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/type.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Type de carte</figcaption></div></figure>
     <li> 2) Sélectionne le processeur <b>ATmega328P, 3.3V, 8Mhz</b> dans <b>Outils > Processeur</b></li>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/processeur.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/processeur.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Type de processeur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/processeur.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Type de processeur</figcaption></div></figure>
 </ul>
 <div class='alert alert-warning' ><h4>Avertissement</h4>N'oubliez pas de sélectionner le port de communication de l'Arduino</div>
  
@@ -324,7 +324,7 @@ Le module transmetteur NRF24 assure la liaison radio avec les sondes.
 </ul>
 <h3>Placement des composants</h3>
 <h4>Vue de dessus du circuit</h4>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/pin.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/pin.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Circuit imprimé vu de dessus, coté composants</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/pin.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Circuit imprimé vu de dessus, coté composants</figcaption></div></figure>
 <h4>Étapes</h4>
 <ul>
 <li> Souder la barrette déjà en place
@@ -342,7 +342,7 @@ Le module transmetteur NRF24 assure la liaison radio avec les sondes.
 <li> Respecter l'ordre de soudage -> Fil au liseré rouge en 1 puis conducteurs suivants en 2,3 	   etc.
 </li>
 </ul>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/nappe.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/nappe.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Emplacement de la nappe</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/nappe.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Emplacement de la nappe</figcaption></div></figure>
 <div class='alert alert-danger' ><h4>Remarque</h4>Ne pas se tromper sur la soudure de la nappe. En gardant la vue de la Figure 3.1, le câble rouge de la nappe est en bas à gauche, le n°2 est en bas à droite, etc...</div>
  
 
@@ -380,15 +380,15 @@ Si vous voulez utiliser un HT7533, il faut adapter le brochage du HT7533 au circ
     <li> Vout : sortie 3.3V
 </li>
 </ul>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/to-92.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/to-92.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Broches du HT7533</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/to-92.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Broches du HT7533</figcaption></div></figure>
 <h4>Adaptation des broches du HT7533 au schéma de la passerelle</h4>
 Il faut que les broches <b>GND, Vin et Vout</b> rentrent dans les mêmes broches que celle du schéma de la passerelle. Même si les broches ne sont pas dans le même ordre, c'est assez simple à faire en tordant les broches du HT7533 avec une petite pince plate.
 Sur le HT7533, sans que les broches se touchent, <b>on tord Vin vers l'avant, Vout vers l'arrière et on ramène GND au milieu.</b>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/ht.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/ht.png' class='alignnone size-medium' style='max-width:35%;'></a><figcaption>Figure - Insertion du HT7533</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/ht.png' class='alignnone size-medium' style='max-width:35%;'><figcaption>Figure - Insertion du HT7533</figcaption></div></figure>
 <h3>Rendus</h3>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/side.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/side.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Vue de coté</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/passerelle_emetteur.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/passerelle_emetteur.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Vue de la passerelle et de l'émetteur</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/dessus.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/dessus.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Vue de dessus</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/side.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Vue de coté</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/passerelle_emetteur.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Vue de la passerelle et de l'émetteur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/dessus.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Vue de dessus</figcaption></div></figure>
 
 <h2 >Montage de la sonde</h2>
 <h3>Rappels</h3>
@@ -438,14 +438,14 @@ Le module transmetteur NRF24 assure la liaison radio avec la passerelle.
 </ul>
 <h3>Placement des composants</h3>
 <h4>Vue de dessus du circuit</h4>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/pcb.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/pcb.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Circuit imprimé vu de dessus, coté composants</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/pcb.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Circuit imprimé vu de dessus, coté composants</figcaption></div></figure>
 <h4>Étapes</h4>
 <ul>
 <li> Souder les shunts. Voir schéma général et la photo platine sonde shunts
 </li>
 <li> Souder les 8 conducteurs de la nappe en suivant les mêmes instructions que pour le montage de la passerelle
 </li>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/nappe.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/nappe.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Emplacement de la nappe</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/nappe.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Emplacement de la nappe</figcaption></div></figure>
 </ul>
 Puis dans l'ordre que vous souhaitez : 
 
@@ -469,8 +469,8 @@ Puis dans l'ordre que vous souhaitez :
 </li>
 </ul>
 <h3>Rendus</h3>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/s4.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/s4.jpg' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Sonde vue de dessus sans la nappe</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/s3.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/s3.jpg' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Sonde vue de dessus avec la nappe</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/s4.jpg' class='alignnone size-medium' style='max-width:25%;'><figcaption>Figure - Sonde vue de dessus sans la nappe</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/s3.jpg' class='alignnone size-medium' style='max-width:25%;'><figcaption>Figure - Sonde vue de dessus avec la nappe</figcaption></div></figure>
 
 <h3>Les court-circuit</h3>
 <h4>Le multimètre</h4> 
@@ -485,9 +485,9 @@ On règle le multimètre en mode <b>Ohmmètre</b>, c'est à dire avec le fil noi
 
 On regarde la résistance entre les broches 1 et 2 par exemple pour commencer puis ensuite entre la broche 2 et 3, etc...
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/c.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/c.jpg' class='alignnone size-medium' style='max-width:8%;'></a><figcaption>Figure - Une vérification</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/c.jpg' class='alignnone size-medium' style='max-width:8%;'><figcaption>Figure - Une vérification</figcaption></div></figure>
 <h4>L'alimentation</h4> 
-Le problème le plus grave peut survenir si un court circuit a lieu entre la broche +VCC<span title="Alimentation positive, ici +3.3V pour la sonde et +5V pour la passerelle" style='color:grey;'><sup>[note]</sup></span> et la masse.
+Le problème le plus grave peut survenir si un court circuit a lieu entre la broche +VCC<span title="Alimentation positive, ici +3.3V pour la sonde et +5V pour la passerelle" style='color:grey;'><sup>[Note 66]</sup></span> et la masse.
 
 Il convient donc de trouver ces deux broches (VCC et GND) et de regarder la valeur de la résistance entre ces deux broches. Cette valeur doit être infinie (<b>1 sur l'afficheur</b>)
 <h3>Les sondes NRF24</h3>
@@ -798,7 +798,7 @@ Dans mon cas, les résistances ont une valeur de 330 \(k\Omega\) et \(1 M\Omega\
 
 </code></pre><hr>
 <h2 >Branchements du DHT</h2>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/dht.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/dht.jpg' class='alignnone size-medium' style='max-width:7%;'></a><figcaption>Figure - Branchement du DHT sur la sonde</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/dht.jpg' class='alignnone size-medium' style='max-width:7%;'><figcaption>Figure - Branchement du DHT sur la sonde</figcaption></div></figure>
 Voici les connexions pour brancher le DHT : 
 
 <ul>
@@ -806,7 +806,7 @@ Voici les connexions pour brancher le DHT :
   <li> <b>VCC DHT</b> est représenté par le câble orange (gauche)</li>
   <li> <b>OUT FHT</b> est représenté par le câble jaune (D3) (centre)</li>
 </ul>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/connection.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/connection.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Schéma du circuit imprimé</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/connection.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Schéma du circuit imprimé</figcaption></div></figure>
 
 Nous allons configurer le programme de la passerelle(<b>Passerelle MySensors.ino</b>)pour la réception des données.
 <h4>Paramétrage du NRF24</h4>
@@ -915,10 +915,10 @@ les données en provenance de la passerelle.
 
 <h3>Ajout de la passerelle</h3>
 Tout d'abord, allez dans la section <b>Configuration > Matériel</b>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/hardware.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/hardware.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Emplacement du matériel</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/hardware.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Emplacement du matériel</figcaption></div></figure>
 Ensuite, saisissez les informations suivantes :
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/add_gateway.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/add_gateway.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Paramétrage de la passerelle</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/add_gateway.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Paramétrage de la passerelle</figcaption></div></figure>
 Le port série sélectionné sera celui où est raccordé la passerelle en liaison USB.
 
 Il ne faut pas prendre les noms simplifiés des ports USB (<i>COM XXX</i>) mais le nom le plus complet.
@@ -929,39 +929,39 @@ Visualisons les données en provenance de la sonde en allant dans
 
 <b>Configuration > Matériel</b>.
 L'ensemble de vos dispositif apparaît. En cas de liste trop longue, saisissez <b>Gateway</b> dans la barre de recherche.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/search.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/search.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Recherche de la passerelle</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/search.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Recherche de la passerelle</figcaption></div></figure>
 <div class='alert alert-warning' ><h4>Remarque</h4>Si le dispositif n'apparaît pas immédiatement, patientez quelques instants.</div>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/gateway.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/gateway.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - La passerelle est détectée</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/gateway.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - La passerelle est détectée</figcaption></div></figure>
 Nous allons ensuite vérifier que les capteurs de la sonde envoient bien les données. Pour cela, cliquez sur <b>Configuration</b>.
 La page suivante apparaît : 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/home.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/home.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Page de la Gateway</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/home.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Page de la Gateway</figcaption></div></figure>
 Pour visualisez les valeurs des capteurs, il faut sélectionner la passerelle avec l'ID de la sonde (ici, 30).
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/nodes.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/nodes.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Sélection de la passerelle</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/nodes.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Sélection de la passerelle</figcaption></div></figure>
 En cliquant dessus, on voit que la partie <b>Enfants</b> est mise à jour et contient les 3 capteurs avec les ID définis dans le programme de la sonde (31,32 et 33 en ce qui me concerne)
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enfants.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enfants.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Visualisation des enfants</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/enfants.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Visualisation des enfants</figcaption></div></figure>
 <h3>Visualisation des données</h3>
 Maintenant que nous savons que la sonde envoi les bonnes données, nous allons ajouter les capteurs dans les dispositifs.
 
 Pour cela, allez dans <b>Configuration > Dispositifs</b>, les 3 capteurs de la sonde (Tension batterie, humidité et température) apparaissent dans la liste.
 Si vous ne les trouvez pas, vous pouver nettoyer la page des capteurs en sélectionnant les capteurs non-utilisés et en le mettant à la poubelle.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/disp.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/disp.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Visualisation des capteurs</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/disp.png' class='alignnone size-medium' style='max-width:25%;'><figcaption>Figure - Visualisation des capteurs</figcaption></div></figure>
 Les capteurs apparaissent sous les 3 noms suivants : 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/names.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/names.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Nom des capteurs</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/names.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Nom des capteurs</figcaption></div></figure>
 Pour ajouter un dispositif, il suffit de cliquer sur la flèche verte et de choisir le nom du dispositif.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/fleche.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/fleche.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Ajout des dispositifs</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/voltage.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/voltage.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Ajout des dispositifs - Sélection du nom</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/fleche.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Ajout des dispositifs</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/voltage.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Ajout des dispositifs - Sélection du nom</figcaption></div></figure>
 Il suffit de cliquer dans le menu <b>Mesures</b>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/mesure.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/mesure.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Mesures</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/mesure.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Mesures</figcaption></div></figure>
 Et apparaît la tension de la batterie.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/volt.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/volt.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - tension de la batterie</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/volt.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - tension de la batterie</figcaption></div></figure>
 On procède de même pour l'humidité et la température, les dispositifs seront mis dans l'onglet  <b>Température</b>.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/temp.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/temp.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Mesures de l'humidité et de la température</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/temp.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Mesures de l'humidité et de la température</figcaption></div></figure>
 Pour visualiser les données, il suffit de cliquer sur le bouton <b>logs</b>
 
 <h3>Démonstration</h3>
@@ -1005,10 +1005,10 @@ La tension en sortie d'un pont diviseur de tension vaut :
 
  Cette formule sera utilisé pour déterminer la tension réelle de la batterie en fonction du Convertisseur Analogique Numérique.
 
- <h2 >Schéma passerelle</h2>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/schema_passerelle.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/schema_passerelle.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Schéma de la passerelle</figcaption></div></figure>
+ %<h2 >Schéma passerelle</h2>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/schema_passerelle.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Schéma de la passerelle</figcaption></div></figure>
  <h2 >Schéma sonde</h2>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/schema_sonde.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/schema_sonde.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Schéma de la sonde</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/schema_sonde.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Schéma de la sonde</figcaption></div></figure>
  <h2 >Questions</h2>
 <i>Pourquoi ma passerelle n'est pas détectée sur Domoticz ?</i><br>
 <b>Une erreur fréquente est de sélectionner le mauvais port lors de la configuration de la passerelle dans Domoticz.</b>

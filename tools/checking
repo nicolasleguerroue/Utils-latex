@@ -15,6 +15,9 @@ imagesDir="Images"
 partsDir="Parts"
 settingsDir="Settings"
 
+#Specific files
+localBibfilename="localBib.bib"
+localHeaderFilename="headerTitle"
 #file
 main="main.tex"
 
@@ -49,7 +52,6 @@ createFile ${settingsDir}/"SubSectionColor.tex" "\setSubSectionColor{orange}{0} 
 createFile ${settingsDir}/"TitlePrefix.tex" "\disableSectionPrefix %Status of section prefix \n \disableSubSectionPrefix %Status of subsection prefix"
 
 createFile ${makeDir}/"Alias.tex" "%Set personnal commands here"
-createFile ${makeDir}/"Bibliography.bib" "%Set bibliography here"
 createFile ${makeDir}/"Colors.tex" "%Set personnal colors here"
 createFile ${makeDir}/"Contacts.tex" "%Set personnal informations to contact author"
 createFile ${makeDir}/"Glossaries.tex" "%Set glossaries\n\makenoidxglossaries"
@@ -57,6 +59,8 @@ createFile ${makeDir}/"Index.tex" "%Make index \n\makeindex"
 createFile ${makeDir}/"Nomenclature.tex" "%Set nomenclature"
 createFile ${makeDir}/"Rules.tex" "%Set rules"
 createFile ${makeDir}/"Versions.tex" "%Set versions of project"
+
+createFile ${outputDir}/"Bibliography.bib" "%Default bib"
 
 
 for part in `ls -a $partsDir`
@@ -66,13 +70,33 @@ do
         for subFile in `ls -a $partsDir/$part`
         do
             #echo $subFile
-            if [[ "$subFile" == "header" ]];then #If directory
+            if [[ "$subFile" == $localHeaderFilename ]];then #If directory
                 found=1
             fi
         done
         if [[ $found == 0 ]];then
             echo -e ">>> Creating header file for $partsDir/$part directory : [$green OK $default]"
-            touch $partsDir/$part/header
+            createFile $partsDir/$part/$localHeaderFilename "%Default title"
+        fi
+    fi
+
+done
+
+for part in `ls -a $partsDir`
+do
+    if [[ -d "$partsDir/$part" ]];then #If directory
+        found=0
+        for subFile in `ls -a $partsDir/$part`
+        do
+            #echo $subFile
+            if [[ "$subFile" == $localBibfilename ]];then #If directory
+                found=1
+            fi
+        done
+        if [[ $found == 0 ]];then
+            echo -e ">>> Creating bibliography file for $partsDir/$part directory : [$green OK $default]"
+            createFile $partsDir/$part/$localBibfilename "%Default local bib"
+
         fi
     fi
 

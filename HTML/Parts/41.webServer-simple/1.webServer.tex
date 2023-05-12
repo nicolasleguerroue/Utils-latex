@@ -1,0 +1,562 @@
+\part{Un serveur Web}
+%\addPartText{Serveur Web avec ESP12}
+%\partImg{Mise en place d'un serveur ESP12}{\rootImages/serveurWeb.png}{0.4}
+\chapter{Un serveur Web avec ESP12}
+
+L'objectif de ce chapitre est de créer un serveur Web pour contrôler la led interne de l'ESP12, une carte basée sur les ESP8266 
+(Broche D4)
+
+
+
+\img{\rootImages/led_esp.jpg}{La led interne de l'ESP}{0.4}
+
+\section{Présentation des modules ESP12}
+
+\img{\rootImages/nodemcu.jpg}{Une carte ESP12 NodeMCU}{0.2}
+
+Les cartes ESP12 sont des microcontrôleurs basés sur la puce ESP8266 
+qui permet de se connecter en Wifi à des réseaux ou bien de créer son propre réseau.
+Une des sous-famille est la NodeMCU.\\
+
+Cette carte possède un certains nombre de broches dites \glossary{GPIO}, qui, comme les cartes Arduino, 
+sont utilisées pour interagir avec des capteurs et des actionneurs.
+
+Voici la disposition des broches sur les ESP12.
+
+\img{\rootImages/pinout.png}{Les broches de l'ESP12}{2}
+
+\messageBox{\faExclamationTriangle}{red}{red}{Les broches GPIO de l'ESP12 sont en 3.3V, contrairement aux cartes Arduino qui sont en 5V. Il existe néanmoins une broche (VIN) pour alimenter des périphériques en 5V}{white}
+
+\section{Architecture du mini-projet}
+
+Pour communiquer entre le client (utilisateur) et l'ESP12, nous utiliserons un routeur qui servira de passerelle.
+
+\img{\rootImages/arch.png}{Architecture du projet}{0.4}
+
+L'ESP12 se connecte dans un premier temps au routeur. 
+Une fois connecté, tout client sur le même réseau peut se connecter à l'ESP12 en saisissant l'adresse de 
+l'ESP12 dans le navigateur.
+
+\section{Base des requêtes}
+
+Dès que nous allons sur une page Web, nous faisons une requête, c'est à dire que l'on va demander l'affichage 
+d'une page Web à un serveur distant.
+
+\img{\rootImages/serveur.png}{Architecture client-serveur}{0.7}
+
+Afin de récupérer une page sur le serveur, nous avons besoin de connaître 3 éléments :
+
+\begin{items}{blue}{\Triangle}
+    \item L'adresse \glossary{IP} ou l'adresse du serveur : Ici ce sera l'adresse IP de l'ESP12
+    \item L'emplacement de la page sur le serveur : L'emplacement '/' désigne la racine du serveur
+    \item Le port de communication entre le client et le serveur : \lbl{blue}{port}{80} par défaut pour 
+    le protocole \glossary{HTTP} 
+\end{items}
+
+
+\subsection{Une petite explication sur les ports}
+
+Pour recevoir et transmettre des données à d’autres ordinateurs, un ordinateur (ou serveur) a
+besoin de ports. Cependant, les ports physiques tel que le port Eternet communiquent avec beaucoup de services.\\
+
+Ainsi, des ports virtuels ont été créés. \\
+
+
+Chaque port virtuel est codé sur 16 bits et permet de faire communiquer un service
+ou un logiciel.\footnote{Par exemple, le service SSH communique sur le port 22}. Il y a donc potentiellement
+65536 ports disponibles. Certains numéros de port sont réservés à certains services \\
+Les ports de 0 à 1023 sont déjà réservés à des services particuliers et le port par défaut pour les serveurs Web est le 80.
+
+\subsection{Les types de requêtes}
+
+Lorsque nous nous connectons à un serveur Web, nous faisons principalement deux types de requêtes\footnote{Les webSockets ne 
+seront pas abordées}
+\begin{items}{blue}{\Triangle}
+\item Requêtes GET
+
+Les requêtes GET sont des requêtes avec des éléments passés via l'\glossary{URL} de la page.
+Elles sont donc visibles via la barre d'adresse: 
+
+\img{\rootImages/led.png}{L'adresse avec la requête GET}{0.7}
+
+Chaque élément est séparé avec le symbole \lbl{blue}{LBL}{\&} et la liste des arguments commencent avec le symbole  \lbl{blue}{LBL}{?}
+Comme nous avons un seul élément passé via l'URl, nous n'avons pas le symbole \lbl{blue}{LBL}{\&}
+
+Ici, nous avons un argument \lbl{blue}{ARG}{LED} avec la valeur \lbl{green}{VAL}{OFF}
+
+\item Requêtes POST
+
+Ces requêtes ne passent pas les arguments via l'adresse URl. Cette section ne sera pas abordée dans le cadre de l'atelier.
+\end{items}
+
+\section{Connexion au routeur}
+
+La carte ESP12 a besoin du nom du routeur ainsi que de son mot de passe. 
+Dans le programme \lbl{green}{FILE}{serveur\_Web\_simple.ino}, il faut préciser le nom et le mot de passe sur les lignes suivantes : 
+
+\begin{Cpp}{Identifiant et mot de passe}
+//Par exemple
+const char* ssid     = "Creafab_invite";
+const char* password = "MonTraficEstJournalise";
+//Il faut mettre le nom du routeur chez soi et le mot de passe associé
+\end{Cpp}
+
+
+
+\section{Lancement du programme}
+
+Pour sélectionner la carte ESP12, veuillez vous reporter à l'annexe \bold{UTILISATION DE L’ESP12 SOUS ARDUINO}.
+
+\messageBox{\faviconWarning}{orange}{orange}{Il faudra activer la liaison série de la carte. Pour cela, lors du choix de la carte dans le logiciel Arduino, dans la section Outils - Types de cartes -  ESP12 NodeMCU, il faut bien vérifier que la case Serial est activée }{black}
+
+Une fois le programme téléversé, il vous faudra récupérer l'adresse IP de l'ESP12.
+
+
+Pour cela, une fois que le code est téléversé, veuillez ouvrir la fenêtre du moniteur série, l’adresse IP de l'ESP va apparaître 
+au bout de quelques secondes.\\
+
+\img{\rootImages/port_serie.png}{Affichage de l'adresse IP}{0.45}
+
+Si aucune données n’apparaît, faite un reset de la carte ESP12 en appuyant sur la touche \lbl{red}{RST}{RST} de la carte.\\
+
+Il ne vous reste plus qu'à rentrer l’adresse IP obtenue dans un navigateur internet.\\
+En l’occurrence, l'adresse IP dans ce cas là est \lbl{green}{IP}{192.168.0.102}
+
+\img{\rootImages/ip.png}{Connexion au serveur}{0.6}
+
+Le résultat doit être le suivant \\
+
+\img{\rootImages/serveurWeb.png}{Résultat}{0.6}
+
+\section{Explication du programme}
+
+\bold{Une explication du langage HTML est disponible en annexe (section HTML)}
+
+\subsection{En tête du code}
+
+Après avoir importé les bibliothèques liées à l'ESP12, nous définissons un objet \bold{ESP8266WebServer} qui attend 
+comme argument le port du serveur, c'est à dire le 80.
+\begin{Cpp}{Importation des bibliothèques}
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
+#include <ESP8266mDNS.h>
+        
+#define PORT 80 //Port par défaut
+#define LED D4  //Broche de la LED
+        
+ESP8266WebServer server(PORT);
+\end{Cpp}
+
+
+On précise ensuite le mot de passe et le nom du routeur de communication.
+
+\begin{Cpp}{Identifiant et mot de passe du routeur}
+const char* ssid     = "Nom-reseau-Internet";
+const char* password = "Mot-de-passe-Routeur";
+\end{Cpp}
+
+
+Ensuite, nous allons définir et créer notre page HTML.\\
+
+Deux versions de pages Web seront proposées:
+
+\begin{items}{blue}{\Triangle}
+    \item Une version minimale sans aucune mise en forme ajoutée.
+
+    \begin{Cpp}{Page minimale}
+        const String minimalPageContent = "<html>\
+        <head>\
+            <title>Serveur Web CREPP</title>\
+            <meta charset=\"utf-8\"/> \
+            </head>\
+            <body>\
+            <h1>Led ESP8266</h1><br>\
+                <h3>Contrôle de la LED sur la broche D4</h3><br>\
+                  <a href=\"/?LED=ON\"><button >Allumer</button></a>\
+                  <a href=\"/?LED=OFF\"><button >Eteindre</button></a>\
+              </body>\
+            </html>";
+        \end{Cpp}
+
+        \bold{Tout le principe de ce serveur repose dans l'action qu'effectue bouton lors d'un click.
+        Ce dernier va demander à afficher la page et lors de la demande, il va passer à l'URL le mot-clé
+        \bold{LED} et la valeur souhaitée (On ou OFF).}
+
+        \item Une version plus élaborée en utilisant la bibliothèque \lbl{green}{LIB}{Bootstrap} qui permet de faire de 
+        jolies mises en forme très facilement.
+
+        \begin{Cpp}{Page plus élaborée}
+            const String fullPageContent = "<html>\
+            <head>\
+              <title>Serveur Web CREPP</title>\
+              <meta charset=\"utf-8\"/> \
+              <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\" integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\">\
+            </head>\
+            <body style=\"margin-left:5%;\">\
+              <h1>Led ESP8266</h1><br>\
+              <h3>Contrôle de la LED sur la broche <span class=\"badge badge-secondary\">D4</span></h3><br>\
+                <a href=\"/?LED=ON\"><button class=\"btn btn-success\">Allumer</button></a>\
+                <a href=\"/?LED=OFF\"><button class=\"btn btn-danger\">Eteindre</button></a>\
+            </body>\
+          </html>";
+            \end{Cpp}   
+\end{items}
+
+\subsection{Fonction setup}
+Lançons nous dans le code de la fonction \bold{setup}
+
+On définit la led en sortie et on se connecte au routeur.
+
+\begin{Cpp}{Initialisation}
+void setup() {
+      
+    pinMode(LED, OUTPUT);       //LED en sortie
+    digitalWrite(LED, LOW);     //LED éteinte
+    Serial.begin(115200);       //Communication à 115200 bits/s
+    WiFi.begin(ssid, password); //Connexion
+    Serial.println("");         //Retour à la ligne
+        
+\end{Cpp}
+
+Puis on vérifie que nous sommes bien connecté et on affiche les informations de connexion.
+
+\begin{Cpp}{Vérification de la connexion}
+    while (WiFi.status() != WL_CONNECTED) 
+    {
+        delay(500);
+        Serial.println(">>> Impossible de se connecter au réseau...");
+    }//Fin while
+      
+    Serial.print(">>> Connexion au réseau ");
+    Serial.println(ssid);
+    Serial.print("avec l'adresse IP : ");
+    Serial.println(WiFi.localIP());            
+\end{Cpp}
+
+Enfin on vérifie que le MDSN\footnote{Multicast DNS, un serveur de résolution de nom de domaine} est activé (optionnel)
+\begin{Cpp}{Vérification de la connexion}
+    if (MDNS.begin("esp8266")) {   //Multicast DNS 
+    Serial.println(">>> Serveur MDNS activé");
+    }
+}           
+\end{Cpp}
+
+On définit (toujours dans le setup) les pages accessibles par le client ainsi que la fonction appelée lors de la requête.
+Il s'agit de l'emplacement \bold{'/'} et sa fonction associées est la fonction \bold{mainPage}\\
+
+\begin{Cpp}{Redirection sur la page principale}
+    server.on("/", mainPage);           //Affichage de la page principale si requête sur '/' -> saisir IP dans le navigateur
+\end{Cpp}
+On redirige également l'utilisateur sur une page dédiée si l'adresse demandée n'existe pas.
+
+\begin{Cpp}{Redirection en cas d'erreur}
+    server.onNotFound(notFoundPage);    //Affichage de la page d'erreur si adresse non valide
+\end{Cpp}
+
+Enfin, on initialise le serveur.
+
+\begin{Cpp}{Initialisation du serveur}
+    server.begin();                     //Initialisation du serveur
+    Serial.println(">>> démarrage du serveur");
+\end{Cpp}
+
+\subsection{Fonction loop}
+
+Le code à l'intérieur de la fonction \bold{loop} se contente de gérer de manière transparente le comportement du serveur.
+\begin{Cpp}{Fonction principale}
+void loop() 
+{
+    server.handleClient(); //Gestion des clients sur le serveur
+}//Fin loop
+\end{Cpp}
+
+
+\subsection{Fonction mainPage}
+
+Le code à l'intérieur de la fonction \bold{mainPage} permet de gérer la LED en fonction des 
+valeurs passées via l'URL.
+
+
+\begin{Cpp}{Fonction mainPage}
+
+void mainPage() //Page principale
+{ 
+
+ if(server.arg("LED")=="ON") //Lecture de l'argument 'LED'
+ {
+  digitalWrite(LED, LOW); //On allume la led
+ }//Fin if
+ else if(server.arg("LED")=="OFF")
+ {
+ digitalWrite(LED, HIGH);   //On eteint la led
+ }//Fin else if
+ else {
+  //nothing
+ }
+
+ server.send(200, "text/html", fullPageContent); //On envoie la page principale
+  
+}//FIn mainPage
+
+\end{Cpp}
+
+Tout appui sur un bouton va exécuter cette fonction.\\
+La fonction \bold{server.send()} permet d'envoyer la page au client lorsque celui-ci la demande.
+La valeur 200 correspond au code d'erreur de la page : 200 veut dire qu'il n'y a pas eu d'erreur \footnote{L'erreur 4040 indique une page inexistante.}.
+
+
+\section{Code complet}
+\begin{Cpp}{Code complet}
+
+#include <ESP8266WiFi.h>
+#include <ESP8266WebServer.h>
+#include <ESP8266mDNS.h>
+    
+#define PORT 80 //Port par défaut
+#define LED D4  //Broche de la LED
+    
+ESP8266WebServer server(PORT);
+    
+const char* ssid     = "Nom-reseau-Internet";
+const char* password = "Mot-de-passe-Routeur";
+    
+//Page principale
+const String minimalPageContent = "<html>\
+<head>\
+    <title>Serveur Web CREPP</title>\
+    <meta charset=\"utf-8\"/> \
+    </head>\
+    <body>\
+    <h1>Led ESP8266</h1><br>\
+        <h3>Contrôle de la LED sur la broche D4</h3><br>\
+          <a href=\"/?LED=ON\"><button >Allumer</button></a>\
+          <a href=\"/?LED=OFF\"><button >Eteindre</button></a>\
+      </body>\
+    </html>";
+    
+    const String fullPageContent = "<html>\
+      <head>\
+        <title>Serveur Web CREPP</title>\
+        <meta charset=\"utf-8\"/> \
+        <link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\" integrity=\"sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T\" crossorigin=\"anonymous\">\
+      </head>\
+      <body style=\"margin-left:5%;\">\
+        <h1>Led ESP8266</h1><br>\
+        <h3>Contrôle de la LED sur la broche <span class=\"badge badge-secondary\">D4</span></h3><br>\
+          <a href=\"/?LED=ON\"><button class=\"btn btn-success\">Allumer</button></a>\
+          <a href=\"/?LED=OFF\"><button class=\"btn btn-danger\">Eteindre</button></a>\
+      </body>\
+    </html>";
+    
+    
+void setup() {
+      
+    pinMode(LED, OUTPUT);       //LED en sortie
+    digitalWrite(LED, LOW);     //LED éteinte
+    Serial.begin(115200);       //Communication à 115200 bits/s
+    WiFi.begin(ssid, password); //Connexion
+    Serial.println("");         //Retour à la ligne
+    
+      
+    while (WiFi.status() != WL_CONNECTED) 
+    {
+        delay(500);
+        Serial.println(">>> Impossible de se connecter au réseau...");
+    }
+      
+    Serial.print(">>> Connexion au réseau ");
+    Serial.println(ssid);
+    Serial.print("avec l'adresse IP : ");
+    Serial.println(WiFi.localIP());
+    
+    if (MDNS.begin("esp8266")) {   //Multicast DNS 
+        Serial.println(">>> Serveur MDNS activé");
+    }
+    
+    server.on("/", mainPage);           //Affichage de la page principale si requête sur '/' -> saisir IP dans le navigateur
+    server.onNotFound(notFoundPage);    //Affichage de la page d'erreur si adresse non valide
+    
+    server.begin();                     //Initialisation du serveur
+    Serial.println(">>> démarrage du serveur");
+      
+}//Fin setup
+    
+void loop() 
+{
+      
+    server.handleClient(); //Gestion des clients sur le serveur
+     
+}//Fin loop
+    
+    
+void mainPage() //Page principale
+{ 
+    
+    if(server.arg("LED")=="ON") //Lecture de l'argument 'LED'
+    {
+         digitalWrite(LED, LOW); //On allume la led
+    }//Fin if
+    else if(server.arg("LED")=="OFF")
+    {
+        digitalWrite(LED, HIGH);   //On eteint la led
+    }//Fin else if
+    else {
+     //nothing
+    }
+    server.send(200, "text/html", fullPageContent); //On envoie la page principale
+      
+}//FIn mainPage
+    
+    
+void notFoundPage()  //Gestion si mauvaise URL
+{
+    server.send(404, "text/plain", "Page introuvable !\n\n");
+      
+}//Fin notFoundPage
+
+\end{Cpp}
+
+\section{Une amélioration possible}
+
+il est possible d'afficher l'adresse IP du serveur sur un écran \glossary{OLED} afin d'éviter d'ouvrir le moniteur série Arduino.\\
+Pour cela, nous allons effectuer le branchement suivant : 
+
+\img{\rootImages/esp_oled.png}{Branchement de l'écran OLED à l'ESP12}{0.5}
+
+\section{Code complet avec l'écran OLED}
+\begin{Cpp}{Code complet avec l'écran OLED}
+
+    #include <ESP8266WiFi.h>
+    #include <ESP8266WebServer.h>
+    #include <ESP8266mDNS.h>
+    
+    
+    #include <SPI.h>
+    #include <Wire.h>
+    #include <Adafruit_GFX.h>
+    #include <Adafruit_SSD1306.h>
+    
+    
+    #define PORT 80 //Port par défaut
+    #define LED D4  //Broche de la LED
+    
+    ESP8266WebServer server(PORT);
+    
+    const char* ssid     = "creafab_invite";//Nom du routeur sur le réseau 
+    const char* password = "MonTraficEstJournalise"; //Mot de passe du routeur
+    
+    
+    #define SCREEN_WIDTH 128 // OLED display width, in pixels
+    #define SCREEN_HEIGHT 64 // OLED display height, in pixels
+    
+    #define OLED_RESET     -1 //Broche reset
+    #define SCREEN_ADDRESS 0x3C ///Parfois 0x3D ou 0x3F
+    Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+    
+    //Page principale
+    const String minimalPageContent = "<html>\
+      <head>\
+        <title>Serveur Web CREPP</title>\
+        <meta charset=\"utf-8\"/> \
+        </head>\
+      <body>\
+        <h1>Led ESP8266</h1><br>\
+        <h3>Contrôle de la LED sur la broche D4</h3><br>\
+          <a href=\"/?LED=ON\"><button >Allumer</button></a>\
+          <a href=\"/?LED=OFF\"><button >Eteindre</button></a>\
+      </body>\
+    </html>";
+    
+    void setup() {
+      
+      pinMode(LED, OUTPUT);       //LED en sortie
+      Serial.begin(115200);       //Communication à 115200 bits/s
+      WiFi.begin(ssid, password); //Connexion
+      Serial.println("");         //Retour à la ligne
+    
+      delay(100);
+      
+      while (WiFi.status() != WL_CONNECTED) 
+      {
+        delay(500);
+        Serial.println(">>> Impossible de se connecter au réseau...");
+      }
+      
+    
+      if (MDNS.begin("esp8266")) {   //Multicast DNS 
+        Serial.println(">>> Serveur MDNS activé");
+      }
+    
+      server.on("/", mainPage);           //Affichage de la page principale si requête sur '/' -> saisir IP dans le navigateur
+      server.onNotFound(notFoundPage);    //Affichage de la page d'erreur si adresse non valide
+    
+      server.begin();                     //Initialisation du serveur
+      Serial.println(">>> démarrage du serveur : OK");
+    
+      if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
+        Serial.println(F("Echec OLED"));
+        for(;;); 
+      }
+    
+      display.display(); //Affiche le logo Adafruit
+      delay(500); 
+      display.clearDisplay(); //efface l'écran
+    
+      display.setTextSize(1);               //Facteur d'échelle
+      display.setTextColor(SSD1306_WHITE);  //texte blanc
+      display.setCursor(0, 0);              //Place le curseur en (0,0)
+      
+      display.println("Connexion au reseau ");
+      display.println(ssid);
+      display.println("avec l'adresse IP : ");
+      display.println(WiFi.localIP());
+      
+      display.display();   //met à jour le contenu
+      
+    }//Fin setup
+    
+    void loop() 
+    {
+      
+      server.handleClient(); //Gestion des clients sur le serveur
+      
+    }//Fin loop
+    
+    
+    void mainPage() //Page principale
+    { 
+    
+     if(server.arg("LED")=="ON") //Lecture de l'argument 'LED'
+     {
+          digitalWrite(LED, LOW); //On allume la led
+          display.clearDisplay();
+          display.setCursor(0, 0);  
+          display.println("LED : 1");
+          display.display();
+          
+     }//Fin if
+     else if(server.arg("LED")=="OFF")
+     {
+        digitalWrite(LED, HIGH);   //On eteint la led
+        display.clearDisplay();
+        display.setCursor(0, 0);  
+        display.println("LED : 0");
+        display.display();
+     }//Fin else if
+     else {
+      //nothing
+     }
+    
+     server.send(200, "text/html", minimalPageContent); //On envoie la page principale
+      
+    }//FIn mainPage
+    
+    
+    void notFoundPage()  //Gestion si mauvaise URL
+    {
+      server.send(404, "text/plain", "Page introuvable !\n\n");
+      
+    }
+    
+
+\end{Cpp}

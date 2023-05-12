@@ -1,0 +1,69 @@
+
+\chapter{Montage de la sonde}
+
+
+\section{Rappels}
+
+
+La sonde reçoit sur sa barrette connecteurs femelles un \bold{Arduino Pro-Mini} et est reliée par une nappe à 8 conducteurs à un \bold{module transmetteur NRF24}.
+Le module transmetteur NRF24 assure la liaison radio avec la passerelle. 
+
+\section{Liste du matériel de la sonde}
+
+\begin{items}{blue}{\Triangle}
+\item 1 pcb
+\item 2 barrettes mâle-femelle 12 plots		
+\item 1 barrette mâle-femelle 3 plots	
+\item 1 barrette mâle-femelle 2 plots	
+\item 3 barrettes mâle-mâle 5 plots		
+\item 1 barrette mâle-mâle 4 plots		
+\item 1 barrette mâle-mâle 3 plots		
+\item 3 barrettes mâle-mâle 2 plots		
+\item 1 barrette mâle-mâle 1 plot		
+\item 2 condensateurs céramiques 100 nF
+\item 2 condensateurs chimiques    10 µF
+\item 1 résistance 1/4 w  330 K$\Omega$
+\item 1 résistance 1/4 w 1M$\Omega$
+\item 1 régulateur HT7533
+\item 1 longueur de fil d'acier pour shunts
+\item 1 longueur de fil isolé pour shunt
+\item 1 carte Pro mini
+\item 1 émetteur NRF24
+\item 1 nappe 8 conducteurs
+\end{items}
+
+\section{Placement des composants}
+
+\subsection{Vue de dessus du circuit}
+\img{\rootImages/pcb.png}{Circuit imprimé vu de dessus, coté composants}{0.5}\label{TEST}
+
+
+\subsection{Étapes}
+\begin{items}{blue}{\Triangle}
+\item Souder les shunts. Voir schéma général et la photo platine sonde shunts
+\item Souder les 8 conducteurs de la nappe en suivant les mêmes instructions que pour le montage de la passerelle
+\img{\rootImages/nappe.png}{Emplacement de la nappe}{0.5}
+\end{items}
+Puis dans l'ordre que vous souhaitez : 
+\begin{items}{blue}{\Triangle}
+    \item Les 2 condensateurs électrolytiques sont à souder en C1 et C2 (\colors{red}{sont polarisées}, le corps du condensateur est noir avec une bande grisée, la patte de ce côté est le - ),
+    \item Les 2 condensateurs céramiques sont à souder en C3 et C4
+    \item Le régulateur 3.3v HT7533\\
+    \bold{A la différence de son implantation sur la passerelle MySensor, ici il ne faut pas croiser les pattes, implantez le module tel quel en respectant son positionnement sur le pcb grâce au méplat}
+
+    \item Les 2 condensateurs céramiques de 100 nF
+    \item Les 2 résistances de 330 k$\Omega$ et de 1 M$\Omega$    (Elles ont le même aspect extérieur vérifier à l’ohmmètre avant la pose)
+    \item les 2 condensateurs chimiques de 10 µF	(Le moins est du côté grisé sur le corps du condensateur)
+    \item Souder les connecteurs mâle-mâle sur la carte Pro mini, ils sont livrés dans la pochette.\\ Attention à ne pas trop chauffer les points de soudure.
+    \item Faire de même avec la carte Arduino Nano nécessaire à la passerelle.
+\end{items}
+
+\section{Rendus}
+
+\img{\rootImages/s4.jpg}{Sonde vue de dessus sans la nappe}{0.25}
+\img{\rootImages/s3.jpg}{Sonde vue de dessus avec la nappe}{0.25}
+
+
+
+
+

@@ -1,0 +1,325 @@
+\chapter{Introduction}
+
+\section{Objectif}
+
+L'objectif est d'automatiser le feutrage de la laine, étape fastidieuse à la main.
+
+On part du principe que si, sur une surface en laine ( 80\% ), on pose une petite quantité de laine pure, on pourra avec une aiguille spéciale enfoncer des brins de laine dans le support et ceux-ci y resteront à la remontée de l’aiguille ( les brins de laine s’accrochent entre eux avec une facilité incroyable ).\\
+ Pour une petite surface on utilise un support avec 6 à 9 aiguilles et tenir dans la main le dit support avec un aller et retour vertical devient fastidieux avec des risques de blessures.\\
+\bold{C’est cette action qu’il faut automatiser. }
+
+
+\section{Les versions}
+
+Une premiere version comporte un simple balayage du plateau.\\
+La seconde version devrait comporter un traitement d'image avec une caméra pour adapter le balayage.
+
+
+\section{État des lieux}
+
+Actuellement, des essais ont été réalisés avec la CNC qui était stocké au FabLab.\\
+
+\section{Liste du matériel}
+
+
+\begin{items}{blue}{\Triangle}
+    \item Une ancienne CNC (modèle de Xavier Hinault)
+    \item Support d'aiguilles
+\end{items}
+
+
+\section{Communication avec la CNC}
+
+L'ensemble des communications ont lieu avec une liaison série (UART)
+
+
+La liaison \glossary{UART} est une liaison série avec deux broches :
+
+\begin{items}{green}{\Triangle}
+   \item RX
+   \item TX
+\end{items}
+
+\subsubsection{Protocole}
+
+\begin{items}{blue}{\Circle}
+   \item Un bit de start toujours à 0 pour synchroniser la communication
+   \item Un champ de données de 8 bits
+   \item Un bit de parité (dans notre cas aucune parité)
+   \item Un bit de stop
+\end{items}
+
+\subsubsection{Vitesse de communication}
+
+La liaison étant asynchrone, il faut que les périphériques communiquent à la même vitesse. Cette dernière est normalisée et représente le nombre de bit par seconde (baud\footnote{1 baud représente 1 symbole par seconde.})
+
+En l’occurrence, la CNC communique à 115200 bauds.
+
+
+\chapter{Rappels du G-Code}
+
+Le G-Code est un langage machine utilisé par les machines numériques.
+Chaque instruction G-Code se termine un retour à la ligne (valeur 13 dans la table ASCII). Par souci de lisibilité, il ne sera pas affiché.
+\section{Le référentiel}
+Soit on effectue les déplacements de manière relative (+xmm depuis la position actuelle) ou absolue (depuis l'origine avec les capteurs fin de course)
+Pour définir le référentiel, on utilise soit la commande suivante pour le référentiel absolu:
+
+\begin{Cpp}{Référentiel absolu}
+G90
+\end{Cpp}
+et pour le référentiel relatif : 
+\begin{Cpp}{Référentiel relatif}
+G91
+\end{Cpp}
+
+Par la suite, on va utiliser le mode relatif.
+
+\section{Les déplacements}
+
+Pour se déplacer on va utiliser la commande suivante : 
+
+\begin{Cpp}{La commande de déplacement}
+G01 X[mm] Y[mm] Z[mm]
+\end{Cpp}
+
+Les arguments entre crochets correspondent aux déplacements voulus sur les axes concernés.\\
+Ainsi, si on souhaite se déplacer de 20 mm vers le centre sur l'axe X, on va utiliser la commande : 
+
+\begin{Cpp}{Les déplacements}
+G01 X20
+\end{Cpp}
+
+Les axes non concernés par le déplacement ne sont pas présents dans la commande.
+
+\section{Le retour à l'origine}
+
+Le retour en position d'origine se fait via la commande suivante : 
+
+\begin{Cpp}{Retour à l'origine}
+G28 [X] [Y] [Z]
+\end{Cpp}
+
+Ainsi, pour effectuer un retour à l'origine sur l'axe X on fait la commande 
+
+\begin{Cpp}{Retour à l'origine sur X}
+G28 X
+\end{Cpp}
+
+\chapter{Algorithme de déplacement}
+
+L'objectif est de ne pas faire de déplacement sur X ou Y lorsque le moteur Z est activé afin d'éviter de casser les aiguilles.
+
+
+Au début du programme, le porte-aiguille est placé aux coordonnées (0,0) avec le porte-aiguille en position de repos (position haute).\\
+Pendant toutes les durées des déplacements en X et Y, le porte-aiguille reste en position de repos.
+\begin{items}{blue}{\Triangle}
+\item Le porte-aiguille se déplace en Y de la moité de la largeur de la tête contenant les aiguilles (disons 8mm)
+\item Le cycle Z correspond à plusieurs aller-retour du porte-aiguille et à leur retour en position de départ (capteur de fin de course activé)
+\end{items}
+
+Ce cycle se reproduit pour balayer l'ensemble du plateau.
+
+\img{\rootImages/cycle.png}{Cycle de poinçonnage}{0.5}
+
+
+\chapter{Programmation Python}
+
+\section{L'interface graphique}
+
+Le choix de l'interface graphique s'est porté sur les bibliothèques PyQt5.\\
+
+
+\section{Installation des outils}
+
+
+\begin{Bash}{Installation des outils}
+sudo apt install python-pip
+sudo apt-get install python-qt5
+sudo apt-get install pyqt4-dev-tools 
+pip install pyserial
+sudo apt-get install qt4-designer
+\end{Bash}
+
+
+    
+\section{Un premier programme}
+
+Ce premier programme, sans interface graphique (juste dans un terminal) permet de vérifier le bon déplacement de la tête sur l'ensemble du plateau.
+
+\img{\rootImages/algo.png}{Déplacement de la tête}{0.4}
+
+
+Pour lancer le programme, il faut saisir la commande suivante : 
+\begin{Bash}{Lancement du programme}
+python GCode.py
+\end{Bash}
+
+Le programme demande ensuite les dimensions du plateau (X et Y) et il va générer au fur et à mesure le G-Code pour balayer le plateau.
+
+\subsection{Code source}
+
+\begin{Python}
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+from math import floor
+import serial
+import time
+
+ser = serial.Serial( '/dev/ttyACM0', 115200,serial.EIGHTBITS, serial.PARITY_NONE, serial.STOPBITS_ONE, timeout=0.1)
+ser.flushInput()  #Vide le buffer
+
+if(open):
+    print("Communication fonctionnelle !")
+else:
+    print("Mauvaise communication")
+
+decalagePas = 8 #moitie du porte outil en mm
+
+yWidth = input("Quelle est la longueur du plateau ? (mm) : ")
+xWidth = input("Quelle est la largeur du plateau ? (mm) : ")
+
+yIter = floor(int(yWidth)/8)
+xIter = floor(int(xWidth)/8)
+
+nbBlocX = xIter/2
+deplacementZ = 10 #mm
+vitesse=4 #max 6
+
+print("Nombre d'arret sur X : "+str(xIter))
+print("Nombre d'arret sur Y : "+str(yIter))
+
+def sendCommand(command):
+    print("Commande : "+str(command))
+    ser.write(command+'\n')
+    result=""
+    waitingOK = True
+    while (waitingOK==True): # tant que au moins un caractère en réception
+        char=ser.read() # on lit le caractère
+        if char=='\n': # si saut de ligne, on sort du while
+            result=""
+        else: #tant que c'est pas le saut de ligne, on l'ajoute à la chaine 
+            result=result+char	
+            if(result=="<ok>"):
+                print("Commande valide")
+                waitingOK = False
+
+
+#Init
+print("Mode relatif")
+sendCommand("G91") #Mode relatif
+
+#Retour Home
+print("Retour origine")
+sendCommand("G28 X")
+sendCommand("G28 Y")
+
+
+#Generation du GCode
+gcode =""
+for xBloc in range(0, int(nbBlocX)):
+    #Code bloc
+    
+    for xStep in range(0,int(yIter)):
+        gcode += "G01 Y"+str(decalagePas)+" F4"+"\n"
+        gcode += "G04 P0.1"+"\n"
+    
+    gcode += "G01 X"+str(decalagePas)+" F"+str(vitesse)+"\n"
+    
+    for xStep in range(0,int(yIter)):
+        gcode += "G01 Y-"+str(decalagePas)+" F4"+"\n"
+        gcode += "G04 P0.1"+"\n"
+    
+    gcode += "G01 X"+str(decalagePas)+" F"+str(vitesse)+"\n"
+    
+
+print(gcode)
+
+allCommands = gcode.split("\n")
+print("Nombre d'instructions a executer :" +str(len(allCommands)))
+
+for line in allCommands:
+    sendCommand(line)
+        
+ 
+
+\end{Python}
+
+
+
+\section{Une première interface}
+
+Voici la première version d'une interface graphique réalisée avec PyQt4.
+
+Le code est disponible sur le Git du club à \\
+l'adresse \link{\url{https://github.com/CREPP-PLOEMEUR/Feutrage-de-laine}}
+
+\subsection{Utilisation de l'interface}
+
+Tout d'abord, veuillez télécharger le dossier complet puis se rendre dans le dossier \dir{V4\_GUI\_PyQt4}
+
+Ensuite, faire click-droit et \bold{Ouvrir un terminal ici}
+
+Ensuite, saisir la commande suivante pour lancer l'interface : 
+
+\begin{Bash}{Ouverture de l'interface}
+python GUIMain.py
+\end{Bash}
+
+L'interface se lance. Elle se compose de 3 onglets : 
+
+\begin{items}{blue}{\Triangle}
+    \item Présentation
+    \item Paramètres
+    \item Lancement du cycle
+\end{items}
+
+Veuillez vous rendre à l'onglet \bold{Présentation}
+
+\img{\rootImages/c1.png}{Onglet Présentation}{0.25}
+
+Il détaille le déplacement du porte aiguilles sur le schéma.\\
+
+Une barre de statut est disponible sur tous les onglets et indique l'état courant du cycle. Au démarrage de l'application, il indique \bold{Non connecte}.\\
+
+il faut donc se connecter à la machine.\\
+Pour cela, il faut sélectionner le port série disponible dans la liste (ttyACMX généralement) et cliquer sur \shortcut{Connect}.\\
+En cas de bonne connexion, la barre de statut indique \bold{Connecte}.
+
+\img{\rootImages/c2.png}{Connexion effectué}{0.5}
+
+Il faut ensuite cliquer sur l'onglet \bold{Paramètres}
+
+\img{\rootImages/c3.png}{Paramètres du cycle}{0.25}
+
+Voici les différents paramètres du cycle
+\begin{items}{blue}{\Triangle}
+    \item La longueur du plateau en mm [0-300mm comme valeur possible]
+    \item La largeur du plateau en mm [0-300mm comme valeur possible]
+    \item Déplacement du porte-aiguilles : Cela correspond à la distance parcourue (en mm) par le porte-aiguilles entre deux séquences de poinçonnage
+    \item Déplacement de l'axe Z : Cela correspond à l'image de la distance pour effectuer une rotation pour planter le porte-aiguilles et le faire remonter en position de repos. Il faudra jouer avec cette valeur pour que le porte-aiguilles fasse précisément un aller-retour jusqu'à la position de repos.
+    \item Nombre d'actions de l'outil-aiguilles : Cela correspond au nombre d'aller-retour effectués par le porte aiguilles entre 2 déplacements (X ou Y) sur le plateau
+    \item Vitesse sur l'axe X et Y : La vitesse de déplacement sur l'axe X et Y comprise entre 1 et 6
+    \item Vitesse sur l'axe Z : La vitesse de déplacement sur l'axe Z comprise entre 1 et 10
+\end{items}
+
+Une fois tous les paramètres renseignés, nous allons pouvoir lancer un cycle. Pour cela, il faut se rendre dans l'onglet \bold{Lancement du cycle}
+
+Il ne reste plus qu'à lancer le cycle en appuyant sur le bouton \shortcut{Lancer le cycle}.
+
+\img{\rootImages/c4.png}{Lancement d'un cycle}{0.25}
+
+Une fois le cycle lancé, il est possible de l’arrêter en cliquant sur \shortcut{Arreter le cycle}.
+
+\img{\rootImages/c5.png}{Un cycle en cours}{0.25}
+
+Lorsque le cycle est arrêté, si vous cliquez sur \shortcut{Lancer le cycle}, ce dernier va reprendre du début, c'est à dire en coordonnées (0,0).
+
+
+
+
+
+
+
+
+

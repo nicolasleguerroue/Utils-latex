@@ -1,0 +1,105 @@
+\chapter{Programmation Pro-Mini}
+
+Programmer une carte Arduino pro-mini avec une carte Arduino évite d'acheter un module FTDI.\\
+De plus, la carte Arduino Uno pourra être réutilisée pour d'autres projets.\\
+
+L'objectif est de programmer la carte Pro-mini sur la sonde MySensors.
+
+\section{Liste du matériel}
+
+\begin{items}{blue}{\Triangle}
+    \item 5 câbles Dupont mâles-femelles\footnote{Il est possible de faire des liaisons mâles-femelles avec des câbles mâles-mâles et femelles-femelles}
+    \img{\rootImages/wire.jpg}{Les câbles de connexion}{0.3}
+
+    \item Une carte Arduino Pro-Mini
+    \img{\rootImages/promini.jpeg}{La carte Arduino Pro-mini}{0.5}
+
+    \item Une carte Arduino Uno
+    \img{\rootImages/a1.jpg}{La carte Arduino Uno}{0.05}
+    \messageBox{Important}{red}{white}{Il faut retirer le microcontrôleur de la carte Arduino Uno pour pouvoir programmer la carte Pro-Mini. Pour le retirer, on prend un petit tournevis et on soulève délicatement la puce. On prendra le soin de repérer l'orientation de la puce sur la carte (méplat vers l'extérieur de la carte) }{white}
+    \img{\rootImages/step1.jpg}{On retire le microcontrôleur}{0.05}
+    \img{\rootImages/a2.jpg}{La carte Arduino Uno sans son microcontrôleur}{0.05}
+
+    
+ 
+
+    \end{items}
+
+  \section{Branchements}
+
+  \messageBox{Attention}{red}{white}{La carte Arduino Pro-Mini doit être alimentée en 3.3V et non en 5V ! La carte Arduino Pro-Mini ne doit pas être placée sur son support de sonde lorsque elle est en train d'être programmée}{white}
+ 
+  
+  Voici les connexions à faire pour programmer la Pro-Mini: 
+
+  Le mot \inputPin{XXXX\_UNO} représente une broche de la carte Arduino UNO et \\ 
+  \outputPin{XXXX\_PRO-MINI} représente une broche de la carte Arduino Pro-Mini.\\
+  \bold{XXXX} est l'indication du nom de la broche.
+
+  \begin{items}{orange}{\Triangle}
+    \item \inputPin{RESET\_UNO} vers \outputPin{RST\_PRO-MINI}
+    \item \inputPin{+3.3V\_UNO} vers \outputPin{VCC\_PRO-MINI}
+    \item \inputPin{GND\_UNO} vers \outputPin{GND\_PRO-MINI}
+    \item \inputPin{RX\_UNO} vers \outputPin{RX\_PRO-MINI}
+    \item \inputPin{TX\_UNO} vers \outputPin{TX\_PRO-MINI}
+  \end{items}
+
+  \img{\rootImages/pinout.png}{Les broches du Pro-Mini}{0.3}
+
+  \messageBox{Remarque}{orange}{white}{Ici, la liaison série (\bold{RX} et \bold{TX}) n'est pas croisée, le \bold{RX} de la carte Uno  va sur le \bold{RX} de la Pro-Mini, idem pour le TX}{white}
+ 
+
+
+
+
+  Vous pouvez ouvrir le programme Arduino que vous désirez charger\footnote{Vous pouvez charger le programme de clignotement de la LED pour l'exemple} sur la carte Arduino Pro-Mini.
+  Voici un programme minimal pour faire clignoter la LED du pro-mini. \\
+  Ce programme est disponible en allant, dans le logiciel Arduino, dans la section \bold{Fichiers > Exemples > basics > Blink}\\
+  
+  \begin{Cpp}{Programme d'exemple Blink}
+  void setup() {
+  // initialize digital pin LED_BUILTIN as an output.
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+// the loop function runs over and over again forever
+void loop() {
+  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(1000);                       // wait for a second
+  digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+  delay(1000);                       // wait for a second
+}
+  \end{Cpp}
+  
+Une fois le programme ouvert, voici les étapes pour compiler le programme.
+
+  \section{Téléversement}
+
+  \begin{items}{blue}{\Triangle}
+    \item 1) Sélectionner la carte \bold{Arduino Pro-mini} dans \bold{Outils > Types de carte}
+    \img{\rootImages/type.png}{Type de carte}{0.3}
+
+    \item 2) Sélectionne le processeur \bold{ATmega328P, 3.3V, 8Mhz} dans \bold{Outils > Processeur}
+    \img{\rootImages/processeur.png}{Type de processeur}{0.4}
+  \end{items}
+
+  \messageBox{Avertissement}{orange}{white}{N'oubliez pas de sélectionner le port de communication de l'Arduino}{black}
+ 
+  Il ne vous reste plus qu'à cliquer sur le bouton de téléversement du programme.\\
+  La LED de la carte Pro-Mini devrait clignoter.
+
+
+
+  \messageBox{Information}{green}{white}{Ici, nous avons chargé un programme de test, par la suite, il conviendra de charger le programme \bold{Sonde\_MySensors.ino}.\\Cette étape de chargement de programme sera nécessaire à chaque modification du code de la sonde.}{black}
+ 
+
+  \section{Programmation de la Nano}
+
+  La carte Nano étant reliée à l'ordinateur par un câble USb, sa programmation sera plus aisée. 
+  On alimente la carte via l'ordinateur, on sélectionne le type de carte (\bold{Type de carte > Arduino Nano}),\\
+   le type de processeur (\bold{Outils > Processeur > Old bootloader}), le port puis on téléverse le programme désiré.\\
+
+
+%PB : 
+
+%Canal différent pour chaque personne

@@ -16,34 +16,22 @@
 \definecolor{newgreen}{RGB}{7,94,70}
 \definecolor{bordergreen}{RGB}{101,223,190}
 
-% \newcommand{\messageBoxA}[5]{ %Display message box #title colorframe backgroundColor content titleColor
-
-% \addtocounter{messageBoxCounter}{1}
-% \raiseMessage{MessageBox '#1' [id \arabic{messageBoxCounter}] created !}
-%  \begin{tcolorbox}[title=#1,
-% colframe=#2!80,
-% colback=#3!10,
-% coltitle=#5!100,  
-% ]
-% #4
-% \end{tcolorbox}
-% }
-
-
 \newcommand{\messageBox}[5]{ %Display message box #title colorframe backgroundColor content titleColor
 
 \addtocounter{messageBoxCounter}{1}
 \raiseMessage{MessageBox '#1' [id \arabic{messageBoxCounter}] created !}
  \begin{tcolorbox}[sidebyside,
-    colback=#3!10,
+    bicolor,
+    colback=#3!20,
+    colbacklower=#3!10,
     colframe=#2!80, 
     coltext=#2!90,
     boxrule=0.9pt,
     boxsep=5pt,
     arc=1pt,
     leftrule=0.8mm, 
-    lefthand width=0.5cm, 
-    lower separated=false, 
+    lefthand width=1cm, 
+    lower separated=true, 
     sidebyside gap=3mm, 
     left=3pt 
 ]

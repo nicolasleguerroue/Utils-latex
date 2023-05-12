@@ -1,4 +1,4 @@
-<html><head><style>.cent {  display: block;  margin-left: auto;  margin-right: auto;}</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> </script><body style='margin-left:5%;margin-right:5%;margin-top:1%'><h4>Fichier générer depuis les sources Latex</h4><h5>Auteur : Nicolas Le Guerroué</h5><a href='index.html'><button class='btn btn-success' >Revenir au sommaire</button></a><hr><h4>Théorie sur les alimentations</h4>
+<html><head><style>.cent {  display: block;  margin-left: auto;  margin-right: auto;}</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> </script><body style='margin-left:5%;margin-right:5%;margin-top:1%'><h4>Fichier générer depuis les sources Latex</h4><h5>Auteur : Nicolas Le Guerroué</h5><a href='index.html'><button class='btn btn-success' >Revenir au sommaire</button></a><hr>%<h4>Théorie sur les alimentations</h4>
 <h1 class=''>Les alimentations linéaires et à découpage</h1>
 <h2 >Les alimentations linéaires</h2>
 <h3>Introduction</h3>
@@ -14,7 +14,7 @@ Les alimentations linéaires sont réputées pour avoir une tension stable et pr
 Regardons de plus près le principe de ces alimentations.
 
 <h3>L'objectif</h3>
-On souhaite transformer une tension sinusoïdale<span title="De valeur efficace 230V et de fréquence 50 Hz" style='color:grey;'><sup>[note]</sup></span> en une tension continue, 
+On souhaite transformer une tension sinusoïdale<span title="De valeur efficace 230V et de fréquence 50 Hz" style='color:grey;'><sup>[Note 18]</sup></span> en une tension continue, 
 
 stable et régulée.
 
@@ -71,7 +71,7 @@ stable et régulée.
   Un montage existant est le Pont de Graetz. 
 
    
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/diode.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/diode.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Le pont de diode</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ElectPuissance/diode.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Le pont de diode</figcaption></div></figure>
   Observons le résultat lorsque nous mettons notre tension de sortie du transformateur sur notre entrée de pont.
 
   \begin{graphicFigure}{0.6}{0.6}{0}{0.08}{-20}{20}{t(s)}{Tension (V)}{Les tensions d'entrée et de sortie du pont de diode}
@@ -117,7 +117,7 @@ stable et régulée.
       <li> Une broche \(V_+\) pour la tension positive du circuit en aval
 </li>
 </ul>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/case.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/case.png' class='alignnone size-medium' style='max-width:20%;'></a><figcaption>Figure - Un exemple de boîtier</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supply/case.png' class='alignnone size-medium' style='max-width:20%;'><figcaption>Figure - Un exemple de boîtier</figcaption></div></figure>
   <h3>Les condensateurs</h3>
   <h4>Principe</h4>
   Comme vu à la section précédente, notre signal n'est pas continu et possède des oscillations élevées.
@@ -128,7 +128,7 @@ stable et régulée.
 
   Leur rôle sera d'accumuler de l'énergie lorsque le signal monte en amplitude et de restituer cette énergie lorsque le signal sera sur sa phase descendante.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/signal.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/signal.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Le rôle du condensateur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supply/signal.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Le rôle du condensateur</figcaption></div></figure>
   <h4>Choix de la valeur</h4>
   Plus la valeur du condensateur est élevée, plus notre signal sera lisse en sortie, ce qui est l'effet recherché.
 
@@ -144,7 +144,7 @@ stable et régulée.
 
   Le branchement est le suivant : 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/lm.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/lm.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Un régulateur de tension</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supply/lm.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Un régulateur de tension</figcaption></div></figure>
 <ul>
     <li> L'entrée INPUT est la tension à réguler
 </li>
@@ -154,7 +154,7 @@ stable et régulée.
 </li>
 </ul>
 <h4>Les familles des régulateurs</h4>
-  Il existe différentes familles de régulateurs linaires, les plus connus étant les LM78XX<span title="XX prend la tension régulée de sortie (5,9,12,15,18V...)" style='color:grey;'><sup>[note]</sup></span> ou les LM317 qui sont des régulateurs de tension réglables.
+  Il existe différentes familles de régulateurs linaires, les plus connus étant les LM78XX<span title="XX prend la tension régulée de sortie (5,9,12,15,18V...)" style='color:grey;'><sup>[Note 19]</sup></span> ou les LM317 qui sont des régulateurs de tension réglables.
 
   Pour des tensions négatives, se référer à la famille des LM79XX.
 

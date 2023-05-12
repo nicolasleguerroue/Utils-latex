@@ -49,6 +49,12 @@
         \raiseWarning{Image '#1' no loaded}
     }
 }
+\newcommand{\previousCompilationdImageCounter}{}
+\CatchFileDef{\previousCompilationdImageCounter}{Images/imageCounter.txt}{}
+
+\newcommand{\getPreviousCompilationdImageCounter} %get counter of image #
+{\previousCompilationdImageCounter}
+
 
 \newcommand{\imgr}[4]{%Add simple image with rotation #\\rootImages legend ratio angle
     \IfFileExists{#1}

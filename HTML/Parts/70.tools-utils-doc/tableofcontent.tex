@@ -1,0 +1,25 @@
+\chapter{Bibliothèque TableOfContent}
+
+La bibliothèque \lib{TableOfContent} gère le sommaire et son affichage.
+
+
+\section{Affichage du sommaire}
+
+\loc{main.tex}
+\begin{Latex}{Code pour l'affichage du sommaire}
+\displayTableOfContent{Table des matières}
+\end{Latex}
+
+L'argument passé à la macro est le nom visible sur la page ainsi que dans la table des matière.
+
+
+\section{Configuration de la taille du sommaire}
+
+\loc{Settings/TocSize.tex}
+\begin{Latex}{Code pour la configuration de la taille du sommaire}
+\smallTableOfContent
+%Or \classicalTableOfContent
+\end{Latex}
+
+
+\input{Utils/TableOfContent.info}

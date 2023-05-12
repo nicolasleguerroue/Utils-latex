@@ -1,0 +1,145 @@
+\part{Les condensateurs}
+\chapter{Domaines d'application des condensateurs}
+
+Nous allons présenter trois domaines d'application des condensateurs. Cette liste n'est pas exhaustive. Les condensateurs permettent également de redresser le cosinus $\Phi$ ou bien de filtrer des signaux audio.
+
+\section{Les condensateurs de filtrage}
+
+\subsubsection{Présentation}
+
+Les condensateurs permettent de lisser une tension afin de stabiliser cette dernière.
+
+\subsubsection{Objectif}
+
+On souhaite amortir les oscillations de tension en sortie d'un pont de Graëtz (14 V DC).\n
+On souhaite donc passer d'une tension alternative à une tension pseudo-continue.
+
+\img{\rootImages/graetz.png}{Le pont de Graetz}{0.5}
+
+\img{\rootImages/graetz_input.png}{La tension en sortie du pont}{0.5}
+
+
+
+\subsubsection{Mise en oeuvre}
+
+Afin de lisser la tension, il convient de mettre un condensateur en sortie du pont de Graëtz, avec une borne sur INPUT et une autre à la masse. \\
+Une résistance de 50 $\Omega$ a été rajoutée pour simuler la présence d'une charge.
+
+\img{\rootImages/out_filtre.png}{Le circuit de filtrage }{0.5}
+
+Observons le résultat.
+
+\img{\rootImages/graetz_out.png}{La tension aux bornes du condensateur }{0.7}
+
+\subsubsection{Principe}
+
+Le condensateur joue le rôle d'accumulateur. Pendant les phases ou la tension est croissante, ce dernier se charge. \\
+Lors des phases ou la tension décroît, le condensateur restitue une partie de son énergie, ce qui a pour effet de réduire l'amplitude de variation de tension.\n 
+
+On retrouve notamment ces condensateurs dans les alimentations linéaires. \\
+Dans ce cas, la capacité du condensateur nécessaire croit avec le courant demandé par la charge. \\
+
+Il est fréquent de voire des condensateurs chimiques de quelques mF dans ces alimentations. Une valeur inférieure risque de rendre instable l'alimentation.
+
+
+\section{Les condensateurs de découplage}
+
+\subsubsection{Présentation}
+
+
+Certains circuits nécessitent une alimentation très stable (aucune fluctuation de la tension d'entrée). 
+Cependant, lors de l'utilisation du circuit, des courants importants peuvent être demandés par le circuit. \\
+Nous allons montrer un cas en exemple où, pour améliorer les performances du circuit, il conviendra 
+de mettre ce fameux condensateur de découplage.
+
+\subsubsection{Objectif}
+
+Nous souhaitons cascader deux portes logiques CMOS\footnote{Complementary MOS : MOS complémentaires, mise en cascade d'un MOS canal P et d'un MOS canal N} de type inverseur, comme le montre la figure suivante.
+
+\img{\rootImages/cmos_purpose.png}{Schéma d'exploitation}{0.3}
+
+A première vue, ce modèle peut sembler satisfaisant. Cependant, nous souhaitons faire fonctionner ce circuit dans des fréquences assez élevée \footnote{Toutefois inférieures à la fréquence maximale du circuit}.
+
+En prenant un modèle réel, on peut déjà prendre en compte les capacités parasites des transistors MOSFETs. Ces derniers possèdent une capacité entre la broche de commande (Gate) et la masse.
+
+Le modèle réel des entrées de chaque porte logique est le suivant.
+
+\img{\rootImages/real_input_cmos.png}{Modèle équivalent des entrées CMOS}{0.3}
+
+
+\subsubsection{En régime transitoire}
+Intéressons nous au régime transitoire.
+On constate que dans notre cas d'exemple, les grilles des  MOSFETS consomment du courant pendant les phases de commutation, du fait qu'il faut charger ou décharger les condensateurs.
+Cet appel de courant peut faire réduire la tension d'alimentation si cette dernière n'est pas très puissante.
+
+
+\subsubsection{En régime stationnaire}
+
+Lorsque la tension d'entrée (INPUT) est constante et que le condensateur est chargé (ou déchargé), les grilles des MOSFETs ne sont parcourus par aucun courant.\\
+
+\subsubsection{Le modèle réel}
+
+L'alimentation étant rarement en liaison directe avec le circuit logique (piste de circuit imprimé, fils d'alimentation), on constate l'apparition d'une inductance parasite entre la borne d'alimentation du circuit et l'alimentation en elle-même.
+Le modèle équivalent final du circuit peut être modélisé par la figure suivante.
+
+\img{\rootImages/noise.png}{Modèle équivalent du circuit}{0.3}
+
+L'inductance parasite s'oppose aux variations de tensions. \\ Ainsi, lors des phases de commutation (régime transitoire), une partie de la tension d'alimentation va au bornes des inductances parasites.
+De ce fait, le circuit est de moins en moins efficace à mesure que l'on augmente la fréquence du signal d'entrée.
+Pour pallier à ce problème, nous allons ajouter un condensateur de découplage.
+\subsubsection{Mise en oeuvre du condensateur de découplage}
+
+
+Le condensateur de découplage doit être placé au plus près du circuit à alimenter. Une de ses bornes est reliée à la broche d'alimentation du circuit et la seconde à la masse. \n
+
+\img{\rootImages/capa_decouplage.png}{Le placement du condensateur de découplage}{0.5}
+
+Lorsque le circuit en aval va demander du courant lors des commutations, le condensateur, qui va se charger pendant le régime permanent du circuit, va pouvoir fournir un apport de courant qui évitera à la tension d'alimentation de s'écrouler. 
+Le circuit sera plus efficace et les temps de communication seront plus faibles. \\
+
+
+D'un point de vue des filtres, ces condensateurs peuvent être considérés comme des filtres passe-bas. En effet, la tension d'alimentation qui varie est vue comme un signal haute fréquence. Il faut donc éviter l'oscillation haute fréquence.
+
+\section{Les condensateurs de liaison}
+
+\subsubsection{Présentation}
+
+Une des propriétés des condensateurs est de bloquer les composantes continues.
+Nous allons aborder un exemple ou le condensateur va permettre de se passer d'une alimentation symétrique. 
+
+\subsubsection{Objectif}
+
+On souhaite amplifier la composante alternative d'un signal d'amplitude 1V, de tension moyenne 0.5V et de fréquence 1kHz avec un AOP alimenté en 0-12V (Alimentation asymétrique).
+
+\img{\rootImages/sinus.png}{Le signal à amplifier}{0.6}
+
+\subsubsection{Mise en oeuvre}
+
+Tout d'abord, on va chercher à recentrer le signal pour avoir une composante alternative toujours positive.
+Pour cela, on utilise le circuit suivant.
+
+\img{\rootImages/bridge.png}{Montage pour recentrer la tension}{0.4}
+
+La fréquence de coupure valant $\frac{1}{2\pi RC}$ avec $ R < 10 k\Omega$, il faudra prendre un condensateur tel que la fréquence de coupure soit inférieure à la fréquence du signal d'entrée. \n
+Un condensateur de 1 mF conviendra donc pour cette application.\\
+
+En utilisant le théorème de superposition au point OUTPUT, on en déduit que une résistance de $10 k\Omega$ et une résistance de $ 900 \Omega$, on obtient la tension OUTPUT suivante.
+
+\img{\rootImages/bridge_level.png}{Tension positive}{0.5}
+
+Il nous reste à amplifier la tension OUTPUT (ici par 2). Nous obtenons donc une tension sinusoïdale d'amplitude 2V. \\
+
+\img{\rootImages/bridge_output.png}{Schéma avec les deux condensateurs de liaison}{0.7}
+
+Pour extraire la composante alternative, il suffit de mettre en sortie un condensateur qui va recentrer le signal en 0V.
+Le condensateur sera de 1mF (même fréquence). \\
+Nous obtenons finalement un signal de sortie avec un gain de 2 de la composante alternative d'entrée.\n
+
+\img{\rootImages/vs_liaison.png}{La tension de sortie}{0.6}
+Au final, les deux condensateurs permettent à des portions de circuits de communiquer entre elles avec des niveaux de tension différents. Ces condensateurs sont appelés \textbf{condensateurs de liaison ou de couplage}
+
+
+
+
+
+

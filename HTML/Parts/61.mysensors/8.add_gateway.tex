@@ -1,0 +1,84 @@
+\chapter{Configuration de Domoticz}
+
+Une fois que la passerelle est fonctionnelle, nous allons configurer Domoticz pour que la plateforme reçoive 
+les données en provenance de la passerelle.
+
+\section{Ajout de la passerelle}
+
+Tout d'abord, allez dans la section \bold{Configuration > Matériel}
+
+\img{\rootImages/hardware.png}{Emplacement du matériel}{0.5}
+
+Ensuite, saisissez les informations suivantes :
+
+\img{\rootImages/add_gateway.png}{Paramétrage de la passerelle}{0.5}
+
+Le port série sélectionné sera celui où est raccordé la passerelle en liaison USB.
+Il ne faut pas prendre les noms simplifiés des ports USB (\italic{COM\_XXX}) mais le nom le plus complet.\\
+Pour plus de simplicité, veuillez déconnectez tous les autres périphériques du Raspberry-Pi\\.
+
+
+\section{Recherche des capteurs}
+
+Visualisons les données en provenance de la sonde en allant dans \\
+\bold{Configuration > Matériel}\\.
+
+L'ensemble de vos dispositif apparaît. En cas de liste trop longue, saisissez \bold{Gateway} dans la barre de recherche.
+
+
+\img{\rootImages/search.png}{Recherche de la passerelle}{0.5}
+
+
+\messageBox{Remarque}{orange}{white}{Si le dispositif n'apparaît pas immédiatement, patientez quelques instants.}{black}
+
+\img{\rootImages/gateway.png}{La passerelle est détectée}{0.4}
+
+
+Nous allons ensuite vérifier que les capteurs de la sonde envoient bien les données. Pour cela, cliquez sur \bold{Configuration}.
+La page suivante apparaît : 
+
+\img{\rootImages/home.png}{Page de la Gateway}{0.4}
+
+Pour visualisez les valeurs des capteurs, il faut sélectionner la passerelle avec l'ID de la sonde (ici, 30).
+
+\img{\rootImages/nodes.png}{Sélection de la passerelle}{0.5}
+
+En cliquant dessus, on voit que la partie \bold{Enfants} est mise à jour et contient les 3 capteurs avec les ID définis dans le programme de la sonde (31,32 et 33 en ce qui me concerne)
+
+\img{\rootImages/enfants.png}{Visualisation des enfants}{0.4}
+
+
+\section{Visualisation des données}
+
+Maintenant que nous savons que la sonde envoi les bonnes données, nous allons ajouter les capteurs dans les dispositifs.
+Pour cela, allez dans \bold{Configuration > Dispositifs}, les 3 capteurs de la sonde (Tension batterie, humidité et température) apparaissent dans la liste.\\
+Si vous ne les trouvez pas, vous pouver nettoyer la page des capteurs en sélectionnant les capteurs non-utilisés et en le mettant à la poubelle.
+
+\img{\rootImages/disp.png}{Visualisation des capteurs}{0.25}
+
+Les capteurs apparaissent sous les 3 noms suivants : 
+
+\img{\rootImages/names.png}{Nom des capteurs}{0.6}
+
+Pour ajouter un dispositif, il suffit de cliquer sur la flèche verte et de choisir le nom du dispositif.
+
+\img{\rootImages/fleche.png}{Ajout des dispositifs}{0.5}
+
+\img{\rootImages/voltage.png}{Ajout des dispositifs - Sélection du nom}{0.5}
+
+Il suffit de cliquer dans le menu \bold{Mesures}
+
+\img{\rootImages/mesure.png}{Mesures}{0.4}
+
+Et apparaît la tension de la batterie.
+
+\img{\rootImages/volt.png}{tension de la batterie}{0.5}
+
+On procède de même pour l'humidité et la température, les dispositifs seront mis dans l'onglet  \bold{Température}.
+
+\img{\rootImages/temp.png}{Mesures de l'humidité et de la température}{0.4}
+
+
+Pour visualiser les données, il suffit de cliquer sur le bouton \bold{logs}
+
+

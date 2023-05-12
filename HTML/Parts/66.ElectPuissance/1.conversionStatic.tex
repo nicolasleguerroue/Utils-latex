@@ -1,0 +1,50 @@
+
+\chapter{Introduction à la conversion statique d'énergie électronique}
+
+\section{Application des moteurs à courant continu}
+
+Les moteurs à courant continu sont adaptés pour les systèmes de levage (grue). Le couple est trè élevé à l'arrêt.
+La vitesse de rotation d'une machine dépend de la fréquence.
+Il est pertinent de démarrer un moteur en douceur pour éviter les appels de courant.
+\section{Les types de transistors}
+
+\begin{items}{blue}{\Triangle}
+    \item Les transistors BJT (Base Junction Transistor) sont des transistors bipolaires contrôlés en courant
+    \item Les transistors \glossary{MOSFET} sont des transistors commandés en tension
+    \item Les transistors IGBT sont des transistors combinant les avantages des  IGBT et des MOSFET
+\end{items}
+
+\section{Protection des circuits}
+
+
+On protège les circuits avec des radiateurs, des fusibles, des condensateurs, etc\\
+Pour s'opposer : 
+\begin{items}{blue}{\Triangle}
+    \item aux fortes variations de tension on utilise des condensateurs
+    \item aux fortes variations de courant on utilise des inductances
+\end{items}
+
+\section{Qualité d'un signal}
+
+\begin{items}{blue}{\Triangle}
+    \item La distorsion harmonique individuelle (DHI) nous renseigne sur l’importance en amplitude de chaque harmonique individuellement par rapport au fondamental
+
+    $$ DHI = \frac{X_{neff}}{X1_{eff}}$$
+    \item La distorsion harmonique totale (DHT) nous renseigne sur l’importance en amplitude de chaque harmonique individuellement par rapport au fondamental
+
+    $$ DHT = \frac{\sqrt{ \sum X_{neff}^2}}{X_{eff}}$$
+    \item Le facteur de distorsion (FD) nous renseigne sur l’importance du fondamental par rapport au signal ondulé dans son intégralité
+\end{items}
+
+\subsection{Les signaux alternatifs}
+
+Les signaux alternatifs ne contiennent que des harmoniques impairs. L’harmonique de
+rang n=1, c’est-à-dire V1, est appelé le fondamental, et sa fréquence, dite fréquence
+fondamentale, est celle du réseau (60 Hz ou 50 Hz).
+
+
+$$ x(t) = 120 sin(wt)+40sin(3wt)-25sin(5wt) $$
+
+
+
+$$ DHT = $$

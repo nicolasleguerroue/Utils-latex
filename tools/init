@@ -17,6 +17,7 @@ parts="Parts"
 images="Images"
 make="Make"
 settings="Settings"
+output="Output"
 
 echo -e ">>> generating symbolic links..."
 
@@ -61,7 +62,7 @@ echo "" >> $main
 echo "" >> $main
 echo "\input{Output/add_content.tex}" >> $main
 echo "" >> $main
-echo "%\displayBibliography{Bibliographie}{Make/Bibliography}" >> $main
+echo "%\displayBibliography{Bibliographie}{Output/Bibliography}" >> $main
 echo "\displayListOfFigures{Liste des figures}" >> $main
 echo "%\displayIndex{Index}" >> $main
 echo "%\displayListOfTables{Liste des tables}" >> $main
@@ -115,21 +116,7 @@ echo -e ">>> Initialisation of bibliography..."
 # #################################################
 # ## Creating bibliography
 # #################################################
-touch $make/Bibliography.bib
-echo "@book{reference_l1,
-title={Titre 1},
-author={Auteur 1},
-year={1990},
-note={Annotations},
-publisher={Editeur}
-},
-@book{reference_l2,
-title={Titre 2},
-author={Auteur 2},
-year={1991},
-note={Annotations},
-publisher={Editeur}
-}" >> $make/Bibliography.bib
+touch $output/Bibliography.bib
 
 echo -e ">>> Initialisation of bibliography : [$green OK $default]"
 

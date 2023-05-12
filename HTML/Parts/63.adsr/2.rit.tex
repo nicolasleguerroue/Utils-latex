@@ -1,0 +1,19 @@
+\chapter{Alimentation}
+\section{Régulateur de Tension }
+
+
+Le régulateur intégré de tension (RIT) est un régulateur linéaire permettant de baisser une tension d’alimentation à une valeur fixe.\\
+
+La famille des composants HCT doit être alimentée en 5V [TTL]. Nous utiliserons un 78L05 qui fournit du 5V régulé. Le L « low power » indique que le composant peut être traversé par un courant de 100mA.\\
+La tension d’entré concernant notre montage est de 15V, ce qui permet le bon fonctionnement du composant, le dataSheet indique « Ve>7V ».  \\
+
+Le circuit global consommant du courant, nous ne pouvons pas utiliser de pont diviseur de tension.\\
+ 
+Des appels de courant importants peuvent entraîner une chute de tension en sortie du régulateur. \\
+Pour éviter cela nous insérons un condensateur de découplage, c’est à dire  en sortie du régulateur et relié à la masse. 
+Le modèle équivalent de l’ensemble est un filtre passe bas.\\
+
+Plus la valeur du condensateur est élevée,plus la tension de sortie sera stable.\\
+
+
+ Figure 3.1 : Régulateur de tension 5V et son condensateur de découplage

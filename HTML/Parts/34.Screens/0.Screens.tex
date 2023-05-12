@@ -1,0 +1,253 @@
+\part{Les écrans}
+
+\chapter{Les écrans OLED}
+
+\subsection{Les caractéristiques}
+Les écrans \glossary{OLED} sont des afficheurs graphiques 
+compacts avec une résolution de 128×64 pixels ou 64x32 pixels.\\
+Leur résolution plus élevée que des écrans \glossary{LCD} permet d’afficher du texte, des images, et des figures 
+graphiques. Ces écrans intègrent généralement un contrôleur, permettant de faire l’interface entre l’écran
+en lui même et la carte de commande (Arduino, ESP32...) et utilisent le protocole \glossary{I2C} pour communiquer, avec les broches \glossary{SDA} et \glossary{SCL}.
+
+\img{\rootImages/oled.jpg}{Un écran OLED}{0.25}
+
+La plupart des écrans utilisent le contrôleur SSD1306 et généralement, ces modules OLED s’alimentent de 3,3 à 5V.
+
+
+\subsection{Installation de la bibliothèque}
+
+Plusieurs bibliothèques sont disponibles pour utiliser l'écran dont la bibliothèque \lib{adafruit\_SSD1306.h}.\\
+
+Pour changer, nous utiliserons la bibliothèque de rinky-dink-electronics à l'adresse suivante : 
+\link{OLED\_I2C.zip},  bien documentée et simple d’utilisation
+
+La figure suivante rappelle comment installer rapidement une bibliothèque depuis une archive ZIP.
+En l’occurrence, le fichier \file{OLED\_I2C.zip}
+
+\img{\rootImages/library.jpg}{Installation d'une bibliothèque depuis l'archive}{0.6}
+L'installation plus détaillé des bibliothèques Arduino est disponible en annexe du document.
+
+
+
+\subsection{Branchements}
+
+\begin{items}{green}{\Circle}
+    \item La broche \outputPin{+5V} de l'Arduino vers la broche \inputPin{VCC} de l'écran
+    \item La broche \outputPin{GND} de l'Arduino vers la broche \inputPin{GND} de l'écran
+    \item La broche \outputPin{A4} de l'Arduino vers la broche \inputPin{SDA}de l'écran
+    \item La broche \outputPin{A5} de l'Arduino vers la broche \inputPin{SCL} de l'écran
+\end{items}
+
+\img{\rootImages/branchementOled.png}{Le branchement de l'écran}{0.45}
+
+
+\messageBox{Remarque}{orange}{white}{
+    Les broches SDA et SCL sont sur des broches différentes pour les carte Arduino Leonardo et Arduino Mega : \\
+    \begin{items}{orange}{\Triangle}
+        \item Arduino Mega
+        \begin{items}{orange}{\Triangle}
+            \item SDA : Broche 20
+            \item SCL : Broche 21
+        \end{items}
+        \item Arduino Leonardo
+        \begin{items}{orange}{\Triangle}
+            \item SDA : Broche 20
+            \item SCL : Broche 21
+        \end{items}
+    \end{items}
+}{white}
+
+Plusieurs accès aux broches s'offrent à vous : 
+\begin{enumerate}
+\item Utiliser les broches I2C du shield
+\img{\rootImages/shield1.jpg}{Le branchement sur le SensorShield avec les broches I2C}{0.08}
+
+\item Utiliser les broches A4 et A5 du shield
+\img{\rootImages/shield2.jpg}{Le branchement sur le SensorShield avec les broches A5 et A4}{0.08}
+
+\end{enumerate}
+
+
+\subsection{Programme de l'écran}
+\begin{Cpp}{Création de l'objet MyOLED}
+    // ----------ppr début ------------------------
+    // écran OLED
+    // --------------------------------------------
+    //
+    #include <OLED_I2C.h>
+    OLED  myOLED(SDA, SCL, 8);
+    extern uint8_t SmallFont[];
+    extern uint8_t MediumNumbers[];
+    extern uint8_t BigNumbers[];
+    // ----------ppr fin   ------------------------
+    //
+\end{Cpp}
+
+\begin{Cpp}{Démarrage de l'écran}
+    // 
+----------ppr début ------------------------
+// écran OLED démarrage
+// --------------------------------------------
+//
+myOLED.begin();
+myOLED.setFont(SmallFont);
+// ----------ppr fin ------------------------
+//
+\end{Cpp}
+
+\begin{Cpp}{Coeur de l'affichage}
+    // ----------ppr début ------------------------
+    // écran OLED affichage
+    // --------------------------------------------
+    //myOLED.drawLine(0,0,127,63); 
+    // Draw a line from the upper left 
+    // to the lower right corner
+      myOLED.drawLine(0,20,127,20);  // ligne horizontale 
+      myOLED.drawLine(65,0,65,40);   // ligne verticale
+      myOLED.setFont(MediumNumbers);      
+  
+      myOLED.printNumI(HG, LEFT, 0);
+      myOLED.printNumI(HD, RIGHT, 0);
+      myOLED.printNumI(BG, LEFT, 20);
+      myOLED.printNumI(BD, RIGHT, 20);
+  
+      myOLED.setFont(BigNumbers);
+      myOLED.printNumI(consigneInclinaison, LEFT, 40);
+      myOLED.printNumI(consigneRotation, RIGHT, 40);
+      myOLED.update();
+    // ----------ppr fin --------------------------
+    //
+  
+\end{Cpp}
+
+
+
+\chapter{Les écran à encre électronique}
+
+Parmi les supports d'affichage disponibles, en plus des écrans, cristaux liquides 
+(\glossary{LCD}), OLED, une révolution est apparue : le papier électronique \bold{e-paper} 
+bien connu des utilisateurs de liseuses type Kindle ou Kobo (Fnac).
+
+L'objectif de ces écrans est d'imiter l'apparence d'une feuille imprimée.\\
+
+\img{\rootImages/example.png}{Un écran e-paper}{1}
+
+
+L'affichage est obtenu par l'orientation de sphères colorées (noir et blanche ou noir, blanche, rouge) sous l'effet d'un champ électrique.\\ 
+Une fois que l'affichage a été actualisé, l'écran n'a plus besoin d'énergie pour maintenir l'affichage de l'écran.
+
+\img{\rootImages/ink2.png}{Principe d'affichage}{0.45}
+\img{\rootImages/ink3.png}{La dalle d'affichage}{0.45}
+\img{\rootImages/ink4.png}{Un zoom sur les billes}{0.45}
+
+
+Quelques utilisations : \\
+\begin{items}{green}{\Bullet}
+    \item Des posters
+    \item Des liseuses
+    \item Les étiquettes des prix dans les grandes surfaces
+\end{items}
+
+
+La principale utilisation est l'étiquette électronique de gondole / EEG Electronic Shelf Labels 
+qui est vendu actuellement comme un système intégré de gestion géré par un ordinateur central.\\
+Cela permet d'automatiser les prix en temps réel (cela évite de faire des centaines d'étiquettes 
+papier à mettre à jour) mais surtout de synchroniser les prix dans un magasin en ligne et 
+hors ligne sur plusieurs sites.\\ 
+Des bornes interactives permettent de trouver un produit dans un hypermarché.\\
+Équipé de puces NFC ou par QR code, des informations sont disponibles sur le smartphone du client 
+en rayon.\\
+Actuellement un système de gestion d'inventaire et de stock est en cours de développement.
+
+
+\chapter{Utilisation des sous-programmes Arduino}
+
+On améliore la lisibilité du code en découpant le programme Arduino en plusieurs onglets. \\
+La méthode la plus simple et d'abord, d'écrire un sous-programme/sous-routine, en langage 
+Arduino une fonctions pour structurer le programme.\\ 
+Ensuite, on place dans un onglet la fonction (sous-programme/sous-routine) : le nom de 
+l'onglet sera sauvegardé en fichier .ino placé dans le même répertoire que le programme principal.\\
+
+L'environnement de développement intégré \glossary{IDE} Arduino va modifier l'ensemble en 
+un seul fichier type cpp qui sera envoyé dans le compilateur puis le linker 
+(enfin vers la carte Arduino pour exécution).
+
+Concrètement : 
+
+\img{\rootImages/sub1.jpg}{Nom de la fonction}{0.4}
+\img{\rootImages/sub2.png}{Les variables "partagées"}{0.3}
+\img{\rootImages/sub3.png}{Fonction setup}{0.5}
+\img{\rootImages/sub4.jpg}{Fonction d'affichage}{0.9}
+\img{\rootImages/sub5.png}{Suite fonction d'affichage}{0.3}
+
+\subsection{Code Arduino}
+
+\begin{Cpp}{Code OLED avec routine}
+
+    // ----------ppr début ------------------------
+// écran OLED
+// --------------------------------------------
+//
+#include <OLED_I2C.h>
+OLED  myOLED(SDA, SCL, 8);
+extern uint8_t SmallFont[];
+extern uint8_t MediumNumbers[];
+extern uint8_t BigNumbers[];
+// ----------ppr fin   ------------------------
+//
+
+//*
+//******************************
+//*
+void setup_oled() { 
+  // ----------ppr début ------------------------
+  // écran OLED démarrage
+  // --------------------------------------------
+  //
+  myOLED.begin();
+  myOLED.setFont(SmallFont);
+  // ----------ppr fin   ------------------------
+  //
+ }  
+  
+ //*
+ //*************************
+ //*
+  
+ void oled_Affiche() {
+  // ----------ppr début ------------------------
+  // écran OLED affichage
+  // --------------------------------------------
+    myOLED.clrScr();   // efface la mémoire de l'écran (évite vieux affichage)
+
+    // affiche les valeurs des consignes Inclinaison et rotation
+    myOLED.setFont(MediumNumbers);   // 1ere ligne jaune
+    myOLED.printNumI(consigneInclinaison, 20, 0);   // 20,40
+    myOLED.printNumI(consigneRotation, RIGHT, 0);   // right,40
+
+    // affiche les valeurs HG,HD,BG, BD 
+    myOLED.setFont(BigNumbers);  // gros chiffres
+    myOLED.printNumI(HG, LEFT, 16);
+    myOLED.printNumI(HD, RIGHT, 16);
+    myOLED.printNumI(BG, LEFT, 41);
+    myOLED.printNumI(BD, RIGHT, 42);
+    
+    // mise en page 
+    myOLED.drawLine(0,40,127,40);  // ligne horizontale 
+    myOLED.drawLine(65,20,65,80);   // ligne verticale   
+    
+    myOLED.setFont(SmallFont);
+    myOLED.print("INC", 0, 8);   // 
+    myOLED.print("ROT",70, 8);   //  
+
+    myOLED.print("HG",50, 30);    // 
+    myOLED.print("HD",70, 30);    // 
+    myOLED.print("BG",50, 50);    // 
+    myOLED.print("HD",70, 50);    // 
+
+    myOLED.update();
+  // ----------ppr fin --------------------------
+  //
+
+}
+\end{Cpp}

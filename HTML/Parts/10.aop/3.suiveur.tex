@@ -1,0 +1,68 @@
+
+\chapter{Montage suiveur }
+\section{Présentation}
+
+Ce montage permet de reproduire à l’identique une tension d'entrée. \\
+L'intérêt de ce montage réside dans le fait que l’impédance d’entrée de l’AOP est considérée comme infinie et que 
+son impédance de sortie est considérée comme nulle.\\
+
+Ainsi, le comportement de la charge en entrée ne sera pas affecté par l’AOP, le signal d'entrée ne sera donc pas modifié. \\
+
+Ce montage sert donc à faire une \bold{adaptation d’impédance}.  
+
+\section{Montage}
+
+\img{\rootImages/suiveur.png}{Le montage suiveur}{0.6}
+
+
+\section{Démonstration} 
+La réaction négative implique que $\varepsilon=0$ (fonctionnement linéaire)
+$$ E_+=Ve $$
+$$ E_-=Vs $$
+
+$$ \Rightarrow Ve=Vs$$ car $E_+=E_-$
+
+
+%\section{Application}
+
+\begin{exemple}
+On souhaite mesurer une tension au borne d’un capteur avec un appareil de mesure.
+
+\img{\rootImages/sensor.png}{Le capteur}{0.6}
+
+On place ensuite une charge $ R_c $ au bornes de $A$ et $b$. Cette résistance $ R_c $ représente l'appareil d'acquisition.
+
+\img{\rootImages/rc.png}{Le modèle d'acquisition}{0.3}
+\end{exemple}
+
+
+\Question{Quelle est l’influence de $Rc$ sur la tension $AB$ dans le montage suivant ?} 
+
+
+\begin{reponse}
+
+Sans la charge $Rc$ : 
+
+$$ U_{AB}= \frac{U \cdot R_2}{R_1+R_2}$$
+
+Avec  la charge $Rc$ :
+
+$$ U_{AB}= \frac{U \cdot R_{equ}}{R_1+R_{equ}}$$
+
+
+Avec $R_{equ}$ la résistance équivalente entre $R_2$ et $R_c$ \\
+
+
+
+Si $R_c \rightarrow + \infty$ alors $R_{equ} \rightarrow \frac{U_{AB} \cdot R_2}{R_1+R_2}$ \\
+
+Si $R_c \rightarrow + 0 $ alors $R_{equ} \rightarrow 0 \Rightarrow U_{AB} \rightarrow 0$
+
+\end{reponse}
+
+
+D'où le montage suivant, avec $R_c \rightarrow + \infty$, le signal n'est pas déformé.
+
+
+\img{\rootImages/measure.png}{L'adaptation d'impédance}{0.8}
+

@@ -1,0 +1,65 @@
+\chapter{Installation de PHP}
+
+\section{Présentation}
+Pour un site Web, toutes les personnes qui se connectent au serveur via un navigateur Web (Firefox, Chrome…) sont appelées clients. \\
+Il faut distinguer un langage qui est exécuté du côté client et un langage qui est exécuté du côté serveur. \\
+
+Les langages clients sont par exemple le langage HTML,Javascript, Mysql \\
+Les langages serveurs sont Apache, Php ou Mysql. \\
+
+Lorsqu’un client se connecte sur un site, il envoie une requête à ce dernier. Cette requête passe par Apache qui demande à Php de générer la page HTML. \\
+La page est envoyée au client et est affichée du côté client. \\
+
+
+\subsection{Installation}
+Pour installer PHP sur le serveur, il faut saisir :
+
+\begin{Bash}{Installation de Php}
+sudo apt-get install -y php7.0
+\end{Bash}
+
+Par la même occasion, nous allons installer le programme permettant de communiquer entre la base de données et le serveur
+
+\begin{Bash}{Installation du gestionnaire de base de données PHP}
+sudo apt-get install -y php-mysql
+\end{Bash}
+
+
+\section{Modifier le fichier de configuration de php}
+\begin{Bash}{Fichier php.ini}
+sudo nano /etc/php/7.X/apache2/php.ini
+\end{Bash}
+
+
+
+\section{Augmentation de la taille des fichiers de chargements}
+
+Il faut lire la fonction phpinfo() pour lire la variable :
+puis modifier le fichier :
+
+\begin{Bash}{Fichier php.ini}
+sudo nano /etc/php/7.X/apache2/php.ini
+\end{Bash}
+
+
+\begin{Bash}{Fichier php.ini}
+; Maximum size of POST data that PHP will accept.
+; Its value may be 0 to disable the limit. It is ignored if POST data reading
+; is disabled through enable_post_data_reading.
+; http://php.net/post-max-size
+post_max_size = 8M
+\end{Bash}
+
+puis
+\begin{Bash}{Fichier php.ini}
+; Maximum amount of memory a script may consume (128MB)
+; http://php.net/memory-limit
+memory_limit = 128M
+\end{Bash}
+
+puis 
+\begin{Bash}{Fichier php.ini}
+; Maximum allowed size for uploaded files.
+; http://php.net/upload-max-filesize
+upload_max_filesize = 100M
+\end{Bash}

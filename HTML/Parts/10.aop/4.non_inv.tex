@@ -1,0 +1,42 @@
+
+
+
+\chapter{Montage non-inverseur}
+
+
+\section{Présentation}
+
+Ce montage amplifie la tension $V_e$ par un \bold{gain $A_0$ positif}. \\
+L’amplificateur reste en mode linéaire si $Ve < Vcc_{sat} \cdot A_0$
+
+\section{Montage}
+
+\img{\rootImages/non_inv.png}{Le montage amplificateur non inverseur}{0.8}
+
+\section{Démonstration}
+
+Un AOP en mode linéaire impose $\varepsilon=0$
+D'où $E_+ =E_-$ 
+
+$$E_+=V_e$$
+$$E_-=V_s \cdot \frac{R_2}{R_1+R_2}$$
+
+\begin{align}
+E_+ = E_- &\Rightarrow V_e = V_s \cdot \frac{R_2}{R_1+R_2}\\
+ &\Rightarrow \frac{V_e}{V_s} = \frac{R_2}{R_1+R_2}\\
+ &\Rightarrow V_s = V_e \cdot \frac{R_1+R_2}{R_2} \\
+\end{align}
+
+%avec $A_0=\frac{R_1+R_2}{R_2}$
+
+\subsection{Exemple}
+
+
+\begin{exemple}
+On souhaite amplifier un signal sinusoïdal par un coefficient $k=5$.\\
+On peut donc utiliser le montage précédent. \\
+On prendra $R_1=1 k\Omega$ et $R_2=4k\Omega$ pour avoir $A_0=5$
+\img{\rootImages/inv_img.png}{Amplification du signal noir par 5}{0.4}
+\end{exemple}
+
+

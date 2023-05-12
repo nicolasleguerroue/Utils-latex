@@ -71,22 +71,18 @@ A noter que PyQt5 dispose lui aussi d'une version commerciale mais que nous avon
 Nous avons choisi Qt pour de nombreuses raisons :
 
 <ul>
-    <li> <span style='color:red;'>\bold{Multi-plateforme</span>}<br> PyQt5 a l'énorme avantage d'être portable sur de très nombreuses plateformes. Un seul programme peut être utilisé sur mobile comme sur Windows ou Linux.<br>
-</li>
+    <li> <span style='color:red;'><b>Multi-plateforme</span></b><br> PyQt5 a l'énorme avantage d'être portable sur de très nombreuses plateformes. Un seul programme peut être utilisé sur mobile comme sur Windows ou Linux.<br></li>
     Par exemple, dans notre cas, nous avons programmé de manière indifférente sur Windows ou Linux pendant toute la durée du projet.
 
     
 
-    <li> <span style='color:red;'>\bold{Polyvalence</span>}<br> Comme dit un peu plus haut, PyQt5 propose de nombreux outils permettant la gestion de base de données, de fichiers xml, d'interfaces graphiques, de programmes multi-thread et bien d'autres choses encore. Cette polyvalence permet d'éviter d'utiliser plusieurs bibliothèque différente. Dans ce cas, une seule bibliothèque permet de faire énormément de choses.
-</li>
+    <li> <span style='color:red;'><b>Polyvalence</span></b><br> Comme dit un peu plus haut, PyQt5 propose de nombreux outils permettant la gestion de base de données, de fichiers xml, d'interfaces graphiques, de programmes multi-thread et bien d'autres choses encore. Cette polyvalence permet d'éviter d'utiliser plusieurs bibliothèque différente. Dans ce cas, une seule bibliothèque permet de faire énormément de choses.</li>
     
 
-    <li> <span style='color:red;'>\bold{Licence</span>}<br> Nous l'avons aussi expliqué un peu plus haut, PyQt5 est disponible sous licence GPL.V3 ce qui permet de l'utiliser gratuitement (sous les conditions imposées par le licence GPLv3)
-</li>
+    <li> <span style='color:red;'><b>Licence</span></b><br> Nous l'avons aussi expliqué un peu plus haut, PyQt5 est disponible sous licence GPL.V3 ce qui permet de l'utiliser gratuitement (sous les conditions imposées par le licence GPLv3)</li>
     
 
-    <li> <span style='color:red;'>\bold{Expérience</span>}<br> Plusieurs membres du groupe ont déjà utilisés Qt à plusieurs reprises. Ainsi, même si nous utilisions la version Python, le temps d'accoutumance à cette version particulière était plus court que si nous avions dû apprendre à utiliser TKinter.
-</li>
+    <li> <span style='color:red;'><b>Expérience</span></b><br> Plusieurs membres du groupe ont déjà utilisés Qt à plusieurs reprises. Ainsi, même si nous utilisions la version Python, le temps d'accoutumance à cette version particulière était plus court que si nous avions dû apprendre à utiliser TKinter.</li>
 </ul>
 <h3>QtDesigner</h3>
 <h4>Présentation</h4>
@@ -174,7 +170,7 @@ Ce tutoriel a été rédigé avec la version 5.14 de QtDesigner. <br>
 <h3>Nouveau projet</h3>
 Tout d'abord, il faut ouvrir le logiciel QtDesigner, disponible après une recherche dans la barre de menu.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_context_search_software.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_context_search_software.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Ouverture du logiciel</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_context_search_software.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Ouverture du logiciel</figcaption></div></figure>
 La commande suivante permet également de lancer QtDesigner via une console : 
 
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
@@ -182,10 +178,10 @@ designer
 
 </code></pre><hr>
 Au démarrage, une fenêtre apparaît. Sélectionnez <b>'MainWindow'</b> puis 'Créer'
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_context_new_window.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_context_new_window.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Fenêtre au démarrage</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_context_new_window.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Fenêtre au démarrage</figcaption></div></figure>
 Il s'agit de déterminer le type de fenêtre que nous souhaitons implémenter dans le logiciel. Dans notre cas, nous souhaitons créer une fenêtre principale. Cet objet possède de base certaines propriétés pratiques comme un menu en en-tête de fenêtre, et beaucoup d'autres choses qui pourront nous servir pour la suite.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_context_qt_designer_menu.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_context_qt_designer_menu.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Menu possible avec une fenêtre 'MainWindow'</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_context_qt_designer_menu.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Menu possible avec une fenêtre 'MainWindow'</figcaption></div></figure>
 \bold{
 
 A ce moment-là, nous vous invitons à choisir un nom pour le projet, comme par exemple <span class='badge badge-light'>UI demo</span> et a le sauvegarder dans un répertoire appelé <span class='badge badge-light'>Qt tutoriel.</span>}
@@ -195,12 +191,12 @@ Le préfixe UI permet de repérer que ce fichier est un document QtDesigner (for
 
 <h3>Présentation de l'interface</h3>
 Une fois que le fichier <span class='badge badge-primary'>UI demo.ui</span> est ouvert, vous arrivez sur une page similaire à l'image suivante : <br>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_context_main_window.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_context_main_window.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Fenêtre principale de QtDesigner avec ses outils</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_context_main_window.png' class='alignnone size-medium' style='max-width:25%;'><figcaption>Figure - Fenêtre principale de QtDesigner avec ses outils</figcaption></div></figure>
 Cette page regroupe tous les élements permettant de faire une interface graphique minimaliste.
 
 Tout d'abord nous avons une barre d'outils. <br>
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_context_toolbar.PNG'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_context_toolbar.PNG' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Barre d'outils supérieure</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_context_toolbar.PNG' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Barre d'outils supérieure</figcaption></div></figure>
 Cette barre permet de gérer les fichier (Enregistrer, ouvrir un nouveau fichier...) et propose quelques utilisations plus spécifiques que nous verrons plus tard. <br>
 
 En plus de ça, nous avons donc 5 zones d'outils, sans compter la barre d'outil supérieure: 
@@ -212,7 +208,7 @@ En plus de ça, nous avons donc 5 zones d'outils, sans compter la barre d'outil 
 </li>
     Dans cette section sont disponibles l'ensemble des widgets communs que vous souhaitez inclure dans votre projet.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_widget_list.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_widget_list.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Zone des widgets</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_widget_list.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Zone des widgets</figcaption></div></figure>
     %ITEM
 
     <li> {\color{blue}Une zone de travail}
@@ -221,13 +217,13 @@ En plus de ça, nous avons donc 5 zones d'outils, sans compter la barre d'outil 
 
     Au démarrage d'un projet, cet espace est vide.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - La zone de travail</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - La zone de travail</figcaption></div></figure>
     %ITEM
 
     <li> {\color{red}Un inspecteur d'objet que nous appellerons <b>arborescence</b> dans le document}</li>
     Tous les widgets insérés dans la zone de travail viendrons s'ajouter automatiquement dans l'arborescence.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_tree.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_tree.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Arborescence de la fenêtre</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_tree.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Arborescence de la fenêtre</figcaption></div></figure>
     
 
     %ITEM
@@ -236,7 +232,7 @@ En plus de ça, nous avons donc 5 zones d'outils, sans compter la barre d'outil 
 </li>
     Chaque widget possède des propriétés que nous pouvons changer à tout instant avec cet éditeur.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_properties.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_properties.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Éditeur de propriétés</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_properties.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Éditeur de propriétés</figcaption></div></figure>
     %ITEM
 
     <li> {\color{gray}Un explorateur de ressource}, qui permettra par la suite de mettre en forme les Widgets proposés par le module <span class='badge badge-success'>ENIBSupervision</span> utilisé dans le projet.</li>
@@ -246,10 +242,10 @@ En plus de ça, nous avons donc 5 zones d'outils, sans compter la barre d'outil 
 <h4>Placer un widget</h4>
 Prenons un bouton (QPushButton) parmi la {\color{green}liste des widgets} et déplaçons le sur {\color{blue}zone de travail} (avec la souris, clic-gauche maintenu sur le widget pendant le déplacement), au centre de l'écran.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_add_widget.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_add_widget.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Ajouter un widget en le glissant vers l'espace de travail</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_add_widget.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Ajouter un widget en le glissant vers l'espace de travail</figcaption></div></figure>
 Vous devriez obtenir un bouton similaire. <br>
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_new_button.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_new_button.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Premier bouton placé sur la fenêtre</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_new_button.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Premier bouton placé sur la fenêtre</figcaption></div></figure>
 <h4>Renommer un widget</h4>
 Dans un souci de clarté pour la suite, nous vous invitons à tout de suite renommer l'élément avec un nom plus explicite. <br>
 
@@ -257,12 +253,12 @@ Dans un souci de clarté pour la suite, nous vous invitons à tout de suite reno
 
 Pour cela, il faut aller dans la zone de droite qui contient l'arborescence des widgets de la fenêtre.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_properties_rename_widget.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_properties_rename_widget.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Emplacement pour renommer l'élément</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_properties_rename_widget.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Emplacement pour renommer l'élément</figcaption></div></figure>
 Ici, le bouton "pushButton" a été renommé en "pb run" en double-cliquant sur "pushButton". Le texte passe en fond bleu, cela veut dire que vous pouvez renommer l'élément. La touche entrée valide le nouveau nom. <br>
 
 Pour l'instant, veuillez ne pas toucher à la section de droite encadrée en rouge. Il s'agit des classes de chaque widgets. 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_tree_forbidden_access.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_tree_forbidden_access.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Nom de classe à ne pas modifier</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_tree_forbidden_access.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Nom de classe à ne pas modifier</figcaption></div></figure>
 <h4>Propriétés des widgets</h4>
 Une fois que le widget est placé, nous souhaiterions changer quelques unes de ses propriétés. <br>
 
@@ -276,60 +272,60 @@ Pour afficher les propriétés d'un widget, il faut soit
     <li> sélectionner le widget dans l'arborescence de la fenêtre (clic-gauche)
 </li>
 </ul>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_properties_search_property.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_properties_search_property.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Propriétés des widgets sélectionnés [encadré bleu]</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_properties_search_property.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Propriétés des widgets sélectionnés [encadré bleu]</figcaption></div></figure>
 <h4>Définir la couleur d'un widget</h4>
 Pour changer la couleur d'arrière-plan d'un widget, il faut sélectionner la propriété "palette" puis cliquer dessus.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_properties_color.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_properties_color.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Couleurs des widgets</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_properties_color.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Couleurs des widgets</figcaption></div></figure>
 <h4>Définir le contenu d'un widget</h4>
 Pour les widgets gérant un affichage pour l'utilisateur, toutes les informations se trouvent dans les propriétés avec un fond vert.<br>
 
 Pour changer le texte du bouton par exemple, il faut modifier le champ "text".<br>
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_properties_text_content.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_properties_text_content.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Contenu du widget "PushButton"</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_properties_text_content.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Contenu du widget "PushButton"</figcaption></div></figure>
 <h3>Mise en forme d'un widget</h3>
 Maintenant que nous avons notre bouton, nous souhaiterions qu'il soit mieux placé et que sa taille s'adapte à celle de l'écran et des autres widgets. Pour cela, il faut utiliser les layouts, c'est à dire les widgets de mise en forme.
 
 Ces widgets sont disponibles aux emplacements suivants : <br>
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_widget_layout.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_widget_layout.png' class='alignnone size-medium' style='max-width:75%;'></a><figcaption>Figure - Emplacements des layouts</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_widget_layout.png' class='alignnone size-medium' style='max-width:75%;'><figcaption>Figure - Emplacements des layouts</figcaption></div></figure>
 Nous allons configurer notre zone de travail pour que tous les widgets adaptent leur taille à celle de l'écran.
 
 Pour cela, il faut  d'abord qu'il y ait au moins un widget sur la fenêtre (un bouton par exemple) et que l'espace de travail soit sélectionné (Clic-gauche sur "MainWindow" dans l'arborescence). <br>
 
 Ensuite, sélectionner le bouton "Mettre en page dans une grille" (raccourci "<b>ctrl+g</b>") dans la barre d'outil.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_toolbar_grid_layout.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_toolbar_grid_layout.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - Configurer la fenêtre pour adapter son contenu</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_toolbar_grid_layout.png' class='alignnone size-medium' style='max-width:100%;'><figcaption>Figure - Configurer la fenêtre pour adapter son contenu</figcaption></div></figure>
 Et voila, notre widget prend automatiquement l'espace nécessaire au sein de la fenêtre. <br>
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_responsive_button.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_responsive_button.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Un bouton avec des dimensions automatiques</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_responsive_button.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Un bouton avec des dimensions automatiques</figcaption></div></figure>
 Si cette étape n'est pas faite, lorsque l'interface sera lancée, le widget aura toujours la même taille sur n'importe quel format d'écran (15", 17"...). L'avantage, c'est que cette étape n'est à faire qu'une seule fois, au début de tout nouveau projet. <br>
 
 Nous allons placer un second bouton à coté du nôtre. On souhaite que les deux boutons aient les mêmes dimensions.
 
 Il suffit de prendre un nouveau "pushButton" et de le glisser à coté du premier. Pour savoir l'emplacement du futur bouton, une ligne bleue apparaît au survol de la zone de travail avec le nouveau bouton.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_worspace_blue_line.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_worspace_blue_line.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Ligne de l'emplacement des widgets au survol</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_worspace_blue_line.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Ligne de l'emplacement des widgets au survol</figcaption></div></figure>
 {\color{red}\bold{Le seconde bouton aura pour valeur "pb exit" (propriété du bouton dans l'éditeur de propriétés) et son nom dans l'arborescence sera "pb exit".<br> 
 
 Notez également pour la suite que le premier premier bouton ("pb run") est appelé "pb run" dans l'arborescence. <br> 
 
 Il est important de renommer un widget avec un nom pertinent dès l'ajout de ce dernier.}}
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_two_button.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_two_button.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Nos deux boutons</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_two_button.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Nos deux boutons</figcaption></div></figure>
 <h4>Simuler l'interface graphique</h4>
 Pour visualiser un rendu du logiciel, il faut utiliser le raccourci clavier "<b>ctrl+r</b>". <br> Cela permet de donner une idée plus précise de l'interface.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_run_two.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_run_two.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - La fenêtre de simulation</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_run_two.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - La fenêtre de simulation</figcaption></div></figure>
 Pour tester le résultat, nous vous invitons à dimensionner la fenêtre de simulation avec la souris. Vous pourrez constater que la taille des boutons s'adapte à la taille de la fenêtre.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_responsive_two.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_responsive_two.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - La fenêtre de simulation avec une taille variable</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_responsive_two.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - La fenêtre de simulation avec une taille variable</figcaption></div></figure>
 <h3>Création du menu</h3>
 <h4>Ajout de sous-menu</h4>
 Afin de proposer des outils aux futurs utilisateurs du logiciel, nous souhaitons créer un menu comportant des sous-menus.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_context_qt_designer_menu.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_context_qt_designer_menu.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Exemple de menu</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_context_qt_designer_menu.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Exemple de menu</figcaption></div></figure>
 Étant donné que la fenêtre est de type "MainWindow", un début de menu est déjà disponible. Pour créer le premier élément du menu, veuillez sélectionner le haut de l'espace de travail en cliquant sur "Éditer". <br>
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_add_menu.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_add_menu.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Ajout de sous-menu</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_add_menu.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Ajout de sous-menu</figcaption></div></figure>
 Une fois sélectionné, l'arrière-plan passe en bleu, vous pouvez éditer le nom du sous-menu puis valider avec la touche "entrée".
 
 <h4>Création des raccourcis clavier</h4>
@@ -337,7 +333,7 @@ Il est possible de faire les raccourcis clavier du logiciel via l'interface QtDe
 
 <h3>Création d'une barre d'information</h3>
 Une barre d'information est disponible nativement pour afficher du texte sur les pages du logiciel. <br> Le widget associée est appelé <b><i>QStatusBar</i></b>.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_statusbar.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_statusbar.png' class='alignnone size-medium' style='max-width:55%;'></a><figcaption>Figure - Ajout de barre d'information</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_statusbar.png' class='alignnone size-medium' style='max-width:55%;'><figcaption>Figure - Ajout de barre d'information</figcaption></div></figure>
 La documentation est disponible à l'adresse suivante : <br> <a class="alert-link">https://doc.qt.io/qt-5/qstatusbar.html</a>
 <h2 >Les principaux widgets</h2>
 Nous vous proposons de découvrir les principaux widgets et leurs propriétés spécifiques.
@@ -351,24 +347,24 @@ Nous vous recommandons de consulter la documentation Qt pour les différents wid
 Le widget <b><i>QLabel</i></b> permet d'afficher du texte. 
 Il est possible de rédiger du texte riche avec des tailles de polices, des polices et des couleurs différentes. <br> <br>
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_qlabel.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_qlabel.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Un widget QLabel</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_qlabel.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Un widget QLabel</figcaption></div></figure>
 La documentation du widget est disponible à l'adresse suivante : <br>  <a class="alert-link">https://doc.qt.io/qt-5/qlabel.html</a>
 <h4>Widget QLineEdit</h4>
 Le widget <b><i>QLineEdit</i></b> permet à l'utilisateur de saisir du texte sur une seule ligne pour l'exploiter par la suite. 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_lineedit.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_lineedit.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Un widget QLineEdit</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_lineedit.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Un widget QLineEdit</figcaption></div></figure>
 La documentation du widget est disponible à l'adresse suivante : <br>  <a class="alert-link">https://doc.qt.io/qt-5/qlineedit.html</a>
 <h4>Widget QComboBox</h4>
 Le widget <b><i>QComboBox</i></b> est un outil de sélection d'un élément parmi une liste. <br> <br>
 La documentation du widget est disponible à l'adresse suivante :   <a class="alert-link">https://doc.qt.io/qt-5/qcombobox.html</a> 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_combobox.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_combobox.png' class='alignnone size-medium' style='max-width:20%;'></a><figcaption>Figure - Un widget QComboBox</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_combobox.png' class='alignnone size-medium' style='max-width:20%;'><figcaption>Figure - Un widget QComboBox</figcaption></div></figure>
 <h4>Widget QSpinBox</h4>
 Le widget <b><i>QSpinBox</i></b> est une zone de saisie de nombre entier configurable.
 Sa variante pour les nombres flottants est <b><i>QDoubleSpinBox</i></b> 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_spinbox.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_spinbox.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Un widget QSpinBox</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_spinbox.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Un widget QSpinBox</figcaption></div></figure>
 La documentation du widget est disponible à l'adresse suivante : <br>  <a class="alert-link">https://doc.qt.io/qt-5/qspinbox.html</a> 
 <h4>widget QTabWidget</h4>
 Le widget <b><i>QTabWidget</i></b> permet de faire des onglets (un peu comme un navigateur internet)
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_tabwidget.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_tabwidget.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Un widget QtabWidget</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_tabwidget.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Un widget QtabWidget</figcaption></div></figure>
 La documentation du widget est disponible à l'adresse suivante : <br>  <a class="alert-link">https://doc.qt.io/qt-5/qtabwidget.html</a> 
 <h3>Les boites de dialogue</h3>
 Il est parfois souhaitable d'afficher des informations à l'utilisateur par l'intermédiaire de boites de dialogue. <br>.
@@ -388,7 +384,7 @@ from PyQt5.QtWidgets import QMessageBox
 <ul>
     <li> Une fenêtre d'information
 </li>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_qmessagebox_information.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_qmessagebox_information.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - QMessageBox d'information</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_qmessagebox_information.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - QMessageBox d'information</figcaption></div></figure>
     L'instruction pour afficher la fenêtre est la suivante
 
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
@@ -397,21 +393,21 @@ from PyQt5.QtWidgets import QMessageBox
 </code></pre><hr>
     <li> Une fenêtre d'avertissement
 </li>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_qmessagebox_warning.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_qmessagebox_warning.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - QMessageBox d'avertissement</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_qmessagebox_warning.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - QMessageBox d'avertissement</figcaption></div></figure>
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
     QMessageBox.warning(self, "Message PyQt5", "Ceci est un avertissement")
 
 </code></pre><hr>
     <li> Une fenêtre d'erreur
 </li>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_qmessagebox_critical.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_qmessagebox_critical.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - QMessageBox d'erreur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_qmessagebox_critical.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - QMessageBox d'erreur</figcaption></div></figure>
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
     QMessageBox.critical(self, "Message PyQt5", "Ceci est une erreur")
 
 </code></pre><hr>
     <li> Une fenêtre pour une question 
 </li>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_qmessagebox_question.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_qmessagebox_question.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - QMessageBox pour une question</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_qmessagebox_question.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - QMessageBox pour une question</figcaption></div></figure>
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
     reponse = QMessageBox.question(self, "Message PyQt5", "Votre question ?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
@@ -440,7 +436,7 @@ Plus précisément, un signal est émit lorsque l'utilisateur effectue une actio
 
 L'évènement est appelé "signal" et la fonction "slot". <br> <br>
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_slots.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_slots.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Un signal et un slot sur un bouton</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_slots.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Un signal et un slot sur un bouton</figcaption></div></figure>
 Dans l'exemple précédent, on observe que l'appui sur le bouton "button" déclenche la fonction "quit" de l'interface principale.
 
 La mise en place effective du système de signaux/slots sera effectué dans la partie  \ref{exemple_signal} (<u>Connexion d'un bouton</u>)
@@ -502,18 +498,18 @@ Afin de mieux comprendre le code généré et nécessaire à la création des in
 La Programmation Orientée Objet (POO) est un concept de programmation qui vise à créer des "objets". <br> <br>
 
 Ces objets possèdent des <b>attributs</b> (sorte de propriétés intrinsèques) et possèdent également des <b>méthodes</b>, c'est à dire des fonctions permettant d'interagir en interne et avec d'autres objets. <br> <br>
-Prenons un exemple et considérons un objet "<b><i>Véhicule</i></b>"<span title="Par convention, les noms d'objets possèdent une majuscule." style='color:grey;'><sup>[note]</sup></span>. <br>
+Prenons un exemple et considérons un objet "<b><i>Véhicule</i></b>"<span title="Par convention, les noms d'objets possèdent une majuscule." style='color:grey;'><sup>[Note 98]</sup></span>. <br>
 Cet objet possède des propriétés comme une couleur, des dimensions, un nombre de roues, etc. Ces élements forment les attributs de notre objet "<b><i>Véhicule</i></b>". <br>
 Maintenant, ou souhaite définir le comportement de notre objet "<b><i>Véhicule</i></b>". Nous allons décréter que notre objet peut <i>avancer</i>, <i>reculer</i>, <i>tourner à droite</i>, etc.
 Ces actions forment les méthodes de notre objet.<br> <br>
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_poo.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_poo.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Un objet 'Véhicule'</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_poo.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Un objet 'Véhicule'</figcaption></div></figure>
 La POO introduit en programmation la notion d'<b>héritage</b>. <br>
 Cela signifie qu'un objet parent transmet tous ses attributs et ses méthodes à un ou plusieurs enfants. <br>
 
 Par exemple, nous voulons créer une classe "<b><i>Voiture</i></b>". Quelle est la manière la plus rapide de créer un objet Voiture ? Et bien il suffit de faire hériter notre objet "<b><i>Véhicule</i></b>" à notre nouvel objet "<b><i>Voiture</i></b>", ainsi, notre "<b><i>Voiture</i></b>" aura une couleur, des dimensions, un nombre de roues, etc et pourra <i>avancer</i>, <i>reculer</i> et se déplacer de la même manière que le "<b><i>Véhicule</i></b>". <br> Ce modèle est pertinent dans la mesure ou une voiture, un vélo ou même une trottinette ont des propriétés communes, ce sont tous des véhicules. <br>
 Nous pourrions également appliquer le principe de POO à un objet "<b><i>Animaux</i></b>" et créer des objets "<b><i>Mammifères</i></b>", "<b><i>Oiseaux</i></b>", "<b><i>Poissons</i></b>" par héritage. <br>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_poo_heritage.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_poo_heritage.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - L'héritage entre l'objet "\ib{Véhicule</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_poo_heritage.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - L'héritage entre l'objet "\ib{Véhicule</figcaption></div></figure>
 Qt utilise la POO car parmi tous les widgets, certains ont des propriétés communes (<b><i>QSpinBox</i></b> et <b><i>QDoubleSpinBox</i></b>) avec très peu de différences. Il est donc pertinent de partir d'un objet <u>parent</u> (<b><i>QWidget</i></b>) et de transmettre toutes les propriétés à ses <u>enfants</u>, tout en modifiant parfois certaines de ses propriétés. <br>
 Concrètement, la structure d'un objet est défini par une classe constituée de fonctions membres (méthodes) et de variables (attributs)
 
@@ -552,7 +548,7 @@ class objet(parent):
 <h4>Déclaration du constructeur de classe</h4>
 Il nous faut maintenant définir un comportement lors de la création de notre objet. <br>
 
-Pour cela, on va créer un constructeur de classe<span title="En réalité un initialisateur, le constructeur est   new  ." style='color:grey;'><sup>[note]</sup></span>
+Pour cela, on va créer un constructeur de classe<span title="En réalité un initialisateur, le constructeur est   new  ." style='color:grey;'><sup>[Note 99]</sup></span>
 
 Le constructeur est une méthode appelée dès la création de l'objet, c'est même la première méthode qui crée l'objet. <br>
 
@@ -565,7 +561,7 @@ Notre déclaration de constructeur de classe est donc la suivante :
 </code></pre><hr>
 On déclare que notre constructeur peut attendre en argument un parent mais que ce n'est pas obligatoire (présence d'un argument par défaut valant None). <br> Qt tolère des constructeurs avec aucun parent renseigné. <br>
 
-L'argument <b>self</b><span title="Le mot-clé self est utilisé par convention, mais on pourrai tout aussi bien choisir un autre mot." style='color:grey;'><sup>[note]</sup></span> est un argument obligatoire pour toute méthodes en python, il représente l'objet courant. 
+L'argument <b>self</b><span title="Le mot-clé self est utilisé par convention, mais on pourrai tout aussi bien choisir un autre mot." style='color:grey;'><sup>[Note 100]</sup></span> est un argument obligatoire pour toute méthodes en python, il représente l'objet courant. 
 <h4>Définition du constructeur de classe</h4>
 Cependant, pour que notre objet possède les méthodes et attributs de l'objet <b><i>QMainWindow</i></b> (héritage), il faut instancier notre objet parent, c'est à dire <b><i>QMainWindow</i></b>.
 Pour cela, on utilise la syntaxe suivante : 
@@ -624,7 +620,7 @@ class MyObject(QtWidgets.QMainWindow):
 Nous avons actuellement créer un objet <b><i>MyObject</i></b> qui est le rendu de l'interface faite sous QtDesigner. Nous souhaiterions l'exécuter comme un programme classique. <br>
 Nous allons créer dans le <b>répertorie <span class='badge badge-light'>Qt tutoriel</b></span> un fichier <span class='badge badge-primary'>main.py</span> qui va représenter notre fichier principal, sous-entendu qui va lancer l'application à partir d'un terminal. <br>
 <b>Vous devriez obtenir, dans le répertoire <span class='badge badge-light'>Qt tutoriel</b> les fichiers suivants : </span>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Fichiers dans le répertoire de travail</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_files.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Fichiers dans le répertoire de travail</figcaption></div></figure>
 Dans le fichier <span class='badge badge-primary'>main.py</span>, il faut commencer par importer les modules courants de PyQt5 : 
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -749,7 +745,7 @@ Pour connaître les signaux existants, on peut sélectionner le widget dans l'es
 Tous les signaux associés au widget courant sont visibles.
 
 Il est également possible de générer des signaux personnalisés (En savoir plus à l'adresse <a class="alert-link">https://www.pythoncentral.io/pysidepyqt-tutorial-creating-your-own-signals-and-slots/</a>)
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_signals.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/designer_workspace_signals.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Les signaux pour une ComboBox</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/designer_workspace_signals.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Les signaux pour une ComboBox</figcaption></div></figure>
 <h2 >Ajouts de widgets personnalisés</h2>
 Lors de la création de l'interface de supervision, nous serons amenés à utiliser des widgets qui nous avons crées. <br>
 
@@ -764,15 +760,15 @@ Tout d'abord, ajoutez un widget sur la fenêtre d'interface.
 On peut le renommer pour être plus explicite (fenêtre à droite).
 
 Notre widget sera le parent de notre objet "vérin". Pour cela, on doit indiquer le fichier d'utilisation de notre classe <b><i>DynamicObject</i></b>.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Localisation du widget "Widget"</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/programme_3.png' class='alignnone size-medium' style='max-width:25%;'><figcaption>Figure - Localisation du widget "Widget"</figcaption></div></figure>
 Puis on sélectionne notre widget et click Droit puis <u>promote to</u>. 
-\img{images/ObjetDynamique/programme_4.png}{}{0.85}
+\img{\rootImages/programme_4.png}{}{0.85}
 
 On remplit nos champs comme ci-dessous:
 
 -Promoted class name: <b><i>DynamicObject</i></b>
 -Header file: <span class='badge badge-primary'>ENIBSupervision/UI class/UI DynamicObject.py</span>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Contenu des zones de saisi</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/programme_5.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Contenu des zones de saisi</figcaption></div></figure>
 On peut maintenant sauvegarder et fermer QtDesigner. 
 
 <b>Cette étape est à faire une seule fois. Ensuite, pour chaque nouveau widget personnalisé, il faudra choisir dans <u>promote to</b> la classe DynamicObject qui sera apparue.</u> 
@@ -856,7 +852,7 @@ from ENIBSupervision.UI_class.UI_AnimationTables import AnimationTables
 </code></pre><hr>
 Voici un exemple de tables que l'on peut obtenir :
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_animationTablesExample.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_animationTablesExample.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Exemple de tables d'animations</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/enibSup_window_animationTablesExample.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Exemple de tables d'animations</figcaption></div></figure>
 <li> <b><i>DynamicObject</i></b><br></li>
 Ce type offre la possibilité de représenter très facilement des éléments d'une partie opérative tels que des vérins ou des moteurs.<br>
 
@@ -871,8 +867,8 @@ from ENIBSupervision.UI_class.UI_DynamicObject import DynamicObject
 </code></pre><hr>
 Voici un exemple de widget que l'on peut obtenir :
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_DynamicObject_moteur.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_DynamicObject_moteur.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Exemple de résultat avec un moteur</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_DynamicObject_verin.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_DynamicObject_verin.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Exemple de résultat avec un vérin</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/enibSup_DynamicObject_moteur.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Exemple de résultat avec un moteur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/enibSup_DynamicObject_verin.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Exemple de résultat avec un vérin</figcaption></div></figure>
 <br>
 
 <li> <b><i>IndicLight</i></b><br></li>
@@ -889,7 +885,7 @@ from ENIBSupervision.UI_class.UI_IndicLight import IndicLight
 </code></pre><hr>
 Voici un exemple de voyants que l'on peut obtenir :
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_IndicLight.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_IndicLight.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Exemple de résultat avec deux voyants dans deux états différents</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/enibSup_IndicLight.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Exemple de résultat avec deux voyants dans deux états différents</figcaption></div></figure>
 </ul>
 <h2 >Réalisation d'un programme élémentaire</h2>
 Nous allons aborder dans ce chapitre la création d'un programme de base en utilisant PyQt5. A la fin de ce chapitre, vous serez en mesure de créer et d'afficher une fenêtre principale basique.
@@ -942,7 +938,7 @@ if(__name__ == "__main__"): #si c'est ce module qui est lancé directement
 <h4>Résultat</h4>
 Vous devriez maintenant avoir dans votre racine du projet créé précédemment, quelque chose ressemblant fortement à ceci :
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_explorer_projectRoot.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_explorer_projectRoot.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Illustration d'une racine de projet</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/enibSup_window_explorer_projectRoot.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Illustration d'une racine de projet</figcaption></div></figure>
 %new section
 
 <h3>La fenêtre principale</h3>
@@ -969,15 +965,15 @@ Si vous avez installés les outils nécessaires, cette commande devrait vous lan
 <h4>Choix de l'interface</h4>
 A l'ouverture du logiciel, vous devriez arriver sur une page vous demandant de choisir le type de "<b>formulaire</b>" que vous voulez créer.<br>
 Puisque nous voulons réaliser une fenêtre principale, nous sélectionnerons en toute logique le type "<b><i>\colors{red</i></b>{MainWindow}}" :
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_designerWidgetSelection_MainWindow.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_designerWidgetSelection_MainWindow.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Sélection du type d'interface voulue</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/enibSup_window_designerWidgetSelection_MainWindow.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Sélection du type d'interface voulue</figcaption></div></figure>
 Je laisse à votre charge de réaliser le contenu de la fenêtre : pour cet exemple simple, nous allons simplement disposer un bouton dans la fenêtre et l'organiser dans un layout simple.<br>
 
 Vous devriez obtenir à la fin une fenêtre ressemblant à ceci :
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_MainWindowExample.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_MainWindowExample.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Fenêtre principale de l'exemple</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/enibSup_window_MainWindowExample.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Fenêtre principale de l'exemple</figcaption></div></figure>
 N'oubliez pas de sauvegarder votre réalisation
 
-<span title="Profitons-en ici pour rappeler que nous ne sauvegardons jamais assez. Dès que vous le pouvez, sauvegardez, la combinaison \bold{<span style='color:red;'>Ctrl+S</span>" style='color:grey;'><sup>[note]</sup></span> doit devenir un réflexe. Souvenez-vous que vous pouvez perdre tout votre travail sur un simple bug.}
+<span title="Profitons-en ici pour rappeler que nous ne sauvegardons jamais assez. Dès que vous le pouvez, sauvegardez, la combinaison \bold{<span style='color:red;'>Ctrl+S</span>" style='color:grey;'><sup>[Note 101]</sup></span> doit devenir un réflexe. Souvenez-vous que vous pouvez perdre tout votre travail sur un simple bug.}
 
 dans le dossier adapté, soit <span class='badge badge-primary'>UI formFiles</span> dans la racine de votre projet. Pour cet exemple, je la nommerai <span class='badge badge-primary'>UI MainWindow.ui</span><br>
 Vous avez maintenant une interface graphique "dessinée" facilement. Il ne reste plus qu'à l'exploiter.
@@ -986,7 +982,7 @@ Vous avez maintenant une interface graphique "dessinée" facilement. Il ne reste
 
 <h3>Export de l'interface</h3>
 Pour pouvoir exploiter l'interface que nous avons créé, il nous faut convertir le fichier <span class='badge badge-primary'>*.ui</span> en fichier Python utilisable.<br>
-Ceci est permis grâce à l'outil <i>\bold{pyuic5</i>}.<br>
+Ceci est permis grâce à l'outil <i><b>pyuic5</i></b>.<br>
 J'ai déjà mentionné un script permettant de réaliser cet export automatiquement. Nous allons nous en servir. Si vous avez suivi la section "<b>Architecture type d'un programme</b>", vous devriez avoir dans la racine du projet ce script sous forme d'un fichier Python nommé <span class='badge badge-primary'>scriptExport.py</span>. Il vous suffit de le lancer. Si vous le lancez depuis un terminal
 \footnote
 
@@ -998,9 +994,9 @@ Nous vous conseillons plutôt de manière générale de lancer les différents p
 
 , vous aurez le détail des fichiers exportés.<br>
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_explorer_projectRoot_scriptExport.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_explorer_projectRoot_scriptExport.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Script d'export dans la racine du projet</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/enibSup_window_explorer_projectRoot_scriptExport.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Script d'export dans la racine du projet</figcaption></div></figure>
 Une fois le script lancé, vérifiez que le dossier <span class='badge badge-primary'>UI pyFiles</span> contient bien un fichier dont le nom est identique au fichier <b>*.ui</b> que vous avez édité précédemment. Notez que si vous avez enregistré un fichier avec un nom commençant par le préfixe <i>UI </i>, celui-ci a été supprimé, c'est un comportement voulu. Libre à vous de modifier ce script simpliste.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_explorer_UIPyFiles_mainWindow.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_explorer_UIPyFiles_mainWindow.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Fichier \bold{*.ui</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/enibSup_window_explorer_UIPyFiles_mainWindow.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Fichier \bold{*.ui</figcaption></div></figure>
 %End section
 
 <h3>Exploitation de l'interface en python</h3>
@@ -1009,7 +1005,7 @@ Nous avons maintenant toutes les clefs en main pour faire un programme minimal e
 
 Nous allons nous rendre dans le dossier <span class='badge badge-primary'>UI class</span> dans la racine du projet pour créer un nouveau fichier qui correspondra au module contenant la définition de notre fenêtre principale. (Le coeur du programme)<br>
 Pour ma part, ce module portera le même nom que son fichier <span class='badge badge-primary'>*.ui</span> associé soit <span class='badge badge-primary'>UI MainWindow.py</span>.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_explorer_UIClass_basic.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_explorer_UIClass_basic.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Contenu du dossier \dir{UI class</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/enibSup_window_explorer_UIClass_basic.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Contenu du dossier \dir{UI class</figcaption></div></figure>
 <h4>Rédaction du code de la fenêtre principale</h4>
 Tout d'abord, n'oublions pas la ligne traditionnelle d'en-tête d'un fichier Python :
 
@@ -1029,7 +1025,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 </code></pre><hr>
 Ensuite, attaquons-nous au plus délicat.<br>
 
-Afin d'augmenter notre liberté de programmation, nous allons ici déclarer notre propre <b>classe</b> qui va permettre l'exploitation de l'interface générée précédemment. Nous utiliserons ici des concepts de Programmation Orientée Object qui ne sont abordés normalement qu'en S5 à l'Enib<span title="Cette notion est abordée dans le chapitre 7.3" style='color:grey;'><sup>[note]</sup></span>. Mais pas d'inquiétude, cela ne vous empêchera pas de mener à bien votre projet.<br>
+Afin d'augmenter notre liberté de programmation, nous allons ici déclarer notre propre <b>classe</b> qui va permettre l'exploitation de l'interface générée précédemment. Nous utiliserons ici des concepts de Programmation Orientée Object qui ne sont abordés normalement qu'en S5 à l'Enib<span title="Cette notion est abordée dans le chapitre 7.3" style='color:grey;'><sup>[Note 102]</sup></span>. Mais pas d'inquiétude, cela ne vous empêchera pas de mener à bien votre projet.<br>
 La déclaration de notre classe qui  va représenter notre fenêtre principale nécessite l'importation du module Python généré depuis le fichier QtDesigner. Si vous avez utilisés les mêmes noms que ceux utilisés dans ce tutoriel, la ligne permettant l'importation de ce module sera celle-ci :
 
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
@@ -1040,7 +1036,7 @@ Dans le cas contraire, c'est à vous que revient la responsabilité de faire les
 
 Pour le moment, votre fichier doit donc ressembler à ceci
 
-<span title=" Profitons-en pour vous rappeler de sauvegarder régulièrement votre travail, <span style='color:red;'>\bold{Ctrl+S</span>" style='color:grey;'><sup>[note]</sup></span> n'est pas un raccourci compliqué à retenir et peut vous épargner bien des déconvenues.}
+<span title=" Profitons-en pour vous rappeler de sauvegarder régulièrement votre travail, <span style='color:red;'>\bold{Ctrl+S</span>" style='color:grey;'><sup>[Note 103]</sup></span> n'est pas un raccourci compliqué à retenir et peut vous épargner bien des déconvenues.}
 
 :
 
@@ -1060,7 +1056,7 @@ from UI_pyFiles.MainWindow import Ui_MainWindow
 </code></pre><hr>
 Maintenant, rentrons au coeur du sujet. Nous pouvons dorénavant déclarer notre classe sans que Python ne nous insulte copieusement lorsque nous lancerons le programme
 
-<span title="Notons que pour le moment, nous ne pouvons pas vraiment tester le programme dans le sens où il ne fait rien et notre fichier main n'est pas encore préparé. Exécuter le fichier seul en dehors de la racine du projet provoquera certainement des erreurs dans les importations (il faudrait donc l'exécuter depuis le fichier \file{main.py" style='color:grey;'><sup>[note]</sup></span> par exemple pour éviter les problèmes).<br> Rappelons ici que plus vous exécuterez votre code souvent, moins vous aurez d'erreurs à corriger à la fois. N'hésitez pas à l'exécuter dès que vous le pouvez (Nous verrons cela ensemble dans quelques temps).}.<br>
+<span title="Notons que pour le moment, nous ne pouvons pas vraiment tester le programme dans le sens où il ne fait rien et notre fichier main n'est pas encore préparé. Exécuter le fichier seul en dehors de la racine du projet provoquera certainement des erreurs dans les importations (il faudrait donc l'exécuter depuis le fichier \file{main.py" style='color:grey;'><sup>[Note 104]</sup></span> par exemple pour éviter les problèmes).<br> Rappelons ici que plus vous exécuterez votre code souvent, moins vous aurez d'erreurs à corriger à la fois. N'hésitez pas à l'exécuter dès que vous le pouvez (Nous verrons cela ensemble dans quelques temps).}.<br>
 
 La déclaration de notre classe se fera de la manière suivante :
 
@@ -1080,7 +1076,7 @@ Concrètement, notre type pourra faire tout ce que faisait une <b><i>QMainWindow
 <h4>Constructeur de notre classe</h4>
 Tout comme en C++, nous pouvons définir un constructeur
 
-<span title="Une fonction membre   init   en Python n'est pas vraiment un constructeur mais un "initialiseur". Cependant, pour simplifier la compréhension nous utiliserons ici abusivement le terme constructeur. Pour un peu plus d'information à ce sujet : \url{https://www.geeksforgeeks.org/__new__-in-python/" style='color:grey;'><sup>[note]</sup></span>}
+<span title="Une fonction membre   init   en Python n'est pas vraiment un constructeur mais un 'initialiseur'. Cependant, pour simplifier la compréhension nous utiliserons ici abusivement le terme constructeur. Pour un peu plus d'information à ce sujet : \url{https://www.geeksforgeeks.org/__new__-in-python/" style='color:grey;'><sup>[Note 105]</sup></span>}
 
 pour notre classe. Celui-ci sera appelé lors de l'initialisation d'un nouvel objet de notre type <b><i>MainWindow</i></b>.<br>
 En Python, le constructeur d'une classe se définit de la manière suivante :
@@ -1093,11 +1089,10 @@ def __init__(self):
 </code></pre><hr>
 Et il sera toujours définit de cette manière (aux paramètres près).
 
-Profitons de ce moment pour attirer votre attention sur le paramètre <span style='color:red;'>\ib{self</span>} qui est un paramètre particulièrement important<span title="Pour plus d'informations sur self : \url{https://www.geeksforgeeks.org/self-in-python-class/" style='color:grey;'><sup>[note]</sup></span>}. Il représente l'instance de la classe. Pour avoir un équivalent dans un langage mieux connu des élèves, c'est un peu comme le mot-clé <b><i>this</i></b> en c++. Sauf qu'en python <span style='color:red;'>\ib{self</span>} est beaucoup plus important, nous verrons après pourquoi.<br>
+Profitons de ce moment pour attirer votre attention sur le paramètre <span style='color:red;'>\ib{self</span>} qui est un paramètre particulièrement important<span title="Pour plus d'informations sur self : \url{https://www.geeksforgeeks.org/self-in-python-class/" style='color:grey;'><sup>[Note 106]</sup></span>}. Il représente l'instance de la classe. Pour avoir un équivalent dans un langage mieux connu des élèves, c'est un peu comme le mot-clé <b><i>this</i></b> en c++. Sauf qu'en python <span style='color:red;'>\ib{self</span>} est beaucoup plus important, nous verrons après pourquoi.<br>
 
-Ce paramètre <span style='color:red;'>\bold{doit</span>} figurer dans tous les prototypes des fonctions membres d'une classe.
-
-Revenons-en au constructeur de notre classe <b><i>MainWindow</i></b>, il existe avec Qt un système de widget parent/enfant trop complexe à expliquer ici. Le principal est de savoir que ce système existe et que avec Qt, la plupart des widgets<span title="À noter qu'une \ib{QMainWindow" style='color:grey;'><sup>[note]</sup></span> est aussi un widget} instanciés doivent avoir un parent (pour des raisons trop complexes à aborder ici encore une fois). Ce qui implique que tous les widgets aient dans leurs constructeurs un paramètre représentant un potentiel widget parent.\vskip 0cm %Nouveau paragraphe sans saut de ligne
+Ce paramètre <span style='color:red;'><b>doit</span></b> figurer dans tous les prototypes des fonctions membres d'une classe.
+Revenons-en au constructeur de notre classe <b><i>MainWindow</i></b>, il existe avec Qt un système de widget parent/enfant trop complexe à expliquer ici. Le principal est de savoir que ce système existe et que avec Qt, la plupart des widgets<span title="À noter qu'une \ib{QMainWindow" style='color:grey;'><sup>[Note 107]</sup></span> est aussi un widget} instanciés doivent avoir un parent (pour des raisons trop complexes à aborder ici encore une fois). Ce qui implique que tous les widgets aient dans leurs constructeurs un paramètre représentant un potentiel widget parent.\vskip 0cm %Nouveau paragraphe sans saut de ligne
 
 Nous devrions donc en toute rigueur laisser au programmeur (vous) la possibilité d'initialiser son type avec un widget parent (Même si c'est hautement improbable dans le cas d'une fenêtre principale puisque ce sera le premier widget que nous allons créer). Mais puisque c'est une bonne habitude à prendre quand l'on programme en utilisant des widgets et Qt, nous allons le faire.<br>
 
@@ -1173,9 +1168,8 @@ Explications :
 
 Pour accéder à des variables membres de la classe, il est nécessaire en Python de \colors{red}{systématiquement} utiliser "<span style='color:blue;'>\ib{self.</span>}"
 
-<span title="Vous l'oublierez certainement à plusieurs reprise. En cas d'oubli, vous ne ferez qu'accéder à des variables locales ce qui amènera à des erreurs peu explicites" style='color:grey;'><sup>[note]</sup></span>. Dans notre cas, nous créons une variable membre de nom <i>  ui</i>.<br>
-Ce nom n'a pas été choisi par hasard, en Python, toute variable membre dont le nom commence par "  " est une variable privée. Quant au nom en lui même,  "<span style='color:green;'>\bold{ui</span>}", il s'agit de l'abréviation anglaise de <b>UserInterface</b>.<br>
-
+<span title="Vous l'oublierez certainement à plusieurs reprise. En cas d'oubli, vous ne ferez qu'accéder à des variables locales ce qui amènera à des erreurs peu explicites" style='color:grey;'><sup>[Note 108]</sup></span>. Dans notre cas, nous créons une variable membre de nom <i>  ui</i>.<br>
+Ce nom n'a pas été choisi par hasard, en Python, toute variable membre dont le nom commence par "  " est une variable privée. Quant au nom en lui même,  "<span style='color:green;'><b>ui</span></b>", il s'agit de l'abréviation anglaise de <b>UserInterface</b>.<br>
 Cette variable est initialisée avec le type de l'interface graphique que nous avons conçu plus tôt.<br>
 
 <b>En résumé</b> : Nous créons une variable membre privée dans notre classe qui nous permettra d'accéder à l'interface graphique.
@@ -1254,7 +1248,7 @@ app = QtWidgets.QApplication(sys.argv)
 
 </code></pre><hr>
 Très succinctement, nous déclarons ici une <b><i>QApplication</i></b> en lui passant en paramètre les arguments fournis au programme
-<span title="Il s'agit en réalité des arguments de la ligne de commande (plus d'informations ici : \url{https://en.wikipedia.org/wiki/Command-line_argument_parsing" style='color:grey;'><sup>[note]</sup></span>}.<br>
+<span title="Il s'agit en réalité des arguments de la ligne de commande (plus d'informations ici : \url{https://en.wikipedia.org/wiki/Command-line_argument_parsing" style='color:grey;'><sup>[Note 109]</sup></span>}.<br>
 
 Maintenant que nous avons notre application, nous pouvons l'exécuter. Nous le ferons d'une manière assez condensée avec l'instruction suivante :
 
@@ -1269,7 +1263,7 @@ Cette ligne réalise en réalité deux opérations :
     Plus d'informations ici : <a class="alert-link">https://en.wikipedia.org/wiki/Return_statement</a>}.
     
 
-    <li> <b>Quitter le programme python</b> : ceci est réalisé par la fonction "<i>sys.exit()</i>"<span title="Plus d'informations sur cette fonction ici \url{https://python101.pythonlibrary.org/chapter20_sys.html" style='color:grey;'><sup>[note]</sup></span>} qui prend en argument un statut d'exécution à retourner au système d'exploitation.</li>
+    <li> <b>Quitter le programme python</b> : ceci est réalisé par la fonction "<i>sys.exit()</i>"<span title="Plus d'informations sur cette fonction ici \url{https://python101.pythonlibrary.org/chapter20_sys.html" style='color:grey;'><sup>[Note 110]</sup></span>} qui prend en argument un statut d'exécution à retourner au système d'exploitation.</li>
 </ul>
 L'utilisation de "<i>app.exec()</i>" en argument de "<i>sys.exit()</i>" permet donc de faire quitter le programme Python en renvoyant au système le statut d'exécution de l'application Qt lorsque celle-ci est terminée.
 Vous devriez dorénavant avoir un code ressemblant à ceci :
@@ -1335,8 +1329,7 @@ Pour cela, comme cela a été conseillé auparavant, nous passerons par un termi
 </li>
     
 
-<li> Placez vous dans la racine du projet (à l'aide de la commande <span style='color:blue;'>\bold{cd</span>})
-</li>
+<li> Placez vous dans la racine du projet (à l'aide de la commande <span style='color:blue;'><b>cd</span></b>)</li>
     
 
 <li> Lancez le programme en utilisant la commande suivante qui fera exécuter le fichier "<b>main.py</b>" :</li>
@@ -1347,7 +1340,7 @@ Pour cela, comme cela a été conseillé auparavant, nous passerons par un termi
 </ul>
 Dans le cas où Python ne trouverait aucune erreur, vous devriez voir apparaître à l'écran quelque chose de ce type :
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_firstMainWindow.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_firstMainWindow.png' class='alignnone size-medium' style='max-width:27%;'></a><figcaption>Figure - Résultat de l'exécution de votre programme</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/enibSup_window_firstMainWindow.png' class='alignnone size-medium' style='max-width:27%;'><figcaption>Figure - Résultat de l'exécution de votre programme</figcaption></div></figure>
 <h2 >Réalisation d'un programme ENIBSupervision</h2>
 Dans ce chapitre, nous travaillerons principalement dans le fichier de définition de la fenêtre principale du programme. Dans notre cas il s'agit du fichier <b><i>UI MainWindow.py</i></b>.
 <h3>Variable automate</h3>
@@ -1433,10 +1426,10 @@ Le premier argument passé est l'adresse IP de l'automate, le second le nom et l
 		self.__plcClientList.append(tempPLC)
 
 </code></pre><hr>
-Il ne nous reste plus qu'à compléter la fonction d'affectation des variables de l'automate.<span title="<span style='color:red;'>Ou presque !</span> Il faudra ensuite "lancer" l'automate mais ceci sera abordé dans la section "Gestion pseudo-événementielle"" style='color:grey;'><sup>[note]</sup></span>
+Il ne nous reste plus qu'à compléter la fonction d'affectation des variables de l'automate.<span title="<span style='color:red;'>Ou presque !</span> Il faudra ensuite 'lancer' l'automate mais ceci sera abordé dans la section 'Gestion pseudo-événementielle'" style='color:grey;'><sup>[Note 111]</sup></span>
 
 <h4>Déclaration d'une variable</h4>
-Voici le prototype du constructeur du type <b><i>PLCVar</i></b><span title="Pour plus d'informations sur ce type et son constructeur, se référer à la documentation" style='color:grey;'><sup>[note]</sup></span> :
+Voici le prototype du constructeur du type <b><i>PLCVar</i></b><span title="Pour plus d'informations sur ce type et son constructeur, se référer à la documentation" style='color:grey;'><sup>[Note 112]</sup></span> :
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 PLCVar(name,address,description,varType,varMode,f_connectedSlots = []):
 
@@ -1518,7 +1511,7 @@ Lors du débogage par exemple, vous pourriez avoir besoin d'afficher dans la con
 
 Nous utiliserons le même code, donc les mêmes variables que dans les exemples ci-dessus.<br>
 
-Le code que nous allons écrire<span title="A l'exception de l'importation des modules bien entendu" style='color:grey;'><sup>[note]</sup></span> prendra place dans le constructeur du type "<b><i>MainWindow</i></b>", après l'initialisation de la liste de variables et de l'automate (cette ligne là : )
+Le code que nous allons écrire<span title="A l'exception de l'importation des modules bien entendu" style='color:grey;'><sup>[Note 113]</sup></span> prendra place dans le constructeur du type "<b><i>MainWindow</i></b>", après l'initialisation de la liste de variables et de l'automate (cette ligne là : )
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 # déclaration de l’automate
 
@@ -1619,7 +1612,7 @@ Vous n'avez maintenant plus qu'à lancer le programme
 
 et vous devriez voir s'afficher un résultat de ce type :
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_result_printPLCVar.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_result_printPLCVar.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Résultat du programme dans un terminal</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/enibSup_result_printPLCVar.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Résultat du programme dans un terminal</figcaption></div></figure>
 <h3>Gestion pseudo-événementielle</h3>
 Nous avons plusieurs solutions entre : 
 
@@ -1656,7 +1649,7 @@ Cependant, pour économiser de la puissance de calcul, lorsque l'automate est in
 
 Si vous exécutez le programme sans que l'automate ne soit accessible, vous devriez voir plusieurs messages d'erreurs apparaître comme ici :
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_error_cannotConnectToPLC.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_error_cannotConnectToPLC.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Messages d'erreurs typiques</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/enibSup_error_cannotConnectToPLC.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Messages d'erreurs typiques</figcaption></div></figure>
 Ceux-ci ne font que prévenir l'utilisateur qu'il est impossible de se connecter à l'automate pendant l'écriture/la lecture d'une variable tout en précisant celle-ci.
 
 Maintenant que nous avons mis en place les outils essentiels pour le bon fonctionnement de la suite, nous allons aborder les outils plus avancés mis à la disposition des utilisateurs du module <span class='badge badge-success'>ENIBSupervision</span>.
@@ -1767,7 +1760,7 @@ class MainWindow (QtWidgets . QMainWindow):  # déclaration de la class MainWind
 </code></pre><hr>
 <h3>Connexion d'une fonction à une variable</h3>
 Le module <span class='badge badge-success'>ENIBSupervision</span> permet d'associer une fonction à un changement d'état d'une variable
-<span title="Il est possible d'associer \bold{plusieurs fonctions" style='color:grey;'><sup>[note]</sup></span> au changement d'état d'<b>une</b> variable.}
+<span title="Il est possible d'associer \bold{plusieurs fonctions" style='color:grey;'><sup>[Note 114]</sup></span> au changement d'état d'<b>une</b> variable.}
 
 .<br>
 
@@ -1820,7 +1813,7 @@ def dcyStateChanged(self,var):
 		print("dcy state has changed : "+str(var.getVarValue()))
 
 </code></pre><hr>
-Pour associer cette fonction au changement d'état de la variable dcy, il nous faut maintenant modifier la déclaration de celle-ci comme expliqué plus haut, ce qui se résume à <span title="Dans la fonction \italic{initVarList" style='color:grey;'><sup>[note]</sup></span>} :
+Pour associer cette fonction au changement d'état de la variable dcy, il nous faut maintenant modifier la déclaration de celle-ci comme expliqué plus haut, ce qui se résume à <span title="Dans la fonction \italic{initVarList" style='color:grey;'><sup>[Note 115]</sup></span>} :
 
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 #déclarations des différentes variables
@@ -1843,7 +1836,7 @@ varList.append(PLCVar("dcy",50,"Bouton permettant de lancer un cycle","BIT","INP
 
 Cette méthode est strictement identique à l'usage que l'on a des signaux et slots Qt. Ce qui est normal puisque ce sont des signaux Qt qui sont utilisés.
 
-\colors{red}{\bold{Tous les signaux créés spécialement pour le module}} <span class='badge badge-success'>ENIBSupervision</span> <span style='color:red;'>\bold{commencent par le préfixe "sig "</span>}
+\colors{red}{\bold{Tous les signaux créés spécialement pour le module}} <span class='badge badge-success'>ENIBSupervision</span> <span style='color:red;'><b>commencent par le préfixe "sig "</span></b>
 Pour cet exemple, nous allons associer notre nouvelle variable "alarmButton" à une fonction qui affiche son état.<br>
 
 Il faut donc commencer par définir cette fonction (elle est aussi membre de <b><i>MainWindow</i></b>) :
@@ -1953,7 +1946,7 @@ Vous devriez maintenant avoir des tables d'animations que vous pouvez "détacher
 
 Voici le type de résultat que vous devriez obtenir :
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_animationTables.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enibSup_window_animationTables.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Tables d'animations dans\protectla fenêtre principale</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/enibSup_window_animationTables.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Tables d'animations dans\protectla fenêtre principale</figcaption></div></figure>
 <h4>Ouvrir les tables d'animations</h4>
 Il est possible de créer un bouton et de demander qu'à chaque appui, il ouvre les tables d'animations.
 
@@ -1981,7 +1974,7 @@ Pour cela, rien de plus simple :
             self.__animTables.show()
 
 </code></pre><hr>
-    <li> On relie le signal du bouton à la fonction membre <i>showTables()</i> <b>dans le constructeur</b>' <span title="En cas d'oubli de méthode, le rappel est au chapitre 8.6" style='color:grey;'><sup>[note]</sup></span></li>
+    <li> On relie le signal du bouton à la fonction membre <i>showTables()</i> <b>dans le constructeur</b>' <span title="En cas d'oubli de méthode, le rappel est au chapitre 8.6" style='color:grey;'><sup>[Note 116]</sup></span></li>
     
 
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
@@ -2264,7 +2257,7 @@ def incrementNewCycleCount(self):
 Dans le cadre de l'enseignement Supervision de L'ENIB, nous avons développé dans le module <span class='badge badge-success'>ENIBSupervision</span>, un type <b><i>DynamicObject</i></b>. Ce nouveau type hérite d'un Qwidget de la bibliothèque PyQt.
 Il permet de représenter un objet de supervision (verin, moteur,...) et de l'afficher. Nous pourrons alors très simplement dans Qtdesigner afficher ce type d'objet. 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - exemple d'utilisation du type</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/presentation_1.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - exemple d'utilisation du type</figcaption></div></figure>
 Pour l'exemple nous avons crée un objet Moteur 1 que nous avons initialisé à l'état sens 1. 
 
 Le widget affiche en partant du haut:
@@ -2277,7 +2270,7 @@ Le widget affiche en partant du haut:
     <li> Une image représentant l'état actuel de l'objet.
 </li>
 </ul>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Objet en défaut</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/presentation_2.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Objet en défaut</figcaption></div></figure>
 Lorsque qu'un défaut a été transmis à l'objet ou qu'il en a détecté un par lui même, le bouton informations devient rouge. Il indique à l'utilisateur qu'un défaut est actuellement présent sur l'objet. Si nous appuyons sur le bouton, une fenêtre s'ouvre indiquant les problèmes actuels. 
 
 Dans cet exemple nous avons simulé un vérin ayant ses capteurs S1 et S2 à l'état haut au même moment. Le programme a bien détecté que c'était un état impossible et à crée une erreur. Nous avons également transmis au vérin l'information qu'une erreur "test problème" était présente. 
@@ -2297,16 +2290,16 @@ Nous allons créer un programme simple permettant de représenter un objet dynam
 
 Nous allons commencer par un créer une fenêtre MainWindow sous QtDesigner (fonctionne pour tout type de fenêtre mais ici on l'utilise simplement pour un exemple simple).
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:28%;'></a><figcaption>Figure - Choix de la fenêtre</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/programme_1.png' class='alignnone size-medium' style='max-width:28%;'><figcaption>Figure - Choix de la fenêtre</figcaption></div></figure>
 On ajoute un layout à notre fenêtre pour que notre widget puisse prendre toute la place qui lui est disponible et puisse être redimensionné. On glisse l'icône sur la fenêtre et on le dimensionne pour prendre tout l'espace de la fenêtre.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:26%;'></a><figcaption>Figure - Emplacement des layouts</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/programme_2.png' class='alignnone size-medium' style='max-width:26%;'><figcaption>Figure - Emplacement des layouts</figcaption></div></figure>
 On ajoute ensuite un widget dans notre layout (on le glisse). On peut le renommer pour être plus explicite (fenêtre à droite).
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Nom du futur objet</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/programme_3.png' class='alignnone size-medium' style='max-width:25%;'><figcaption>Figure - Nom du futur objet</figcaption></div></figure>
 On sélectionne notre widget, puis click-Droit + promote to. 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:85%;'></a><figcaption>Figure - Emplacement de promotion</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/programme_4.png' class='alignnone size-medium' style='max-width:85%;'><figcaption>Figure - Emplacement de promotion</figcaption></div></figure>
 Enfin, on sélectionne la classe <b><i>DynamicObject</i></b>
 \textcolor{red}{\bold{Si cette classe n'apparaît pas, il faut revenir au tutoriel  PyQt5 et ses outils, au chapitre 9 qui traite de l'importation des widgets personnalisés (localisé dans la classe \ib{DynamicObject})}} 
 
@@ -2340,7 +2333,7 @@ Dans notre exemple la fonction à utiliser est <i>Update4States()</i> avec en pa
 </code></pre><hr>
 A cette étape de l'expérimentation, vous devriez obtenir une fenêtre similaire en exécutant le programme.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Vérin en position neutre</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/programme_10.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Vérin en position neutre</figcaption></div></figure>
 Notre objet est bien initialisé. Le nom apparaît au dessus, en passant le curseur sur l'objet le texte est conforme à l'objet et l'image affichée correspond bien à l'état transmis plus tôt (2 capteurs à 0).
 
 Nous pouvons dorénavant actualiser notre objet dès qu'un capteur change de valeur. Pour ceci on utilisera la même fonction que précédemment.
@@ -2354,7 +2347,7 @@ La dernière fonctionnalité permettra de signaler un problème sur l'objet ( pe
 </code></pre><hr>
 On exécutant le programme, vous devriez constater qu'un bouton rouge est apparu. En cliquant dessus une fenêtre devrait s'ouvrir avec notre problème "test" bien signalé.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Vérin en défaut</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/programme_12.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Vérin en défaut</figcaption></div></figure>
 Lorsque le problème sera résolu, on pourra utiliser la fonction <i>resetProb</i> avec en paramètre le problème pour le réinitialiser.
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
     self.__ui.verin_1.resetProb("test")
@@ -2426,7 +2419,7 @@ La dernière étape consiste à créer des images pour représenter les différe
 
 Les images seront ensuite enregistrées au format png dans le dossier <span class='badge badge-light'>ENIBSupervision/UI class/images</span>  nommées comme ceci: <b>monObjet numEtat</b>.
 dans notre cas <span class='badge badge-primary'>moteur 0.png</span> ; <span class='badge badge-primary'>moteur 1.png</span> ; <span class='badge badge-primary'>moteur 2.png</span> ; <span class='badge badge-primary'>moteur 3.png</span>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Images possibles d'un moteur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/creation_4.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Images possibles d'un moteur</figcaption></div></figure>
 <br>
 
 <h3>Utilisation des voyants</h3>
@@ -2438,12 +2431,12 @@ Il convient tout d'abord de placer un widget de type "widget" sur la fenêtre.
 
 Nous appellerons notre widget 'voyant capteur' 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Nom du voyant</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/dynamicObject_voyant.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Nom du voyant</figcaption></div></figure>
 Ensuite, il faut promouvoir le widget en <b><i>IndicLight</i></b>.
 Pour cela, on fait un click-droit sur l'arborescence des widgets en sélectionnant notre widget. 
 
 Dans "promote to" (promouvoir en) , il faut déclarer le fichier <span class='badge badge-primary'>UI IndicLight.py</span> de la même façon que le fichier <span class='badge badge-primary'>UI DynamicObject.py</span>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Importation de l'objet \ib{IndicLight</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/dynamicObject_locate.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Importation de l'objet \ib{IndicLight</figcaption></div></figure>
 L'emplacement du fichier <span class='badge badge-primary'>UI IndicLight.py</span> est le suivant : 
 <span class='badge badge-primary'>ENIBSupervision/UI class/UI IndicLight.py</span> 
 Une fois le widget promu, nous allons pouvoir enregistrer QtDesigner, fermer la fenêtre et actualiser l'interface avec le script <span class='badge badge-primary'>scriptExport.py</span>. 
@@ -2488,7 +2481,7 @@ self.__ui.voyant_capteur.setFontColor([150,150,150]) #gris
 
 </code></pre><hr>
 Avec toutes ces instructions placées dans le constructeur de  <span class='badge badge-success'>UI MainWindow.py</span>, on obtient le voyant suivant.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Le voyant</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/supervision/voyant.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Le voyant</figcaption></div></figure>
 <h4>Un nouvel état</h4>
 Il est également possible d'ajouter un nouvel état.
 
@@ -2553,7 +2546,7 @@ Le manque de possibilités de tester notre programme a aussi été un frein au d
 
 Puisque nous programmions sous Linux et sans moyen d'accéder facilement à un système Windows.<br>
 
-De plus, nous n'avions pas non plus accès à la salle d'automatismes, ce qui nous aurait offert un moyen simple de tester notre programme en conditions réelles et de perdre moins de temps en fin de semestre à corriger tous les bugs existants dans le programme (n'ayant pas pu être testé avant). Cela nous aurait aussi permis de nous rendre compte des différents problèmes conceptuels qui ont dû être résolu très rapidement<span title="Même si ces problème auraient dû être envisagés avant la rédaction du programme" style='color:grey;'><sup>[note]</sup></span>.
+De plus, nous n'avions pas non plus accès à la salle d'automatismes, ce qui nous aurait offert un moyen simple de tester notre programme en conditions réelles et de perdre moins de temps en fin de semestre à corriger tous les bugs existants dans le programme (n'ayant pas pu être testé avant). Cela nous aurait aussi permis de nous rendre compte des différents problèmes conceptuels qui ont dû être résolu très rapidement<span title="Même si ces problème auraient dû être envisagés avant la rédaction du programme" style='color:grey;'><sup>[Note 117]</sup></span>.
 
 Enfin, nous avons fait un mauvais usage de la bibliothèque PyModbus. En effet, celle-ci semble proposer de nombreuses fonctionnalités pour simplifier la gestion et la robustesse de la communication. Malheureusement, l'absence de documentation complète de la bibliothèque ne nous a pas permis de les découvrir avant la fin du projet. Sans compter que les documents qui nous ont été fournis comme base au début du semestre n'exploitaient pas ces fonctionnalités.
 

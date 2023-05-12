@@ -34,7 +34,7 @@ Pour réaliser ce tutoriel, vous aurez besoin de
 </li>
     <li> Un câble USB Micro Type-B
 </li>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/usb.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/usb.png' class='alignnone size-medium' style='max-width:20%;'></a><figcaption>Figure - Un câble USB Micro type-B</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/usb.png' class='alignnone size-medium' style='max-width:20%;'><figcaption>Figure - Un câble USB Micro type-B</figcaption></div></figure>
     
 
 </ul>
@@ -68,7 +68,7 @@ python3
 Si l'invité de commande Python suivant apparaît, la version est présente. 
 
 Pour quitter l'interpréteur python, il suffit de saisir <span class='badge badge-light'>exit()</span> dans l'interpréteur ou bien de faire <span class='badge badge-light'>Ctrl  +z</span>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/python.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/python.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Invité de commande Python</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/python.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Invité de commande Python</figcaption></div></figure>
 Le cas échéant, je vous invite à saisir la commande suivante :
 
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
@@ -99,7 +99,7 @@ pip3 install esptool
 </code></pre><hr>
 Voici le résultat de la commande sur le terminal : 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/esptool_download.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/esptool_download.png' class='alignnone size-medium' style='max-width:28%;'></a><figcaption>Figure - Résultat de l'installation de pip3</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/esptool_download.png' class='alignnone size-medium' style='max-width:28%;'><figcaption>Figure - Résultat de l'installation de pip3</figcaption></div></figure>
 <h4>Récupération du port USB</h4>
 L'ESP8266 étant raccordé, l'ordinateur lui a affecté un nom de port de type <i>/dev/ttyUSBx</i> avec x représentant le numéro du 
 périphérique USB. 
@@ -110,7 +110,7 @@ Pour récupérer la valeur de ce numéro, nous allons lancer la commande suivant
 ls /dev/ttyUSB*
 
 </code></pre><hr>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/lsusb.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/lsusb.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Résultat de la commande</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/lsusb.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Résultat de la commande</figcaption></div></figure>
 Dans le cas présent,le nom du port est <i>/dev/ttyUSB0</i>
 <h4>Effacer la mémoire</h4>
 Lancer la commande suivante : 
@@ -122,7 +122,7 @@ esptool.py --port /dev/ttyUSB0 erase_flash
 Évidemment, si vous avez un autre numéro de port avec la commande <b>esptool.py flash id</b>, vous mettez votre numéro.
 Voici le résultat de la commande sur le terminal : 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/esptool_erase.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/esptool_erase.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Résultat de la commande pour effacer l'ESP8266</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/esptool_erase.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Résultat de la commande pour effacer l'ESP8266</figcaption></div></figure>
 <h2 >Installer le firmware sur l'ESP8266</h2>
 Maintenant que l'ESP8266 est vide, il nous reste à installer son logiciel (firmware) fin qu'il puisse utiliser le Wifi selon 
 
@@ -139,7 +139,7 @@ Le logiciel se présente sous fichier binaire (.bin) et est disponible à l'adre
 
 Je vous invite à télécharger la dernière version stable (latest)
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/esplatest.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/esplatest.png' class='alignnone size-medium' style='max-width:55%;'></a><figcaption>Figure - Récupération du logiciel pour l'ESP8266</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/esplatest.png' class='alignnone size-medium' style='max-width:55%;'><figcaption>Figure - Récupération du logiciel pour l'ESP8266</figcaption></div></figure>
 <h4>Installation du logiciel</h4>
 <b>Tout d'abord, placez vous dans le même répertoire que votre fichier binaire installé précédemment et ouvrez un terminal.</b> 
 La commande <span class='badge badge-light'>ls</span> devrait confirmer votre contenu du répertoire.
@@ -147,7 +147,7 @@ La commande <span class='badge badge-light'>ls</span> devrait confirmer votre co
 ls
 
 </code></pre><hr>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/ls.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/ls.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Contenu du répertoire</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/ls.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Contenu du répertoire</figcaption></div></figure>
 Il ne vous reste plus qu'a saisir la commande pour installer le firmware. 
 
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
@@ -156,7 +156,7 @@ esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect 0 e
 </code></pre><hr>
 Comme précédemment, si vous avez un nom de fichier différent, je vous laisse le soin de changer de nom afin de coïncider avec le vôtre.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/espinstall.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/espinstall.png' class='alignnone size-medium' style='max-width:45%;'></a><figcaption>Figure - Résultat de la commande pour installer le firmware</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/espinstall.png' class='alignnone size-medium' style='max-width:45%;'><figcaption>Figure - Résultat de la commande pour installer le firmware</figcaption></div></figure>
 Après le déploiement du firmware, le module redémarre et il est configuré en point d’accès WiFi avec pour nom <b>MicroPython-6953</b>.  Les chiffres correspondent aux quatre derniers chiffres de l'adresse MAC du module. 
 <h2 >Configurer le mot de passe WebRepl</h2>
 <h4>Installation de WebRepl</h4>
@@ -164,12 +164,12 @@ Le logiciel <span class='badge badge-success'>WebRepl</span> va nous permettre d
 Le logiciel est disponible à l'adresse suivante : 
 
 Cliquez ensuite sur <span class='badge badge-light'>Code</span> puis <span class='badge badge-light'>Download Zip</span>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/github.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/github.png' class='alignnone size-medium' style='max-width:45%;'></a><figcaption>Figure - Téléchargement de WebRepl sur Github</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/github.png' class='alignnone size-medium' style='max-width:45%;'><figcaption>Figure - Téléchargement de WebRepl sur Github</figcaption></div></figure>
 Veuillez commencer par extraire l'archive.
 
 Celle-ci contient les fichiers suivants : 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/webrepl.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/webrepl.png' class='alignnone size-medium' style='max-width:45%;'></a><figcaption>Figure - Contenu du dossier WebRepl</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/webrepl.png' class='alignnone size-medium' style='max-width:45%;'><figcaption>Figure - Contenu du dossier WebRepl</figcaption></div></figure>
 <h4>Installation de screen</h4>
 <span class='badge badge-success'>screen</span> est un utilitaire qui va nous permettre de se connecter à l'ESP8266 via le câble USB car actuellement, il nous est impossible d'utiliser WebRepl.
 On installe l'utilitaire avec la commande suivante : 
@@ -180,14 +180,14 @@ sudo apt-get install -y screen
 </code></pre><hr>
 <h4>Création du mot de passe</h4>
 <h4>Utilisation de screen</h4>
-On peut accéder à l’interpréteur de commande Python REPL <span title="Read Evaluate Print Loop" style='color:grey;'><sup>[note]</sup></span> via le port série en tapant la commande suivante dans un terminal :
+On peut accéder à l’interpréteur de commande Python REPL <span title="Read Evaluate Print Loop" style='color:grey;'><sup>[Note 119]</sup></span> via le port série en tapant la commande suivante dans un terminal :
 
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 screen /dev/ttyUSB0 115200
 
 </code></pre><hr>
 <div class='alert alert-warning' ><h4>Point-clé</h4>Il faut appuyer sur la touche Entrée pour afficher l'invité de commande MicroPython.</div>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/console.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/console.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Console screen</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/console.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Console screen</figcaption></div></figure>
 Pour quitter Screen, il faut appuyer sur les touches <span class='badge badge-light'>CTRL + a</span> puis écrire <span class='badge badge-light'>:quit</span> 
 Ensuite, entrez la commande suivante via le terminal Screen :
 
@@ -196,13 +196,13 @@ Ensuite, entrez la commande suivante via le terminal Screen :
 
 </code></pre><hr>
 Le système vous demande tout d'abord d’activer l’accès par le réseau Wifi dès le démarrage en saisissant <span class='badge badge-light'>E</span>.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enable.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enable.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Activation de l'ESP8266 screen</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/enable.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Activation de l'ESP8266 screen</figcaption></div></figure>
 Il vous invite ensuite à saisir le mot de passe pour l'accès à WebRepl. Ici le mot de passe choisi est <span class='badge badge-light'>crepp</span>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/password.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/password.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Activation de l'ESP8266 screen</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/password.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Activation de l'ESP8266 screen</figcaption></div></figure>
 Enfin, saisissez <span class='badge badge-light'>y</span> pour redémarrer l'ESP8266.
 A ce moment là, les lignes suivantes apparaissent : 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/end.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/end.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Fin de la configuration</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/end.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Fin de la configuration</figcaption></div></figure>
 <b>La configuration de l'ESP8266 est terminée</b>
 <h4>Connexion à WebRepl</h4>
 <h4>Connexion au réseau de l'ESP8266</h4>
@@ -246,19 +246,35 @@ Par contre il est nécessaire de passer les commandes suivantes après la connex
 
 </code></pre><hr>
 
- 
+%<h4>Serveur Web avec ESP12</h4>
+% 
 
 <h2 >Un serveur Web avec ESP12</h2>
- 
 L'objectif de ce chapitre est de créer un serveur Web pour contrôler la led interne de l'ESP12, une carte basée sur les ESP8266 
 
 (Broche D4)
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/led_esp.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/led_esp.jpg' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - La led interne de l'ESP</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/webServer-simple/led_esp.jpg' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - La led interne de l'ESP</figcaption></div></figure>
+<h3>Présentation des modules ESP12</h3>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/webServer-simple/nodemcu.jpg' class='alignnone size-medium' style='max-width:20%;'><figcaption>Figure - Une carte ESP12 NodeMCU</figcaption></div></figure>
+Les cartes ESP12 sont des microcontrôleurs basés sur la puce ESP8266 
+
+qui permet de se connecter en Wifi à des réseaux ou bien de créer son propre réseau.
+
+Une des sous-famille est la NodeMCU.
+
+Cette carte possède un certains nombre de broches dites <span title="General Purpose Input-Output : Broche à usage générale (entrée-sortie)" style='color:blue;'>GPIO</span>, qui, comme les cartes Arduino, 
+
+sont utilisées pour interagir avec des capteurs et des actionneurs.
+
+Voici la disposition des broches sur les ESP12.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/pinout.png' class='alignnone size-medium' style='max-width:200%;'><figcaption>Figure - Les broches de l'ESP12</figcaption></div></figure>
+<div class='alert alert-danger' ><h4>\faExclamationTriangle</h4>Les broches GPIO de l'ESP12 sont en 3.3V, contrairement aux cartes Arduino qui sont en 5V. Il existe néanmoins une broche (VIN) pour alimenter des périphériques en 5V</div>
 <h3>Architecture du mini-projet</h3>
 Pour communiquer entre le client (utilisateur) et l'ESP12, nous utiliserons un routeur qui servira de passerelle.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/arch.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/arch.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Architecture du projet</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/webServer-simple/arch.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Architecture du projet</figcaption></div></figure>
 L'ESP12 se connecte dans un premier temps au routeur. 
 
 Une fois connecté, tout client sur le même réseau peut se connecter à l'ESP12 en saisissant l'adresse de 
@@ -270,17 +286,18 @@ Dès que nous allons sur une page Web, nous faisons une requête, c'est à dire 
 
 d'une page Web à un serveur distant.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/serveur.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/serveur.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Architecture client-serveur</figcaption></div></figure>
-Afin de récupérer une page sur le serveur, nous avons besoin de connaitre 3 élements :
+<figure id=''><div class='cent' style='text-align:center;'><img src='/webServer-simple/serveur.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Architecture client-serveur</figcaption></div></figure>
+Afin de récupérer une page sur le serveur, nous avons besoin de connaître 3 éléments :
 
 <ul>
-    <li> L'adresse IP <span title="Internet Protocol : Adresse d'une machine sur un réseau" style='color:blue;'>IP</span> ou l'adresse du serveur : Ici ce sera l'adresse IP de l'ESP12
+    <li> L'adresse <span title="Internet Protocol : Adresse d'une machine sur un réseau" style='color:blue;'>IP</span> ou l'adresse du serveur : Ici ce sera l'adresse IP de l'ESP12
 </li>
     <li> L'emplacement de la page sur le serveur : L'emplacement '/' désigne la racine du serveur
 </li>
-    <li> Le port de communication entre le client et le serveur : <span style='background-color:blue;opacity:60%;color:white;' class='badge badge-pill'>80</span> par défaut pour 
+    <li> Le port de communication entre le client et le serveur : <span style='background-color:blue;opacity:60%;color:blue;' class='badge badge-pill'>80</span> par défaut pour 
 </li>
-    le protocole HTTP<span title="le protocole HTTPS utilise le port 443" style='color:grey;'><sup>[note]</sup></span>   <span title="Hypertext Transfer Protocol : Protocole de transfert hypertexte" style='color:blue;'>HTTP</span>
+    le protocole <span title="Hypertext Transfer Protocol : Protocole de transfert hypertexte" style='color:blue;'>HTTP</span> 
+
 </ul>
 <h4>Une petite explication sur les ports</h4>
 Pour recevoir et transmettre des données à d’autres ordinateurs, un ordinateur (ou serveur) a
@@ -291,7 +308,7 @@ Ainsi, des ports virtuels ont été créés.
 
 Chaque port virtuel est codé sur 16 bits et permet de faire communiquer un service
 
-ou un logiciel.<span title="Par exemple, le service SSH communique sur le port 22" style='color:grey;'><sup>[note]</sup></span>. Il y a donc potentiellement
+ou un logiciel.<span title="Par exemple, le service SSH communique sur le port 22" style='color:grey;'><sup>[Note 120]</sup></span>. Il y a donc potentiellement
 
 65536 ports disponibles. Certains numéros de port sont réservés à certains services 
 
@@ -305,16 +322,16 @@ seront pas abordées}
 <ul>
 <li> Requêtes GET
 </li>
-Les requêtes GET sont des requêtes avec des éléments passés via l'URl de la page.
+Les requêtes GET sont des requêtes avec des éléments passés via l'<span title="Uniform Resource Locator : Localisateur uniforme de ressource" style='color:blue;'>URL</span> de la page.
 
 Elles sont donc visibles via la barre d'adresse: 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/led.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/led.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - L'adresse avec la requête GET</figcaption></div></figure>
-Chaque élément est séparé avec le symbole \lbl{blue}{LBL}{\&} et la liste des arguments commencent avec le symbole  <span style='background-color:blue;opacity:60%;color:white;' class='badge badge-pill'>?</span>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/webServer-simple/led.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - L'adresse avec la requête GET</figcaption></div></figure>
+Chaque élément est séparé avec le symbole \lbl{blue}{LBL}{\&} et la liste des arguments commencent avec le symbole  <span style='background-color:blue;opacity:60%;color:blue;' class='badge badge-pill'>?</span>
 
-Comme nous avons un seul élément passé via l'URl, nous n'avons pas le symbole <span style='background-color:blue;opacity:60%;color:white;' class='badge badge-pill'>\&</span>
+Comme nous avons un seul élément passé via l'URl, nous n'avons pas le symbole <span style='background-color:blue;opacity:60%;color:blue;' class='badge badge-pill'>\&</span>
 
-Ici, nous avons un argument \lbl{blue}{ARG}{LED} avec la valeur <span style='background-color:green;opacity:60%;color:white;' class='badge badge-pill'>OFF</span>
+Ici, nous avons un argument \lbl{blue}{ARG}{LED} avec la valeur <span style='background-color:green;opacity:60%;color:green;' class='badge badge-pill'>OFF</span>
 
 <li> Requêtes POST
 </li>
@@ -324,7 +341,7 @@ Ces requêtes ne passent pas les arguments via l'adresse URl. Cette section ne s
 <h3>Connexion au routeur</h3>
 La carte ESP12 a besoin du nom du routeur ainsi que de son mot de passe. 
 
-Dans le programme <span style='background-color:green;opacity:60%;color:white;' class='badge badge-pill'>serveur Web simple.ino</span>, il faut préciser le nom et le mot de passe sur les lignes suivantes : 
+Dans le programme <span style='background-color:green;opacity:60%;color:green;' class='badge badge-pill'>serveur Web simple.ino</span>, il faut préciser le nom et le mot de passe sur les lignes suivantes : 
 
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 //Par exemple
@@ -338,24 +355,24 @@ const char* password = "MonTraficEstJournalise";
 </code></pre><hr>
 <h3>Lancement du programme</h3>
 Pour sélectionner la carte ESP12, veuillez vous reporter à l'annexe <b>UTILISATION DE L’ESP12 SOUS ARDUINO</b>.
-<div class='alert alert-warning' ><h4>Remarque</h4>Il faudra activer la liaison série de la carte. Pour cela, lors du choix de la carte dans le logiciel Arduino, dans la section Outils - Types de cartes -  ESP12 NodeMCU, il faut bien vérifier que la case Serial est activée </div>
+<div class='alert alert-warning' ><h4>\faviconWarning</h4>Il faudra activer la liaison série de la carte. Pour cela, lors du choix de la carte dans le logiciel Arduino, dans la section Outils - Types de cartes -  ESP12 NodeMCU, il faut bien vérifier que la case Serial est activée </div>
 Une fois le programme téléversé, il vous faudra récupérer l'adresse IP de l'ESP12.
 
 Pour cela, une fois que le code est téléversé, veuillez ouvrir la fenêtre du moniteur série, l’adresse IP de l'ESP va apparaître 
 
 au bout de quelques secondes.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/port_serie.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/port_serie.png' class='alignnone size-medium' style='max-width:45%;'></a><figcaption>Figure - Affichage de l'adresse IP</figcaption></div></figure>
-Si aucune données n’apparaît, faite un reset de la carte ESP12 en appuyant sur la touche <span style='background-color:red;opacity:60%;color:white;' class='badge badge-pill'>RST</span> de la carte.
+<figure id=''><div class='cent' style='text-align:center;'><img src='/webServer-simple/port_serie.png' class='alignnone size-medium' style='max-width:45%;'><figcaption>Figure - Affichage de l'adresse IP</figcaption></div></figure>
+Si aucune données n’apparaît, faite un reset de la carte ESP12 en appuyant sur la touche <span style='background-color:red;opacity:60%;color:red;' class='badge badge-pill'>RST</span> de la carte.
 
 Il ne vous reste plus qu'à rentrer l’adresse IP obtenue dans un navigateur internet.
 
-En l’occurrence, l'adresse IP dans ce cas là est <span style='background-color:green;opacity:60%;color:white;' class='badge badge-pill'>192.168.0.102</span>
+En l’occurrence, l'adresse IP dans ce cas là est <span style='background-color:green;opacity:60%;color:green;' class='badge badge-pill'>192.168.0.102</span>
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/ip.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/ip.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Connexion au serveur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/webServer-simple/ip.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Connexion au serveur</figcaption></div></figure>
 Le résultat doit être le suivant 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/serveurWeb.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/serveurWeb.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Résultat</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/webServer-simple/serveurWeb.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Résultat</figcaption></div></figure>
 <h3>Explication du programme</h3>
 <b>Une explication du langage HTML est disponible en annexe (section HTML)</b>
 <h4>En tête du code</h4>
@@ -421,7 +438,12 @@ Deux versions de pages Web seront proposées:
             </html>";
 
 </code></pre><hr>
-        <li> Une version plus élaborée en utilisant la bibliothèque <span style='background-color:green;opacity:60%;color:white;' class='badge badge-pill'>Bootstrap</span> qui permet de faire de 
+        \bold{Tout le principe de ce serveur repose dans l'action qu'effectue bouton lors d'un click.
+
+        Ce dernier va demander à afficher la page et lors de la demande, il va passer à l'URL le mot-clé
+
+        <b>LED</b> et la valeur souhaitée (On ou OFF).}
+        <li> Une version plus élaborée en utilisant la bibliothèque <span style='background-color:green;opacity:60%;color:green;' class='badge badge-pill'>Bootstrap</span> qui permet de faire de 
 </li>
         jolies mises en forme très facilement.
 
@@ -454,7 +476,7 @@ Deux versions de pages Web seront proposées:
 
 </code></pre><hr>
 </ul>
-<h4>Fonctionsetup</h4>
+<h4>Fonction setup</h4>
 Lançons nous dans le code de la fonction <b>setup</b>
 On définit la led en sortie et on se connecte au routeur.
 
@@ -500,7 +522,7 @@ Puis on vérifie que nous sommes bien connecté et on affiche les informations d
     Serial.println(WiFi.localIP());            
 
 </code></pre><hr>
-Enfin on vérifie que le MDSN<span title="Multicast DNS, un serveur de résolution de nom de domaine" style='color:grey;'><sup>[note]</sup></span> est activé (optionnel)
+Enfin on vérifie que le MDSN<span title="Multicast DNS, un serveur de résolution de nom de domaine" style='color:grey;'><sup>[Note 121]</sup></span> est activé (optionnel)
 
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
     if (MDNS.begin("esp8266")) {   //Multicast DNS 
@@ -545,6 +567,49 @@ void loop()
 }//Fin loop
 
 </code></pre><hr>
+<h4>Fonction mainPage</h4>
+Le code à l'intérieur de la fonction <b>mainPage</b> permet de gérer la LED en fonction des 
+valeurs passées via l'URL.
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+void mainPage() //Page principale
+
+{ 
+
+ if(server.arg("LED")=="ON") //Lecture de l'argument 'LED'
+
+ {
+
+  digitalWrite(LED, LOW); //On allume la led
+
+ }//Fin if
+
+ else if(server.arg("LED")=="OFF")
+
+ {
+
+ digitalWrite(LED, HIGH);   //On eteint la led
+
+ }//Fin else if
+
+ else {
+
+  //nothing
+
+ }
+
+ server.send(200, "text/html", fullPageContent); //On envoie la page principale
+
+  
+
+}//FIn mainPage
+
+</code></pre><hr>
+Tout appui sur un bouton va exécuter cette fonction.
+
+La fonction <b>server.send()</b> permet d'envoyer la page au client lorsque celui-ci la demande.
+La valeur 200 correspond au code d'erreur de la page : 200 veut dire qu'il n'y a pas eu d'erreur <span title="L'erreur 4040 indique une page inexistante." style='color:grey;'><sup>[Note 122]</sup></span>.
+
 <h3>Code complet</h3>
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 #include <ESP8266WiFi.h>
@@ -756,6 +821,279 @@ void notFoundPage()  //Gestion si mauvaise URL
       
 
 }//Fin notFoundPage
+
+</code></pre><hr>
+<h3>Une amélioration possible</h3>
+il est possible d'afficher l'adresse IP du serveur sur un écran <span title="Organic LED : Écran LED organique" style='color:blue;'>OLED</span> afin d'éviter d'ouvrir le moniteur série Arduino.
+
+Pour cela, nous allons effectuer le branchement suivant : 
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/sensors/esp_oled.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Branchement de l'écran OLED à l'ESP12</figcaption></div></figure>
+<h3>Code complet avec l'écran OLED</h3>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+    #include <ESP8266WiFi.h>
+
+    #include <ESP8266WebServer.h>
+
+    #include <ESP8266mDNS.h>
+
+    
+
+    
+
+    #include <SPI.h>
+
+    #include <Wire.h>
+
+    #include <Adafruit_GFX.h>
+
+    #include <Adafruit_SSD1306.h>
+
+    
+
+    
+
+    #define PORT 80 //Port par défaut
+
+    #define LED D4  //Broche de la LED
+
+    
+
+    ESP8266WebServer server(PORT);
+
+    
+
+    const char* ssid     = "creafab_invite";//Nom du routeur sur le réseau 
+
+    const char* password = "MonTraficEstJournalise"; //Mot de passe du routeur
+
+    
+
+    
+
+    #define SCREEN_WIDTH 128 // OLED display width, in pixels
+
+    #define SCREEN_HEIGHT 64 // OLED display height, in pixels
+
+    
+
+    #define OLED_RESET     -1 //Broche reset
+
+    #define SCREEN_ADDRESS 0x3C ///Parfois 0x3D ou 0x3F
+
+    Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+
+    
+
+    //Page principale
+
+    const String minimalPageContent = "<html>\
+
+      <head>\
+
+        <title>Serveur Web CREPP</title>\
+
+        <meta charset=\"utf-8\"/> \
+
+        </head>\
+
+      <body>\
+
+        <h1>Led ESP8266</h1><br>\
+
+        <h3>Contrôle de la LED sur la broche D4</h3><br>\
+
+          <a href=\"/?LED=ON\"><button >Allumer</button></a>\
+
+          <a href=\"/?LED=OFF\"><button >Eteindre</button></a>\
+
+      </body>\
+
+    </html>";
+
+    
+
+    void setup() {
+
+      
+
+      pinMode(LED, OUTPUT);       //LED en sortie
+
+      Serial.begin(115200);       //Communication à 115200 bits/s
+
+      WiFi.begin(ssid, password); //Connexion
+
+      Serial.println("");         //Retour à la ligne
+
+    
+
+      delay(100);
+
+      
+
+      while (WiFi.status() != WL_CONNECTED) 
+
+      {
+
+        delay(500);
+
+        Serial.println(">>> Impossible de se connecter au réseau...");
+
+      }
+
+      
+
+    
+
+      if (MDNS.begin("esp8266")) {   //Multicast DNS 
+
+        Serial.println(">>> Serveur MDNS activé");
+
+      }
+
+    
+
+      server.on("/", mainPage);           //Affichage de la page principale si requête sur '/' -> saisir IP dans le navigateur
+
+      server.onNotFound(notFoundPage);    //Affichage de la page d'erreur si adresse non valide
+
+    
+
+      server.begin();                     //Initialisation du serveur
+
+      Serial.println(">>> démarrage du serveur : OK");
+
+    
+
+      if(!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
+
+        Serial.println(F("Echec OLED"));
+
+        for(;;); 
+
+      }
+
+    
+
+      display.display(); //Affiche le logo Adafruit
+
+      delay(500); 
+
+      display.clearDisplay(); //efface l'écran
+
+    
+
+      display.setTextSize(1);               //Facteur d'échelle
+
+      display.setTextColor(SSD1306_WHITE);  //texte blanc
+
+      display.setCursor(0, 0);              //Place le curseur en (0,0)
+
+      
+
+      display.println("Connexion au reseau ");
+
+      display.println(ssid);
+
+      display.println("avec l'adresse IP : ");
+
+      display.println(WiFi.localIP());
+
+      
+
+      display.display();   //met à jour le contenu
+
+      
+
+    }//Fin setup
+
+    
+
+    void loop() 
+
+    {
+
+      
+
+      server.handleClient(); //Gestion des clients sur le serveur
+
+      
+
+    }//Fin loop
+
+    
+
+    
+
+    void mainPage() //Page principale
+
+    { 
+
+    
+
+     if(server.arg("LED")=="ON") //Lecture de l'argument 'LED'
+
+     {
+
+          digitalWrite(LED, LOW); //On allume la led
+
+          display.clearDisplay();
+
+          display.setCursor(0, 0);  
+
+          display.println("LED : 1");
+
+          display.display();
+
+          
+
+     }//Fin if
+
+     else if(server.arg("LED")=="OFF")
+
+     {
+
+        digitalWrite(LED, HIGH);   //On eteint la led
+
+        display.clearDisplay();
+
+        display.setCursor(0, 0);  
+
+        display.println("LED : 0");
+
+        display.display();
+
+     }//Fin else if
+
+     else {
+
+      //nothing
+
+     }
+
+    
+
+     server.send(200, "text/html", minimalPageContent); //On envoie la page principale
+
+      
+
+    }//FIn mainPage
+
+    
+
+    
+
+    void notFoundPage()  //Gestion si mauvaise URL
+
+    {
+
+      server.send(404, "text/plain", "Page introuvable !\n\n");
+
+      
+
+    }
+
+    
 
 </code></pre><hr>
 

@@ -1,0 +1,46 @@
+
+\chapter{Conclusions}
+
+\section{Capacités du programme}
+
+A ce jour, le code fourni est en mesure de gérer un programme de supervision comportant des vérins, moteurs et voyants. \\
+L'utilisateur est libre d'ajouter des objets comme bon lui semble. \\
+
+Les tables d'animations sont également opérationnelles et permettent de visualiser à tout instant l'état des variables de l'automate. \\
+Il est possible de changer d'automate pour une même interface. \\
+Cependant, il nous est encore impossible de distinguer une variable forcé par l'utilisateur ou une variable à un état de repos. \\
+Cet objectif sera, dans la mesure du possible, à prendre en compte. \\
+
+
+\section{Améliorations}
+
+L'un des objectifs serait de récupérer les données des variables sur une base de temps afin de les exploiter dans le futur (traitement puis graphique d'exploitation). Il faudrait donc sauvegarder les valeurs des variables soit dans un simple fichier au format CSV ou XML ou encore dans une base de données (SQL, SQlite...). \\
+Il faut être conscient que la dernière méthode est plus à longue à configurer car une base de données n'est pas forcément installé sur les ordinateurs. \\
+
+Le programme que nous avons codé permet d'utiliser le logiciel seulement sur un ordinateur. \\
+Une version améliorée serait de faire une interface pour smartphone afin de la rendre plus portable. \\
+On pourrait donc prendre le contrôle de l'automate à travers une interface WEB. Cependant, cela peut poser de graves problèmes de sécurité car la communication Interface-Automate ne se fait plus à travers un seul réseau local.
+
+
+\section{Problèmes rencontrés}
+
+Tout au long de ce semestre, de nombreux problèmes ont été rencontrés, notamment au niveau du langage en lui-même. \\
+Nous devions nous baser sur le langage Python, cependant celui-ci a apporté de nombreux problèmes.
+\newline
+En effet, le premier était tout simplement notre mauvaise maîtrise du langage. Python est un langage simple à aborder mais dans le cadre d'une utilisation plus ambitieuse telle que notre projet, les compétences à posséder deviennent bien particulières et le langage expose des aspects qui sont loin d'être simples si nous n'y avons pas été formé. \newline
+Une bonne partie du temps dont nous disposions a donc été employé à la résolution de bugs inhérents à notre mauvaise maîtrise de Python.\\
+
+
+
+Ensuite, de nombreux choix ont dû être faits. En effet, avec la volonté de créer un module ré-utilisable de haut niveau, il a été nécessaire de faire des compromis entre performance et simplicité d'utilisation.\newline
+Au début du projet, nous avions développés notre propre système de signaux/slots utilisant le multi-threading mais apportant des problèmes en terme de compatibilité avec Qt. C'est ceci qui nous a fait re-changer notre programme pour lui faire utiliser des signaux/slots Qt au dernier moment.\\
+
+
+
+Le manque de possibilités de tester notre programme a aussi été un frein au développement de notre projet. Nous avons testé celui-ci avec Unity-PRO extrêmement tardivement.\newline
+Puisque nous programmions sous Linux et sans moyen d'accéder facilement à un système Windows.\newline
+De plus, nous n'avions pas non plus accès à la salle d'automatismes, ce qui nous aurait offert un moyen simple de tester notre programme en conditions réelles et de perdre moins de temps en fin de semestre à corriger tous les bugs existants dans le programme (n'ayant pas pu être testé avant). Cela nous aurait aussi permis de nous rendre compte des différents problèmes conceptuels qui ont dû être résolu très rapidement\footnote{Même si ces problème auraient dû être envisagés avant la rédaction du programme}.
+
+
+Enfin, nous avons fait un mauvais usage de la bibliothèque PyModbus. En effet, celle-ci semble proposer de nombreuses fonctionnalités pour simplifier la gestion et la robustesse de la communication. Malheureusement, l'absence de documentation complète de la bibliothèque ne nous a pas permis de les découvrir avant la fin du projet. Sans compter que les documents qui nous ont été fournis comme base au début du semestre n'exploitaient pas ces fonctionnalités.
+

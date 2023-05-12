@@ -1,0 +1,453 @@
+\part{Labo 3 - Les Interruptions}
+\chapter{Présentation}
+
+L'objectif de ce laboratoire est d'abord de développer une application utilisant les interruptions générées par un timer et par des boutons poussoirs. \\
+
+L'API du timer est partiellement fournie sous forme pré-compilée, certaines fonctions sont à compléter.\\
+Le bouton poussoir utilise les entrées d'interruptions extérieures (EXTI). \\
+
+Une partie de la préparation de ce laboratoire a été
+faite en TD. Les API permettant d'utiliser la led RGB, le joystick et l'afficheur LCD sont fournies précompilées. Consulter leur fichier d'en-tête *.h pour prendre connaissance des fonctions de l'API disponibles. \\
+
+Les documentations relatives à l'utilisation du microcontrôleur STM32F411 sont disponibles sur les postes de travail et en ligne (Moodle).
+
+\chapter{Interruptions générées par le timer}
+
+\section{Génération d'une interruption périodique}
+
+\subsection{a) io\_configure}
+
+
+\begin{Cpp}{utilisation de \func{io\_configure}} 
+
+#define IO_CFG_LED_RED  PIN_MODE_OUTPUT|PIN_OPT_OUTPUT_SPEED_MEDIUM|PIN_OPT_RESISTOR_NONE|PIN_OPT_OUTPUT_PUSHPULL
+
+io_configure(_GPIOB,PIN_4,IO_CFG_LED_RED,NULL); //On initialise la led rouge
+    
+    
+\end{Cpp}
+
+\subsection{b) timer\_tick\_init}
+
+
+\begin{Cpp}{utilisation de \func{timer\_tick\_init}} 
+Les explciations détaillées sont dans le code source ci-dessous : 
+
+int timer_tick_init(TIM_t *tmr, uint32_t tick_ms, OnTick cb)
+{
+	IRQn_t	 irqn;
+	uint32_t irq_priority, clk;
+
+	if (tmr == _TIM2) {
+	
+    callback2 = cb;     //Store callback function associated to TIMER2
+		irqn = 28;          //Set IRQ Number from Table vector
+		irq_priority = 35;  //Set IRQ priority level
+
+		// enable timer clocking
+    _RCC->APB1ENR |= 0x1; //Clock on
+        
+	} else if (tmr == _TIM3) {
+	
+	    //Indications are same as if(tmr==_TIM2)
+	
+		callback3 = cb;
+		irqn = 29;
+		irq_priority = 36;
+		_RCC->APB1ENR |= (0x1<<1); //Clock on
+		
+	
+	} else if (tmr == _TIM4) {
+	
+	    //Indications are same as if(tmr==_TIM2)
+	    
+		callback4 = cb;
+		irqn = 30;
+		irq_priority = 37;
+		_RCC->APB1ENR |= (0x1<<2); //Clock on
+	
+	} else if (tmr == _TIM5) {
+		
+		//Indications are same as if(tmr==_TIM2)
+		
+		callback5 = cb;
+		irqn = 50;
+		irq_priority = 38;
+		_RCC->APB1ENR |= (0x1<<3); //Clock on
+	
+	} else {
+		return -1;
+	}
+	
+	// clear pending interrupts
+	tmr->SR &= ~0x1F;
+	
+	//Set mode
+	tmr->CR1 |= (1u << 7);          //Auto-reload enable
+	tmr->DIER |= 0x3;               //(...00011)
+	
+	// set prescaler 100us
+	tmr->PSC = (uint32_t) (100*0.000001*84000000)-1; //100 micros secondes
+	
+	// set period
+	timer_tick_period(tmr,tick_ms);
+	
+	if (cb) {
+		NVIC_ClearPendingIRQ(irqn);  //remove interupt in waiting 
+		NVIC_EnableIRQ(irqn);  			//Activate IRQ
+		NVIC_SetPriority(irqn,irq_priority);  //set priority
+	}
+	
+    return 0;
+}
+
+\end{Cpp}
+
+Dans notre fonction \func{timer\_tick\_init}
+
+
+\subsection{c) timer\_start}
+
+\begin{Cpp}{utilisation de \func{timer\_start}} 
+/* timer_start
+ *   reset & enable counting
+ */
+void timer_start(TIM_t *tmr)
+{
+	// force update to reset counter and prescaler
+	tmr->EGR = 0x1;		// reset
+	
+	// enable counting
+	tmr->CR1 |= 0x1; 	
+}
+\end{Cpp}
+
+Comme expliqué dans le commentaire il faut mettre à 1 le premier bit de \reg{EGR} pour remettre le compteur "à zéros" et commencer correctement grâce au bit 0 de \reg{CR1} : CEN (Counter ENnable) qui \bold{doit être mis à 1 pour démarrer le comptage}.\\
+
+\subsection{d) timer\_tick\_period}
+
+\begin{Cpp}{utilisation de \func{timer\_tick\_period}} 
+
+int timer_tick_period(TIM_t *tmr, uint32_t tick_ms)
+{
+    // set period
+	tmr -> ARR = tick_ms;//End of timer at us  
+    
+    // force update to reset counter and prescaler
+	tmr -> EGR |= 0x1;
+	tmr->PSC = (uint32_t) (100*0.000001*84000000)-1; //100 micros secondes
+	return 1;
+}
+
+\end{Cpp}
+
+On est obligé de redéfinir PSC car quand on effectue un reset, c'est à dire mettre le bit 0 de EGR à 1 le prescaler est aussi reset.
+
+\newpage
+\subsection{e) timer\_stop}
+
+\begin{Cpp}{utilisation de \func{timer\_tick\_period}} 
+
+/* timer_stop
+ *   stop counting
+ */
+void timer_stop(TIM_t *tmr)
+{
+	// disable counting
+	tmr->CR1 &= ~(0x1);
+}
+
+\end{Cpp}
+
+
+On utilise un \&= \~{}(0x1) pour mettre le bit 0 à 0 et uniquement celui là.
+\~{}(0x1) donne (0x111..1110)\\
+
+
+
+\newpage
+
+
+
+\section{Test}
+
+\subsection{MAIN1}
+
+\begin{Cpp}{MAIN1} 
+#define MAIN1
+
+#ifdef MAIN1
+
+#define IO_CFG_LED_RED  PIN_MODE_OUTPUT|PIN_OPT_OUTPUT_SPEED_MEDIUM|PIN_OPT_RESISTOR_NONE|PIN_OPT_OUTPUT_PUSHPULL
+
+#define BLINK_SPEED_BASE    1000
+
+void tmr_cb()
+{
+    static uint32_t led_state = 0;
+    led_state = !led_state;
+	red_led(led_state);
+}
+
+int main()
+{
+    // Configure output LED_RED   --> PB4
+	io_configure(_GPIOB,PIN_4,IO_CFG_LED_RED,NULL); //On initialise la led rouge
+    red_led(0); // on reset la led
+
+	timer_tick_init(_TIM2, BLINK_SPEED_BASE, tmr_cb);//On initialise le timer 2
+	timer_start(_TIM2);//On commence 
+	
+	while(1){;}
+    
+	return 0;
+}
+
+#endif /* MAIN1 */
+\end{Cpp}
+
+On peut donc voir que la LED rouge clignote grâce aux interruptions car dans le main1, le bloc d'instruction \bold{while} est vide.
+
+
+
+\chapter{Interruptions extérieures}
+
+
+\section{Génération d'une interruption par appui sur un bouton poussoir}
+
+\subsection{a) Appel io\_configure Led}
+
+\begin{Cpp}{io\_configure} 
+io_configure(_GPIOB,PIN_4,IO_CFG_LED_RED,NULL); //On initialise la led rouge
+\end{Cpp}
+
+\subsection{b) Appel io\_configure bouton}
+
+\begin{Cpp}{\func{io\_configure} Bouton} 
+io_configure(_GPIOB,PIN_5,PIN_MODE_INPUT,exti5_cb);
+\end{Cpp}
+
+\subsection{c) exti5\_cb}
+
+\begin{Cpp}{\func{io\_configure} Bouton} 
+void exti5_cb()
+{
+    static uint32_t timer_on = 0;
+    timer_on = !timer_on;  //reverse state of timer on each call of exti5_cb function
+    if(timer_on)
+    {
+        timer_stop(_TIM2); 
+    }
+    else
+    {
+        timer_start(_TIM2);
+    }
+}
+\end{Cpp}
+
+La génération d'une interruption par appui sur un bouton poussoir a été détaillé dans le TD3, nous ne mettrons donc que le code source détaillé.
+
+\newpage
+\subsection{MAIN2}
+
+\begin{Cpp}{code MAIN2} 
+
+int main()
+{
+    lcd_reset(); cls();
+    // Configure output LED_RED   --> PB4
+    io_configure(_GPIOB,PIN_4,IO_CFG_LED_RED,NULL); //On initialise la led rouge
+    red_led(0);
+
+    // Configure input SW_CENTER --> PB5, with callback
+    io_configure(_GPIOB,PIN_5,PIN_MODE_INPUT,exti5_cb);
+
+    
+    //config timer _TIM2 
+    timer_tick_init(_TIM2, BLINK_SPEED_BASE, tmr_cb);
+    lcd_printf("program started"); 
+    
+    //_EXTI->IMR : Interrupt mask register
+    //_EXTI->EMR : Event mask register
+    //_EXTI->RTSR : Rising trigger Selection register Interruption sur front montant oui ou non
+    //_EXTI->FTSR : Falling trigger selection register Interruption sur front descendant oui ou non
+
+    // enable clock for SYSCFG, no need for EXTI (clock never switched off)
+    _RCC->APB2ENR=_RCC->APB2ENR|(1<<14);
+    
+    // configure pin PB5 (4 pin config per EXTICR[] register, 4 bits per pin)
+    //   PB5 --> EXTI5
+    _SYSCFG->EXTICR[1]=((_SYSCFG->EXTICR[1])&~(0xF<<4))|(0x1<<4);
+        
+    // allow pin EXTI5 to send an IRQ
+    _EXTI->IMR=_EXTI->IMR|(1<<5);
+    
+    // not a wakeup event
+    _EXTI->EMR=_EXTI->EMR&~(0x1<<5);
+    
+    // Configure pin event IRQ on rising (RTSR)/falling (FTSR) edge (rising only here)
+    _EXTI->RTSR=_EXTI->RTSR|(1<<5);
+    _EXTI->FTSR=_EXTI->FTSR&~(0x1<<5);
+    
+    // reset any pending IRQ on PB5
+    _EXTI->PR=(0x1<<5);
+    
+    /*************************** NVIC Config ******************************/
+    //23  EXTI9_5 EXTI Line[9:5] interrupts 0x0000 009C
+    // Vector Table ISR         : EXTI9_5_IRQHandler
+    // IRQ Number (hard coded)  : EXTI9_5_IRQn = 23
+    // Choose Priority          : 6
+    
+    // Set priority : 1 byte per NVIC IRQ input
+    //EXTI9_5_IRQHandler(); // declare dans startup_stm32F411xe.s
+    
+    // Enable IRQ Input
+    //core_cm0.h ligne 629
+    NVIC_EnableIRQ(23);
+    //core_cm4.h ligne 1698
+    NVIC_SetPriority(23,6); 
+
+    //code de test   
+    while(1){;}    
+}
+
+\end{Cpp}
+
+\section{Test}
+
+\img{\rootImages/clock.png}{Horloge}{1}
+\img{\rootImages/moder.png}{registre MODER}{1}
+\img{\rootImages/pupd.png}{registre PUPDR}{1}
+\img{\rootImages/sysconfig.png}{EXTICR}{01}
+\img{\rootImages/imr.png}{registre IMR, EMR, RTSR et FTSR}{1}
+\img{\rootImages/nvic2.png}{ICER, ISER et IP}{0.6}
+
+
+\newpage
+\subsection{MAIN3}
+
+\begin{Cpp}{code MAIN3} 
+
+#ifdef MAIN3
+
+#define SAMPLING_PERIOD     100     //us                            
+
+
+
+#define IO_CFG_CLASSIC_SW           PIN_MODE_INPUT|PIN_OPT_RESISTOR_NONE  
+
+#define IO_CFG_SW_EXTI      PIN_MODE_INPUT|PIN_OPT_RESISTOR_NONE|PIN_OPT_IRQ_EDGE_RISE
+
+#define BLINK_SPEED    100      //This variable refers to the incrementation used by the SW_UP and SW_DOWN buttons
+#define NB_LED 3
+volatile uint32_t blink_speed = 1000;  //variable used by timer_tick_period()
+volatile uint32_t color = 4;  //On led red
+
+static uint16_t led_color[NB_LED] = {4,2,1};  //001 or 010 or 100 values sent to leds() to turn-on each LED by each LED
+volatile uint32_t index_led = 0; //index of led_color[] used to go from red to blue LED ...
+volatile uint8_t ledState = 0; //led turn-on or turn-down
+
+
+void tmr_cb()
+{
+    static uint32_t led_state = 0;
+    led_state = !led_state;
+	(led_state)?leds(led_color[index_led]):leds(0); //if the led must be turn-on we turn-on only ones, by using index_led.
+}
+
+//End blinking
+void exti5_cb()
+{
+    static uint32_t timer_on = 0;  state counter
+    timer_on = !timer_on;   //update counter state
+    if(timer_on)
+    {
+        timer_stop(_TIM2);    //Stop timer
+    }
+    else
+    {
+        timer_start(_TIM2);   //Start timer
+    }
+}
+
+
+void exti4_cb()
+{
+	if(blink_speed > BLINK_SPEED) //Avoid overrange
+	{
+		blink_speed -= BLINK_SPEED; //Remove period time
+	}
+	timer_tick_period(_TIM2,blink_speed); //Update tick period
+
+}
+
+
+void exti0_cb()
+{
+    blink_speed += BLINK_SPEED;         //add period time
+	timer_tick_period(_TIM2,blink_speed);   //Update tick period
+
+}
+
+int main()
+{
+    lcd_reset(); cls();
+    
+    //We configure all leds
+    leds_init();
+    leds(0); //turn off each led
+    
+	// Configure input SW_CENTER --> PB5, with callback
+	io_configure(_GPIOB,PIN_5,IO_CFG_SW_EXTI,exti5_cb);
+    // Configure input SW_UP --> PA4, with callback
+	io_configure(_GPIOA,PIN_4,IO_CFG_SW_EXTI,exti4_cb);
+    // Configure input SW_DOWN --> PB0, with callback
+	io_configure(_GPIOB,PIN_0,IO_CFG_SW_EXTI,exti0_cb);
+    // Configure input SW_LEFT --> PC1, without callback
+	io_configure(_GPIOC,PIN_1,IO_CFG_CLASSIC_SW,NULL);	
+	// Configure input SW_RIGHT --> PC0, without callback
+	io_configure(_GPIOC,PIN_0,IO_CFG_CLASSIC_SW,NULL);
+
+    
+
+    timer_tick_init(_TIM2, blink_speed, tmr_cb);  //call tmr_cb each blink_speed ms
+	timer_start(_TIM2);                             //Start timer 
+
+	while(1) {
+	
+        timer_wait_us(_TIM3, SAMPLING_PERIOD, NULL);
+        
+		if(sw_left()) {  //If left button is pushed
+
+			if(index_led == 0) { //Avoid negative value
+				index_led = NB_LED;
+			}//End if
+			index_led -= 1; //update index
+
+			if(ledState) {  //If ledState == True
+				leds(led_color[index_led]);
+			}//End if
+				
+		}//End if sw_left
+
+		if(sw_right()) {  //If right button is pushed
+
+			index_led += 1; //Update index
+			if(index_led == NB_LED) { //Avoid overrange index value [index in array can't be higher than LENGHT_MAX-1]
+				index_led = 0;
+			}//End if
+				
+			if(ledState) {       //If ledState == True
+				leds(led_color[index_led]);
+			}//End if
+				
+		}//End if sw_right
+
+    }//End while    
+}//End main
+
+#endif /* MAIN3 */
+
+
+
+\end{Cpp}

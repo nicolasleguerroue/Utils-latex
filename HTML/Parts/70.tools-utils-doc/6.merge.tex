@@ -1,0 +1,25 @@
+\chapter{Fusion de projets}
+
+Le choix d'un dossier par partie (Parts/XXX) permet de fusionner très facilement des projets.\\
+
+Pour fusionner deux projets, il suffit de copier-coller le contenu du dossier \dir{Images} et \dir{Parts} du projet A 
+dans le dossier de projet qui contiendra la fusion (projet B). Lors de la compilation, \lib{make} va gérer la 
+fusion automatiquement.
+
+
+\chapter{Ajout de bibliothèques personnelles}
+
+
+Après avoir extrait les 2 dossiers, lancer dans chaque dossier la commande
+\begin{Bash}{Création du fichier .sty}
+pdflatex *.ins
+\end{Bash}
+
+Puis remonter dans le dossier contenant les 2 dossier puis
+\begin{Bash}{Création du fichier .sty}
+sudo cp -r acrotex /usr/share/texmf/tex/latex
+sudo cp -r eq-save /usr/share/texmf/tex/latex
+cd /usr/share/texmf/tex/latex
+sudo texhash
+\end{Bash}
+    

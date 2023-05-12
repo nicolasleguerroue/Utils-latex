@@ -1,0 +1,19 @@
+%############################################################
+%###### Package 'Footnote' 
+%###### This package contains some tools to display endnote
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+%############################################################
+\typeout{>>> Utils: Package 'Endnote' loaded !}
+%############################################################
+\RequirePackage{endnotes}  %Layout of endnote
+
+
+\newcommand{\displayEndnotes}[1]{%Display end notes #tocName 
+    \chapter*{#1}
+    \hrulefill 
+    \addcontentsline{toc}{chapter}{#1}
+    \theendnotes 
+    \bigskip
+}

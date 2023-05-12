@@ -26,10 +26,11 @@ utils_dir="Utils" 						#Contains Utils library
 part_dir="Parts" 						#Contains content file
 make_dir="Make"							#Contains make files
 vscode_dir=".vscode"
-bibliography_dir="Bibliography"			#Contains bibliography
 
+#Generated files
 renderReportFile=".render_report.txt"
 renderReportLog=".render_report_log.txt"
+bibliographyMerge="Bibliography.bib"
 #################################################
 ## Files
 #################################################
@@ -354,10 +355,10 @@ echo -n "\newcommand{\raiseError}[1]{\PackageError{Utils}{#1}}" >> $output_dir/a
 echo -e "" >> $output_dir/add_content.tex
 echo -n "\newcommand{\raiseMessage}[1]{\typeout{>>> Utils: #1}}" >> $output_dir/add_content.tex
 echo -e "" >> $output_dir/add_content.tex
-#################################################
-## Images
-#################################################	
-tmp_content=""
+
+tmp_content="" 
+tmp_bib=""
+
 for item in $parts_dir/*
 do	
 
@@ -373,21 +374,39 @@ then
 		echo -e $default
 		exit
 	fi
+
+	#Check if file is Latex type [bib handler]
+
 	echo -n "\renewcommand{\rootImages}{Images/$img_name}" >> $output_dir/add_content.tex
 	echo -e "" >> $output_dir/add_content.tex
+
+	#Reset bib
+	echo "%Bib" > $output_dir/$bibliographyMerge
 	
 	for item_s in $item/*
 	do
-		tmp_content="$tmp_content$(cat $item_s)"
-
-		echo ">>>> $item_s"
-		if [ "`echo $item_s | grep part`" != "" ]
+		#Tex file handler
+		if [ "`echo $item_s | grep .tex`" != "" ]
 		then
-			name_part=`echo $item_s | cut -d '.' -f4`
-			echo "\part{"$name_part"}" >> $output_dir/add_content.tex
+			tmp_content="$tmp_content$(cat $item_s)"
+
+			echo ">>>> $item_s"
+			if [ "`echo $item_s | grep part`" != "" ]
+			then
+				name_part=`echo $item_s | cut -d '.' -f4`
+				echo "\part{"$name_part"}" >> $output_dir/add_content.tex
+			fi
+			echo -e "$blue >>> File '$item_s' added ! $default"
+			echo "\input{"$item_s"}" >> $output_dir/add_content.tex
 		fi
-		echo -e "$blue >>> File '$item_s' added ! $default"
-		echo "\input{"$item_s"}" >> $output_dir/add_content.tex
+		#Bib file handler
+		if [ "`echo $item_s | grep localBib.bib`" != "" ]
+		then
+			tmp_bib="$tmp_bib$(cat $item_s)"
+			#echo $tmp_bib
+			echo -e "$tmp_bib" >> $output_dir/$bibliographyMerge
+		fi
+
 	done
 
 fi
@@ -455,6 +474,15 @@ echo -e "$orange"
 echo -e ">>> Warnings : "
 echo "`cat $renderReportLog | grep "Package Utils"`"
 echo -e "$default"
+imageCount=`grep -c 'Utils: Image' $renderReportLog`
+messageBoxCount=`grep -c 'Utils: MessageBox' $renderReportLog`
+echo -e "$default"
+echo "Images count : $imageCount"
+echo "$imageCount" > Images/imageCounter.txt
+echo "MessageBox count : $messageBoxCount"
+echo "$messageBoxCount" > Output/messageBoxCount.txt
+echo -e "$default"
+#echo "grep -c 'Utils: Image' $renderReportLog"
 end=`date +"%s"`
 time=`expr $end - $begin`
 rm $main.xdy 2>> $renderReportFile

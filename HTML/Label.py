@@ -8,9 +8,10 @@ class Label():
         pass
 
     @staticmethod
-    def create(color, content) -> str:
+    def create(color_fg, color_bg, content) -> str:
        
-        assert type(color) is str
+        assert type(color_fg) is str
+        assert type(color_bg) is str
         assert type(content) is str
 
-        return "<span style='background-color:"+color+";opacity:60%;color:white;' class='badge badge-pill'>"+content+"</span>"
+        return "<span style='background-color:"+color_bg+";opacity:60%;color:"+color_fg+";' class='badge badge-pill'>"+content+"</span>"

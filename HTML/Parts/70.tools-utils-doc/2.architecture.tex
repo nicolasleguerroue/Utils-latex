@@ -1,0 +1,196 @@
+\chapter{Architecture}
+
+\section{Organisation du projet}
+
+\createNoCenteredFigure{Arborescence du projet}{
+\dirtree{%
+.1 \dir{Projet}. 
+.2 \dir{Images}.
+.3 \dir{Intro}.
+.3 \dir{Content}.
+.3 \dir{OtherDirectory}.
+.2 \dir{Make}.
+.3 \file{Alias.tex}.
+.3 \file{Bibliography.bib}.
+.3 \file{Colors.tex}.
+.3 \file{Contacts.tex}.
+.3 \file{Glossaries.tex}.
+.3 \file{Index.tex}.
+.3 \file{Nomenclature.tex}.
+.3 \file{Rules.tex}.
+.3 \file{Versions.tex}.
+.2 \dir{Output}.
+.2 \dir{Parts}.
+.3 \dir{0.Intro}.
+.3 \dir{1.Content}.
+.3 \dir{2.OtherDirectory}.
+.2 \dir{Settings}.
+.2 \sym{Utils}.
+.2 \dir{Utils-latex}.
+.3 \dir{bash}.
+.3 \dir{HTML}.
+.3 \dir{tools}.
+.3 \dir{Utils}.
+.3 \dir{.vscode}.
+.3 \file{make}.
+.2 \sym{.vscode}.
+.2 \file{main.tex}.
+.2 \sym{make}.
+}
+}
+ 
+Chaque projet est constitué de 8 dossiers et de 2 fichiers situés à la racine du projet.\\
+Les fichiers ou dossiers violets (SYM) sont des liens symboliques dont la source est située dans le dossier \dir{Utils-latex}.
+
+
+    \begin{items}{gray}{\faFolder}
+    \item Le dossier \dir{Images} contient l'ensemble des images du projet.
+    Chaque image doit faire partie de la même partie que son document source associé.\\
+
+    La gestion des emplacements des images est indiqué dans la section \link{\nameref{handleImages}}\\
+
+    \item Le dossier \dir{Make} contient les fichiers annexes du projet: 
+    \begin{items}{white}{}
+        \item Le fichier \file{Alias.tex} regroupe les nouvelles commandes utilisées pour les abréviations.
+
+        \item Le fichier \file{Bibliography.bib} recense la bibliographie du projet. \\Pour plus d'informations, consulter la section \link{\nameref{biblio}}.
+
+        \item Le fichier \file{Colors.tex} est un fichier pour centraliser les nouvelles couleurs définies.
+        Pour ajouter une couleur, veuillez vous référer à la section \link{\nameref{colors}}
+
+        \item Le fichier \file{Contacts.tex} est une page pour contacter l'auteur et contient les informations sur les 
+        droits et les licences du projet.
+
+        \item Le fichier \file{Glossaries.tex} contient le glossaire.\\ Pour ajouter une définition, 
+        veuillez vous référer à la section \link{\nameref{addDef}}
+        
+        \item Le fichier \file{Index.tex} contient l'index. \\Pour plus d'informations, consulter la section \link{\nameref{index}}.
+
+        \item Le fichier \file{Nomenclature.tex} contient la structure de la nomenclature\footnote{Les unités et 
+        grandeurs physiques par exemple}.\\
+        Pour ajouter un élément, consulter la section \link{\nameref{addNomenclature}}
+
+        \item Le fichier \file{Rules.tex} contient les conventions pour le projet. Il peut contenir les types de commandes, 
+        les conventions de nommage du projet \ldots
+
+        \item Le fichier \file{Versions.tex} contient les différentes versions du projet. \\ Pour plus d'information, 
+        consulter la partie \link{\nameref{addVersion}}
+
+    \end{items}
+    \item Le dossier \dir{Output} contient les fichiers de compilation générés de manière automatique. 
+    \bold{Vous n'aurez pas à modifier les fichiers à cette emplacement.}
+
+    \item Le dossier \dir{Parts} contient les différentes parties du projet. Il est possible de scinder son projet 
+    en grandes parties (Introduction, Chapitre1, Chapitre2, Conclusion), chaque dossier contenu dans le 
+    dossier \bold{Parts} représente ces parties.\\
+
+    Dans chacun de ces dossiers, vous pouvez créer autant de fichiers Latex que vous voulez, il seront compilés dans 
+    l'ordre croissant si vous mettre un numéro au début du nom de fichier.\\
+
+    Pour nommer les dossiers dans le dossier \dir{Parts}, \colors{red}{il faut impérativement commencer le nom avec un 
+    numéro suivi d'un point.} Par exemple \dir{0.Intro} puis \dir{1.Content}.\\
+    \colors{red}{Les espaces sont interdits dans les noms des dossiers mais les symboles ~\_~ et - sont acceptés.}\\
+
+    Pour chaque dossier crée dans le dossier \dir{Parts}, il faudra créer un dossier avec le même nom (sans le numéro et le point) dans le dossier 
+    \dir{Images}, sous peine de voir une volée d'erreurs lors de la compilation.\\
+
+    \item Le dossier \dir{Settings} qui contient les fichiers de configuration du projet.\\
+    Pour configurer le projet, reportez-vous à la section \link{\nameref{setSettings}}
+
+    \begin{items}{white}{}
+
+        \item Le fichier \file{ChapterAlias.tex} enregistre le nom des chapitres ('Section' au lieu de 'Chapitre' par exemple).
+        \item Le fichier \file{DocumentClass.tex} sauvegarde la classe du document.
+        \item Le fichier \file{FHeaderLine.tex} s'occupe de l'épaisseur des lignes entre l'en-tête et le pied de page.
+        \item Le fichier \file{Fonts.tex} sélectionne la police du document.
+        \item Le fichier \file{Header.tex} affiche la première page
+        \item Le fichier \file{Hyperref.tex} enregistre les métadonnées du fichier.
+        \item Le fichier \file{Includes.tex} est un fichier généré automatiquement pour importer tous les paramètres cités.
+        \item Le fichier \file{ListMargin.tex} règle l'indentation des listes.
+        \item Le fichier \file{LOF.tex} autorise l'affiche de la liste des figures
+        \item Le fichier \file{Margins.tex} s'occupe des marges du document.
+        \item Le fichier \file{NomenclatureName.tex} enregistre le nom de la nomenclature.
+        \item Le fichier \file{Theme.tex} enregistre le thème des pages.
+        \item Le fichier \file{TocDepth.tex} enregistre la profondeur du sommaire.
+        \item Le fichier \file{TocSize.tex} enregistre l'agencement du sommaire.
+        \item Le fichier \file{SectionColor.tex} enregistre la couleur des sections.
+        \item Le fichier \file{SubSectionColor.tex} enregistre la couleur des sous-sections.
+        \item Le fichier \file{TitlePrefix.tex} enregistre le préfixe des sections et sous-sections.
+
+    \end{items}
+    \item Le dossier \sym{Utils} est un dossier symbolique qui contient les bibliothèques Latex du projet. Le fichier \file{Utils.sty} est généré 
+    dynamiquement, toute écriture manuelle sera écrasée à la prochaine compilation.
+
+    \item Le dossier \dir{Utils-latex} contient toutes les bibliothèques du projet ainsi que les outils de compilation. 
+    Il est configuré en tant que sous-module Git afin de séparer le contenu des bibliothèques et le contenu Latex à compiler.
+    Ce dossier contient :
+    \begin{items}{gray}{\faFolder}
+
+        \item Le dossier \dir{bash} qui regroupe plusieurs bibliothèques : 
+
+        \begin{items}{blue}{}
+            \item La bibliothèque \lib{Charts.sh} qui permet de générer des graphiques
+            \item La bibliothèque \lib{Colors.sh} qui gère les couleurs dans le terminal
+            \item La bibliothèque \lib{Directories.sh} qui permet de gérer les fichiers et dossiers
+            \item La bibliothèque \lib{Networks.sh} qui surveille l'état de la connexion Internet
+            \item La bibliothèque \lib{System.sh} qui permet de faire des fonctions System
+            \item La bibliothèque \lib{Time.sh} qui gère les dates
+        \end{items}
+
+        \item Le dossier \dir{HTML} qui regroupe plusieurs bibliothèques utilisées pour convertir le code source Latex en fichier HTML : 
+
+        \begin{items}{blue}{}
+            \item La bibliothèque \lib{Badge.py} qui gère les badges
+            \item La bibliothèque \lib{Color.py} qui gère les couleurs
+            \item La bibliothèque \lib{Command.py} qui gère les types de commandes disponibles
+            \item La bibliothèque \lib{Glossary.py} qui gère le glossaire
+            \item La bibliothèque \lib{Image.py} qui gère les images et leur intégration au sein du fichier HTML\footnote{Compatibilité Wordpress}
+            \item La bibliothèque \lib{Label.py} qui gère labels
+            \item Le fichier \lib{generateHTML.py} qui génère les pages HTML
+            \item Le fichier \lib{startWebServer.py} qui démarre un serveur Web pour afficher la page Web de rendu
+            \item Le dossier \dir{HTML\_render} contient les pages Web générées
+        \end{items}
+        \item Le dossier \dir{tools} regroupe plusieurs fichiers : 
+
+        \begin{items}{blue}{}
+            \item Le fichier \lib{checking} qui permet de vérifier l'intégrité du dossier de projet lors du lancement de VScode
+            \item Le fichier \lib{init} qui initialise le dossier du projet
+            \item Le fichier \lib{install} qui installe les paquets et utilitaires pour la compilation
+            \item Le fichier \lib{compileAnyFiles.py} désactive la compilation pour l'ensemble des dossiers contenus 
+            dans le dossier \dir{Parts}. \footnote{Concrètement, cela revient à ajouter un point devant le nom du 
+            dossier pour que le compilateur ignore le dossier.}
+            \item Le fichier \file{compileAllFile.py} autorise la compilation des dossiers contenus dans le dossier \footnote{On retire les points devant les noms.}
+            \item Le fichier \file{generateSnippets.py} créer un fichier de snippets VScode
+            afin de gérer l'autocomplétion VSCode. \bold{Ce fichier doit obligatoirement être appelé depuis le 
+            fichier \lib{make}}
+        \end{items}
+
+
+    \end{items}
+
+    \item Le dossier \sym{.vscode} contient tous les fichiers de configuration du répertoire VScode : 
+    \begin{items}{cyan}{}
+
+        \item Le fichier \file{settings.json} contient les tâches exécutables VScode via un bouton \footnote{Cf. \link{\nameref{allTasks}}}. Ces tâches permettent de lancer la compilation et les utilitaires du répertoire.
+        \item Le fichier \file{task.json} est le fichier qui recense les tâches exécutables sous VSCode.
+    \end{items}
+
+
+    Et voici les deux fichiers situés à la racine: 
+    \begin{items}{black}{\Triangle}
+
+        \item Le fichier \file{main.tex} est le fichier principal du projet. C'est dans ce fichier qu'on définit notamment :
+
+        \begin{items}{darkBlue}{\Triangle}
+            \item L'import de la classe du document
+            \item Le titre de la page
+            \item Le choix de la disposition du document
+            \item Le choix de la présence des fichiers dans le dossier \dir{Make}, c'est à dire les fichiers 
+            personnalisables tels que la bibliographie, l'index, le glossaire\ldots
+        \end{items} 
+        \item Le fichier \sym{make} est le fichier de compilation. \bold{Vous n'aurez pas besoin de modifier ce 
+        fichier pour une utilisation classique}
+    \end{items}
+\end{items}
+
+

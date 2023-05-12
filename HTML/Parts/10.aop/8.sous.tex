@@ -1,0 +1,51 @@
+ \chapter{Montage soustracteur}
+\section{Présentation}
+Ce montage permet de soustraire deux tensions d’entrée afin d’obtenir la différence en sortie.
+
+\section{Montage}
+
+\img{\rootImages/sous.png}{Montage soustracteur}{0.6}
+
+\section{Démonstration}
+
+
+Contre-réaction négative donc mode linéaire.\\
+
+
+$$E_+=U_2\frac{R_4}{R_2+R_4}$$
+
+\begin{align}
+E_-&=\frac{\frac{U_1}{R_1}+\frac{U_5}{R3}}{\frac{1}{R_1}+\frac{1}{R_3}}\\
+&=\frac{U_1R_3+U_5R_1}{R_1+R_3}
+\end{align}
+
+Or $E_+=E_-$
+
+\begin{align}
+&\Leftrightarrow U_2 \cdot \frac{R_4}{R_2+R_4} = \frac{U_1R_3+U_5R_1}{R_1+R_3} \\
+&\Leftrightarrow  \frac{U_5R_1}{R_1+R_3} = \frac{U_2R_4}{R_2+R_4} -\frac{U_1R_3}{R_1+R_3} \\
+&\Leftrightarrow  U_5R_1 = \frac{R_4(R_1+R_3)}{R_2+R_4} - \frac{U_1R_3}{R_1} 
+\end{align}
+
+
+Si $R_1=R_2=R_3=R_4$, on obtient : \\
+
+$U_s=U_2-U_1$\\
+
+\section{Application}
+
+\begin{exemple}
+On souhaite mesurer une tension entre deux points A et B d’un circuit (tension différentielle)
+\img{\rootImages/variable.png}{Tension différentielle $AB$}{0.4}
+\end{exemple}
+
+
+Pour étudier la différence de potentiel entre les deux points du circuit, on peut utiliser un montage soustracteur 
+afin qu’en sortie du montage avec l’AOP, on ait : 
+
+$$ V_s=V_a-V_b$$
+
+On peut réaliser le montage suivant.
+
+\img{\rootImages/diff.png}{Un montage pour lire une tension entre deux points}{0.55}
+

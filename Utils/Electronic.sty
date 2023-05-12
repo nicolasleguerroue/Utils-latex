@@ -298,3 +298,18 @@ to[short,-o]	(0,3);%
 ;\end{scope};\end{scope};
 }
 
+
+\newcommand{\resistorColor}[1] %Display label color according value #
+{ 
+    \ifthenelse{\equal{#1}{0}}
+    {\badge{white}{black}{0}}   %if equal to 0
+    {\ifthenelse{\equal{#1}{1}}{\badge{white}{brown}{1}} %if equal to 1
+        {\ifthenelse{\equal{#1}{2}}{\badge{white}{red}{2}} %if equal to 2
+            {\ifthenelse{\equal{#1}{3}}{\badge{black}{orange}{3}} %if equal to 3
+                {\ifthenelse{\equal{#1}{4}}{\badge{black}{yellow}{4}} %if equal to 4
+                    {{\ifthenelse{\equal{#1}{5}}{\badge{white}{green}{5}} %if equal to 5
+                        {\ifthenelse{\equal{#1}{6}}{\badge{white}{cyan}{6}} %if equal to 6
+                            {\ifthenelse{\equal{#1}{7}}{\badge{white}{blue}{7}} %if equal to 7
+                                {\ifthenelse{\equal{#1}{8}}{\badge{black}{gray}{8}} %if equal to 8
+                                    {\ifthenelse{\equal{#1}{9}}{\badge{black}{white}{9}} %if equal to 9 
+{#1}}}}}}}}}}}}

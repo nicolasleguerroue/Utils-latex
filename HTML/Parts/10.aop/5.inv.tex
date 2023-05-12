@@ -1,0 +1,34 @@
+
+
+
+\chapter{Montage inverseur}
+\section{Présentation}
+
+Ce montage amplifie la tension $V_e$ par un \bold{gain $A_0$ négatif}.
+
+\section{Montage}
+
+\img{\rootImages/non_inv.png}{Le montage amplificateur non inverseur}{0.8}
+
+\section{Démonstration}
+
+Mode linéaire : $\varepsilon = 0$
+\begin{align}
+E_+&=0 \\
+E_-&= \frac{ \frac{V_e}{R_1}+\frac{V_s}{R_2} } { \frac{1}{R_1} + \frac{1}{R_2}} \\
+E_-&=\frac{V_e \cdot R_2 + V_s \cdot R_1}{R_1 + R_2} \\
+\Rightarrow \frac{V_e}{V_s} &= -\frac{R_1}{R_2}\\
+\Rightarrow V_s &= -V_e \cdot \frac{R_2}{R_1} 
+\end{align}
+
+Avec $A0= -\frac{R_2}{R1}$
+
+\section{Application}
+
+\begin{exemple}
+On souhaite amplifier un signal sinusoïdal par un coefficient $k=-5$.\\
+On peut donc utiliser le montage précédent. \\
+On prendra $R_1=1 k\Omega$ et $R_2=5k\Omega$ pour avoir $A_0=-5$
+\img{\rootImages/inv_signal.png}{Amplification du signal noir par -5}{0.4}
+
+\end{exemple}

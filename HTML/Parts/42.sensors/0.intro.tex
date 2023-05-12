@@ -1,0 +1,405 @@
+%\addPartText{Les capteurs et périphériques}
+\part{Les capteurs et périphériques}
+
+\chapter{Principes et théorie}
+\section{Objectifs}
+
+Ce chapitre a pour but de faire un petit tour d'horizon des différents capteurs et de leur mise en place.\\
+Une mise en exemple sera faite avec le code de base pour réaliser un serveur Web.
+
+
+\section{Les types de capteurs}
+
+Il existe une multitude de capteurs: 
+
+
+\begin{items}{blue}{\Triangle}
+
+    \item Capteur de distance
+    \item Capteur de température
+    \item Capteur de présence
+    \item Capteur de pression-humidité
+    \item Capteur de position (potentiomètre, joystick, fin de course)
+    \item Capteur de particules fines
+    \item Capteur d'accélération
+\end{items}
+
+
+\section{Les modes de transmission}
+
+Voici les différentes façon de communiquer. \\
+Pour nos exemples, nous nous baserons sur deux périphériques qui communiquent entre eux.
+
+\begin{items}{blue}{\Triangle}
+    \index{Simplex}
+    \item Simplex: la communication est unidirectionnel , c'est à dire que le périphérique A envoie des informations au périphérique B mais le B ne peut pas envoyer au A. \\
+    \img{\rootImages/keyboard.png}{L'analogie du mode Simplex}{0.2}
+    \index{Half-duplex}
+    \item Half-duplex: la communication se fait dans les deux sens mais avec un décalage dans le temps. Si le périphérique A communique, le B ne peut pas envoyer des informations en meme temps que le A. \\
+    \img{\rootImages/talkie.png}{L'analogie du mode Half-Duplex}{0.2}
+    \index{Full-duplex}
+    \item Full-duplex: les périphériques peuvent communiquer en même temps, comme dans une conversation téléphonique.
+    \img{\rootImages/cell3.png}{L'analogie du mode Full-Duplex}{0.1}
+\end{items}
+
+\section{Les protocoles de communication}
+
+Pour communiquer, de nombreux protocoles existent mais voici les principaux.
+
+\subsection{Le bus I2C}
+
+Le bus \glossary{I2C} est un bus informatique qui a émergé dans les années 80 pendant la «guerre des standards» lancée par les acteurs du monde électronique.\\
+Conçu par Philips pour les applications de domotique et d’électronique domestique, il permet de relier facilement un microcontrôleur et différents circuits récepteurs tels que des capteurs de pression, température....\\
+
+C'est un bus série synchrone bidirectionnel half-duplex avec 2 broches utilisées pour communiquer :
+\begin{items}{green}{\Triangle}
+    \item \glossary{SDA} : Serial Data (ligne de données) \index{SDA}
+    \item \glossary{SCL} : Serial Clock (ligne d'horloge) \index{SCL}
+\end{items}
+
+Une masse est commune aux périphériques.\\
+
+Les échanges ont toujours lieu entre un seul maître et un (ou tous les) esclave(s), toujours à l’initiative du maître \footnote{Jamais de maître à maître ou d’esclave à esclave, cependant, rien n’empêche un composant de passer du statut de maître à esclave et réciproquement} et pour éviter les conflits électriques les broches SDA et SCL sont de type \bold{Collecteur Ouvert}. Il faut donc ajouter des résistances de tirage mais ces dernières sont généralement intégrées.
+
+\img{\rootImages/opencollector.png}{Les résistances de rappel du bus I2C}{0.4}
+
+Il existe d’innombrables périphériques exploitant ce bus, il est même implémentable par logiciel dans n’importe quel microcontrôleur.\\
+
+A chaque composant est attribué une adresse physique qui permettra les échanges.\\
+ Cette adresse est codée sur 7 bits, ce qui fait que le bus I2C peut supporter en théorie 127 périphériques \footnote{en  réalité moins car il faut tenir compte de la capacité de ligne}.\\
+Par exemple, on pourra trouver sur un même bus I2C : \\
+
+\begin{items}{orange}{\Triangle}
+
+    \item 1 écran \glossary{OLED}  (adresse 0x3C) \index{OLED}
+    \item 1 écran \glossary{LCD}  (0x27) \index{LCD}
+    \item 1 capteur de pression BME180 (0x35)
+\end{items}
+
+\img{\rootImages/bus_i2c.png}{Un réseau de capteurs}{0.5}
+
+
+\img{\rootImages/I2C.png}{Une capture de trame I2C}{0.5}
+
+\subsection{Les vitesses de communication}
+
+Il existe différentes vitesses de communication sur le bus : 
+
+\begin{items}{darkBlue}{\Triangle}
+\item 100 kilobits par seconde pour le mode \bold{standard}
+\item 400 kilobits par seconde pour le mode \bold{Fast}
+\item 1 mégabits par seconde pour le mode \bold{Fast plus}
+\item 3.4 mégabits par seconde pour le mode \bold{High Speed}
+\end{items}
+
+\subsection{Les changements d'adresses}
+
+Lorsqu'on souhaite connecter plusieurs périphériques ayant la même adresse (par exemple 2 capteurs de température), il est possible pour certains périphériques de mettre certaines broches à un certain niveau logique pour définir l'adresse.
+
+\subsection{Le bus SPI} 
+
+Le bus \glossary{SPI} \index{SPI} est full-duplex et développé par Motorola dans le milieu des années 80.\\
+La liaison est de type maitre-esclave où le maitre sélectionne l'esclave avec qui il veut communiquer avec une broche \genericPin{SS}.
+
+Le bus comporte 4 broches :
+
+\begin{items}{green}{\Triangle}
+    \item SCLK : Serial Clock, Horloge (généré par le maître)
+    \item MOSI : Master Output Slave Input (généré par le maître)
+    \item MISO : Master Input Slave Output (généré par l'esclave)
+    \item SS : Slave Select, Actif à l'état bas (généré par le maître)
+\end{items}
+
+\img{\rootImages/spi.png}{Un bus SPI}{0.2}
+
+\subsubsection{Protocole}
+
+\begin{items}{orange}{\Triangle}
+    \item Le maître génère l'horloge et sélectionne l'esclave avec qui il veut communiquer par l'utilisation du signal SS
+    \item L'esclave répond aux requêtes du maître
+\end{items}
+
+
+
+\subsection{La liaison UART} 
+
+La liaison \glossary{UART} est une liaison série avec deux broches :
+
+\begin{items}{green}{\Triangle}
+    \item RX
+    \item TX
+\end{items}
+
+Il permet uniquement de faire communiquer deux appareils entre eux.\\ 
+Contrairement aux bus I2C ou SPI, on ne peut pas relier plusieurs périphériques.
+
+\img{\rootImages/uart_periph.png}{Une communication UART}{0.5}
+
+\subsubsection{Protocole}
+
+\begin{items}{blue}{\Triangle}
+    \item Un bit de start toujours à 0 pour synchroniser la communication
+    \item Un champ de données de 7 à 8 bits
+    \item Un bit de parité (paire ou impaire)
+    \item Un bit de stop
+\end{items}
+
+\img{\rootImages/uart_prot.png}{Le protocole UART}{1.5}
+
+Au repos, la ligne est au niveau logique HAUT.
+
+\subsubsection{Vitesse de communication}
+
+La liaison étant asynchrone, il faut que les périphériques communiquent à la même vitesse. Cette dernière est normalisée et représente le nombre de bit par seconde (baud\footnote{1 baud représente 1 symbole par seconde.})
+
+\begin{items}{blue}{\Triangle}
+\item 1 200 bauds
+\item 2 400 bauds
+\item 4 800 bauds
+\item 9 600 bauds
+\item 19 200 bauds
+\item 38 400 bauds
+\item 57 600 bauds
+\item 115 200 bauds
+\end{items}
+
+\subsubsection{Une trame en exemple}
+
+On constate bien que le niveau au repos est au niveau HAUT.
+
+\img{\rootImages/uart.png}{Une capture de trame UART à 9600 bauds}{0.28}
+
+
+\subsection{D'autres exemple}
+
+\begin{items}{blue}{\Triangle}
+    \item Le bus CAN\footnote{Controller Area Network} est un bus série half-duplex couramment 
+    utilisé dans l'industrie et avionique. La transmission suit le principe de transmission en paire différentielle et possèdent donc deux lignes CAN L (CAN LOW) et CAN H (CAN HIGH). Tous les équipements, appelés noeuds, souhaitant communiquer via le bus sont connectés et peuvent échanger des informations.
+    L'avantage du bus CAN est la robustesse des signaux dans un milieu dégradé (perturbations électromagnétiques)
+    \item Protocole One-Wire qui utilise un seul câble pour communiquer.
+    \item Protocole MODBus \footnote{Utilisé dans les automates industriels}
+\end{items}
+
+
+
+\section{Les capteurs de distance}
+
+Différentes technologies sont utilisées pour mesurer une distance, cependant elles possèdent leurs avantages et inconvénients.
+
+
+\begin{items}{blue}{\Triangle}
+    \item Infrarouge
+    \begin{items}{green}{\Triangle}
+        \item Bon marché
+        \item Assez précis
+    \end{items}
+    \begin{items}{red}{\Triangle}
+        \item Non-linéaires
+        \item Sensibilité à la lumière ambiante
+        \item Dépend du coefficient de réflexion lumineuse de la surface en face du capteur
+    \end{items}
+
+    \item Laser
+    \begin{items}{green}{\Triangle}
+        \item Très précis
+        \item Longue distance
+    \end{items}
+    \begin{items}{red}{\Triangle}
+        \item Prix
+    \end{items}
+
+    \item Ultra-sonore
+    \begin{items}{green}{\Triangle}
+        \item Prix
+        \item Ne dépend pas de la couleur de la surface en face du capteur
+    \end{items}
+    \begin{items}{red}{\Triangle}
+        \item Précision parfois arbitraire
+    \end{items}
+\end{items}
+    
+
+\subsection{Les capteurs infrarouges}
+
+Ce capteur envoie une tension qui dépend de la distance de l'objet.
+
+\img{\rootImages/sharp.png}{Un capteur de distance infrarouge}{0.1}
+
+Cependant, cette tension n'est pas proportionnelle à la distance\footnote{Extrait de la datasheet du capteur}
+
+\img{\rootImages/dist.png}{La tension de sortie en fonction de la distance}{0.5}
+
+\subsection{Les capteurs ultrasons}
+
+\subsubsection{Principe}
+
+Le principe de ce capteur repose sur le temps de propagation d'une onde sonore dans l'air.\\
+En connaissant le temps d'une aller-retour et la vitesse de propagation, on peut déterminer la distance de l'objet.
+
+\img{\rootImages/hcsr04.png}{Un capteur de distance HCSR-04}{0.5}
+
+
+\subsubsection{Séquence de la mesure}
+
+\begin{items}{green}{\Triangle}
+    \item On envoie une impulsion de 10µs sur la broche \lbl{green}{PIN}{TRIGGER} du capteur.
+    \item Le capteur envoie une dizaine d'impulsions ultrasonores à 40 kHz
+    \item Les ondes se propagent et rebondissent sur l'obstacle
+    \item Le capteur renvoie le temps de propagation avec la broche \lbl{green}{PIN}{ECHO} en mettant la sortie à 
+    l'état haut durant le temps de l'aller-retour.
+\end{items}
+
+\img{\rootImages/hc.png}{L'algorithme de la mesure}{0.5}
+
+Voici le relevé de la broche \lbl{green}{PIN}{TRIGGER} et \lbl{green}{PIN}{ECHO} 
+
+\img{\rootImages/trigger.png}{Les broches TRIGGER et ECHO}{0.5}
+
+
+\section{Les capteurs de température}
+
+\subsection{Les capteurs numériques}
+
+Les capteurs de température DHTXX\footnote{DHT11 ou DHT22} sont des capteurs de température et d'humidité fonctionnant entre 3.3 et 5V.
+
+Les DHT11 possèdent une précision de température plus faible que les DHT22 (précision de 1°C).
+
+\subsubsection{Protocole}
+
+Le protocole de communication se fait sur un seul câble.\footnote{Protocole de type "One-Wire"}
+
+\img{\rootImages/dht.png}{Une trame du capteur DHT22}{0.23}
+
+\subsubsection{Branchements}
+
+\img{\rootImages/dht22.jpg}{Le capteur DHT22}{0.35}
+
+\subsection{Les capteurs analogiques}
+
+Enfin, certains capteurs transmettent leurs données via une tension analogique. \\
+Pour certains capteurs, il suffire le lire une tension pour obtenir indirectement la grandeur physique. Par exemple, le capteur LM35 sort une tension de 10 mV/°C.\\
+
+\img{\rootImages/lm35.jpg}{Le capteur de température LM35}{0.2}
+
+Si le capteur sort une tension de 210 mV, cela veut dire qu'il fait 21°C.
+
+
+L'un des avantages de ces capteurs est que cela permet de s'affranchir de la partie numérique (microcontrôleur).
+Le schéma suivant est un circuit qui active un relais quand la température descend en dessous d'un certain seuil.\\
+
+\img{\rootImages/kicad.png}{Un schéma purement analogique}{0.3}
+
+\section{Les capteurs PIR}
+
+\img{\rootImages/pir.jpg}{Un capteur PIR}{0.3}
+
+\subsection{Principe}
+
+Les capteurs \glossary{PIR} détectent les rayonnements infrarouges émis par un objet.\\
+Puisque tout objet émet un rayonnement infrarouge, le capteur PIR est muni de deux cellules sensibles aux infrarouges qui vont détecter ces rayons infrarouges réfléchit ou émit par l'objet. \\
+
+Lorsqu’il n’y a pas de mouvement, le niveau d’infrarouge reçu est le même pour les deux cellules. Lors du passage d’un objet, l’émission de ces rayons va être modifiée sur une cellule puis sur l’autre ce qui va permettre de détecter le mouvement. \\
+
+Le cache blanc, qui couvre et protège généralement le capteur, est une lentille de Fresnel avec plusieurs facettes qui permet de concentrer le rayonnement infrarouge sur les cellules.
+
+\subsection{Utilisation}
+
+Ces capteurs possèdent une broche de sortie qui est mise à l'état HAUT pendent une certaine durée
+\footnote{Cette durée est réglable avec le potentiomètre sur le capteur} lorsqu'il y a détection d'un mouvement.\\
+
+
+\begin{numeric}{Diagramme temporel du capteur}
+    Présence & [green] LLLLLLHHHHHHHLLLLLLHHHLLLLLLLLLLLLHHHHHHLLLLL \\
+    OUT & [blue] LLLLLLLHHHHHHHHLLLLLHHHHHHHHLLLLLLLHHHHHHHHLL \\
+\end{numeric}
+
+
+\subsection{Applications}
+
+\begin{items}{blue}{\Triangle}
+    \item Allumage d’une lumière à la détection d’un mouvement
+    \item Activation d’une alarme lors de l’intrusion d’une personne
+\end{items}
+
+
+\section{Les relais électromagnétiques}
+
+\subsection{Principe}
+
+Les relais sont des interrupteurs commandés électriquement. 
+Une bobine alimentée sous faible tension (5 à 24 V) génère un champ électromagnétique qui fait déplacer une membrane qui va ouvrir ou fermer le circuit.\\
+
+\img{\rootImages/relai.jpg}{Un relais électro-mécanique}{3}
+Le relais offre une isolation galvanique entre le circuit de commande et de puissance, c'est à dire qu'il n'y a aucune liaison conductrice entre ces deux circuits.\\
+
+Un relais est caractérisé par :
+
+\begin{items}{blue}{\Triangle}
+  \item La tension de commande : 5 à 24V
+  \item Le courant de coupure : Ex 30A
+  \item La tension maximale dans le circuit de puissance : Ex 230V
+  \item Sa position au repos\footnote{Position en absence de tension sur la commande} : Normalement Ouvert (NO) ou 
+  Normalement Fermé (NF)
+  \item Sa durée de vie : les relais sont garantis pour un nombre de commutation, par exemple 1 million.
+\end{items}
+
+
+\subsection{Symbole}
+
+Le relais se symbolise de la façon suivante : 
+
+\img{\rootImages/relais.png}{Le symbole du relais}{1}
+
+On distingue clairement la partie de commande (rectangle) et le circuit qui s'ouvre ou se ferme pour laisser passer le courant.
+
+
+\subsection{La diode de roue libre}
+
+La bobine de commande du relais nécessite un certain courant \footnote{De l'ordre de la centaine de mA} qu'une broche de microcontrôleur ne peut pas fournir.
+Pour cela on utilise un composant qui fera l'interface entre le microcontrôleur et le relais : le transistor.
+
+\img{\rootImages/commande-de-relais.jpg}{Utilisation d'un relais}{1}
+
+Cependant, lors de la fermeture du relais \footnote{Mise à 0 de la broche de commande de transistor}, le courant est brutalement coupé, or, les bobines s'opposent aux variations de courant.\\
+Cela engendre une surtension qui va se répercuter sur le transistor.\\
+
+Cette surtension vaut : 
+
+$$ U = L\cdot \frac{dI}{dt}$$
+
+Avec : 
+
+\begin{items}{blue}{\Triangle}
+    \item U la tension en Volt aux bornes de la bobine
+    \item L la valeur en Henry de l'inductance\footnote{Bobine}
+    \item I la variation de courant en Ampère dans la bobine
+\end{items}
+
+On met donc une diode en parallèle de la bobine pour que l’énergie accumulée dans la bobine passe dans la diode.\\
+Cette diode est appelé \bold{diode de roue libre}.
+
+En exemple, une simulation sans diode est faite avec \lib{LTSpice} : 
+
+\img{\rootImages/ltspice.png}{Une simulation LTSpice}{0.8}
+
+On active le transistor pendant 100 ms puis on le désactive et on observe la tension aux bornes du transistor.
+
+\img{\rootImages/simulation.png}{Une surtension sur le transistor}{0.34}
+
+On constate un pic à 24V, c'est à dire le double de l'alimentation 12V.
+
+Maintenant, faisons la même simulation avec une diode de roue libre. \\Pour ces diodes, on privilégie des diodes Schottky à commutation rapide.
+
+
+\img{\rootImages/simulation2.png}{Une surtension plus faible}{0.34}
+
+La surtension ne vaut plus que quelques dizaines de mV.
+
+
+\subsection{En pratique}
+
+Pour utiliser des relais avec des microcontrôleurs, on utilise le plus souvent des relais qui intègrent une interface de contrôle.\\
+
+\img{\rootImages/relai_5V.png}{Un relai avec une interface de contrôle}{0.2}
+
+Il suffit généralement d'alimenter le relai en 5V constant et une broche active le relais si elle passe au niveau logique HAUT.

@@ -1,0 +1,97 @@
+\chapter{Bibliothèque Tree}
+
+La bibliothèque \lib{Tree} permet de générer des arborescences de dossiers et fichiers.
+
+\section{Création d'une arborescence simple}
+
+\dirtree{%
+.1 Root1. 
+.2 SubRoot1.
+.3 SubSubRoot1.
+.3 SubSubRoot2.
+.3 SubSubRoot3.
+.2 SubRoot2.
+.2 SubRoot3.
+} 
+
+\loc{Body}
+\begin{Latex}{Code pour la création d'un arbre simple}
+\dirtree{%
+.1 Root1. 
+.2 SubRoot1.
+.3 SubSubRoot1.
+.3 SubSubRoot2.
+.3 SubSubRoot3.
+.2 SubRoot2.
+.2 SubRoot3.
+}
+\end{Latex}
+
+
+Le \bold{.Numéro} représente la profondeur de l'arborescence, c'est à dire le niveau. \\
+Chaque fin de ligne doit impérativement se terminer par un point et la ligne \bold{\\dirtree\{} doit se terminer par un symbole '\%'.
+
+
+\section{Création  d'une arborescence plus évoluée}
+
+Avec l'utilisation de la bibliothèque \lib{Labels} \footnote{Se référer à la section \link{\titleName{Labels}}}, il est possible de mettre des couleurs très facilement.\\
+
+\dirtree{%
+.1 \dir{Root1}. 
+.2 \dir{SubRoot1}.
+.3 \file{SubSubRoot1}.
+.3 \file{SubSubRoot2}.
+.3 \file{SubSubRoot3}.
+.2 \dir{SubRoot2}.
+.2 \dir{SubRoot3}.
+}
+
+
+\loc{Body}
+\begin{Latex}{Code pour la création d'une arborescence plus évoluée}
+\dirtree{%
+.1 \dir{Root1}. 
+.2 \dir{SubRoot1}.
+.3 \file{SubSubRoot1}.
+.3 \file{SubSubRoot2}.
+.3 \file{SubSubRoot3}.
+.2 \dir{SubRoot2}.
+.2 \dir{SubRoot3}.
+}
+\end{Latex}
+
+
+\section{Création  d'une arborescence dans une figure}
+
+Avec la bibliothèque \lib{Figures}, on peut intégrer une arborescence au sein d'une figure non centrée.\\
+Actuellement, on ne peut pas centrer l'arbre sous peine de dégrader le rendu.
+
+
+\createNoCenteredFigure{Exemple d'arborescence}{
+    \dirtree{%
+    .1 \dir{Root1}. 
+    .2 \dir{SubRoot1}.
+    .3 \file{SubSubRoot1}.
+    .3 \file{SubSubRoot2}.
+    .3 \file{SubSubRoot3}.
+    .2 \dir{SubRoot2}.
+    .2 \dir{SubRoot3}.
+    }
+}
+
+\loc{Body}
+\begin{Latex}{Code pour la création d'une arborescence dans une figure}
+    \createNoCenteredFigure{Exemple d'arborescence}{
+        \dirtree{%
+        .1 \dir{Root1}. 
+        .2 \dir{SubRoot1}.
+        .3 \file{SubSubRoot1}.
+        .3 \file{SubSubRoot2}.
+        .3 \file{SubSubRoot3}.
+        .2 \dir{SubRoot2}.
+        .2 \dir{SubRoot3}.
+        }
+    }
+\end{Latex}
+
+\input{Utils/Tree.info}

@@ -1,0 +1,470 @@
+
+%\part{Annexes}
+\chapter{Connexions aux API}
+
+\section{Informations API}
+
+Ce tableau récapitule l'ensemble des informations des API utilisées\footnote{Utile en cas de mise à jour de l'API}\\
+
+\subsection{DigiKey}
+
+\begin{tabular}{|p{3cm}|p{13cm}|}
+  \hline
+  \bold{Nom} & \bold{Valeur} \\
+  \hline
+Url access & \url{https://sandbox-api.digikey.com/v1/oauth2/authorize}\\
+  \hline
+ClientID\footnote{Données via l'application API sur le compte \url{www.digi-key.com}} & h7E4dTHl4UNGf6SV7byTr05JS3KyKrGr\\
+ \hline
+ SecretKey & PwhcS2Hmi0HhNoAG\\
+ \hline
+ CustomerID & 8509437 \\
+  \hline
+ API version & 3.0\\
+  \hline
+  Output Format & JSON\\
+  \hline
+  Requests / day & 1000\\
+  \hline
+\end{tabular}
+
+Le service d'authentification de Digi-key nécessite un serveur pour rediriger le premier résultat de Digi-key (code).
+
+
+\subsection{Mouser}
+
+\begin{tabular}{|p{3cm}|p{13cm}|}
+  \hline
+  \bold{Nom} & \bold{Valeur} \\
+  \hline
+Url & \url{https://api.mouser.com/api/v1.0/search/partnumber}\\ 
+ \hline
+ApiKey &9b4489a8-bea0-48ec-9e51-60e5117ebf7b\\
+  \hline
+Api version & 1.0 \\
+  \hline
+  Output Format & JSON\\
+  \hline
+  Requests / day & 1000\\
+  \hline
+\end{tabular}
+
+
+
+\subsection{Farnell} Compte ALine => pettona
+E14 : 
+login : nicolasleguerroue2
+MOT DE PASSE : Bk8WPDkxpkACPqN
+API\_KEY = rc772yuvs86tvjnrsvah6z5e 
+
+
+
+\begin{tabular}{|p{3cm}|p{13cm}|}
+  \hline
+  \bold{Nom} & \bold{Valeur} \\
+  \hline
+Url & \url{https://api.element14.com/catalog/products}\\
+ \hline
+ ApiKey & ndukznmj3n4yq524y6hnxnme\\
+  \hline
+ CustomerId & 5174230003\\
+  \hline 
+  SecretKey & gaD8uChe\\
+  \hline
+  Output Format & JSON\\
+  \hline
+  Requests / day & 1000\\
+  \hline
+\end{tabular}
+
+
+\subsection{Arrow}
+
+\begin{tabular}{|p{3cm}|p{13cm}|}
+  \hline
+  \bold{Nom} & \bold{Valeur} \\
+  \hline
+Url & \url{http://api.arrow.com/itemservice/v3/en/search/token}\\
+ \hline
+ Login & techwavemanufacturing2\\
+  \hline
+ CustomerId & 5174230003\\
+  \hline 
+  ApiKey & 7917a314eaea1f70cb0348157a001fd0e4874e6647bfb33f6c12210e4fb4e2a5\\
+  \hline
+  Api version & 3 \\
+  \hline
+  Output Format & JSON\\
+  \hline
+  Requests / day & 1000\\
+  \hline
+\end{tabular}
+
+\subsection{Future}
+
+\begin{tabular}{|p{3cm}|p{13cm}|}
+  \hline
+  \bold{Nom} & \bold{Valeur} \\
+  \hline
+Url & \url{https://api.futureelectronics.com/api/v1/pim-future/lookup}\\
+ \hline
+ApiKey & 9b4489a8-bea0-48ec-9e51-60e5117ebf7b\\
+  \hline
+Api version & 1 \\
+  \hline
+  Output Format & JSON\\
+  \hline
+  Requests / day & 1000\\
+  \hline
+\end{tabular}
+
+
+
+\section{Formats de sortie après recherche des API}
+
+Il est possible d'exporter les résultats sous 3 formes : 
+
+\begin{items}{orange}{\Triangle}
+\item JSON
+\item CSV
+\item HTML
+\end{items}
+
+\subsection{Format JSON}
+
+Ce format sera utilisé pour communiquer entre le serveur Web et le programme récupérant les données en provenance des API.
+
+\begin{Python}{Fichier de sortie JSON}
+
+{
+    "status" : "OK"
+    "message" : "Message",
+    "result" : 
+    [{
+        "fabricantPartNumber": "fabricantPartNumber",
+        "wishedFabricantPartNumber": "wishedFabricantPartNumber",
+        "unitPrice": "0.058",
+        "isBestPrice": "true",
+        "availableOrderQuantity": "true",
+        "isAvailableForOrder": "true",
+        "wishedQuantity": "10",
+        "directOrder": "true",
+        "minimalOrderQuantity" : "1",
+        "groupeOrder" : "1",
+        "apiName": "apiName",
+        "warning": "warning message from API",
+        "realItem": "true",
+        "similarItem" :"false",
+        "isObsolete" : "false"
+    
+    },
+    {...}
+    ]
+}
+
+\end{Python}
+
+\subsection{Format CSV}
+
+Ce format a été développé pour une utilisation particulière afin de réaliser des devis sans l'interface Web proposée par la section \bold{Architecture}
+
+\begin{verbatim}
+    Reference demandee;Reference trouvee;PU Mouser;PU Farnell;PU Future;
+    MOQ Mouser;MOQ Farnell;MOQ Future;Quantitee Mouser;Quantitee Farnell;
+    Quantitee Future;Delais Mouser;Delais Farnell;Delais Future;
+    Description Mouser;Description Farnell ;Description Future;Obsolete
+    Mouser ?;Obsolete Farnell ?;Obsolete Future ?
+    1UX99;Aucune reference trouvee;0.0;0.0;0.0;;;;
+    0;0;0;2 semaines;2 semaines;2 semaines;Inconnue;Inconnue;
+    Inconnue;False;False;False
+
+\end{verbatim}
+
+
+
+\subsection{Format HTML}
+
+Ce format peut être utilisé pour le développement du programme et pour garder un historique des résultats\footnote{Le format est plus lisible que le JSON ou CSV}
+
+\img{\rootImages/bestPrice.PNG}{Format HTML}{0.52}
+
+
+
+\chapter{Connexion à la base de données d'X3}
+
+\section{Formats d'entrée / sortie de l'utilitaire de lecture de la BDD X3}
+
+\subsection{Exécution du programme}
+
+Le programme de lecture de la BDD X3 devra être exécuté comme suis :
+
+\begin{verbatim}
+    java -jar LectureBDDX3 input.json output.json
+\end{verbatim}
+
+Le fichier input.json pourra être remplacer par stdin pour que le programme récupère le JSON à partir de l’entrée standard.
+
+Le fichier output.json pourra être remplacer par stdout pour que le programme écrive son résultat dans la sortie standard.
+
+Si le programme est invoqué sans paramètres, le programme utilisera stdin et stdout par défault.
+
+
+\subsection{Format d'entrée}
+
+Le format du fichier input.json sera (exemple) :
+
+\begin{Python}{Fichier d'entrée JSON}
+    {
+        "request" :  "SELECT ab, cd, ef FROM test WHERE abc = ? AND cde = ?",
+        "result_values" : [
+            { "type" : "string", "out_name" : "ijk", "db_name" : "ab" },
+            { "type" : "bool", "out_name" : "lmn", "db_name" : "ab" },
+            { "type" : "int", "out_name" : "opq", "db_name" : "ab" }
+        ],
+        "params" :  [
+            { "type" : "string", "value" : "abc_val" },
+            { "type" : "int", "value" : 123 }
+        ]
+    }
+
+\end{Python}
+
+Types supportés par les paramètres : string, int, float, bool, date
+
+\subsection{Format de sortie}
+
+Le format du fichier output.json sera (exemple) :
+
+\begin{Python}{Fichier de sortie JSON}
+    {
+        "status": "OK",
+        "message" : "OK",
+        "results" : {
+            "ijk":"test",
+            "lmn": true,
+            "opq": 123   
+        }
+    }
+\end{Python}
+
+Le noms des clées dans l'objet results doit correspondre à la valeur de out\_name dans la configuration d'entrée.
+\\ \\
+En cas d’erreur le fichier output.json sera de la forme :
+
+\begin{Python}{Fichier de sortie JSON Erreur}
+    {
+        "status": "NOK",
+        "message": "Error message"
+    }
+\end{Python}
+
+
+\section{Formats d'entrée / sortie de l'utilitaire d'écriture à la BDD X3}
+
+\subsection{Exécution du programme}
+
+Le programme d’écriture de la BDD X3 devra être exécuté comme suis :
+
+\begin{verbatim}
+    java -jar EcritureBDDX3 input.json output.json
+\end{verbatim}
+
+Le fichier input.json pourra être remplacer par stdin pour que le programme récupère le JSON à partir de l’entrée standard.
+
+Le fichier output.json pourra être remplacer par stdout pour que le programme écrive son résultat dans la sortie standard.
+
+Si le programme est invoqué sans paramètres, le programme utilisera stdin et stdout par défault.
+
+Ce programme aura aussi un fichier config.json décrivant les caractéristiques de chacune des commandes acceptées.
+
+\subsection{Format du fichier de config}
+
+Le format du fichier config.json sera (exemple) :
+
+\begin{Python}{Fichier de config JSON}
+    [
+        {
+            "command" : "ABCDE",
+            ...
+        },
+        { ... }
+    ]
+\end{Python}
+	
+Ici chaque objet de la liste représente une commande disponible.
+Ce fichier sera fixe et n'est pas sensé être modifié par le programme, juste lu.
+
+\subsection{Format d'entrée}
+
+Le format du fichier input.json sera (exemple) :
+
+\begin{Python}{Fichier d'entrée JSON}
+    {
+        "command":  "ABCDE",
+        "params":  [
+            { "name": "abc", "value": "abc_val" },
+            { "name": "def", "value": 123 }
+        ]
+    }
+\end{Python}
+
+On y précise la commande que l'on souhaite exécuter, puis les paramètres de cette commande. Les paramètres serons souvent composés de la liste des objets à insérer dans la BDD mais peuvent aussi différer d'une commande à l'autre au besoin.
+
+\subsection{Format de sortie}
+
+Ce programme ne faisant qu’écrire dans la BDD, il n’a rien d’intéressant à revoyer. Toutefois on revoie quand même quelque chose pour pouvoir gérer les éventuelles erreurs. Le format du fichier output.json sera donc simplement (exemple) :
+
+\begin{Python}{Fichier de sortie JSON}
+    {
+        "status": "OK" / "NOK",
+        "message": "Message d’erreur si erreur",
+    }
+\end{Python}
+
+
+
+\chapter{Structure et chemins du site web}
+
+\section{Page d’accueil}
+
+\subsection{./ (ou ./index.html)}
+
+Page d’accueil contenant des infos générales sur le site ainsi qu’un accès simple à chacune des fonctionnalités du site.
+
+\section{Recherche des composants sur l’API fournisseur}
+
+\subsection{./rechercheAPIFournisseur.html}
+
+Page permettant d’importer un BOM sous format CSV et de vérifier l’intégralité des composants de cette BOM sur les API des fournisseurs. Une fois les requêtes aux API terminées, l’utilisateur est redirigé vers la page resultatAPIFournisseur.html. Les résultats de l’API est sauvegardé sous forme d’un fichier html sur le serveur pour garder une trace de la requête si on veut la revoir plus tard et être récupéré par la page resultatAPIFournisseur pour l’affichage.
+\\ \\
+Le fichier CVS importé doit être sous ce format :
+
+\begin{items}{orange}{\Triangle}
+\item Séparé avec des ; | String échappés avec des " (Format par défaut d’export Excel en CSV)
+\item Si le CSV ne vient pas de l’export d’Excel, ces options sont modifiables au moment de l’exportation
+\item Chaque ligne du fichier CVS correspond à un composant de la BOM
+\item Les 3 colonnes du CSV doivent correspondent, dans l’ordre à : (La référence fabricant du composant, la quantité de ce composant requis par carte, une description de ce composant)
+\item Le fichier ne doit pas comporter de 1ere ligne nommant chacune des colonnes
+\end{items}
+
+\subsection{./resultatAPIFournisseur.html}
+
+Sur cette page, l’utilisateur peut consulter les résultats des API pour chaque composant :
+
+\begin{items}{orange}{\Triangle}
+\item Il peut consulter les informations de prix, disponibilité, livraison, … pour chaque composant 
+\item Pour les composants concernés, il peut choisir parmi les composants alternatifs trouvés par les API et en sélectionner un comme remplacement.
+\end{items}
+
+\section{Gestionnaire des fiches composants}
+
+\subsection{./fichesCompo.html}
+
+Sur cette page l’utilisateur peut rechercher des fiches composant préalablement enregistrées. Cette recherche se fait dans un champ unique, avec une liste déroulante de choix correspondants à la recherche se mettant à jour à mesure que l’utilisateur tape. La recherche se fait sur :
+
+\begin{items}{orange}{\Triangle}
+\item La référence fabricant (Contenue dans la BDD MySQL)
+\item La description du composant (Contenue dans la BDD MySQL)
+\item La référence AODE (Recherche dans la BDD X3 à partir des références fabricant présentes dans la BDD MySQL)
+\end{items}
+
+Une fois la recherche terminée, l’utilisateur peut télécharger la fiche composant correspondante.
+
+L’utilisateur a aussi à disposition une interface pour ajouter manuellement une fiche ou en supprimer une de la base.
+
+
+\section{Utilitaire transcription de tableaux PDF}
+
+\subsection{./transcriptionPDF.html}
+
+Sur cette page, l’utilisateur peut upload un fichier PDF contenant un tableau de données et récupérer un fichier CSV avec les dites données. La page informe l’utilisateur de l’avancement de la transcription pendant le traitement puis lui permet de télécharger le fichier CSV.
+
+\section{Utilitaire relances fournisseurs}
+
+\subsection{./relancesFournisseurs.html}
+
+Sur cette page, l’utilisateur peut consulter les dernières relances fournisseurs envoyées automatiquement. Plusieurs pages sont disponibles pour ne pas à avoir à charger l’intégralité des données à chaque visite de la page.
+
+
+\chapter{Structure du répertoire Python}
+
+\begin{items}{orange}{\Triangle}
+\item API
+\begin{items}{blue}{\Triangle}
+\item \lib{ArrowAPI.py} : Connexion à l'API Arrow et gestion des composants
+\item \lib{ArrowItem.py} : Extraction des information pour les composants Arrow
+\item \lib{AvnetAPI.py} : Connexion à l'API Avnet et gestion des composants
+\item \lib{AvnetItem.py} : Extraction des information pour les composants Avnet
+\item \lib{DigiKeyAPI.py} : Connexion à l'API Arrow et gestion des composants
+\item \lib{DigiKeyItem.py} : Extraction des information pour les composants Digi-key
+\item \lib{FarnellAPI.py} : Connexion à l'API Arrow et gestion des composants
+\item \lib{FarnellItem.py} : Extraction des information pour les composants Farnell
+\item \lib{FutureAPI.py} : Connexion à l'API Arrow et gestion des composants
+\item \lib{FutureItem.py} : Extraction des information pour les composants Future
+\item \lib{MouserAPI.py} : Connexion à l'API Arrow et gestion des composants
+\item \lib{MouserItem.py} : Extraction des information pour les composants Mouser
+\item \lib{Item.py} : Informations d'un Item
+\item \lib{ItemManager.py} : Gestionnaire de liste d'Item
+\item \lib{ThreadAPI.py} : Bilbiothèque pour la recherche API en multi-threading
+\end{items}
+\item Backups
+\begin{items}{orange}{\Triangle}
+\item 2021
+\item ....
+\end{items}
+\begin{items}{blue}{\Triangle}
+\item counter.txt : Compteur de requêtes API  journalières\footnote{Remis à zéro tous les jours}
+\end{items}
+\item JSON
+\begin{items}{blue}{\Triangle}
+\item inputPartNumbers.json : Fichier d'entrée des composants à chercher
+\item outputPartNumbers.json : Fichier de sortie des résultats des API
+\end{items}
+\item Utils
+\begin{items}{blue}{\Triangle}
+\item \lib{CSV.py} : Bibliothèque de lecture/Ecriture de fichiers CSV
+\item \lib{Utils.py} : Bilbiothèque avec des fonctions de traitement
+\item \lib{Mail.py} : Bibliothèque d'envoi de mails
+\end{items}
+\end{items}
+\begin{items}{green}{\Triangle}
+\item \file{main.py} : Code principal
+
+\end{items}
+
+
+\section{Notes sur le multi-threading} 
+
+Chaque \label{multithrading} requêtes API est exécutée en parallèle pour optimiser le temps global d'exécution.
+
+La classe \file{ThredAPI} est instanciée dans \file{main} et le constructeur attend les paramètres suivants : 
+\begin{items}{green}{\Triangle}
+\item threadID : Identifiant du thread [0...N]
+\item threadName : Nom du thread ("Mouser Thread"...)
+\item ItemManager : Instance de la classe \file{ItemManager}, par héritage les classes des API (\file{MouserAPI}, \file{FarnellAPI}...)
+\item references : Liste des références à chercher avec les API
+\item quantities : Liste des quantités souhaitées pour chaque référence demandée
+\item exportFile : Fichier de sortie HTML (logs)
+\item itemList : Liste vide qui stockera tous les composants trouvés (passage par référence)
+\item function : Fonction à appeler en multi-threading
+\end{items}
+
+\section{Modules Python nécessaires}
+
+Le code pour récuperer les données en provenance des API est disponible pour les versions python 2.X et 3.X
+
+Le module \lib{requests} est nécessaire, tout comme les modules 
+\lib{datetime}, \lib{os}, \lib{threading}, \lib{time} et \lib{json} qui sont inclus par défaut.
+
+\chapter{A faire}
+
+
+- Récupérer information compte Farnell 
+
+- Relance clé API Avnet !
+
+- Gestion si plusieurs composants trouvés mais le meilleurs prix est obsolète !
+
+- Finir documentation code (Avnet+Digi-key)+ diagrammes
+
+- Vérifier code d'erreur execThread si len(quantities)!=len(references)

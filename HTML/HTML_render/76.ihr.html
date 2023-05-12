@@ -1,0 +1,972 @@
+<html><head><style>.cent {  display: block;  margin-left: auto;  margin-right: auto;}</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> </script><body style='margin-left:5%;margin-right:5%;margin-top:1%'><h4>Fichier générer depuis les sources Latex</h4><h5>Auteur : Nicolas Le Guerroué</h5><a href='index.html'><button class='btn btn-success' >Revenir au sommaire</button></a><hr>Les robots sont de plus en plus présents dans notre quotidien sous différentes formes. Ils existent sous forme de machine, d'objet ou bien sous forme humanoïde. 
+
+Leur importance se démontre dans de nombreux domaines tels que l'éducation, la santé, le travail, etc... 
+
+Leur rôle est d'aider l'humain dans une tâche, que ce soit pour apprendre, travailler ou accomplir diverses tâches.  La tendance va vers un monde dans lequel on ne peut pas se passer des robots. 
+
+Dans le cadre de ce cours nous nous sommes consacrés à la conception d'un robot facilitant aux déplacements des personnes à mobilités réduites. Le domaine de la santé et de l'aide à la personne nous tient beaucoup à coeur de par son importance. 
+
+Ainsi, nous avons essayé de s'imaginer à la place d'une personne rencontrant des difficultés à se déplacer afin de comprendre les difficultés qu'elle peut rencontrer. Le contexte dans lequel le robot va évoluer est très important à prendre en compte car il est lié à de nombreuses contraintes. 
+
+L'objectif de ce rapport est de présenter le travail que nous avons fait pour répondre à la problématique suivante : 
+
+<b><i>Dans quelle mesure un robot peut-il faciliter le déplacement d'une personne à mobilité réduite pour effectuer des tâches du quotidien ?</i></b>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/header.png' class='alignnone size-medium' style='max-width:5%;'><figcaption>Figure - Notre projet</figcaption></div></figure>
+<h2 >Solution proposée</h2>
+Cette section détaille les solutions techniques pour mener à bien le projet.
+
+Nous avons pensé à développer une solution permettant aux personnes à mobilités réduites (personnes âgées, personnes en situation d'obésité, personnes malades, personnes en fauteuil roulant,...) de se déplacer ou de faire déplacer un robot sur des distances relativement courtes. 
+
+L'objectif est de minimiser les efforts à faire pour se déplacer et de rendre le système intuitif. En effet, notre solution se doit d'être simple d'utilisation et sans risque pour l'utilisateur. Ainsi, lors de la conception de notre robot nous avons imaginé des sécurités évitant au maximum le risque d'incident. 
+
+Afin de répondre au mieux à la problématique et de prendre en compte les contraintes liées au contexte nous avons imaginé une solution. 
+
+Notre système est un robot qui se commande à distance avec un gant permettant de le contrôler.
+
+Nous avons conçu un système sans fil car il évite le risque pour la personne de se prendre les pieds dedans. De plus, le gant permettant le pilotage se veut léger et ergonomique. Le but est que la personne se sente à l'aise et produise le moins d'effort possible. 
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/header.png' class='alignnone size-medium' style='max-width:5%;'><figcaption>Figure - Le rover et le gant avec le module de contrôle</figcaption></div></figure>
+<h3>Principe d'utilisation</h3>
+L'utilisateur enfile un gant comprenant un capteur qui mesure l'inclinaison de sa main suivant trois axes. Pour notre cas on utilisera seulement deux axes, celui correspondant à l'angle de tangage permettant de tourner à droite et à gauche ainsi que l'angle de roulis pour avancer ou reculer. 
+
+Sur ce gant il y a un module permettant de communiquer avec le robot pour le contrôler à distance.
+
+Il y a donc un émetteur situé sur le gant et un récepteur sur le robot.
+
+Les deux doivent être autonomes en énergie donc ils possèdent chacun une batterie. 
+
+Le robot quant à lui est constitué de quatre moteurs. Pour le faire avancer nous pilotons les moteurs via une carte Arduino. Cette carte récupère les informations transmises par le module de communication venant du gant. 
+
+Ainsi, lorsque l'utilisateur incline sa main vers l'avant le robot avance en faisant tourner les quatre roues dans le sens horaire. Pour faire reculer le robot c'est l'inverse.
+
+Pour faire tourner le robot, l'utilisateur doit incliner sa main dans un sens. Cela a pour effet de faire tourner les deux roues de gauche dans le sens inverse de celles de droite. 
+
+Enfin, lorsque l'utilisateur incline sa main vers l'avant et sur un coté, le robot se déplace en avant en se décalant légèrement sur le coté concerné (trajectoire plus diagonale).
+
+<h3>La communication sans fil</h3>
+Nous avons opté pour un module de communication sans fil afin de faire transiter les informations de la position de la main au module gérant le moteur pour éviter d'utiliser un câble.
+
+Plusieurs technologies étaient disponibles telles que :
+
+<ul>
+    <li> Les modules Bluetooth (Crius, HC-05, HC-06)
+</li>
+    <li> Les modules radio 433 MHz
+</li>
+    <li> Les modules radio 2.4 GHz (Xbee, ESP-02…)
+</li>
+</ul>
+Nous avons refusé les modules Bluetooth car ils sont plus appropriés pour des applications avec un téléphone (phase d'appairage). Il nous restait donc les modules radios, il fallait donc choisir les fréquences de fonctionnement.
+
+Les modules radio à 433 MHz possèdent moins de fonctionnalités, nous avons opté pour utiliser un module Xbee. L’UQAC en possède, cela nous a permis de commencer rapidement le projet sans attendre une livraison de matériel.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/xbee.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Un module Xbee</figcaption></div></figure>
+ 
+
+Le module Xbee est un module de communication 2.4 GHz. Il se base sur une liaison série.
+
+Après avoir configuré le module avec le logiciel <span class='badge badge-success'>XCTU</span>, il suffit d’envoyer les données sur la broche Rx du module afin qu’il envoie les données à l’autre module.
+Le mode API du module n’est pas activé afin qu’il communique avec un module ayant une adresse spécifique (on souhaite éviter une diffusion de type broadcast afin de ne pas interférer avec d’autres modules présents dans la salle).
+
+La configuration des modules Xbee est détaillée en annexe à la section  <a class="alert-link">\ref{xbee}
+<h3>Le positionnement de la main</h3>
+Pour récupérer la position dans l’espace de la main, nous avons opté pour un accéléromètre comportant un compas et magnétomètre. Il s'agit d'une centrale IMU <span title="Inertial Measurement Unit" style='color:grey;'><sup>[Note 76]</sup></span> 9 axes, chaque grandeur est disponible sur l'axe x, y et z.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/imu.jpg' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Les axes de la centrale IMU</figcaption></div></figure>
+ 
+
+Cette solution permet de réduire l'encombrement car les modules présents à l'UQAC sont de petites tailles et peuvent s'intégrer sur un gant.
+
+Afin d'obtenir la position dans l'espace, nous récupérons les valeurs des accélérations, des vitesses angulaires et des valeurs du champ magnétique terrestre sur les 3 axes. 
+
+Ensuite, en utilisant l’algorithme de Mahony (ou bien celui de Madgwick) et en nous basant sur les quaternions, nous pouvons déterminer la position angulaire dans l'espace à condition d'échantillonner suffisamment vite <span title="L'algorithme de Mahony compense l'erreur avec un correcteur PI contrairement à l'algorithme de Madgwick. Il faut donc réduire le temps d'échantillonage pour avoir une intégration plus précise." style='color:grey;'><sup>[Note 77]</sup></span> (moins de 50 ms entre deux lectures) et cela nous permet d'avoir une résolution de moins d’un degré, ce qui est largement suffisant pour notre projet.
+
+Dans le cadre de ce projet, nous avons utilisé le module <b>MPU9250</b>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/mpu.jpg' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Un module MPU9250</figcaption></div></figure>
+ 
+
+ Le capteur communique en I2C <span title="Inter Integrated Circuit" style='color:grey;'><sup>[Note 78]</sup></span>.
+
+C'est un bus série synchrone bidirectionnel half-duplex avec 2 broches utilisées pour communiquer :
+
+<ul>
+    <li> SDA : Serial Data (ligne de données)  </li>
+    <li> SCL : Serial Clock (ligne d'horloge)  </li>
+</ul>
+Une masse est commune aux périphériques.
+
+Les échanges ont toujours lieu entre un seul maître et un (ou tous les) esclave(s), toujours à l’initiative du maître <span title="Jamais de maître à maître ou d’esclave à esclave, cependant, rien n’empêche un composant de passer du statut de maître à esclave et réciproquement" style='color:grey;'><sup>[Note 79]</sup></span> et pour éviter les conflits électriques les broches SDA et SCL sont de type <b>Collecteur Ouvert</b>. 
+Il faut donc ajouter des résistances de tirage mais ces dernières sont généralement intégrées, comme dans notre cas.
+
+A chaque composant est attribué une adresse physique qui permettra les échanges. L'adresse de notre capteur vaut <b>0x68</b>. Cette adresse est codée sur 7 bits, ce qui fait que le bus I2C peut supporter en théorie 127 périphériques <span title="en  réalité moins car il faut tenir compte de la capacité de ligne" style='color:grey;'><sup>[Note 80]</sup></span>.
+<h4>Précision du module</h4>
+Afin de gagner en précision, nous calibrons le capteur avant de lancer un cycle. Il existe bien une fonction de calibration pour le capteur mais l'intégration et la proportionnelle du correcteur engendre un dépassement sur les premières acquisitions. 
+
+La figure suivante représente l'allure des valeurs du roulis sur les premiers échantillonnages du gyroscope lorsque ce dernier possède un roulis réel de \(0^{\circ}\). La fréquence d'échantillonage est de 1 kHz.
+
+\begin{graphicFigure}{0.6}{0.6}{-100}{1000}{-1}{35}{Échantillons}{Angle de roulis(\(\circ)\)}{Le régime transitoire du gyroscope}
+
+    \addTrace{red}{0}{1000}{32*(exp(-x/200)+0.01*sin(1*x)}
+
+    \addTrace{blue}{0}{1000}{0}
+
+    \addLegend{Angle mesuré (\(\(^\circ\)\)), Angle réel (\(\(^\circ\)\))}
+
+\end{graphicFigure}
+
+Afin d'éviter ce régime transitoire, nous faisons une salve de mesures pour revenir au régime permanent <span title="A condition que le capteur ne bouge pas" style='color:grey;'><sup>[Note 81]</sup></span> puis nous lisons les valeurs sur un nombre d'échantillons afin de déterminer les angles au repos. 
+
+<b>Cette phase de calibration permet à l'utilisateur de choisir la position au repos du gant, cela évite qu'il soit forcément calibré à l'horizontal.</b>
+Pour cela, lors du démarrage de l'émetteur, nous envoyons au robot un mot clé afin que le robot joue une musique pendant la calibration. Il ne faut pas bouger le capteur de position car cela fausserait les commandes. 
+
+Enfin, pour améliorer la précision du capteur, nous avons modifié l'offset du compas en tenant compte de la déclinaison magnétique qui est de 15 ° environ à Chicoutimi \cite{mag}.
+
+<h3>Le contrôle du robot</h3>
+<h4>La lecture des données</h4>
+Une fois que le robot lit les données en provenance du Xbee, il doit décoder la trame reçue. Cette dernière est au format suivant : 
+
+Trame = "<b>XXXX</b>"
+Chaque "X" prend la valeur <b>0</b> ou <b>1</b> et représente respectivement l'ordre d'activation pour :
+<ul>
+    <li> Tourner à gauche
+</li>
+    <li> Tourner à droite
+</li>
+    <li> Avancer
+</li>
+    <li> Reculer
+</li>
+</ul>
+Ainsi, si le robot reçoit la trame <b>0010</b>, il va avancer.
+<h4>Le contrôle des moteurs</h4>
+La vitesse du robot est contrôlable en modifiant la vitesse et le sens de rotation des moteurs droits et gauches. Il nous faut donc 2 broches de signal pour contrôler le robot.
+
+Ce contrôle se fait via un signal PWM<span title="Pulse Widht Modulation" style='color:grey;'><sup>[Note 82]</sup></span>. 
+
+La figure suivante représente le sens de rotation et la vitesse d'un bloc moteur (gauche ou droit). L'axe des ordonnées représente la vitesse en \% en fonction de la valeur du rapport cyclique envoyé au moteur. Cette valeur est comprise entre 0 et 255.
+
+Si la valeur de vitesse est positive, le moteur tourne dans un premier sens et si elle est négative, le moteur tourne dans l'autre sens.
+
+<span id='moteur'></span>
+\begin{graphicFigure}{0.6}{0.6}{-1}{256}{-100}{100}{Ordre de vitesse}{Vitesse (\%)}{Commande des moteurs}
+
+    \addPoints{blue}{(0, 30) (100,30) (100, -100) (180, 0) (255, 100)}
+
+     \addPoints{green}{(0, 0) (255,0)}
+
+     \addLegend{Vitesse du moteur, Vitesse nulle}
+
+\end{graphicFigure}
+
+Aussi, si nous souhaitons faire avancer le robot à la vitesse maximal, nous envoyons la valeur <b>255</b> sur le bloc gauche et droit. 
+Si nous souhaitons faire tourner le robot à vitesse faible, nous pouvons envoyer la valeur <b>170</b> sur le bloc droit et <b>190</b> sur le bloc gauche.<span title="La valeur de repos est de 180" style='color:grey;'><sup>[Note 83]</sup></span>
+<h3>Les mesures de sécurité</h3>
+Afin de rendre plus sûr le robot et son utilisation, nous avons mis en place des mesures de sécurité sur plusieurs niveaux.
+
+Tout d'abord, nous avons fait en sorte que le robot puisse se déplacer <b>uniquement</b> si l'utilisateur calibre le module de positionnement (MPU9250). La condition de calibration est validée si l'utilisateur entend la musique sur le robot.
+Une autre sécurité ajoutée est l'arrêt du robot lorsque la connexion entre les 2 Xbee n'est plus assurée.
+
+Nous avons crée une fonction de lecture qui attend de recevoir des données sur le port série. En revanche, une variable interne fixe un <b>timeout</b> maximal au dessus du quel la fonction de lecture renvoie une chaîne de caractère vide. Une chaîne de caractère vide signifie donc une perte de connexion.
+Le code suivant permet de gérer la perte de connexion du module : 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  String message = xBee.read(WAIT_DATA);  
+
+  if(message.length()==0)
+
+  {
+
+    Serial.println(">>> Xbee disconnected");
+
+    rover.stop();
+
+  }
+
+</code></pre><hr>
+Nous envoyons des données au robot toutes les 5 ms et nous avons fixé un <i>timeout</i> de 200 ms.
+Ensuite, le robot ne peut avancer que si il n'a pas d'obstacle trop proche de lui sur sa route.
+
+Différentes technologies sont utilisées pour mesurer une distance, cependant elles possèdent leurs avantages et inconvénients. Nous allons dresser les principaux avantages et inconvénients puis nous pourrons déterminer la technologie.
+
+<ul>
+    <li> Infrarouge
+</li>
+<ul>
+        <li> Bon marché
+</li>
+        <li> Assez précis
+</li>
+</ul>
+<ul>
+        <li> Non-linéaire
+</li>
+        <li> Sensibilité à la lumière ambiante
+</li>
+        <li> Dépend du coefficient de réflexion lumineuse de la surface en face du capteur
+</li>
+</ul>
+    <li> Laser
+</li>
+<ul>
+        <li> Très précis
+</li>
+        <li> Longue distance
+</li>
+</ul>
+<ul>
+        <li> Prix
+</li>
+</ul>
+    <li> Ultra-sonore
+</li>
+<ul>
+        <li> Prix
+</li>
+        <li> Ne dépend pas de la couleur de la surface en face du capteur
+</li>
+</ul>
+<ul>
+        <li> Précision parfois arbitraire
+</li>
+</ul>
+</ul>
+Ayant besoin de précision et une distance de mesure assez précise, nous allons opter pour une technologie laser.
+
+Le module choisi est un LiDAR (Light Detection And Ranging).
+
+Le LiDAR est composé d'un émetteur et d'un récepteur. L'émetteur envoie une impulsion laser et celle-ci est réfléchie contre une paroi (obstacle) pour être captée par le récepteur. Étant donné que l'on connaît la vitesse de la lumière qui correspond à la vitesse à laquelle se déplace le faisceau lumineux, nous pouvons en déduire la distance de l'obstacle en mesurant le temps mis par le faisceau émis par le laser pour faire l'aller retour. 
+
+<h3>Liste du matériel</h3>
+<ul>
+    <li> Un robot Rover avec les moteurs, les drivers et la batterie
+</li>
+    
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/rover.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Le rover</figcaption></div></figure>
+     
+
+    <li> 2 modules Xbee
+</li>
+    <li> Un accéléromètre MPU9250
+</li>
+    <li> 1 carte Arduino Duemilanove (partie robot)
+</li>
+    <li> 1 carte Arduino Pro Mini pour l'émetteur
+</li>
+    <li> 1 module FTDI pour programmer la carte Pro Mini
+</li>
+    <li> 1 batterie pour le circuit émetteur 
+</li>
+    <li> 2 shields pour les Xbee
+</li>
+    <li> 1 capteur de distance LiDAR
+</li>
+</ul>
+<h3>Organisation du code</h3>
+Nous avons choisi d'utiliser un seul fichier qui gère le code les 2 cartes Arduino. Le code approprié est sélectionné avec la directive de pré-compilation <b>\#define</b>.
+Une approche orientée objet a été choisie car cela permet de rendre plus souple le code en cas d'ajout de fonctionnalités (on ajoute des "modules" au robot).
+
+Ainsi, par exemple, nous créons des instances des différentes classes afin de les manipuler par la suite.
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+  //Xbee
+
+  UART xBee = UART(RX_XBEE, TX_XBEE);
+
+  //Gyro
+
+  
+
+  #define SAMPLING_PERIOD_MS 100
+
+  Gyro gyroscop = Gyro(ADDRESS_GYRO);   //New instance of Gyro class, provides tools to read gyro
+
+  
+
+  //Led
+
+  #define PIN_LED 13
+
+  LED led = LED(PIN_LED);    
+
+</code></pre><hr>
+La figure suivante détaille les classes utilisées en fonction du code émetteur ou récepteur. 
+
+Les classes rouges concernent le positionnement de la main et les classes bleues l'envoi et la réception des données.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/call.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Les différentes classes du projet</figcaption></div></figure>
+ 
+
+ Le code principal du programme est disponible en annexe à la section \ref{code}
+
+<h3>Schéma électrique du circuit émetteur</h3>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/sender.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Le branchement du circuit émetteur</figcaption></div></figure>
+    
+
+    Pour l'émetteur, nous avons donc un module Xbee, une centrale IMU et une carte Arduino. Une batterie est intégrée au gant pour rendre le système autonome.
+
+    
+
+<h3>Schéma électrique du circuit récepteur</h3>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/receiver.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Le branchement du circuit receveur</figcaption></div></figure>
+    
+
+    Sur ce schéma, la partie de contrôle des moteurs est simulée par 2 transistors MOSFET.
+
+<h2 >Discussions</h2>
+Nous avons pu expérimenter les algorithmes de Mahony et Madgwick afin de comparer leurs performances\cite{algo}. Lors d'échantillonnages à hautes fréquences, les 2 algorithmes semblent similaires <span title="Pas de différences de performances évidentes" style='color:grey;'><sup>[Note 84]</sup></span>. En revanche lors d'échantillonnages à faibles fréquences (<20 Hz), l'algorithme de Mahony n'est plus adapté car la dérive est trop importante (>\(50^{\circ}\)).
+
+Ensuite, lors de la calibration du capteur, nous avons remarqué que mettre une musique pendant la phase de calibration n'est pas la meilleure idée. En effet, nous étions tenté de danser sur l'aire de la musique. Or, il ne faut pas bouger la main pendant la calibration.
+
+Lors des essais dans les couloirs, l'envoi et la réception des données était étrange dans la mesure où lors des essais en laboratoire, le comportement du robot était normal et dès que nous sortions dans les couloirs, il se comportait de manière imprévisible. Les commandes de direction n'étaient pas reçues par le robot.
+
+Nous avons donc ajouté des outils de débugage dans le code mais malgré ces derniers, il nous a été impossible de distinguer la ou les causes des comportements étranges.
+
+Nous aurions bien aimé faire avancer le robot avec une vitesse proportionnelle à l'inclinaison de la main. Le problème pour mettre en place cette idée ne venait pas de l'accéléromètre (précision inférieure au degré) mais bien de la courbe de réponse du moteur.En effet, la réponse du moteur (cf section \ref{moteur}) a été tracée à vide et la vitesse n'est plus proportionnelle sur la phase [100-255]. Nous avons donc abandonné cette idée. 
+
+De plus, parmi les grandes étapes du projet (gyroscope, Xbee, moteur), la phase de contrôle du moteur a été la plus compliquée car le comportement du robot était parfois étrange. Nous avons vu que le robot était en mode <i>Contrôle PWM</i> façon engin radio commandé, c'est à dire que l'un des signal contrôle la vitesse du Rover (avancer ou reculer ) et le second signal contrôle le différentiel de la vitesse des roues. Si le différentiel est nul, le Rover avance dans une direction et si le différentiel est maximal, le coté droit sera en opposition de phase par rapport au coté gauche et le robot fera demi-tour sur place.
+Enfin, nous aurions pu ajouter une fonctionnalité pour arrêter le robot en tapant sur la main. Cela aurait permit d'ajouter une sécurité pour éviter que le robot ne se déplace de manière imprévue.
+
+Il aurait aussi été possible d'arrêter le robot en retournant la main.
+
+<h2 >Conclusion</h2>
+Nous avons vraiment apprécié la réalisation de ce projet car il était très plaisant et intéressant à faire. La conception de ce projet a nécessité une petite phase de réflexion pour décider des meilleurs choix techniques. Cette phase était très intéressante car nous avons pu discuter des meilleures technologies à utiliser. 
+
+Ensuite, nous sommes passés à la réalisation du projet. Nous avons rencontrés quelques difficultés notamment liés à des problèmes d'interférences qui perturbait les communications entre le robot et le gant. 
+
+Étant donné que nous avons réussi à le faire fonctionner assez vite, nous avons pu lui rajouter des fonctionnalités.
+
+Cependant, la partie du début du cours sur l'asservissement n'a pas été utile à ce projet.
+
+
+<h3>Liste des bibliothèques</h3>
+<ul>
+    <li> <span class='badge badge-success'>UART</span></li>
+    Cette bibliothèque gère la communication série avec des périphériques en liaison série émulée. La bibliothèque utilise en interne la bibliothèque <span class='badge badge-success'>SoftwareSerial</span> pour émuler une liaison série.
+    <li> <span class='badge badge-success'>RS232</span></li>
+    Cette bibliothèque gère la communication série avec des périphériques en liaison série native.
+
+    <li> <span class='badge badge-success'>Gyro</span></li>
+    Cette bibliothèque gère le capteur MPU9250 afin de récupérer les données de la centrale IMU.
+
+    <li> <span class='badge badge-success'>SpaceViewer</span></li>
+    Cette bibliothèque transforme les valeurs des angles obtenus par la centrale IMU en chaîne de caractère pouvant être transmise sur une liaison série.
+
+    <li> <span class='badge badge-success'>Rover</span></li>
+    Cette bibliothèque gère le contrôle du Rover UQAC
+
+    <li> <span class='badge badge-success'>LED</span></li>
+    Cette bibliothèque gère les LED.
+
+    <li> <span class='badge badge-success'>MusicPlayer</span></li>
+    Cette bibliothèque gère les tonalités pouvant être générées sur un buzzer.
+
+    <li> <span class='badge badge-success'>LIDARLite</span></li>
+    Cette bibliothèque gère les modules LIDAR.
+
+</ul>
+<h3>Installation de XCTU (Linux)</h3>
+<h4>Lien de téléchargement</h4>
+<ul>
+ <li> Se rendre à la page suivante : 
+</li>
+<a class="alert-link">https://hub.digi.com/support/products/xctu/?path=/support/asset/xctu-v-655-linux-x64/</a>
+<li> Puis Cliquer sur <b>download</b></li>
+</ul>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/cocci-bot/download.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Image à télécharger</figcaption></div></figure>
+Un fichier au format <b>.run</b> se télécharge à ce moment là. Il est appelé <i>40002881 AC.run</i>
+<h4>Don des permissions</h4>
+<ul>
+    <li> Se placer dans le répertoire contenant le fichier téléchargé 
+</li>
+    <li> Ouvrir un terminal et lancer la commande 
+</li>
+</ul>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+chmod +x 40002881_AC.run
+
+</code></pre><hr>
+<h4>Lancement de l'installateur</h4>
+<ul>
+    <li> Exécuter le programme en saisissant 
+</li>
+    
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+./40002881_AC.run
+
+</code></pre><hr>
+    <li> Veuillez éviter d'installer le logiciel dans le répertoire `/opt/`, des problèmes de droits d'accès pourraient survenir. 
+</li>
+    Il est recommandé de l'installer dans son répertoire personnel (/home/user)
+
+    <li> Valider toutes les étapes. 
+</li>
+</ul>
+<h4>Première ouverture du logiciel</h4>
+<ul>
+    <li> Se placer dans le répertoire où est installé le logiciel (choisi par vos soins lors de l'installation) 
+</li>
+<li> Lancer la commande :
+</li>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+./app
+
+</code></pre><hr>
+(Si la commande ne se lance pas, répéter l'opération 1.2 avec le fichier <span class='badge badge-primary'>app</span>
+    
+
+</ul>
+<h4>Création du raccourci</h4>
+Il est possible que le raccourci sous Linux pour lancer XCTU ne se créer pas. Pour cela, éditer le fichier <span class='badge badge-primary'>bash aliases</span> via les commandes suivantes : 
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+cd ~
+
+sudo nano .bash_aliases
+
+</code></pre><hr>
+Puis ajouter la ligne 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+alias xctu=Emplacement_dossier_XCTU/XCTU-NG/app
+
+</code></pre><hr>
+(Ctrl+X permet de sauvegarder le script)
+
+puis 
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+source .bashrc
+
+</code></pre><hr>
+<h4>Lancement du logiciel</h4>
+Dans un terminal, saisir
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+xctu &
+
+</code></pre><hr>
+<h3>Reconnaissance des modules Xbee</h3>
+<h4>Ouverture de la liaison</h4>
+<ul>
+<li>  Brancher le module XBee coté ordinateur au module FTDI 
+</li>
+<li> Cliquer sur l'image avec la loupe pour ajouter un appareil 
+</li>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/loop.png' class='alignnone size-medium' style='max-width:100%;'><figcaption>Figure - Ajouter un appareil</figcaption></div></figure>
+Une liste avec un nombre de port série trouvés apparaît.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/select_usart.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Afficher les ports</figcaption></div></figure>
+<li> Il suffit de sélectionner celui du module puis cliquer sur <b>Next</b>.</li>
+Un scan pour détecter le type de module se lance.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/found.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Scan des modules</figcaption></div></figure>
+Lorsque qu'il a trouvé le module, faire <b>Next</b>
+<li> Une fenêtre de paramétrage apparaît.
+</li>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/default.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - fenêtre XCTU</figcaption></div></figure>
+On ne touche pas aux paramètres par défaut qui sont : 
+
+<ul>
+    <li> Aucun bit de parité
+</li>
+    <li> Vitesse de communication à 9600
+</li>
+    <li> 8 bits de données
+</li>
+    <li> 1 bit de stop
+</li>
+</ul>
+Puis <b>Next</b>
+Les modules ajoutés de cette manière seront visibles sur le menu latéral gauche.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/left_menu.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Un module sélectioné</figcaption></div></figure>
+En cliquant dessus, le menu de paramétrage du module devient visible sur le coté droit du logiciel.
+
+L'onglet des paramétrages ressemble à ceci : 
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/right.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - L'onglet de paramétrage</figcaption></div></figure>
+C'est ici que nous allons définir les paramètres de communication <b>entre 2 modules Xbee</b>
+</ul>
+<span id='xbee'></span>
+<h3>Paramétrage des modules Xbee</h3>
+<h4>Choix des paramètres</h4>
+Pour pouvoir communiquer, les modules doivent être sur le même canal (channel) et avoir le même identifiant PAN (Personnal Area Network, qui peut être vu comme un sous-réseau).
+
+Utilisons le canal <b>C</b> (via <b>CH Channel</b>) et  <b>PAN ID</b> à \(2000\).
+Chaque module possède une adresse propre. Mettons là à \(1001\) via l'onglet <b>MY</b>.
+Ce module communiquera avec un module ayant une adresse de \(1000\).
+
+ Nous mettons donc le champ <b>DL</b> à \(1001\).
+En résumé, nous avons ces paramètres :
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/settings.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - paramètres du Xbee</figcaption></div></figure>
+\messageBox{Remarque}{orange}{white}{
+
+Il faut bien vérifier que le mode API est désactivé, ce qui permet au module XBee de renvoyer toutes les données reçues.
+
+Il faut mettre le mode <b>API Mode à 0</b> dans la partie <b>Serial interfacing</b>
+}{black}
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/api_mode.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Désactivation du mode API</figcaption></div></figure>
+Le module est configuré, il ne reste plus qu'à transférer les paramètres
+
+<h4>Transfert des paramètres</h4>
+Nous allons envoyer les paramètres au module Xbee via le logiciel.
+
+Il suffit de cliquer sur le bouton <b>Write</b>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/write.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Transfert des paramètres</figcaption></div></figure>
+Nous allons procéder aux mêmes opérations pour le deuxième module Xbee.
+
+Celui-ci aura pour paramètres : 
+
+<ul>
+<li> CHANNEL : C
+</li>
+<li> PAN ID : 2000
+</li>
+<li> DL : 1001
+</li>
+<li> MY : 1000
+</li>
+</ul>
+<h3>Communication entre deux modules Xbee</h3>
+Une fois les deux modules correctement configurés, nous allons mettre en évidence les échanges de données.
+
+Pour cela, nous pouvons utiliser :
+
+<ul>
+ <li> XCTU
+</li>
+<li>  GTKterm
+</li>
+<li>  Minicom
+</li>
+<li>  Putty
+</li>
+<li>  Screen
+</li>
+</ul>
+Par simplicité, nous utiliserons le logiciel <b><i>XCTU</i></b>
+<h4>Configuration minimale</h4>
+Il faut au préalable que les deux modules soit ajoutés dans le logiciel XCTU comme suivant
+
+\img{\rootImages/all.png}{}{0.5}
+
+<h4>Lancement de la console XCTU</h4>
+Le logiciel XCTU propose une console pour échanger des données.
+
+La console est disponible pour chaque module.
+
+<ul>
+    
+
+    <li> Cliquer sur un des modules
+</li>
+    <li> Faire <span class='badge badge-light'>Alt+c</span> ou bien cliquer sur l'image de la console en haut à droite</li>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/console.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Afficher la console</figcaption></div></figure>
+La console occupe désormais la page centrale 
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/console_2.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Console XCTU</figcaption></div></figure>
+<li> Cliquer sur le bouton <b>Open</b></li>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/open.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Bouton Open</figcaption></div></figure>
+<li> La console passe de gris clair à blanc. 
+</li>
+<li> Procéder de la même façon pour le second module (de l'étape 1 à la 4)
+</li>
+</ul>
+<h4>Écriture-lecture</h4>
+<ul>
+    
+
+    <li> Cliquer sur une des console ouverte et saisir un texte dans la page de gauche.
+</li>
+    On constate à ce moment-là que le texte est envoyé via la liaison série vers le module Xbee. Celui ci va envoyer le message à l'autre module, caractère par caractère.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/send.png' class='alignnone size-medium' style='max-width:15%;'><figcaption>Figure - Réception et écriture</figcaption></div></figure>
+<li>  Les données envoyés sont en bleu, celles reçues sont en rouge.
+</li>
+<li> En cliquant sur la console du second module, on constate que le texte envoyé (en bleu) est bien reçu car en rouge.
+</li>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/receive.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - message reçu</figcaption></div></figure>
+La communication est fonctionnelle entre les modules.
+
+</ul>
+<span id='code'></span>
+<h3>Code principal</h3>
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+#include "UART.h"
+
+#include "RS232.h"
+
+#include "Gyro.h"
+
+#include "Rover.h"
+
+#include "SpaceViewer.h"
+
+#include "LED.h"
+
+#include "MusicPlayer.h"
+
+#include "LIDARLite.h"
+
+ 
+
+//#define SENDER  
+
+#define RECEIVER
+
+#define XBEE_UART
+
+//#define XBEE_RS232 
+
+//Xbee
+
+#define RX_XBEE 10   //Rx pin of Xbee
+
+#define TX_XBEE 8  //Tx pin of Xbee
+
+#define BAUDRATE_XBEE 9600    //Baudrate of serial port
+
+#define BAUDRATE_DEBUG 9600   //baudrate of xBee device
+
+//#define NO_XBEE_UART 
+
+#ifdef XBEE_UART
+
+UART xBee = UART(RX_XBEE, TX_XBEE);                     //New instance of UART class, provides tools to communicate between microcontroleur and Xbee
+
+#endif
+
+#ifdef XBEE_RS232
+
+RS232 xBee = RS232();                     //New instance of UART class, provides tools to communicate between microcontroleur and Xbee
+
+#endif
+
+#ifdef SENDER
+
+  //Gyro
+
+  #define SAMPLING_PERIOD_MS 100
+
+  Gyro gyroscop = Gyro(ADDRESS_GYRO);                         //New instance of Gyro class, provides tools to read gyro
+
+  //Led
+
+  #define PIN_LED 13
+
+  LED led = LED(PIN_LED);                                 //New instance of Led class
+
+#endif
+
+#ifdef RECEIVER
+
+  //Rover
+
+  #define ROVE_PWM_FORWARD 3
+
+  #define ROVER_PWM_TURN 9
+
+  #define BUZZER 5
+
+  #define SECURITY_DISTANCE 70
+
+  
+
+  Rover rover = Rover(ROVE_PWM_FORWARD, ROVER_PWM_TURN);  //New instance of Rover class, provides tools to control rover
+
+  MusicPlayer music = MusicPlayer(BUZZER);
+
+  LIDARLite lidarLite;
+
+ 
+
+#endif
+
+/*!
+
+  Setup function
+
+  Used to setting up all devices and init instance
+
+  This function is called one time
+
+*/
+
+void setup() {
+
+#ifdef XBEE_UART
+
+  Serial.begin(BAUDRATE_DEBUG);
+
+	Serial.println(">>> Start");
+
+#endif
+
+	xBee.begin(XBEE_9600);
+
+  xBee.setExitTime(200);
+
+#ifdef SENDER
+
+  
+
+  gyroscop.setAlgorithm(Algorithm::Mahony);
+
+#ifdef XBEE_UART
+
+  Serial.println(">>> Init MPU9250");
+
+  Serial.println(">>> Send calibrating order");
+
+#endif
+
+  xBee.send("START");
+
+  gyroscop.begin();  
+
+  delay(10);
+
+#ifdef XBEE_UART  
+
+  Serial.println(">>> End init MPU9250");
+
+#endif
+
+  led.on();  
+
+  gyroscop.setMagneticDeclination(+15.9);
+
+  gyroscop.calibrate(50);
+
+  led.off();
+
+  xBee.send("END");
+
+#ifdef XBEE_UART
+
+  Serial.println(">>> Send end calibrating order");
+
+#endif
+
+  
+
+  
+
+#endif
+
+#ifdef RECEIVER
+
+  rover.setDebug(true);
+
+#ifdef XBEE_UART
+
+  rover.addDebugChannel(&Serial, BAUDRATE_DEBUG);
+
+#endif
+
+  lidarLite.begin(0, true);   //set config to default and I2C to 400kHz, starts I2C
+
+  lidarLite.configure(0);     //there are 6 different configs available
+
+  
+
+  rover.stop();
+
+  delay(1000);
+
+  music.addUARTDevice(&xBee, "START", "END");
+
+  music.play();   //Wait until calibration
+
+#endif
+
+}//End setup
+
+void loop() {
+
+#ifdef SENDER
+
+  gyroscop.readAll();
+
+  float gx, gy, gz;
+
+  float relativeRoll = gyroscop.relativeRoll();
+
+  float relativePitch = gyroscop.relativePitch();
+
+  float temp = gyroscop.getTemperature();
+
+  
+
+  String spacePosition = SpaceViewer::getSpacePosition(relativeRoll, relativePitch);
+
+  //Serial.println("Pitch = "+String(relativePitch)+"\t Roll = "+String(relativeRoll)+"\t"+String(spacePosition)+"\t"+String(temp));
+
+  xBee.send(spacePosition);
+
+  delay(SAMPLING_PERIOD_MS);
+
+#endif
+
+#ifdef RECEIVER
+
+  
+
+	String message = xBee.read(WAIT_DATA);  //NO_WAIT_DATA
+
+  
+
+#ifdef XBEE_UART
+
+	Serial.println(message);
+
+#endif
+
+  if(message.length()==6) 
+
+  {
+
+    //Gestion des commandes de base => un seul ordre à la fois    
+
+    if(message[0]=='0' && message[1]=='0' && message[2]=='0' && message[3]=='0')
+
+    {
+
+      rover.stop(); //arreter
+
+    }
+
+    else if(message[0]=='1' && message[1]=='0' && message[2]=='0' && message[3]=='0')
+
+    {
+
+      rover.left(); //gauche
+
+    }
+
+    else if(message[0]=='0'&& message[1]=='1' && message[2]=='0' && message[3]=='0')
+
+    {
+
+      rover.right(); //droite
+
+    }
+
+    else if(message[0]=='0' && message[1]=='0' && message[2]=='1' && message[3]=='0')
+
+    {
+
+      if(lidarLite.distance() < SECURITY_DISTANCE)
+
+      {
+
+        rover.stop();
+
+      }
+
+      else
+
+      {
+
+        rover.forward(); //avancer
+
+      }       
+
+    }
+
+    else if(message[0]=='0' && message[1]=='0' && message[2]=='0' && message[3]=='1')
+
+    {
+
+       rover.backward(); //reculer
+
+    }
+
+    //Gestion des diagonales => deux ordres en même temps    
+
+    else if(message[0]=='1' && message[1]=='0' && message[2]=='1' && message[3]=='0') //Avancer à gauche
+
+    {
+
+    if(lidarLite.distance() < SECURITY_DISTANCE)
+
+      {
+
+        rover.stop();
+
+      }
+
+      else
+
+      {
+
+        //Serial.println("diagonale gauche");
+
+       rover.left_forward();
+
+      }             
+
+    }
+
+    //Gestion des diagonales => deux ordres en même temps    
+
+    else if(message[0]=='0' && message[1]=='1' && message[2]=='1' && message[3]=='0') //Avancer à droite
+
+    {
+
+      if(lidarLite.distance() < SECURITY_DISTANCE)
+
+      {
+
+        rover.stop();
+
+      }
+
+      else
+
+      {
+
+        //Serial.println("diagonale gauche");
+
+       rover.right_forward();
+
+      }   
+
+    }    
+
+    else {}
+
+     
+
+  }
+
+  else if(message.length()==0)
+
+  {
+
+    Serial.println(">>> Xbee disconnected");
+
+    rover.stop();
+
+  }
+
+  else 
+
+  {
+
+    Serial.println(">>> Bad frame input");
+
+  }//End else
+
+  
+
+#endif
+
+}//End loop
+
+</code></pre><hr>
+
+</body></html>

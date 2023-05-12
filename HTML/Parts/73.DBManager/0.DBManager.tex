@@ -1,0 +1,41 @@
+\chapter{Cahier des Charges}
+\newcommand{\constrain}[1]{\lbl{blue}{CON}{#1}}
+
+Ce logiciel permettra de gérer efficacement les composants électroniques.
+
+\begin{items}{blue}{\Triangle}
+    \item Une bibliothèque commune de composants
+    \item Une bibliothèque personnelles
+\end{items}
+
+
+\begin{items}{green}{\Bullet}
+    \item Un identifiant unique \\
+    \constrain{PRIMARY KEY}
+    \item Une référence unique \\
+    \constrain{ALPHANUM} \constrain{UPPERCASE}
+    \item Une désignation 
+    \item Une catégorie
+    \item Une sous-catégorie
+    \item Un boîtier
+    \item Une plage d'alimentation
+    \item Une documentation technique
+    \item Une image
+\end{items}
+
+Les images et documents ne seront pas stockés au format binaire dans la base de données, cela prend trop de place et ralentis considérablement le temps d'accès aux données.
+
+
+
+\section{Cas d'usages}
+\begin{items}{blue}{\Triangle}
+
+    \item L'utilisateur souhaite ajouter un composant non existant dans la bibliothèque
+    \item L'utilisateur souhaite ajouter un composant dans sa base de données personnelle.
+    \begin{items}{blue}{\Bullet}
+        \item Le composant existe, il l'ajoute dans son espace personnel.
+        \item Le composant n'existe pas dans la bibliothèque, il doit l'ajouter manuellement dans la bibliothèque puis l'ajouter dans son espace personnel.
+    \end{items}
+    \item L'utilisateur souhaite consulter un composant dans la bibliothèque
+    \item L'utilisateur souhaite consulter un composant dans son espace personnel
+\end{items}

@@ -1,0 +1,185 @@
+\chapter{Bibliothèque Electronic}
+
+La bibliothèque \lib{Electronic} permet de générer des chronogrammes et des schémas électriques
+
+
+
+\section{Création de chronogrammes fixes}
+
+\begin{numeric}{Exemple 1}
+    D1 &  20{C}   \\
+    D2 &  [green] 1H1L1L1L1H1L1L1H1L1H1L1H1L1H1L1H  \\
+    D7 &  [black] 1H1L1L1L1H1L1L1H1L1H1L1H1L1H1L1H  \\
+    D8 & 8D5U7U5D \\
+    D9 & LLL 2{0.1H 0.1L} 0.6H HH \\
+    D10 & ZZ G ZZ G XX G X \\
+    D11 & [d] 4{5D{Text}} 0.2D \\
+    D12 & [L][timing/slope=1.0] HL HL HL HL HL \\
+  \end{numeric}
+
+
+\loc{Body}
+\begin{Latex}{Code pour la création de chronogrammes fixes [exemple 1]}
+  \begin{numeric}{exemple 1 - chronogramme fixe}
+    D1 &  20{C}   \\
+    D2 &  [green] 1H1L1L1L1H1L1L1H1L1H1L1H1L1H1L1H  \\
+    D7 &  [black] 1H1L1L1L1H1L1L1H1L1H1L1H1L1H1L1H  \\
+    D8 & 8D5U7U5D \\
+    D9 & LLL 2{0.1H 0.1L} 0.6H HH \\
+    D10 & ZZ G ZZ G XX G X \\
+    D11 & [d] 4{5D{Text}} 0.2D \\
+    D12 & [L][timing/slope=1.0] HL HL HL HL HL \\
+  \end{numeric}
+\end{Latex}
+
+
+  \begin{numeric}{Exemple 2 - Chronogramme du compteur 4 bits}
+    INPUT &  CC [blue]16{CC} CCC   \\
+    D0 &  HL 8{LHHL} LHL   \\
+    D1 &  H  4{LLLLHHHH} LLLL \\
+    D2 &  H 2{LLLLLLLLHHHHHHHH} LLLL   \\
+    D3 &  H{LLLLLLLLLLLLLLLLHHHHHHHHHHHHHHHH} LLLL  \\
+    END &  LL [green]14{LL} LHHLLL  \\
+    VALUE & L 2D{0} 2D{1} 2D{2} 2D{3} 2D{4} 2D{5} 2D{6} 2D{7} 2D{8} 2D{9} 2D{10} 2D{11} 2D{12} 2D{13} 2D{14} 2D{15} 2D{0} 2D{1}  \\
+  \end{numeric}%
+
+\loc{Body}
+\begin{Latex}{Code pour la création de chronogrammes fixes [exemple 2]}
+  \begin{numeric}{Exemple 2 - Chronogramme du compteur 4 bits}
+    INPUT &  CC [blue]16{CC} CCC   \\
+    D0 &  HL 8{LHHL} LHL   \\
+    D1 &  H  4{LLLLHHHH} LLLL \\
+    D2 &  H 2{LLLLLLLLHHHHHHHH} LLLL   \\
+    D3 &  H{LLLLLLLLLLLLLLLLHHHHHHHHHHHHHHHH} LLLL  \\
+    END &  LL [green]14{LL} LHHLLL  \\
+    VALUE & L 2D{0} 2D{1} 2D{2} 2D{3} 2D{4} 2D{5} 2D{6} 2D{7} 2D{8} 2D{9} 2D{10} 2D{11} 2D{12} 2D{13} 2D{14} 2D{15} 2D{0} 2D{1}  \\
+  \end{numeric}%
+\end{Latex}
+
+
+\section{Création de chronogrammes flottants}
+
+Notre signal d'horloge (\texttiming{[blue]CCCCCC}) provient d'un oscillateur à quartz.\\
+Notre signal d'horloge (\texttiming[timing/draw grid]{LHLHLHLHLHLHLHL}) provient d'un oscillateur à quartz. 
+
+\loc{Body}
+\begin{Latex}{Code pour la création de chronogrammes flottants}
+  Notre signal d'horloge (\texttiming{[blue]CCCCCC}) provient d'un oscillateur à quartz.\\
+  Notre signal d'horloge (\texttiming[timing/draw grid]{LHLHLHLHLHLHLHL}) provient d'un oscillateur à quartz. 
+\end{Latex}
+
+
+
+\section{Création de schémas électriques}
+
+  
+  \begin{schema} {Exemple de schéma électrique}
+  
+    \addPower{6,5}{power1}{$+5V$}
+    \addGround{4,0}{gnd1}{}
+  
+    \setDeviceBackgroundColor{white}
+    \setRotate{0}
+    \addLogicGate{0,0}{mynor}{nor}{}{A}{B}{G1}
+  
+    \setDeviceBackgroundColor{green}
+    \addLogicGate{0,2}{mynand}{nand}{}{C}{D}{G2}
+    \addLogicGate{2,1}{myor}{or}{}{}{}{G3}
+    \resetColors
+            
+    \addTransistor{6,1}{npnA}{nmos}{B}{C}{E}
+    \addTransistor{6,3}{pnpA}{pmos}{b}{e}{c}
+  
+    \resetColors
+    \addTransistor{10,2}{npnR}{nmos}{b}{e}{c}
+  
+    \addWire{mynor.out}{myor.in 2}{\orthogonalWireA}
+    \addWire{mynand.out}{myor.in 1}{\orthogonalWireA}
+
+    \addWire{mynand.out}{pnpA.B}{\orthogonalWireA}
+    \addWire{pnpA.C}{npnA.C}{\orthogonalWireA}
+  
+    \addWire{pnpA.E}{power1}{\orthogonalWireA}
+  
+    \addWire{npnA.E}{gnd1}{\orthogonalWireA}
+  
+    \addNode{$(pnpA.C)+(1,0)$}{node1}{}
+    \addWire{pnpA.C}{node1}{\orthogonalWireA}
+  
+    \setDeviceBackgroundColor{red}
+    \addLed{myor.out}{\Right}{npnA.B}{\orthogonalWireA}{L1}
+    \addResistor{node1}{\Right}{npnR.B}{\orthogonalWireA}
+            
+  \end{schema}
+  
+  \loc{Body}
+  \begin{Latex}{Code pour la création de schémas électriques}
+    \begin{schema} {Exemple de schéma électrique}
+  
+      \addPower{6,5}{power1}{$+5V$}
+      \addGround{4,0}{gnd1}{}
+    
+      \setDeviceBackgroundColor{white}
+      \setRotate{0}
+      \addLogicGate{0,0}{mynor}{nor}{}{A}{B}{G1}
+    
+      \setDeviceBackgroundColor{green}
+      \addLogicGate{0,2}{mynand}{nand}{}{C}{D}{G2}
+      \addLogicGate{2,1}{myor}{or}{}{}{}{G3}
+      \resetColors
+              
+      \addTransistor{6,1}{npnA}{nmos}{B}{C}{E}
+      \addTransistor{6,3}{pnpA}{pmos}{b}{e}{c}
+    
+      \resetColors
+      \addTransistor{10,2}{npnR}{nmos}{b}{e}{c}
+    
+      \addWire{mynor.out}{myor.in 2}{\orthogonalWireA}
+      \addWire{mynand.out}{myor.in 1}{\orthogonalWireA}
+  
+      \addWire{mynand.out}{pnpA.B}{\orthogonalWireA}
+      \addWire{pnpA.C}{npnA.C}{\orthogonalWireA}
+    
+      \addWire{pnpA.E}{power1}{\orthogonalWireA}
+    
+      \addWire{npnA.E}{gnd1}{\orthogonalWireA}
+    
+      \addNode{$(pnpA.C)+(1,0)$}{node1}{}
+      \addWire{pnpA.C}{node1}{\orthogonalWireA}
+    
+      \setDeviceBackgroundColor{red}
+      \addLed{myor.out}{\Right}{npnA.B}{\orthogonalWireA}{L1}
+      \addResistor{node1}{\Right}{npnR.B}{\orthogonalWireA}
+              
+    \end{schema}
+  \end{Latex}
+  
+
+\section{Création de modèles de Thévenin et Norton}
+
+
+\subsection{Modèle de Thévenin}
+
+\thevenin{E}{Z}[A][B]
+
+\loc{Body}
+\begin{Latex}{Un modèle de Thévenin}
+  \thevenin{E}{Z}[A][B]
+\end{Latex}
+
+\subsection{Modèle de Norton}
+
+\norton{I}{Z}[C][D][-3]
+
+\loc{Body}
+\begin{Latex}{Un modèle de Norton}
+  \norton{I}{Z}[A][B][-3]
+\end{Latex}
+
+\section{Création de moteur à courant continu}
+
+\begin{tikzpicture}
+  \mcc{(0,0)}
+\end{tikzpicture}
+
+\input{Utils/Electronic.info}

@@ -1,0 +1,158 @@
+\chapter{Introduction}
+\section{Objectifs}
+
+
+Ce projet vise à mettre en place une interface de supervision en langage \emph{Python}.\newline
+Ainsi, une interface en Python sera réalisée pour un contrôle de l’API (Automate Programmable Industriel) à distance. \newline
+Nous avons opté pour la réalisation de notre propre logiciel de supervision pour plusieurs raisons : \newline
+
+\begin{enumerate}
+\item Contrôle fin de la communication API-Ordinateur
+\item Indépendance aux logiciels propriétaires (PC-Vue….) \newline
+\end{enumerate} 
+
+Cependant, nous devons être conscients que la place des éléments graphiques est plus complexe.
+
+\section{Supports pédagogiques}
+
+Ce projet vise à donner suite à l'expérimentation de la création d'une interface Python pour la supervision. \\
+Le logiciel précédent, permettant de contrôler un vérin à distance, était basé sur la bibliothèque Python TKinter. \\
+Le protocole de communication restera inchangé, seul le logiciel pour l'interface sera différent.
+
+\chapter{Pré-requis}
+\section{Logiciels}
+
+Afin de bien débuter, il convient que quelques logiciels soient préalablement installés.
+Il s'agit de : \newline
+
+
+\begin{enumerate}
+\item \textbf{Python} \newline
+La version minimal requise est la 3.7 sous peine de mauvaises installations et compatibilités entre les logiciels. \newline
+Le logiciel est disponible à l'adresse \url{https://www.python.org/downloads} \newline
+\item \textbf{Bibliothèque Python Pip} \newline 
+Pip est une bibliothèque permettant d'installer d'autres bibliothèques Python. Toutes les bibliothèques nécessaires au projet de supervision sont disponibles via Pip. \newline
+La bibliothèque est disponible à l'adresse \url{https://pip.pypa.io/en/stable} \newline
+
+Il est également possible d'installer pip via Anaconda (ouvrir un terminal ou console) :
+\begin{lstlisting}
+conda install pip
+\end{lstlisting}
+
+\item \textbf{Logiciel Unity Pro} \newline 
+Unity Pro sera utilisé pour générer le grafcet de supervision. \newline 
+\end{enumerate}
+
+\chapter{Logiciels et outils}
+
+
+L'interface graphique sera réalisée avec le logiciel QtDesigner, en complément de la bibliothèque Python PyQt5.
+Le protocole de communication se basera sur la bibliothèque Python PyModBus.
+L'API sera programmé avec le logiciel Unity-Pro
+
+\section{PyQt5}
+
+\subsection{Présentation}
+
+Qt est une bibliothèque originellement développée pour le C++. Elle a pour vocation d'aider à développer des interfaces graphiques utilisateurs (GUI en anglais) et propose de nombreux outils pour manipuler des fichiers, des bases de données etc...\newline
+
+Elle est distribuée sous deux versions : \newline
+- l'une est commerciale et nécessite de payer un abonnement régulier\newline
+- l'autre est distribuée sous licence LGPL (c'est cette version qui a été utilisée dans notre projet)
+Les deux versions proposent les mêmes fonctionnalitées à version identique.\\
+
+PyQt5 n'est autre qu'un portage de la bibliothèque Qt C++ dans sa version 5 sur Python.\newline
+A noter que PyQt5 dispose lui aussi d'une version commerciale mais que nous avons utilisé la version distribuée sous licence GPL.
+
+\subsection{Pourquoi ?}
+
+Nous avons choisi Qt pour de nombreuses raisons :
+\begin{enumerate}
+    \item \colors{red}{\bold{Multi-plateforme}}\newline PyQt5 a l'énorme avantage d'être portable sur de très nombreuses plateformes. Un seul programme peut être utilisé sur mobile comme sur Windows ou Linux.\newline
+    Par exemple, dans notre cas, nous avons programmé de manière indifférente sur Windows ou Linux pendant toute la durée du projet.
+    
+    \item \colors{red}{\bold{Polyvalence}}\newline Comme dit un peu plus haut, PyQt5 propose de nombreux outils permettant la gestion de base de données, de fichiers xml, d'interfaces graphiques, de programmes multi-thread et bien d'autres choses encore. Cette polyvalence permet d'éviter d'utiliser plusieurs bibliothèque différente. Dans ce cas, une seule bibliothèque permet de faire énormément de choses.
+    
+    \item \colors{red}{\bold{Licence}}\newline Nous l'avons aussi expliqué un peu plus haut, PyQt5 est disponible sous licence GPL.V3 ce qui permet de l'utiliser gratuitement (sous les conditions imposées par le licence GPLv3)
+    
+    \item \colors{red}{\bold{Expérience}}\newline Plusieurs membres du groupe ont déjà utilisés Qt à plusieurs reprises. Ainsi, même si nous utilisions la version Python, le temps d'accoutumance à cette version particulière était plus court que si nous avions dû apprendre à utiliser TKinter.
+\end{enumerate}
+
+\section{QtDesigner}
+
+\subsection{Présentation}
+QtDesigner est un logiciel pour créer des interfaces graphiques.\newline
+L'interaction entre les différents éléments graphiques appelés "widgets" sera faite en langage Python. 
+Un widget est un élément grapĥique comportant des propriétés telles qu'une couleur, une taille, etc. \newline \newline
+
+
+QtDesigner permet donc de gagner en efficacité en terme de conception graphique. \\
+Lorsque les éléments graphiques de base sont devenus insuffisants, nous avons développés nous même les élements graphiques (Vérin, moteur, etc)
+
+
+
+\section{PyModBus}
+\subsection{Présentation}
+\lib{PyModBus} est une bibliothèque Python pour communiquer entre des périphériques avec le protocole ModBus analogue à celui de l'API.
+
+\subsection{Améliorations et documentation}
+
+Cependant, pour des questions de robustesse et de facilité, nous utiliserons un module (ENIBSupervision) que nous avons développé pour simplifier les communications entre l'API et l'ordinateur. \newline
+Ce module utilise la bibliothèque \lib{PyModBus} en interne.
+ Ainsi, toutes les fonctions d'écriture/lecture des données sont protégées des mauvaises manipulations de programmation. \newline
+Un tutoriel de prise en main du module \lib{ENIBSupervision} est disponible en annexe.
+
+\subsection{Installation}
+
+Il est possible d'installer la bibliothèque \lib{Pymodbus} de deux manières : \newline
+
+\subsubsection{Installation par pip}
+La commande pour installer Pymodbus est la suivante :
+\begin{lstlisting}
+pip install pymodbus
+\end{lstlisting}
+
+Pour une installation sur les machines de l'ENIB, il est nécessaire de préciser le proxy pour l'installation. \newline 
+
+La commande suivante est à saisir dans un terminal :
+\begin{lstlisting}
+pip install --proxy "http://proxy.enib" pymodbus
+\end{lstlisting}
+
+\subsubsection{Installation par Anaconda}
+ Il est également possible d'installer Pymodbus avec Anaconda : 
+\begin{lstlisting}
+conda install -c auto pymodbus
+\end{lstlisting}
+
+La bibliothèque officielle ainsi que l'ensemble de sa documentation est disponible à l'adresse \url{https://pymodbus.readthedocs.io/en/latest/} \newline 
+
+\section{Pyuic5}
+
+\subsection{Présentation}
+
+Une fois l'interface graphique est réalisée à l'aide de QtDesigner, il faut utiliser \bold{pyuic5} pour convertir le fichier \file{.ui} en fichier python exploitable.\newline
+
+La commande pour transformer le fichier UI est la suivante (via un terminal/console) :
+\begin{lstlisting}
+pyuic5.py -x fichier_qtdesigner_entree.ui -o fichier_python_sortie.py
+\end{lstlisting}
+
+Vous n'aurez jamais besoin d'écrire à la main dans le fichier python généré par pyuic5. En effet, \textbf{ce fichier doit être re-généré à chaque fois que vous modifiez l'interface depuis QtDesigner}, si vous oubliez,  vous ne constaterez aucun changement.
+
+\subsection{Améliorations}
+
+Étant donné que le fait de régénérer le fichier .ui à chaque changement peut être pénible, nous avons rédigé un script python qui transforme tout les fichier QtDesigner présent dans un dossier en fichier python. \newline
+Cette section sera abordée plus en détail par la suite.
+
+\subsection{Installation}
+
+La commande pour installer Pyuic5 est la suivante : \newline
+
+\begin{lstlisting}
+pip install pyqt5-tools
+\end{lstlisting}
+Il est possible d'installer la bibliothèque avec Anaconda : \newline
+\begin{lstlisting}
+conda install -c anaconda pyqt
+\end{lstlisting}

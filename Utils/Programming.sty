@@ -120,7 +120,7 @@
     img, imgf, imgr, imgn
     includepdf, setFullPage, currentChapter, bold, italic, ib,sn,
     \chapter, \section, \subsection, \subsubsection, \begin, \end, \item, items, messageBox, evec, emat, plot, ball,
-    lorange,lred,lgreen, lmagenta,lpurple,lcyan,lblue,lbrown,lyellow,lblack, lbl, tree}
+    lorange,lred,lgreen, lmagenta,lpurple,lcyan,lblue,lbrown,lyellow,lblack, lbl, tree},
     }
 
 \lstdefinestyle{Html}
@@ -158,9 +158,12 @@
     \raiseMessage{Code n°\arabic{codeCounter} '#1' loaded !} 
     \lstset{
         style=Latex, 
-        title=Code \arabic{codeCounter} - #1
+        title=Code \arabic{codeCounter} - #1%,float=h%h!
     }
-}{}
+}
+{
+    %\end{minipage}
+}
 
 \lstnewenvironment{Cpp}[1] %New Cpp code #title
 {

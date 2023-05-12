@@ -1,0 +1,677 @@
+<html><head><style>.cent {  display: block;  margin-left: auto;  margin-right: auto;}</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> </script><body style='margin-left:5%;margin-right:5%;margin-top:1%'><h4>Fichier générer depuis les sources Latex</h4><h5>Auteur : Nicolas Le Guerroué</h5><a href='index.html'><button class='btn btn-success' >Revenir au sommaire</button></a><hr>Je souhaite remercier tout particulièrement Quentin L'HELGUEN, mon tuteur de stage et responsable de mon suivi sur la partie software des balises, Benjamin ADAM, responsable de la partie hardware ainsi que Stéphane JINCHELEAU, manager du service Recherche et Développement au sein d'Orolia. Leur aide m'a été très précieuse pour les demandes et questions posées tout au long du stage.
+
+Je remercie également l'ensemble du personnel d'Orolia et plus particulièrement le service Recherche et Développement ainsi que Marion AUDREN du service des Ressources Humaines.
+
+Enfin, je remercie Vincent KERHOAS, tuteur académique de l'ENIB.
+
+
+      Ce rapport vise à présenter le travail réalisé tout au long des cinq mois de stage au sein d'Orolia. Le sujet porte sur la gestion des alimentations des balises de détresse. Pour ce stage, j'ai donc dans un premier temps caractérisé le système actuel d'alimentation (modules convertisseurs...). Une fois cette première phase menée, mon stage s'est porté sur le système d'alimentation utilisé pour fournir des courants élevés à basse température.  
+
+      En suivant un cahier des charges donné par l'entreprise, j'ai cherché un composant sur le marché pour répondre aux contraintes et j'ai pu caractériser, simuler et tester ce composant.
+
+      %Après avoir analysé les performances des batteries des balises, la dernière phase avait pour objectif d'améliorer l'autonomie des balises.
+
+      
+
+       
+
+    
+
+    The purpose of this document is to present the work achieved for these five months to Orolia.
+
+    The subject is about the power management on the distress beacons. First of all, I studied existing system of power to get characteristics then I focused on the system to get high currents at low temperature. At the end, I analysed battery efficiency and I tried to search a component to replace the system according to speficications given by company.
+
+<h3>Le groupe Orolia</h3>
+<h4>Les domaines d'activité</h4>
+Le groupe Orolia regroupe 3 grands domaines d'activités : 
+
+<ul>
+  <li> Les horloges atomiques
+</li>
+  <li> Les balises de détresse 
+</li>
+  <li> Les simulateurs <span title="Global Navigation Satellite System : Système Global de Navigation par Satellite" style='color:blue;'>GNSS</span>  (Global Navigation Satellite System)
+</li>
+</ul>
+Orolia fait partie des leaders mondiaux dans les domaines des balises de détresse aéronautiques et militaires.
+
+Le groupe est numéro un mondial pour les horloges de précision (horloges atomiques), et numéro deux pour les simulateurs.
+
+Le groupe compte aujourd’hui 450 employés.
+
+<h4>Localisation</h4>
+L'entreprise est présente, comme indiqué sur la \figureName{localisation} à Les Ulis (France),Rochester (USA), Montréal (Canada), Neufchâtel (Suisse) et à Guidel (France), lieu de ce stage.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/localisation.png' class='alignnone size-medium' style='max-width:45%;'><figcaption>Figure - Localisation des filiales</figcaption></div></figure>
+<h3>Le site de Guidel</h3>
+A l'origine, la principale activité de l’entreprise de Guidel était la protection de sites sensibles comme les centrales nucléaires ou les bases militaires par le biais de systèmes électriques et électroniques.
+
+A partir de 1986, le site se spécialise dans les balises de détresse et c'est en 2012 que l'entreprise prend le nom de Orolia SAS.
+
+Le site de Guidel s'occupe essentiellement des balises de détresse qui peuvent être sous différentes gammes :
+
+<ul>
+    <li> Balises <span title="Personal Locator Beacon : Balise de localisation à usage personnel (militaire ou civil)" style='color:blue;'>PLB</span> (Personal Locator Beacon) militaires
+</li>
+    <li> Balises <span title="Emergency Locator Transmitter : Balises aéronautiques" style='color:blue;'>ELT</span> (Emergency Locator Transmitter) pour l’aéronautique \figureRef{balises}
+</li>
+</ul>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/balises.png' class='alignnone size-medium' style='max-width:10%;'><figcaption>Figure - Un ensemble de balises ELT </figcaption></div></figure>
+La \figureName{organigrame} montre la répartition dans les différents services des 90 employés d'Orolia à Guidel.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/diagramme.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Organigramme du site de Guidel</figcaption></div></figure>
+La conception et l'étude des balises se fait dans le département Recherche \& Développement. 
+
+<br>
+
+<h3>Le département Recherche \& Développement</h3>
+Le service R\&D compte 25 employés, alternants ou stagiaires, ce qui représente de loin le plus grand service du site de Guidel.
+
+Au sein du service R\&D, le responsable de l’équipe, Stéphane JINCHELEAU, gère l’organisation du travail en parallèle des trois chefs de projet qui contrôlent la répartition et l’avancement des tâches. 
+
+Ce sont eux aussi qui communiquent avec les clients des projets (Airbus et Boeing, principalement). 
+
+Le service est scindé en 3 salles pour répartir en fonction des "métiers", à savoir la partie Mécanique, Hardware, Software et Système.
+
+Chaque stagiaire possède un maître de stage qui lui sert d’interlocuteur privilégié pour les questions techniques, même si tous les équipiers peuvent être questionnés pour des sujets précis. 
+
+Lors de mon stage, j'avais un maître de stage orienté Software, Quentin L'HELGUEN mais je pouvais aussi compter sur Benjamin ADAM pour la partie Hardware du stage.
+
+Le service R\&D a tout au long du stage veillé à ce que j'ai le matériel adapté (oscilloscope, composants électroniques...) et j'avais une grande liberté pour commander du matériel si besoin.
+
+Tout au long de mon passage à Orolia, j'ai donc constaté que l'entreprise souhaitait sincèrement que je progresse dans mes compétences.
+
+
+<h3>Le programme COSPAS-SARSAT</h3>
+Pour communiquer, les balises Orolia se basent sur le programme standardisé \glossary{COSPAS-SARSAT} (C/S) \figureRef{network} qui regroupe 43 pays et organisations pour former un réseau de satellites et de stations terrestres.  Les échanges avec les satellites se font avec des signaux à 406 MHz et les fréquences 121.5 MHz et 243 MHz sont des fréquences qui permettent aux services <span title="Search and Rescue : Service de recherche et de sauvetage terrestre" style='color:blue;'>SAR</span>
+
+(Search and Rescue) de localiser la balise.
+
+Chaque signal de détresse est traité par l'un des 200 pays et territoires.
+
+ 
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/global.png' class='alignnone size-medium' style='max-width:90%;'><figcaption>Figure - Le réseau Cospas-Sarsat</figcaption></div></figure>
+La figure précédente nous indique le cheminement d'un processus de détresse, c'est à dire lorsque une balise commence à émettre un message.
+
+Tout d'abord, une balise située dans un avion (ELT), un navire (EPIRB) ou sur une personne (PLB) envoie des messages de détresse pendant 24 heures au réseau de satellites. 
+
+Les satellites forment un ensemble de 3 constellations : 
+
+<ul>
+    <li> La constellation <span title="Low-Earth Orbiting Search and Rescue : Constelllation de satellite à basse altitude" style='color:blue;'>LEOSAR</span> (Low-Earth Orbiting Search and Rescue) est formée de 6 satellites à 36 000 km d'altitude.
+</li>
+    <li> La constellation <span title="Geostationary Search and Rescue : Constellation des satellites de recherche" style='color:blue;'>GEOSAR</span> (Geostationary Search and Rescue) avec cinq satellites à 36 000 km également.
+</li>
+    <li> La constellation <span title="Medium-Earth Orbit SAR : Constellation des satellites GPS et Galiléo" style='color:blue;'>MEOSAR</span> (Medium-Earth Orbit SAR) formée par les satellites GPS et Galiléo notamment.
+</li>
+</ul>
+Les satellites réceptionnent le message et transmettent aux différentes stations terrestres la demande de détresse.
+
+Chaque message comprend différents champs ayant chacun une fonction comme indiquer l'identifiant unique de la balise, vérifier l'intégrité des données...
+
+Lors des premières 48 heures, un signal de positionnement est envoyé pour que les secours puissent localiser la balise avec le système SAR qui lance les recherches au sol (hélicoptères, navires...). Cette phase est appelée Homing.
+
+Les normes C/S imposent une durée de fonctionnement de minimum 24 h et 48 h pour certains modèles (ELT).
+
+<h3>L'architecture d'une balise</h3>
+Une balise peut fondamentalement est scindée en deux chaînes : 
+
+<ul>
+    <li> Une chaîne de Puissance qui s'occupera d'émettre les messages de détresse
+</li>
+    <li> Une chaîne Logique pour gérer les états de la balise
+</li>
+</ul>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/powerBeacon.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - L'architecture de l'alimentation d'une balise</figcaption></div></figure>
+La gestion de l'énergie d'une balise (deux parties qui seront abordées par la suite) est donc la partie qui vise à faire fonctionner la logique et la puissance en partant d'une batterie.
+
+<h3>Les contraintes des balises</h3>
+Ces balises sont placées dans des environnements contraignants (avion, navires...), il faut donc alimenter la balise avec une batterie afin qu'elle puisse émettre ses messages de détresse en toute situation.Les balises doivent être autonomes en énergie et ne nécessiter aucune interaction de l'utilisateur pour émettre les messages.
+
+Ainsi, en plus des normes C/S, le domaine de l'aéronautique ajoute ses propres normes de sécurité dont notamment l'utilisation des balises à -40°.
+
+Cependant, à cette température, les batteries utilisées dans certaines balises sont moins efficaces et la capacité apparente diminue comme le montre la figure suivante :
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/datasheet.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - L'effet de la température et du courant sur une cellule de batterie</figcaption></div></figure>
+Ces balises ne doivent être activées qu'en cas de détresse avérée et ne peuvent pas se déclencher intempestivement. Elles forment donc un système de sécurité utilisé en dernier recours car l'échec n'est pas permis.
+
+Les contraintes d'autonomie énergétique sont exigeantes car une balise doit émettre dans les 5 secondes même lorsque elle n'est pas activée depuis des années.
+
+Il faut donc jongler entre les contraintes imposées par la batterie et par la puissance nécessaire à la partie Puissance et Logique afin d'émettre avec suffisamment de puissance aux satellites. 
+
+<h3>Les modes de la balise</h3>
+<span id='frequencies'></span>
+Il existe principalement 3 modes de fonctionnement :
+
+<ul>
+    <li> mode OFF : La balise est totalement désactivée.
+</li>
+    <li> mode ARMED : Seule quelques fonctions vitales (détection de crash, détection d'eau de mer) sont activées, le reste est en sommeil.
+</li>
+    <li> mode ON : La balise émet ses signaux de détresse sur les différentes fréquences. Un message transmit est appelé Burst. Pour le 406 MHz, les bursts durent une seconde et se répartissent ainsi sur les 24 premières heures : 
+</li>
+<ul>
+ <li> 6 bursts espacés chacun de 5 secondes
+</li>
+ <li> 59 bursts espacés chacun de 30 secondes
+</li>
+ <li> 705 bursts espacés chacun de 120 secondes
+</li>
+</ul>
+ 
+
+ Entre chaque burst en 406 Mhz, un signal est transmis pour le système SAR. Après 24 h, la balise émet uniquement en 121.5 MHz et 243 MHz.
+
+</ul>
+<h3>Le système de batterie</h3>
+Afin d'alimenter les balises, deux modèles de batterie ont été développés : 
+
+<ul>
+ <li> Une batterie BAT400 qui comprend 4 cellules de 3V (3Ah) en série, ce qui fait une batterie de 12V et 3Ah (4s1p)
+</li>
+ <li> Une batterie BAT800 qui comprend 2 branches parallèles de 4 cellules de 3V (3Ah) en série, ce qui fait une batterie de 12V et 6Ah (4s2p)
+</li>
+</ul>
+
+<h2 >Présentation du travail réalisé</h2>
+<h3>Objectifs du stage</h3>
+Le premier objectif de ce stage était d'analyser dans un premier temps la gestion de l'énergie sur les balises.  
+
+Il a donc fallu caractériser l'ensemble des modules permettant la conversion et la répartition de l'énergie à travers les balises.
+
+Un second objectif était d'étudier le système des supercondensateurs et d'analyser les supercondensateurs , partie qui sera abordée par la suite.
+
+L'objectif final était d'améliorer l'autonomie des balises grâce aux études et expériences précédentes.
+
+L'ensemble des résultats et analyses ont été rédigées dans un cahier de conception demandé par l'entreprise.
+
+Pour m'aider dans la compréhension du système actuel, j'ai souvent utilisé le logiciel LTSpice ou Tina afin de simuler le comportement du système.
+
+<h3>Analyse de la batterie</h3>
+La base de l'alimentation est la batterie, il convient donc de la caractériser.
+
+Comme vu précédemment, les performances de la batterie diminuent lorsque la température diminue. Cependant, le courant tiré par la balise entre en compte. 
+
+Le cas le plus critique pour l'utilisation de la batterie est lors d'une émission d'un burst en 406 MHz. La partie Puissance de la balise nécessite un courant de 2A sous une tension de 7.6V afin d'émettre avec suffisamment de puissance le signal aux satellites.
+
+Des mesures réalisées par la société ont montré qu'on ne pouvaient pas tirer plus de 1.5A sur un ensemble BAT400 ou BAT800 si l'on souhaitait effectuer correctement les émissions.
+
+Ce courant (en ampères) sera par la suite appelé <b>\(I_{max</b>\)}
+Sous ces basses températures, analysons le phénomène de Résistance Série Équivalente (ESR) qui pénalise la batterie.
+
+<h4>Analyse de la résistance interne</h4>
+A faible température, la capacité de la batterie diminue et son <span title="Equivalent Series Resistor : Résistance série équivalente, c'est une résistance parasite dans les batteries et condensateurs" style='color:blue;'>ESR</span> augmente de manière significative. 
+
+J'ai essayé de mesurer la valeur de l'ESR de la batterie. Pour cela, je suis parti du principe que l'ESR engendre une chute de tension parasite lors du passage d'un courant. 
+
+J'ai utilisé une charge dynamique afin d'imposer le courant de 1 ampère en sortie de la cellule placée dans une étuve à -40°C, comme indiqué sur la \figureName{esrDynamicLoad}. Les valeurs sont ensuite relevées avec un oscilloscope.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/box.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Montage pour mesurer l'ESR à -40°C</figcaption></div></figure>
+Pour un même courant demandé (1A), la chute de tension due à l'ESR à -40°C augmente considérablement. La \figureName{esr} montre la chute de tension due à l'ESR pour un courant de 1A sur une cellule de 3V.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/esr_pile.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Mise en évidence de l'ESR à -40°C</figcaption></div></figure>
+L'ESR d'une cellule vaut donc :
+
+\( R_{ESR} = \frac{\Delta V}{I} = \frac{0.843}{1} = 0.843 \Omega\)
+
+Avec \(I\) le courant débité par la celulle en A, \(\Delta \) la chute de tension mesurée
+
+La \figureName{esrHot} en annexe met en évidence le lien entre la température et l'ESR. J'ai soumis la pile à plusieurs salves de 1A afin de réchauffer le coeur de la pile et on constate que l'ESR diminue progressivement.
+
+Sur un ensemble BAT400 ou BAT800 de 12V, lorsque un courant de 1A est tiré, une chute de tension de 3.4V apparaît et la tension apparente n'est plus que de 8.6V.
+
+Le système actuel cherche donc à limiter le courant drainé par la batterie et pour cela, un ensemble de supercondensateurs (configuration 2s2p) fait office de réservoir d'énergie intermédiaire lors des appels importants de courant de la balise.
+
+Les condensateurs sont intégrés de la façon suivante au sein de la chaîne d'énergie.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/hybrid2.png' class='alignnone size-medium' style='max-width:55%;'><figcaption>Figure - Configuration des supercondensateurs</figcaption></div></figure>
+La partie verte correspond au mode Hybrid sur la \figureName{arch} et s'explique car la balise doit émettre dans les 5 secondes. Or, les condensateurs sont déchargés et il n'est pas possible de les charger en 5 secondes. La partie Puissance tire l'énergie directement sur la batterie lors des 6 premiers bursts.
+
+Les supercondensateurs peuvent délivrer de forts courants à basse température. Ainsi, excepté lors des 6 premiers Bursts en 406 MHz, la partie Puissance tire le courant des supercondensateurs qui sont rechargés entre les bursts avec un courant moyen constant afin de réduire l'impact de l'ESR et d'améliorer les performances de la batterie.
+
+D'un point de vue capacité de batterie, il est plus efficace de tirer un faible courant sur la pile qu'un courant plus élevé. 
+
+Au lieu d'avoir la courbe de courant bleue (figure suivante) pour le courant sur la batterie, on va chercher à obtenir la courbe rouge. L'énergie débitée par la pile avec ces deux courbes est la même , seule le profil du courant évolue.
+
+\begin{graphic}{0.8}{0.5}{0}{32}{-0.1}{1.6}{t(s)}{\(I ~~(A)\)}{Courbes de courant entre deux bursts}
+
+\addPoints{blue}{(0,0.033)(1,0.033)(1,1.38)(2,1.38)(2,0.033)(31,0.033)(31,1.38)(32,1.38)(32,0.033)}
+
+\addPoints{red}{(0,0.08)(32,0.08)}
+
+\addPoints{green}{(0,1.5)(32,1.5)}
+
+\addLegend{Courant pulsé (\(A\)), Courant lissé (\(A\)), \(I_{max}\) Batterie (\(A\))}
+
+\end{graphic}
+
+<h3>Analyse d'un convertisseur</h3>
+<h4>Besoins techniques du convertisseur</h4>
+Pour la partie Puissance, il faut une tension de 7.6V (2A) avec un pack batterie de 12V (ou batterie de 6V pour les balises PLB). 
+
+Or, nous avons vu précédemment qu'on ne peut pas tirer 2A avec la batterie à -40°C.
+
+L'utilisation d'un régulateur de tension linéaire n'est pas acceptable car si un courant de 2A est tiré en sortie du régulateur, cette même valeur de courant sera tirée sur la batterie.
+
+En revanche, il est possible de réduire le courant tiré sur la batterie en utilisant un convertisseur DC-DC. Ce dernier va convertir la tension d'entrée en une tension plus faible. A puissance d'entrée et de sortie du module égale, une tension plus grande sur l'entrée par rapport à la tension de sortie va imposer un courant plus faible en entrée (par rapport à la sortie).
+
+La figure suivante indique les différents courants et tensions pour un convertisseur (rendement de 90\%) en séquence de burst.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/converter.png' class='alignnone size-medium' style='max-width:55%;'><figcaption>Figure - Principe d'un convertisseur</figcaption></div></figure>
+Les convertisseurs, lorsqu'ils sont utilisés dans leur plage de courant nominal possèdent de très bons rendements contrairement aux régulateurs linéaires. Cependant, ces régulateurs sont utilisés dans les balises lorsque une tension stable est recherchée.
+
+J'ai étudié principalement 3 topologies de convertisseurs DC-DC , dont deux qui sont utilisés sur les balises :
+
+<ul>
+    <li> Convertisseur \glossary{Buck} : Ce module engendre en sortie une tension plus petite que la tension en entrée.
+</li>
+    <li> Convertisseur \glossary{Boost} : Ce module engendre en sortie une tension plus élevée que la tension en entrée.
+</li>
+    <li> Convertisseur \glossary{Buck-Boost} non-inverseur : Ce module regroupe les deux topologies précédentes pour produire une tension plus faible ou plus élevée que la tension d'entrée.
+</li>
+</ul>
+<h4>Principe</h4>
+Les convertisseurs Buck-Boost (ou Boost) se basent sur les propriétés des bobines à stocker de l'énergie. En commutant une bobine, il est possible de faire varier la tension de sortie.
+
+Ces convertisseurs utilisent généralement la même configuration pour leur commande, à savoir un pont diviseur de tension pour fixer la tension de sortie, une résistance pour fixer la fréquence du module et une broche pour activer ou non le module.
+
+<h4>Mesure des rendements</h4>
+L'un des objectifs du stage est de mesurer les rendements des modules Buck-Boost utilisés. En effet, sur les différentes balises les modules Buck-Boost varient et leur efficacité également. 
+
+J'ai pu simuler et mesurer les rendements de 3 modules différents. Cependant, seul une des caractérisation sera présentée. Une première étape a été de simuler un convertisseur puis les mesures ont été réalisées.
+
+<h4>Mesures par simulation</h4>
+J'ai simulé le convertisseur LTC3119 sous LTSpice afin d'avoir une première estimation des valeurs de rendement en condition nominale des burst, c'est à dire 7.6V et 2A en charge.
+
+Connaissant la tension de sortie et d'entrée du module, le calcul du rendement se fait donc ainsi : 
+
+\( \eta = \frac{Vs \cdot Is}{Ve \cdot Ie} *100 ~~[\%]\)
+
+\(A\)vec \(\(\(V\)_s\)\) et \(\(\(V\)_s\)\) en \(V\), \(\(I_s\)\) et \(\(I_s\)\) en \(A\) 
+
+J'ai réalisé le schéma suivant \figureRef{ltc3119} sous LTSpice et avec l'aide de la commande MEAS (Ces instructions sont disponibles en annexes \ref{meas}), j'ai pu mesurer le courant en entrée du module ainsi qu'en sortie, une fois le régime permanent établi.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/LTC3119.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Le schéma de simulation d'un LTC3119</figcaption></div></figure>
+Les rendements des modules LTC3112, LTC3124 et LTC3119 sont disponibles en annexes \figureRef{ltc3112Efficiency}
+
+<h4>Mesures réelles</h4>
+Pour mesurer réellement les rendements de ces modules, j'ai soit : 
+
+<ul>
+    <li> Démonté de vieilles balises pour souder directement les câbles de l'alimentation et simulé la batterie avec une alimentation externe \figureRef{rendement_mesures}.
+</li>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/mesures.jpg' class='alignnone size-medium' style='max-width:7%;'><figcaption>Figure - Mesure de rendements</figcaption></div></figure>
+    <li> Utilisé des modules de démonstration fourni par les fabricants (Analog Device).
+</li>
+</ul>
+J'ai réalisé une première série de mesures mais l'écart des rendements entre la simulation et la pratique était très élevé (plus de 20\%), j'ai donc remis en cause le montage et constaté une chute de tension élevée aux bornes des câbles d'alimentation.
+
+J'ai augmenté la section des fils des câbles d'alimentation afin de me rapprocher des résultats des simulations
+
+Les résultats des rendements mesurés sont disponibles en annexes \figureRef{ltc3112Efficiency}.
+
+Les différences de rendement dans les graphiques montrant les résultats s'expliquent car de nombreux phénomènes n'ont pas été simulés sous LTSpice comme la résistance des câbles.De plus, il ne s'agit que d'une simulation, on arrive rapidement aux limites du monde théorique.
+
+Les rendements mesurés sont inférieurs aux rendements simulés ce qui est cohérent.
+
+Plus la tension en entrée est faible plus le courant en entrée sera important pour une puissance égale.
+
+Les trois modules sont néanmoins capables de fournir suffisamment d'énergie à la partie Puissance lors de l'émission des burst, même si la tension en entrée diminue.
+
+A chaque fois que les 2A étaient consommés par la charge, le courant tiré sur l'alimentation était inférieur au \(I_{max}\) de la batterie. L'utilisation de convertisseurs pour la partie Puissance est donc justifiée.
+
+<br>
+
+<h3>Analyse des supercondensateurs</h3>
+Nous avons vu que les supercondensateurs permettaient de délivrer un courant élevé pendant un bref instant afin de s'affranchir de la température. Cependant, il convient de caractériser ce système afin de connaître ses performances.
+
+<h4>Caractérisation des supercondensateurs</h4>
+J'ai cherché dans un premier temps à déterminer la capacité (F) et la Résistance Série Équivalente (\(\Omega\)). Cette première donnée est relativement imprécise de la part des fabricants (\(\pm\)~20\%).
+
+Le supercondensateur mesuré est un BCAP0005-P270 avec une tension nominale de 2.7V et une capacité nominale de 5F.
+
+<h4>Mesure de la capacité</h4>
+Pour mesurer la capacité, j'ai simplement fait un pont RC et j'ai soumis le supercondensateur à une tension de 2.7V. 
+
+La tension du supercondensateur a atteint 63\% de la valeur nominale (\(1.7V\)) en 1072s avec une résistance de 189.9 \(\Omega\).
+
+d'ou 
+
+\( C = \frac{t_{63\%}}{R} = \frac{1072}{189.9} = 5.64 F\)
+
+<h4>Détermination de la Résistance Série Équivalente</h4>
+Le principe utilisé pour mesurer l'ESR est le même que celui utilisé pour l'ESR de la batterie à -40°C, c'est à dire qu'on impose un courant de charge de 1 ou 2A et on regarde la chute de tension aux bornes du supercondensateur. J'ai mesuré l'ESR lorsque les supercondensateurs étaient chargés à 2.7V (tension nominale).
+
+La valeur de l'ESR mesurée vaut en moyenne \(55~ m\Omega\) ce qui est plus faible que la valeur de l'ESR de la batterie. Les supercondenseurs permettent de tirer un courant important même à faible température.
+
+La courbe du relevé de l'expérience est disponible avec la \figureName{esrCapa}.
+
+<h4>Mesure du courant</h4>
+Toujours dans l'optique de ne pas dépasser \(I_{max}\) sur la batterie, un capteur de courant est placé en amont des supercondensateurs pour connaître le courant.
+
+La figure \figureRef{current} indique l'emplacement du capteur.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/sensor.png' class='alignnone size-medium' style='max-width:46%;'><figcaption>Figure - Emplacement du capteur de courant</figcaption></div></figure>
+Une simulation du composant (\figureName{currentSensor} en annexe) a été réalisée avec le logiciel TINA afin de vérifier sa validité, notamment son temps de réponse.
+
+La \figureName{currentSensorResponse} simule le temps de réponse en sortie du filtre passe-bas du capteur.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/transient.png' class='alignnone size-medium' style='max-width:46%;'><figcaption>Figure - Temps de réponse du filtre</figcaption></div></figure>
+J'ai ensuite réalisé une mesure réelle. J'ai fixé un courant de 1A et j'ai mesuré le temps que met le capteur à produire la tension image de ce courant.
+
+La relation entre le courant et la tension de sortie est la suivante : 
+
+\( V_{s} = \frac{I}{1.25}~~ [V]\)
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+J'ai constaté que le signal de sortie met 362 \(\(ms\)\) à atteindre sa valeur nominale. Or, le temps entre deux acquisitions de courant est de 10 \(\(ms\)\). Il a donc fallu réduire le temps de réponse du filtre à moins de 10 \(\(ms\)\) en modifiant le filtre.
+
+Une mesure de comparaison entre le capteur avec et sans filtre passe-bas est disponible en annexe (\figureName{annexe_filter}).
+
+<h4>Le système de recharge actuel</h4>
+ 
+
+Le système de recharge actuel des 4 supercondensateurs est un chargeur Buck contrôlé via un signal <span title="Pulse Width Modulation : Modulation par Largeur d'Impulsion|see|MLI" style='color:blue;'>PWM</span> (Pulse Width Modulation) en provenance du microcontrôleur de la balise.
+
+Pour charger les supercondensateurs, différents algorithmes ont été mis en place par la société, certains sont plus efficaces que d'autres. Le rendu de la charge avec l'algorithme de la balise Tauceti est disponible en annexe \figureRef{annexe_tauceti}.
+
+<h4>Mesure des rendements</h4>
+\imgf{\rootImages/nucleo.jpg}{Une carte Nucleo F411}{0.3}{0.5}{right}{10}
+
+L'un des objectifs de mon stage était de caractériser le système actuel de recharge pour connaître les rendements.
+
+Le système actuel est fonctionnel mais peu de données de rendement étaient disponibles. Lors des mesures, j'ai réalisé un code en C (organisation du code sur la \figureName{code}) avec une carte de développement Nucleo F411 afin de reproduire la séquence de charge et décharge des supercondensateurs.
+
+\vspace{1cm}
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/diagramme.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Graphique des modules C de code</figcaption></div></figure>
+Chaque module gère des fonctions propres à l'expérience (chargeur de supercondensateurs, module de décharge, gestions des interrupteurs, communication UART...) et comprend un fichier d'en-tête et de source code C.
+
+L'ensemble du fonctionnement de la balise est régie par le module <b>Beacon</b> qui est vu comme la principale machine à état.
+<h4>Mesures des rendements</h4>
+Ainsi, pour mesurer les rendements du chargeur de supercondensateurs, il suffit d'appuyer sur le bouton utilisateur de la Nucleo afin de lancer le cycle : 
+
+<ul>
+    <li> Décharge des supercondensateurs jusqu'à 4.3V. Cette tension est la tension des supercondensateurs en fin de burst.
+</li>
+    <li> Calcul du courant nécessaire en fonction du temps de charge souhaité
+</li>
+    
+
+    Ce courant est simple à calculer car étant donné qu'il est constant, l'évolution de la tension est linéaire et le courant est proportionnel au temps de charge. On sait que : 
+
+        \( Q = I\cdot t~[C] ~~~~~~~~ et ~~~~~~~~~Q = C \cdot \Delta  V\)\( avec \)Q\( la charge en Coulomb, \)I\( le courant dans le condensateur en Ampère, \)t\( le temps de charge en s et \)\Delta V la différence de potentiel aux bornes du condensateur.
+
+    D'ou :
+
+    \( <I> = \frac{C \cdot\Delta V}{t}~[A]\)
+
+Ainsi, par exemple, pour charger un condensateur de 5F de 0V à 5.4V en 30 s, il faut un courant (mA) de 
+
+\( <I> = \frac{5 \cdot 5.4}{30} = 900 mA\)
+
+    <li> Activation de la <span title="Pulse Width Modulation : Modulation par Largeur d'Impulsion|see|MLI" style='color:blue;'>PWM</span> et de l'algorithme de charge
+</li>
+    <li> Scrutation de la fin de la charge (tension à 5.4V) et acquisition des valeurs de courant
+</li>
+</ul>
+Afin d'automatiser le calcul du rendement, je me suis basé sur l'énergie accumulée dans les supercondensateurs pour calculer le rendement. En effet, l'énergie accumulée (en Joule) par un condensateur vaut : 
+
+\( E_C = \frac{C\cdot \Delta V^2}{2} [J] \)
+
+Il s'agit donc de l'énergie stockée dans le condensateur sur une période \(t_{charging} \) (s)
+
+Ensuite, on relève le courant débité par l'alimentation (capteur de courant) tous les 10 ms et on stocke le résultat dans un tableau le temps de la durée de charge du condensateur.
+
+\( <I_e> = \frac{1}{N} \cdot \sum_{n=0}^{N}{array[n]}\)
+
+D'où : 
+
+\( <P_{condensateur}> = V_{CC}~\cdot <I>~[W]\)
+
+Comme \(E = P.t~[W.s] \) et que \( 1Wh\cdot s = 1 J\), on en déduit que :
+
+\( E[J] =  V_{CC}~ \cdot (\frac{1}{N} \cdot \sum_{n=0}^{N}{array[n]}) \cdot t_{charging} \)
+
+Avec N le nombre d'échantillons du courant, \(t_{charging}\) le temps de charge du condensateur en s.
+
+Étant donné que les supercondensateurs seront une seule fois déchargés au démarrage de la balise (cas critique), les essais des rendements ont été fait pour une tension des supercondensateurs comprise entre 4.3V et 5.4V (on ignore la charge initiale).
+
+Il a été ensuite possible de lancer une séquence avec plusieurs bursts pour faire une moyenne des rendements.
+
+La \figureName{arctarusCurrent} présente un cycle de recharge et décharge de supercondensateurs.
+
+La courbe rouge représente l'image du courant dans les supercondensateurs et la courbe bleue la tension des supercondensateurs (V).
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/simulation_burst_1.png' class='alignnone size-medium' style='max-width:35%;'><figcaption>Figure - Séquence de bursts avec l'algorithme Arctarus</figcaption></div></figure>
+La \figureName{resultBuck} est disponible en annexe et présente les résultats des rendements pour des temps de charges de 5, 10 et 30s. Les rendements sont d'autant meilleurs que le courant en entrée est élevé (sous peine de ne pas dépasser le courant de
+
+saturation de l'inductance).
+
+Sur les premières 24 heures, la plupart des recharges se font en 30 secondes (cas nominal) et le rendement pour ces recharges va de 45\% (batterie à 12V) à 56\% (batterie à 8V).
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+ 
+
+ 
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/cold.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Schéma pour la batterie sans supercondensateur</figcaption></div></figure>
+ 
+
+ 
+
+ 
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/montage.jpg' class='alignnone size-medium' style='max-width:10%;'><figcaption>Figure - Montage globale</figcaption></div></figure>
+ 
+
+ 
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/photo.jpg' class='alignnone size-medium' style='max-width:10%;'><figcaption>Figure - Montage des convertisseurs</figcaption></div></figure>
+ 
+
+ 
+
+ 
+ 
+
+ 
+
+  
+
+ 
+
+<br>
+
+<h3>Optimisation du chargeur de supercondensateurs</h3>
+J'ai cherché un composant pour améliorer le rendement du chargeur de supercondensateurs. 
+
+La contrainte de ce composant était de pouvoir contrôler le courant pour ne pas dépasser le \(I_{max}\) de la batterie.
+
+Un asservissement en tension aurait entraîné des pics de courants non maîtrisés et inacceptables vis-à-vis du \(I_{max}\).
+
+De plus, il fallait que ce composant soit le plus autonome possible.
+
+je me suis orienté dans mes recherches sur deux technologies disponibles sur le marché.
+
+<ul>
+    <li> Des chargeurs de supercondensateurs linéaires
+</li>
+    <li> Des convertisseurs DC-DC dont le courant est programmable soit par un bus <span title="Inter-Integrated Circuit (Bus) : Bus de communication" style='color:blue;'>I2C</span> (Inter-Integrated Circuit) ou bien en fixant une résistance pour déterminer le courant de charge.
+</li>
+</ul>
+La première catégorie, ayant des rendements faibles (50\% environ, la \figureName{ltc4425} montre les rendements mesurés sur le LTC4425, un chargeur linéaire), je me suis porté sur les convertisseurs programmables, plus précisément sur le <b>LT3120</b> qui utilise une résistance pour fixer le courant. 
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/ltc4425.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Rendements du LTC4425 (\%)</figcaption></div></figure>
+Pour fixer le courant, je suis parti sur le choix technologique des potentiomètres numériques<span title="Il était possible d'utiliser un Convertisseur-Analogique Numériques et même des transistors en commutation mais c'est la méthode la plus simple" style='color:grey;'><sup>[Note 43]</sup></span> qui ne sont ni plus ni moins que des circuits intégrés avec des résistances internes qui commutent par l'intermédiaire de transistors.
+
+Ce composant est prévu pour fonctionner sous deux modes différents : 
+
+<ul>
+    <li> Le mode PWM est prévu pour les courants en sortie assez élevés (\(> 1A\))
+</li>
+    <li> Le mode Burst pour les courants inférieurs
+</li>
+</ul>
+La résistance de contrôle du courant maximal se calcul de la manière suivante : 
+
+  \( R_{P} = \frac{795}{2\cdot I_{m}\cdot R_{S}}  \)
+
+  
+
+  avec \(I_{m}\) en \(A\) et \(R_S\) en \(\Omega\) (Il s'agit de la résistance \glossary{Shunt} utilisé par le composant pour connaître le courant en sortie).
+
+  
+
+ 
+
+Lors des essais en mode Burst, il m'a été impossible de contrôler un courant inférieur à 250 mA. J'ai donc contacté le fournisseur du composant afin d'expliquer mon expérience et les capacités du composant.
+
+De plus, même si le courant en sortie était constant, celui en entrée ne l'était pas du tout, on avait un comportement étrange en fin de charge, comme le montre la figure suivante : 
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/fluctuation.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Mesure d'une charge avec le LT3120</figcaption></div></figure>
+La courbe blue représente la tension des supercondensateurs (V) et la courbe rouge le courant en entrée du module.
+
+Ce composant ne répondant pas en totalité au cahier des charges (comportement étrange), je  n'ai pas pu valider l'intérêt d'utiliser ce composant qui prenait une grande place sur un circuit imprimé.
+
+ 
+
+
+J'ai dans un premier temps analysé le système actuel de la gestion de l'énergie des balises. 
+
+J'ai ensuite mesuré le rendement du système de recharge des supercondensateurs en reproduisant l'environnement de charge et de décharge et j'ai essayé de trouver un composant qui ferait la même tâche plus efficacement. J'ai prouvé que les composants du marché ne permettent pas d'avoir de meilleurs rendements dans le cadre de notre utilisation.
+
+Sur la partie finale de mon stage, j'analyserai les performances des batteries à très faible température  avec et sans le système des supercondensateurs.
+
+J’ai trouvé que la taille de l’entreprise était très propice au développement personnel ainsi qu’au développement des connaissances et j’ai eu l’occasion d’apprendre beaucoup de choses et de consolider mes acquis en électronique.
+
+J'ai également pu améliorer mes connaissances dans les domaines des alimentations, des batteries et des supercondensateurs. 
+
+Ce stage m'a donc permis de me conforter dans mon orientation professionnelle, à savoir le domaine de l'électronique avec une partie d'informatique pour contrôler un système électronique.
+
+Le développement de balises de détresse permet de sauver de nombreuses vies que ce soit en aéronautique, dans le domaine militaire ou maritime, ce qui ajoute un côté plus humain dans le travail réalisé.
+
+
+<h2 >Annexes</h2>
+<h4>Verrou de l'alimentation Arctarus</h4>
+Lorsque une balise est est mode ON, il faut que son alimentation soit active. Pour cela, on utilise un verrou présenté ci-contre.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/latch_lt.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Verrouillage de l'alimentation Arctarus</figcaption></div></figure>
+L'ensemble du verrouillage est assuré par le transistor Q1.
+
+<h4>Filtre du capteur de courant</h4>
+Ces deux signaux sont l'image du courant à travers le capteur, c'est à dire la tension en sortie du filtre passe-bas.
+
+Le signal bleu est le signal sans filtre et le rouge avec filtre.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/comp.png' class='alignnone size-medium' style='max-width:35%;'><figcaption>Figure - Efficacité du filtre passe-bas</figcaption></div></figure>
+ 
+
+ 
+ 
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/kiwi_supply.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Verrouillage de l'alimentation Kiwi</figcaption></div></figure>
+<h4>Allure de l'algorithme de charge de Tauceti</h4>
+La courbe bleue représente la tension des supercondensateurs (V) et la rouge leimage du courant (A) en entrée de la balise en fonction du temps (s). Contrairement à l'algorithme utilisé pour reproduire les charges et décharges des supercondensateurs, le courant est moins constant car l'asservissement est géré différemment.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/charge_tauceti.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Allure de l'algorithme Tauceti</figcaption></div></figure>
+ 
+
+ 
+
+<h4>Mesure de l'ESR pour les supercondensateurs</h4>
+La courbe bleue représente la tension des supercondensateurs (V) et la rouge le courant (A) dans les supercondensateurs. La tension de charge est de 5.4V car deux condensateurs ont été mis en série pour augmenter la tension maximale.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/ESR_2A.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Mesure de l'ESR des supercondensateurs avec une charge à courant constant de 2A</figcaption></div></figure>
+<h4>Rendement du Buck</h4>
+Ce tableau présente les rendements du chargeur de supercondensateurs en fonction de la tension d'alimentation (V) et du temps de charge (s).
+
+Dans notre cas nominal (30 secondes), nous pouvons espérer un rendement compris entre \(45.7\%\) et \(57.9\%\).
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/time.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Mesure des rendements pour le module Buck</figcaption></div></figure>
+<h4>Simulation des convertisseurs</h4>
+<span id='meas'></span>
+Les instructions suivantes permettent de mesurer le rednement des convertisseurs sous LTSpice.
+
+<hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
+% .tran 0 6.4m 6m 100u startup
+
+% .step param load list 5 4 3 2.5 2 1.5 1 0.5
+
+% .meas POWER_INPUT AVG -V(INPUT)*I(Vin)
+
+% .meas POWER_OUTPUT AVG V(OUTPUT)*I(I1)
+
+% .meas EFFICIENCY PARAM POWER_OUTPUT/POWER_INPUT
+
+% .meas OUTPUT_VOLTAGE AVG V(OUTPUT)
+
+% .meas OUTPUT_CURRENT AVG I(I1)
+
+</code></pre><hr>
+<h4>Rendements des convertisseurs</h4>
+Voici les rendements simulés et mesurés pour les 3 convertisseurs disponibles pour une utilisation nominale (2A, 7.6V)
+
+A chaque fois, le rendement réel était inférieur au rendement théorique.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/LTC3112_eff.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Rendements des modules LTC3112</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/LTC3124_eff.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Rendements des modules LTC3124</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/LTC3119_b.png' class='alignnone size-medium' style='max-width:90%;'><figcaption>Figure - Rendements des modules LTC3119</figcaption></div></figure>
+<h4>Mise en évidence entre la température et l'ESR</h4>
+La figure suivante indique la chute de tension (V) pour une cellule de 3V placée dans l'étuve à -40°C. 
+
+En imposant un courant de décharge suffisamment élevé à la cellule, le coeur de cette dernière se réchauffe ce qui fait baisser son ESR.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/salve.png' class='alignnone size-medium' style='max-width:45%;'><figcaption>Figure - Lien entre la température et l'ESR</figcaption></div></figure>
+ 
+ 
+
+ 
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/b1.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Évolution de la batterie pour les bursts de 5 secondes</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/b2.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Évolution de la batterie pour les bursts de 30 secondes</figcaption></div></figure>
+<h4>Simulation du capteur de courant</h4>
+La figure suivante présente la simulation du capteur de courant effectuée avec le logiciel TINA.
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/current_sensor.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Simulation du capteur de courant</figcaption></div></figure>
+<br>
+
+\imgr{\rootImages/planning.png}{Planning}{0.35}{90}
+
+</body></html>

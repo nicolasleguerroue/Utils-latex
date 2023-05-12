@@ -31,7 +31,7 @@ Pour réaliser ce tutoriel, vous aurez besoin de
 </li>
     <li> Un câble USB Micro Type-B
 </li>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/usb.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/usb.png' class='alignnone size-medium' style='max-width:20%;'></a><figcaption>Figure - Un câble USB Micro type-B</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/usb.png' class='alignnone size-medium' style='max-width:20%;'><figcaption>Figure - Un câble USB Micro type-B</figcaption></div></figure>
     
 
 </ul>
@@ -63,7 +63,7 @@ python3
 Si l'invité de commande Python suivant apparaît, la version est présente. 
 
 Pour quitter l'interpréteur python, il suffit de saisir <span class='badge badge-light'>exit()</span> dans l'interpréteur ou bien de faire <span class='badge badge-light'>Ctrl  +z</span>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/python.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/python.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Invité de commande Python</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/python.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Invité de commande Python</figcaption></div></figure>
 Le cas échéant, je vous invite à saisir la commande suivante :
 
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
@@ -94,7 +94,7 @@ pip3 install esptool
 </code></pre><hr>
 Voici le résultat de la commande sur le terminal : 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/esptool_download.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/esptool_download.png' class='alignnone size-medium' style='max-width:28%;'></a><figcaption>Figure - Résultat de l'installation de pip3</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/esptool_download.png' class='alignnone size-medium' style='max-width:28%;'><figcaption>Figure - Résultat de l'installation de pip3</figcaption></div></figure>
 <h4>Récupération du port USB</h4>
 L'ESP8266 étant raccordé, l'ordinateur lui a affecté un nom de port de type <i>/dev/ttyUSBx</i> avec x représentant le numéro du périphérique USB. 
 Pour récupérer la valeur de ce numéro, nous allons lancer la commande suivante : 
@@ -103,7 +103,7 @@ Pour récupérer la valeur de ce numéro, nous allons lancer la commande suivant
 ls /dev/ttyUSB*
 
 </code></pre><hr>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/lsusb.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/lsusb.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Résultat de la commande</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/lsusb.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Résultat de la commande</figcaption></div></figure>
 Dans le cas présent,le nom du port est <i>/dev/ttyUSB0</i>
 <h4>Effacer la mémoire</h4>
 Lancer la commande suivante : 
@@ -115,7 +115,7 @@ esptool.py --port /dev/ttyUSB0 erase_flash
 Évidemment, si vous avez un autre numéro de port avec la commande <b>esptool.py flash id</b>, vous mettez votre numéro.
 Voici le résultat de la commande sur le terminal : 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/esptool_erase.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/esptool_erase.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Résultat de la commande pour effacer l'ESP8266</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/esptool_erase.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Résultat de la commande pour effacer l'ESP8266</figcaption></div></figure>
 <h3>Installer le firmware sur l'ESP8266</h3>
 Maintenant que l'ESP8266 est vide, il nous reste à installer son logiciel (firmware) fin qu'il puisse utiliser le Wifi selon deux modes : 
 
@@ -131,7 +131,7 @@ Le logiciel se présente sous fichier binaire (.bin) et est disponible à l'adre
 <a class="alert-link">http://micropython.org/download/esp8266/</a>
 Je vous invite à télécharger la dernière version stable (latest)
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/esplatest.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/esplatest.png' class='alignnone size-medium' style='max-width:55%;'></a><figcaption>Figure - Récupération du logiciel pour l'ESP8266</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/esplatest.png' class='alignnone size-medium' style='max-width:55%;'><figcaption>Figure - Récupération du logiciel pour l'ESP8266</figcaption></div></figure>
 <h4>Installation du logiciel</h4>
 <b>Tout d'abord, placez vous dans le même répertoire que votre fichier binaire installé précédemment et ouvrez un terminal.</b> 
 La commande <span class='badge badge-light'>ls</span> devrait confirmer votre contenu du répertoire.
@@ -139,7 +139,7 @@ La commande <span class='badge badge-light'>ls</span> devrait confirmer votre co
 ls
 
 </code></pre><hr>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/ls.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/ls.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Contenu du répertoire</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/ls.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Contenu du répertoire</figcaption></div></figure>
 Il ne vous reste plus qu'a saisir la commande pour installer le firmware. 
 
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
@@ -148,7 +148,7 @@ esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect 0 e
 </code></pre><hr>
 Comme précédemment, si vous avez un nom de fichier différent, je vous laisse le soin de changer de nom afin de coïncider avec le vôtre.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/espinstall.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/espinstall.png' class='alignnone size-medium' style='max-width:45%;'></a><figcaption>Figure - Résultat de la commande pour installer le firmware</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/espinstall.png' class='alignnone size-medium' style='max-width:45%;'><figcaption>Figure - Résultat de la commande pour installer le firmware</figcaption></div></figure>
 Après le déploiement du firmware, le module redémarre et il est configuré en point d’accès WiFi avec pour nom <b>MicroPython-6953</b>.  Les chiffres correspondent aux quatre derniers chiffres de l'adresse MAC du module. 
 <h3>Configurer le mot de passe WebRepl</h3>
 <h4>Installation de WebRepl</h4>
@@ -157,12 +157,12 @@ Le logiciel est disponible à l'adresse suivante :
 
 <a class="alert-link">https://github.com/micropython/webrepl</a>
 Cliquez ensuite sur <span class='badge badge-light'>Code</span> puis <span class='badge badge-light'>Download Zip</span>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/github.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/github.png' class='alignnone size-medium' style='max-width:45%;'></a><figcaption>Figure - Téléchargement de WebRepl sur Github</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/github.png' class='alignnone size-medium' style='max-width:45%;'><figcaption>Figure - Téléchargement de WebRepl sur Github</figcaption></div></figure>
 Veuillez commencer par extraire l'archive.
 
 Celle-ci contient les fichiers suivants : 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/webrepl.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/webrepl.png' class='alignnone size-medium' style='max-width:45%;'></a><figcaption>Figure - Contenu du dossier WebRepl</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/webrepl.png' class='alignnone size-medium' style='max-width:45%;'><figcaption>Figure - Contenu du dossier WebRepl</figcaption></div></figure>
 <h4>Installation de screen</h4>
 <span class='badge badge-success'>screen</span> est un utilitaire qui va nous permettre de se connecter à l'ESP8266 via le câble USB car actuellement, il nous est impossible d'utiliser WebRepl.
 On installe l'utilitaire avec la commande suivante : 
@@ -173,14 +173,14 @@ sudo apt-get install -y screen
 </code></pre><hr>
 <h4>Création du mot de passe</h4>
 <h4>Utilisation de screen</h4>
-On peut accéder à l’interpréteur de commande Python REPL <span title="Read Evaluate Print Loop" style='color:grey;'><sup>[note]</sup></span> via le port série en tapant la commande suivante dans un terminal :
+On peut accéder à l’interpréteur de commande Python REPL <span title="Read Evaluate Print Loop" style='color:grey;'><sup>[Note 129]</sup></span> via le port série en tapant la commande suivante dans un terminal :
 
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 screen /dev/ttyUSB0 115200
 
 </code></pre><hr>
 <div class='alert alert-warning' ><h4>Point-clé</h4>\bold{Il faut appuyer sur la touche Entrée pour afficher l'invité de commande MicroPython.</div>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/console.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/console.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Console screen</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/ihr/console.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Console screen</figcaption></div></figure>
 Pour quitter Screen, il faut appuyer sur les touches <span class='badge badge-light'>CTRL + a</span> puis écrire <span class='badge badge-light'>:quit</span> 
 Ensuite, entrez la commande suivante via le terminal Screen :
 
@@ -189,13 +189,13 @@ Ensuite, entrez la commande suivante via le terminal Screen :
 
 </code></pre><hr>
 Le système vous demande tout d'abord d’activer l’accès par le réseau Wifi dès le démarrage en saisissant <span class='badge badge-light'>E</span>.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/enable.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/enable.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Activation de l'ESP8266 screen</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/enable.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Activation de l'ESP8266 screen</figcaption></div></figure>
 Il vous invite ensuite à saisir le mot de passe pour l'accès à WebRepl. Ici le mot de passe choisi est <span class='badge badge-light'>crepp</span>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/password.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/password.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Activation de l'ESP8266 screen</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/password.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Activation de l'ESP8266 screen</figcaption></div></figure>
 Enfin, saisissez <span class='badge badge-light'>y</span> pour redémarrer l'ESP8266.
 A ce moment là, les lignes suivantes apparaissent : 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/end.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/end.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Fin de la configuration</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-esp-repl/end.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Fin de la configuration</figcaption></div></figure>
 <b>La configuration de l'ESP8266 est terminée</b>
 <h4>Connexion à WebRepl</h4>
 <h4>Connexion au réseau de l'ESP8266</h4>

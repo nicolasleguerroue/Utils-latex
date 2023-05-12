@@ -10,38 +10,46 @@
 %############################################################
 
 
-\newtcbox{\lbl}[2]{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm, %Create generic label #color title content
+\newtcbox{\lbl}[2]{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm, %Create generic vertical label #color title content
     right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
     colframe=#1!50!#1,coltext=#1!25!black,colback=#1!10!white,
     overlay={\begin{tcbclipinterior}\fill[#1!75!white] (frame.south west)
       rectangle node[text=white,font=\sffamily\bfseries\tiny,rotate=90] {#2} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
 
+\newtcbox{\lblHorizontal}[2]{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm, %Create generic horizontal label #color title content
+      right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
+      colframe=#1!50!#1,coltext=#1!25!black,colback=#1!10!white,
+      overlay={\begin{tcbclipinterior}\fill[#1!75!white] (frame.south west)
+        rectangle node[text=white,font=\sffamily\bfseries\tiny,rotate=0] {#2} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
+  
+
+
 \newcommand{\file}[1] %Create File label #filename
-{\lbl{orange}{FILE}{#1}} 
+{\lblHorizontal{darkBlue}{\faFile}{#1}} 
 
 \newcommand{\dir}[1] %Create Directory label #directory
 {
-  \lbl{red}{DIR}{#1}
+  \lblHorizontal{darkGray}{\faFolder}{#1}
 }
 
 \newcommand{\link}[1]   %create Link label #link
 {
-  \lbl{blue}{LINK}{#1}
+  \lblHorizontal{cyan}{\faLink}{#1}
 }
 
 \newcommand{\lib}[1]  %Create Library label #library
 {
-  \lbl{green}{LIB}{#1}
+  \lblHorizontal{green}{\faFileCodeO}{#1}
 }
 
 \newcommand{\shortcut}[1] %Create shortcut label #shortcul
 {
-  \lbl{cyan}{KEY}{#1}
+  \lblHorizontal{blue}{\faKeyboardO}{#1}
 }
 
 \newcommand{\sym}[1] %Create Symbolic label #symbolic
 {
-  \lbl{purple}{SYM}{#1}
+  \lblHorizontal{purple}{\faExternalLinkSquare}{#1}
 }
 
 %network
@@ -58,7 +66,7 @@
 {\lbl{gray}{HEX}{#1}}
 
 %Doc
-\newcommand{\loc}[1]{\lbl{blue}{LOC}{#1}}
+\newcommand{\loc}[1]{ \rightline{\lbl{darkGray}{LOC}{#1}}}
 \newcommand{\deprecated}[1]{\lbl{red}{INFO}{#1}}
 
 %electronic
@@ -88,8 +96,9 @@
 
 \newcommand{\adr}[1]    %create address label #address
 {
-  \lbl{brown}{ADDR}{#1}
+  \lblHorizontal{brown}{\faMapMarker}{#1}
 }
+
 
 \newtcbox{\lgreen}[1]{enhanced, nobeforeafter,tcbox raise base,boxrule=0.4pt,top=0mm,bottom=0mm, %Create greenUUU label #title content
   right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},

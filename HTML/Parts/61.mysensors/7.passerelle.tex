@@ -1,0 +1,69 @@
+\chapter{Programmation passerelle}
+
+Nous allons configurer le programme de la passerelle(\bold{Passerelle\_MySensors.ino})pour la réception des données.
+
+\subsection{Paramétrage du NRF24}
+
+Il faut mettre le même canal de communication que pour la sonde.\\
+Un module recevant sur le canal 84 ne pourra pas recevoir des données en provenance d'un canal 83 ou 85.
+
+Pour rappel, voici le tableau des canaux: 
+\begin{figure}[!h]
+    \centering
+    \begin{tabular}{|l|r|}
+        \hline
+\bold{Prénom} & \bold{CANAL\_NRF24}\\
+    \hline
+André P. & 84 \\
+\hline
+Florian M. & 85 \\
+\hline
+Guy D. & 86 \\
+\hline
+Marcel R. & 87 \\
+\hline
+Michel T. & 88 \\
+\hline
+Nicolas L.G. & 89 \\
+\hline
+Patrice G. & 90 \\
+\hline
+Patrick P. & 91 \\
+\hline
+Patrick Z. & 92 \\
+\hline
+Philippe C. & 93\\
+\hline
+Pierre G. & 94\\
+\hline
+Yvon & 95\\
+\hline
+    \end{tabular}
+    \caption{Répartition des canaux pour les utilisateurs}
+    \end{figure}
+
+    Voici un extrait du code \bold{Passerelle\_MySensors.ino} : 
+
+\begin{Cpp}{Paramétrage du NRF24}
+/*!
+ * ************************************************************
+ * PARAMETRES NRF24 (exemple canal 86)
+ * Légende: (*) = A changer pour chaque personne
+ * ************************************************************
+ */
+ #ifndef MY_RF24_CHANNEL
+ #define MY_RF24_CHANNEL    86         //Le canal doit être le même que celui de la sonde
+ #endif             
+
+\end{Cpp}
+
+
+\section{Envoi des programmes}
+
+Une fois les deux programmes modifiés avec les bonnes valeurs, il ne vous reste plus qu'à envoyer le programme de la sonde sur la carte Pro-Mini et celui de la passerelle sur la carte Nano.\\
+Toutes les informations pour programmer les deux cartes sont disponibles au chapitre 2 (\bold{Programmation}).
+
+Lorsque les deux cartes sont programmées, occupons nous maintenant de Domoticz.
+
+
+

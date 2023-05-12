@@ -1,0 +1,344 @@
+
+
+\chapter{Etude des différents blocs fonctionnels}
+\section{Etude du bloc 1}
+
+\img{\rootImages/bloc1.png}{Bloc ensemble}{0.8}
+
+
+\subsection{Etude du transistor}
+
+
+Afin de caractériser le transistor, on étudie le montage ci- contre.
+
+\img{\rootImages/transistor1.png}{Montage du transistor}{0.8}
+
+Ce montage comprend une double alimentation stabilisée, une résistance de 1K et un transistor MOSFET 2N7000.\\
+
+Afin de déterminer le modèle équivalent, on applique une tension négative puis positive sur la broche Gate du transistor (broche de commande) 
+et on relève la tension aux bornes du transistor (tension entre Drain et Source appelée $V_{DS}$).\\
+
+\img{\rootImages/gate9.png}{On applique une tension de 9V}{0.7}
+\img{\rootImages/equ1.png}{Modèle équivalent}{0.7}
+
+\img{\rootImages/gate-9.png}{On applique une tension de -9V}{0.7}
+\img{\rootImages/equ2.png}{Modèle équivalent}{0.7}
+
+On applique maintenant un signal carré sur la broche Gate et on observe la tension $V_{DS}$.
+
+Paramètres du Générateur Basse Fréquence sur LTSpice:
+
+\begin{items}{blue}{\Bullet}
+\item Tension crête-à-crête: 18V
+\item Tension moyenne: 0V
+\item Fréquence: 1Hz
+\end{items}
+
+
+\img{\rootImages/ltspice1.png}{Montage du transistor}{0.8}
+
+Ainsi, d’un point de vue électrique, le transistor peut être assimilé à un interrupteur.\\
+L’état du transistor dépend de la tension sur la broche Gate. Selon la documentation technique (Datasheet 2N7000) :
+
+
+\begin{items}{blue}{\Bullet}
+\item Lorsque $VGS<VGSth$ (avec $VGSth$ fournie par le constructeur), le transistor est bloquant et se comporte comme un interrupteur ouvert
+\item Lorsque $VGS>VGSth$, le transistor se comporte comme un fil (la tension aux bornes de Drain et Source est considérée comme nulle).
+\end{items}{
+
+Remarque:
+
+En étudiant la documentation technique, on constate que le transistor peut être assimilé à une résistance variable dont la valeur dépend de la tension appliquée sur la broche Gate.
+
+Ci contre, la résistance équivalente entre Drain et Source (RDS) en fonction de la tension VGS(Datasheet 2N7002).
+
+\img{\rootImages/vgsth.png}{Courant en fonction de $VGSth$}{0.8}
+
+Pour une tension VGSth valant 9V, la résistance RDSvaut 2.5 $Ohm $ (lecture graphique).
+
+Pour une tension $VGSth$ nulle, un courant de fuite ($ID_{SS}$) apparaît ce qui implique une résistivité très élevée du composant.
+
+\img{\rootImages/dt1.png}{Courant en fonction de $VGSth$}{0.8}
+\img{\rootImages/dt2.png}{Courant en fonction de $VGSth$}{0.8}
+
+Il convient donc de protéger le transistor lorsque celui-ci est passant car sa mise en conduction imposerait un courant $\frac{Ve}{RDS} = \frac{14}{2.5} =5.6A$
+
+La résistance R1 ($100K$) du cahier des charge est donc justifiée pour la protection du transistor.
+
+
+On a donc expérimenté le bon fonctionnement du transistor en commutation avec les mêmes composants (mêmes valeurs) que la simulation :
+
+%\img{\rootImages/graph1.png}{Courant en fonction de $VGSth$}{0.8}
+
+Sur ce graphe, on remarque que la tension VDS ne peut prendre que deux valeurs : 0V ou Ve (ici, Ve=$14$V).
+
+
+\subsubsection{On remplace le transistor par un interrupteur ouvert:}
+
+
+$$V_+=V_e$$ (la tension $V_e$ est aux bornes de Drain et Source)
+
+Or, étant donné la contre-réaction négative (fonctionnement linéaire), nous avons: 
+
+
+\begin{align}
+     V-=V+     &\Rightarrow V_sR_2R_3+R_2+VeR_3R_3+R_2=V_e\\
+               &\Rightarrow V_sR_2R_3+R_2=V_eR_2R_3+R_2
+\end{align}
+
+En posant $R_3=R_2$, on obtient:
+
+     $$  Vs=Ve $$
+
+
+\subsubsection{On remplace le transistor par un interrupteur fermé:}
+
+En posant R3=R2, on obtient:
+
+$$ Vs= -Ve $$
+
+
+\section{Etude du bloc 2}
+
+\img{\rootImages/bloc2.png}{Bloc 2}{0.7}
+
+Ce bloc comprend un montage de l’AOP avec un condensateur dans la boucle de contre-réaction négative.\\
+
+Le condensateur est un composant passif permettant de stocker des charges électriques à ses bornes.\\
+De ce fait, ce composant intervient dans les systèmes ou le temps fait partie des équations car le condensateur se charge théoriquement au bout de $5\tau$ , $\tau$ représente la constante de temps valant $RC$ avec $C$ la capacité du condensateur exprimée en farad F et $R$ la résistance en $\Omega$\\
+
+On calcule l’expression de la tension $V_{s}$ en fonction de $V_e$:
+
+On sait que $I_{condensateur}+I_{R4}=0 $ car l’impédance d’entrée de l’AOP est considérée comme infinie et $V- = 0V = V+$ car le montage est en mode linéaire (contre-réaction négative).
+
+Soit $I_c(t)$ le courant (en ampère [A]) circulant dans le condensateur.
+
+
+$$I_c(t)=C \cdot dV_c(t)dt $$
+
+
+avec $V_c$ la tension aux bornes du condensateur.
+		
+\begin{align}
+     I_c+I_{R4}=0        &\Rightarrow I_{R4}= -I_c\\
+                         &\Rightarrow V_e \cdot R_4 = -CdV_cdt 
+\end{align}
+
+On obtient donc la tension de sortie du montage intégrateur:
+
+$$ V_s(t)=\frac{-1}{R_4\cdot C} \cdot V_e \cdot t $$
+
+
+Afin d’étudier l'intérêt de ce type de montage, on détermine l’expression de la pente du signal suivant, simulé avec le schéma ci contre :
+
+
+Simulation du signal de sortie : 
+
+
+
+
+Par calcul, on retrouve une pente a (coefficient directeur) :
+
+$$ a=\frac{-V_e}{R_4C}= 6080 $$
+
+Par lecture graphique, on retrouve une pente a (coefficient directeur) :
+
+$$ a=U_t=-6048 $$
+
+On constate que le signal est décroissant jusqu’à atteindre la tension de saturation. \\
+Ceci est tout à fait cohérent dans la mesure ou cet AOP intègre une valeur constante avec un coefficient négatif.\\
+ La tension de sortie décroît dans le temps mais la tension d'alimentation n’étant pas infinie, 
+ la tension de sortie ne pourra pas dépasser la tension d’alimentation, ou du moins celle de saturation.\\
+  La tension de sortie se maintient donc à Vsat- pour une tension d’entrée positive.\\
+
+
+Calculons la pente avec $V_e= -1V$
+
+Par le calcul: 
+
+$$ a=\frac{-V_e}{R_4C}= 3030$$
+
+Par lecture graphique:
+
+$$ a=U_t=3024$$
+
+On constate que la pente du signal varie en fonction de la tension d’entrée $V_e$.
+
+On souhaite obtenir un signal triangulaire centré en 0V et d’amplitude théorique de 4V:
+(Vsmax-Vsmin=28V en supposant que les amplificateurs sont parfaits):
+
+Afin de centrer le signal triangulaire, nous devons imposer $Vs= Vsat$ afin que le signal de sortie (signal triangulaire) bascule lorsque ce dernier est à son maximum en terme d’amplitude.
+
+Pour un signal triangulaire de fréquence $f=500Hz$et de période $T=1f$ en sortie, cela veut dire que la tension croît ou décroît de $Vsat$ sur une période $t$ valant $\frac{T}{4}$.
+
+Pour l’étude de ce montage, on considérera l’AOP comme étant non-idéal, c’est à dire que $Vsat+<Vcc+$ et $Vsat-<Vcc$
+
+Nous prendrons $Vsat+=12.5V$ et $Vsat-=-12.5V$ (valeurs simulées par LTSpice).
+
+Le signal appliqué sera un signal carré de fréquence $f=500Hz$ car les variations des pentes du signal triangulaire 
+doivent avoir lieu lorsque $Ve$ change de signe. Cela veut dire que $f_{entree}=f_{sortie}$.
+
+   $$  Vs(t)=-1R4CVet $$ 
+ $$R4=-VeT4VsC $$    
+
+avec Ve=1V, C=10nF, Vs=-12V et T=1500=2ms soit 2.010-3s
+
+D'où :$ R_4=-10.002412.510-8=4000 \Omega$
+ 
+On simule le circuit avec $R_4=4000 \Omega$
+
+
+
+Ainsi, un signal carré d’amplitude $1V$ et de valeur moyenne nulle permet d’obtenir un signal triangulaire d'amplitude $12.5V$ et de fréquence $f=500 Hz$ avec une résistance de $4000$ et un condensateur de $10nF$
+\section{Etude du bloc 3}
+
+
+Dans cette configuration (contre-réaction positive et signal sur l’entrée inverseuse), il s’agit d’un comparateur double seuils inverseur.
+
+On déterminer les expressions des seuils de basculement.
+Dans un premier temps, on prendra :
+ $Vsat+=12.5V$ et $Vsat- =-12.5V$  (valeurs simulées de l’étude n°2)
+
+1er cas : >0Vs=Vsat+
+
+E+=Ve
+E-=VsR5R5+R6
+=E+-E-
+>0VsR5R5+R6<Ve
+VsR5<Ve(R5+R6)
+Ve>Vsat+R5R5+R6
+
+2nd cas : <0Vs=Vsat-
+
+<0VsR5R5+R6>Ve
+VsR5>Ve(R5+R6)
+Ve<Vsat-R5R5+R6
+
+Ainsi, les deux expressions des seuils de basculement valent: 
+
+$Ve>Vsat+R5R5+R6$      et        $Ve<Vsat-R5R5+R6$
+
+On calcule ces valeurs de basculement (seuils) avc $R5=10k$ et $R6=8k$
+
+$Ve1=12.51000010000+8000=6.67V$
+
+$Ve2=-12.5100001000+8000=-6.67V$
+
+Par lecture graphique:
+
+
+
+$Ve1=6.88V$   et  $Ve2=-6.94V$
+
+
+Les valeurs simulées et calculées sont cohérentes par rapport aux calculs.\\
+
+\section{Explication du fonctionnement global}
+
+\subsection{Interactions avec les blocs fonctionnels}
+
+En faisant une étude temporelle du signal triangulaire, on peut décomposer le signal en différentes phases, en supposant qu’à $t=0$, la tension de sortie est nulle 
+(condensateur déchargé):
+
+\begin{items}{blue}{\Bullet}
+\item le signal croît avec un coefficient directeur  positif
+\item lorsque la tension dépasse 6V, le coefficient directeur devient négatif et garde la même valeur absolue
+\item le signal décroit avec un coefficient directeur   négatif
+\item lorsque le signal devient inférieur à -6V, le coefficient directeur du signal change de signe
+\end{items}
+Ainsi, on voit bien que le montage intégrateur va imposer la valeur absolue du coefficient. Lorsque la tension en entrée sera négative, le coefficient sera positif et inversement pour une tension d’entrée positive.
+Le montage 3 (comparateur) va donc se charger de changer le signe de ce coefficient par l’intermédiaire du transistor (étude bloc 1) et l’amplitude du signal de sortie dépendra de la valeur de basculement du montage 3.
+
+On calcule donc les valeurs des résistances manquantes:
+
+
+La tension d’entrée Ve doit prendre deux valeurs : $Ve$ et $-Ve$
+
+Or avec une résistance $R2$ identique à $R3$, on a:
+$Vs=Ve$ ou $Vs=-Ve$
+
+En fixant arbitrairement $R2$ à $1k$(valeur minimale), $R3=1k$.
+
+Ensuite, pour $R4$, nous voulons que la tension en sortie du montage intégrateur soit de $6V$ lorsque la période du signal vaut T4s.
+Nous savons que $R4=-VeT4VsC$ avec $Ve = 1.02V$, $T = 1f=1466$, $C = 15 nF$ et $Vs = - 6V$
+d'où : $R4=-1.0214f-61510-9=-1.0214466-61510-9 = R4=6080$
+
+Pour $R5$, nous allons supposer que $Vsat+=Vsat$-
+
+Calculons la valeur de la résistance $R6$ en prenant $R6=10k$, $Ve=6Vet$ $Vsat+=12.5V$
+
+R5=VeR6(Vsat+)-Ve
+R5=61000012.5-6
+R5=9231
+
+\section{Expérimentation du fonctionnement global}
+
+Une fois tous les blocs indépendants fonctionnels, on réalise le schéma suivant:
+
+
+
+La tension en entrée du circuit est réalisée avec un potentiomètre relié alimenté en $+14V$ et relié à la masse.
+
+La résistance $R4$ est formée d’une résistance $R4.1$ de $5.6k$et d’une résistance $R4.2$ de $470$, ce qui fait une résistance $R4$ théorique de $6.07k$
+
+La résistance $R5$ est formée par une résistance $R5.1$ valant $6.8k$ et d’une résistance $R5.2$ valant $2.2k$, ce qui fait une $R5$ théorique de$9k$
+
+Cependant, lors de ce test, nous avons constaté que la tension d’entrée n’était pas constante dans le temps. Le principe du $VCO$ impose une tension stable.
+
+On ajoute donc un suiveur en entrée afin de faire une adaptation d’impédance : le signal d’entrée n’est plus perturbé car l’impédance d’entrée du suiveur est considérée comme infinie.
+
+
+
+
+
+
+
+
+
+On obtient donc le circuit d’entrée suivant :
+
+
+
+
+Simulation par LTSpice :
+
+
+\begin{items}{blue}{\Bullet}
+\item Tension max : 6.07V
+\item Tension min : -6.08V
+\item Fréquence : 460 Hz (lecture graphique)
+\item Fréquence théorique : 466 Hz
+\end{items}
+
+Mesure réalisée avec un oscilloscope :
+
+
+\begin{items}{blue}{\Bullet}
+\item Note jouée : LA\# (fréquence théorique : 466 Hz)
+\item Fréquence réelle : 498.5 Hz
+\item Tension max : 6.24V
+\item Tension minimal : -5.68V
+\end{items}
+
+On détermine la fréquence en sortie du système avec une tension Ve d’entrée:
+
+Par simulation (Ve=1.02V)
+
+
+
+Fréquence simulation : $460 Hz$
+
+
+$Vs(t)=-1VeR4Ct$  
+
+On sait qu’à $t=T4$, la tension de sortie vaut $6V$ et que $T=1f$
+
+f(Ve)=-1VeVsR4C4
+
+
+Ve(f)=VsR44Cf-1
+
+Pour R4=6080, C=15 nF, Ve=1.02Vet Vs=-6V
+
+On obtient $f=466 Hz$, ce qui correspond parfaitement au cahier des charges.
+Cependant, ces calculs ne sont que théoriques.

@@ -1,0 +1,281 @@
+%\addPartText{Présentation de l'environnement Arduino et de son langage}
+\partImg{L'environnement Arduino}{\rootImages/uno.jpg}{0.5}
+\chapter{Introduction}
+
+Ce document vise à présenter le projet Arduino et ses supports\\
+Ce tutoriel a pour but également de présenter certaines possibilités d'Arduino en terme de langage et de 
+ressources. \\
+Bien évidemment, cette section n'est pas du tout exhaustive.
+
+\section{Origines}
+
+Arduino est née en 2004 sous l'impulsion d'étudiants italiens souhaitant promouvoir l'accès à  l'électronique. 
+Ils se rencontraient fréquemment dans un bar pour développer leur projet. \\
+Aujourd'hui, \underline{Arduino} c'est:
+\begin{items}{blue}{\Triangle}
+\item Un langage de programmation basé sur le C++
+\item Une communauté
+\item Un projet Open-Source
+\end{items}
+
+\section{Supports}
+
+Arduino disposant d'une communauté assez vaste, de nombreux supports existent. \\
+Nous avons notamment le site officiel d'Arduino à l'adresse suivante:
+
+\underline{arduino.cc/Reference/en} \\
+
+Le langage Arduino est compatible avec les instructions du C++ dans la mesure ou le compilateur pour Arduino est g++.
+Ainsi, les types composés comme les structures et classes sont supportés, tout comme le mot clé auto par exemple.
+
+
+\chapter{Présentation}
+
+Nous utilisons des cartes Arduino Uno, basées sur les microcontrôleurs Atmega-328 du fabricant ATMEL.\\
+Les microcontrôleurs sont des unités contenant dans un seul boîtier une mémoire, un processeur et des 
+interfaces entrées-sorties pour ne citer que ces elements.
+ \\
+ Cela permet notamment de dialoguer avec des périphériques\footnote{Voire section Protocoles de communication}
+
+\section{Le microcontrôleur}
+
+
+\subsection{Alimentation}
+
+\subsubsection{Tension d'alimentation}
+
+Le microcontrôleur doit être alimenté entre 1.8 V et 5.5 V. \\
+Il existe deux façon d'alimenter la carte Arduino: 
+
+\begin{items}{blue}{\Triangle}
+\item Via le port USB 
+Le port USB délivre du 5V régulé avec un courant maximal de 500 mA (cas général)
+\item Via la broche Vin (connectique Jack femelle)
+La carte Arduino possède un régulateur intégré de tension en 5 V, ce qui permet d'alimenter la carte entre 7V et 20V
+
+\end{items}
+
+\subsubsection{Courants d'entrées-sortie}
+
+\subsection{Fréquence d'horloge}
+
+La carte Arduino comporte un oscillateur de 16 MHz même si en interne du microcontrôleur, 
+un oscillateur de 8 Mhz est intégré.\\
+Cela donne une idée des performances maximales de l'Arduino.
+
+
+
+\subsection{Mémoire}
+
+Ce microcontrôleur dispose de clé \textbf{32 ko} de clé \textbf{mémoire flash}, c'est à dire la mémoire 
+pour stocker le programme téléversé vers la carte. \\
+
+
+Quand à la clé \textbf{mémoire vive (SRAM)}, elle est de \textbf{2 ko} et est utilisée pour les 
+variables du programme en cours d’exécution. \\
+Cette mémoire peut être donc vite saturée lors de l'utilisation de grands tableaux par exemple. \\
+
+
+Enfin, le  possède une mémoire effaçable électriquement, appelée \textbf{EEPROM}\footnote{Référence: 
+arduino.cc/Reference/EEPROM}, lors de l’exécution du programme. \\
+Cette mémoire occupe \textbf{1 ko} et chaque registre de cette mémoire, pouvant stocker un nombre 
+codé sur 8 bits (type byte ou char), peut être modifiée 100 000 fois avant son arrêt définitif.\\
+
+
+\section{Caractéristiques électriques}
+
+Le microcontrôleur dispose d'entrée sorties permettant d’interagir avec des périphériques 
+(Diodes électroluminescentes, capteurs, modules de communication\ldots) \\
+
+Les entrées sont deux types: 
+
+\begin{items}{blue}{\Triangle}
+\item entrée \textbf{numérique}: la valeur lue sera perçue comme un niveau logique 0 ou 1 sur les broches allant de 1 à 13
+\item entrée \textbf{analogique}: Un Convertisseur Analogique-Numérique 10 bits est intégrés sur les broches A0, A1, A2, A3, A4 et A5
+De ce fait, le CAN \glossary{CAN} est possède une résolution de 4.84 mV avec une référence de tension à 5V\footnote{Il est également possible de changer la tension de référence de la carte Arduino 
+arduino.cc/Reference/en/language/function/analog-io/analogreference}
+\end{items}
+
+Astuce: Il est possible de configurer les broches analogique en broches digitales. 
+
+\chapter{Le langage}
+
+\section{Les types}
+
+
+Par défaut les types sont signés, c'est à dire que la plage de valeur pour un nombre codé sur \emph{n} bits est compris entre $ \frac{-2^n}{2} $ et $ \frac{2^n+1}{2} $ 
+Pour définir un type non signé, c'est à dire pour agrandir la plage positive, il suffit d'ajouter le mot clé \textbf{unsigned} avant les types concernés.
+
+\subsubsection{Les types supportés}
+
+\begin{items}{blue}{\Triangle}
+\item \textbf{byte} \textit{[1 octet]} \\
+Désigne la plus petite unité de mémoire allouable, permettant de stocker un nombre entier compris entre -127 et + 127.
+\item \textbf{unsigned byte} \textit{[1 octet]} \\
+Idem mais la plage de valeur strictement positive
+
+\item \textbf{int}    \textit{[2 octets]} \\
+Permet de stocker un nombre entier compris entre -32536 et +32536
+\item \textbf{unsigned int} \textit{[2 octet]} \\
+Idem mais la plage de valeur strictement positive
+
+\item \textbf{float}  \textit{[4 octets]} \\
+Permet de manipuler des réels
+\item \textbf{double} \textit{[4 octets]} \\
+Idem, mais ce type est plus précis que le type float et demande plus de ressources au microcontroleur. 
+
+\item \textbf{char} \textit{[1 octets]} \\
+Ce type est utilisé pour stcoker et traiter des caractères de la table ASCII.\@
+\item \textbf{String} \textit{[4 octets]} \\
+String est un type élaboré qui permet de traiter des chaines de caractères.
+\end{items}
+
+\subsubsection{Les types non supportés}
+
+Les types \textbf{vector}, \textbf{array} et \textbf{tuple} ne sont pas supportés par le langage Arduino.
+
+
+
+
+\section{Les fonctions}
+
+\subsection{Les fonctions mathématiques}
+
+En ce qui concerne les fonctions mathématiques, les fonctions trogonométriques sont incluses.
+
+
+
+\chapter{Les broches d'interruption}
+
+Dans certains cas, il est souhaitable de récuperer la valeur d'une broche à tout moment du programme, même quand celui ci est occupé dans une tâche et même dans une fonction de temporisation \footnote{Voir delay(), delayMicroseconds()}. \\
+Pour remédier à ce problème, on peut utiliser les \textcolor{blue} {\textbf{broches d'interruption}} qui permettent de récuperer la main sur l'ensemble du programme lorsque'un évènement survient sur une broche.\\
+
+Concrètement, lorsque un évènement  \emph{e} survient sur la broche \emph{b}, la fonction \emph{f} est appelée, quelque soit l'état du programme principal. \\
+
+
+Prenons le cas d'un bouton qui doit changer l'état d'une LED à n'importe quel moment du programme.
+
+
+\begin{Cpp}{Code d'exemple}
+
+	int ledPin = 13;    //Led interne
+	int BOUTON = 2;  //Bouton relié à la broche 2 avec une résistance de charge
+	
+	volatile int state = LOW;  //Etat courant de la LED
+	
+	void setup() {
+	  
+	  Serial.begin(9600);//Vitesse de communication à 9600 bit/s
+	  
+	  pinMode(ledPin, OUTPUT);                //Led mise en sortie
+	  pinMode(BOUTON, INPUT_PULLUP);    //Bouton mis en entrée
+	  
+	  attachInterrupt(digitalPinToInterrupt(BOUTON), onEvent, CHANGE);  //Appel de la fonction onEvent à chaque changement de front du bouton
+	  Serial.println("Init");
+	}
+	
+	void loop() {
+	  
+	 delay(5000); //Pause du programme principal
+	  
+	}
+	
+	void onEvent() {
+	  
+	  state = !state; //Inverse l'état de la LED
+	  
+	  if(state){
+		Serial.println("ON");
+	  }else{
+		Serial.println("OFF");
+	  }
+	   digitalWrite(ledPin, state); //Met à jour l'état de la LED
+	}
+	
+\end{Cpp}
+
+
+Ici, quelque soit l'action effectuée dans la fonction loop, dès qu'un front montant est détecté sur la broche BOUTON (2), 
+la fonction onEvent() sera exécutée et changera l'état de la LED à chaque front
+
+
+
+\subsection{Mode d'interruption}
+
+Il existe différents modes pour les broches :
+
+\begin{items}{blue}{\Bullet}
+	\item RISING: front montant
+	\item FALLING: Front descendant
+	\item CHANGE: Front montant et descendant
+\end{items}
+
+\subsection{Chronogrammes d'interruption}
+
+
+\begin{numeric}{Exemple avec mode RISING}
+	BOUTON & LLLLLLLHLLLLLLLLLL \\
+	loop &  7D{EXECUTION} 6D{PAUSE} 7D{REPRISE} \\
+	onEvent & 7D{INACTIVE} 6D{EXECUTION} 7D{INACTIVE} \\
+\end{numeric}
+
+
+\begin{numeric}{Exemple avec mode FALLING}
+	BOUTON & LLLLLLLHLLLLLLLLLL \\
+	loop &  8D{EXECUTION} 6D{PAUSE} 6D{REPRISE} \\
+	onEvent & 8D{INACTIVE} 6D{APPEL} 6D{INACTIVE} \\
+	\end{numeric}
+
+
+
+\begin{numeric}{Exemple avec mode CHANGE}
+	BOUTON & LLLLLLLHHHHHHHHHHHHHHLLLLLLLLLLLLLL \\
+	loop &  7D{EXECUTION} 8D{PAUSE} 6D{REPRISE} 8D{PAUSE} 6D{REPRISE}  \\
+	onEvent & 7D{INACTIVE} 8D{EXECUTION} 6D{INACTIVE} 8D{EXECUTION} 6D{INACTIVE}\\
+	\end{numeric}
+
+\chapter{Synthèse Arduino}
+
+
+\subsection{Matériel}
+
+\begin{items}{blue}{\Triangle}
+\item Mémoire Flash: 32 ko
+\item Mémoire Vive (SRAM): 2 ko 
+\item Fréquence d'horloge: 16 MHz 
+\end{items}
+
+
+
+\subsection{Électriques}
+
+\begin{items}{blue}{\Triangle}
+\item Impédance d'entrée: $> 1 MOhm$
+\item Courant de sortie par broche: $40$ mA maximum
+\item Courant de sortie pour toutes les broches entrée-sorties: $200$ mA
+\end{items}
+
+
+
+\section{Calcul d'une résistance}
+
+
+$$ U = RI $$
+
+avec 
+
+\begin{items}{blue}{\Triangle}
+    \item U la tension en V (Volt)
+    \item R la résistance en $\Omega$ (Ohm)
+    \item I le courant en A (Ampère)
+\end{items}
+
+Or, 
+$$ R = \frac{U}{I} $$
+
+On cherche à déterminer la valeur de R avec un I imposé et un $U_{led}$ imposée par la couleur de la led. \\
+D'où : 
+$$ R_{led} = \frac{U_{arduino} - U_{led}}{I_{led}}$$
+
+$$ R_{led} = \frac{5-1.6}{0.01} = 340 \Omega$$
+

@@ -2,8 +2,8 @@
 
   On s'en aperçoit quand on clique sur le bouton de vérification (bouton tout à gauche) du code :
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/verifier.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/verifier.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Bouton de vérification</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/dht.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/dht.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - La bibliothèque DHT manquante</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/verifier.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Bouton de vérification</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/dht.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - La bibliothèque DHT manquante</figcaption></div></figure>
   Une erreur de ce type nous indique que la bibliothèque <span class='badge badge-success'>DHT</span> est manquante.
   
 
@@ -11,17 +11,17 @@
 
   <h3>Ajout via le gestionnaire de bibliothèques</h3>
   Tout d'abord, veuillez vous rendre dans le menu <b>Outils - Gérer les bibliothèques</b>.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/lib-handler.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/lib-handler.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Le gestionnaire de bibliothèques</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-add-library/lib-handler.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Le gestionnaire de bibliothèques</figcaption></div></figure>
   Vous tombez sur une interface similaire :
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/lib-all.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/lib-all.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Les bibliothèques existantes</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-add-library/lib-all.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Les bibliothèques existantes</figcaption></div></figure>
   Cette page affiche toutes les bibliothèques disponibles via le gestionnaire de bibliothèques.
 
   Dans la barre de saisie en haut à droite, il faut indiquer le nom de la bibliothèque désirée. 
 
   Prenons par exemple la bibliothèque DHT :
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/lib-install.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/lib-install.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Ajouter une bibliothèque DHT</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-add-library/lib-install.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Ajouter une bibliothèque DHT</figcaption></div></figure>
   Il faut parcourir la liste et trouver la bibliothèque <span class='badge badge-success'>DHT sensor library</span> de chez <b>Adafruit</b>.
   Il ne reste plus qu'à sélectionner la version puis cliquer sur <span class='badge badge-light'>Installer</span>.
   Pour que les changements soit pris en compte, il faut redémarrer l'IDE <span title="Integrated Developpment Environnment : Environnment de Développement Intégré" style='color:blue;'>IDE</span> Arduino.
@@ -32,11 +32,11 @@
   En premier lieu, il faut trouver la bibliothèque sur Internet. Par exemple, la bibliothèque <span class='badge badge-success'>DHT</span> de chez <b>Adafruit</b> est disponible à l'adresse suivante : 
   <a class="alert-link">https://github.com/adafruit/DHT-sensor-library</a>
   Il ne reste plus qu'à cliquer sur <span class='badge badge-light'>Code - Download ZIP</span> et le dossier compressé va se placer dans vos téléchargements.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/git.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/git.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Téléchargement de la bibliothèque DHT</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/tools-add-library/git.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Téléchargement de la bibliothèque DHT</figcaption></div></figure>
   Enfin, pour installer la bibliothèque, il suffit d'aller dans <b>Croquis - Inclure une bibliothèque - Ajouter la bibliothèque .ZIP</b>
   
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/place.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/place.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Ajout d'une bibliothèque</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/mysensors/place.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Ajout d'une bibliothèque</figcaption></div></figure>
   
 
   Il ne reste qu'à trouver le fichier <b>DHT sensor-master.zip</b> et à faire <b>OK</b>

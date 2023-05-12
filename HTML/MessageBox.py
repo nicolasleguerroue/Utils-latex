@@ -16,7 +16,7 @@ class MessageBox():
         assert type(text) is str
 
         alertType = "danger"
-        if(backgroundColor=="blue"):
+        if(backgroundColor=="blue" or backgroundColor=="darkBlue"):
             alertType="primary"
         elif(backgroundColor=="red"):
             alertType="danger"

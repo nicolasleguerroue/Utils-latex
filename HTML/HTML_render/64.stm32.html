@@ -9,24 +9,23 @@ autres).
 
 <h3>Choix de la fréquence d'horloge</h3>
 Il faut sélectionner le bloc fonctionnel dans le  <b>functionnal block</b>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/select.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/select.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Choix de la fréquence d'horloge</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - legend</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/cocci-bot/select.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Choix de la fréquence d'horloge</figcaption></div></figure>
 <h3>Localisation des horloges</h3>
 Aller dans <b>ConfigTools > Clocks</b>
 puis vérifier que vous êtes dans l'onglet <b>Clock diagramm</b>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/clock_diagramm.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/clock_diagramm.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Onglet du diagramme d'horloge</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/clock_diagramm.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Onglet du diagramme d'horloge</figcaption></div></figure>
 Il faut chercher sur le diagramme le nom de l'horloge correspondante et faire un click-gauche dessus: 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/select_clock.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/select_clock.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Selection de la clock</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/select_clock.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Selection de la clock</figcaption></div></figure>
 Dans le menu latéral droit, il faut cliquer sur None et sélectionner l'horloge 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/none.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/none.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Selection de l'horloge à rattacher</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/none.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Selection de l'horloge à rattacher</figcaption></div></figure>
 Il ne reste plus qu'à mettre à jour le code avec le bouton <b>Update</b>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/upadte.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/upadte.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Mise à jour du code</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/upadte.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Mise à jour du code</figcaption></div></figure>
 <h3>UART</h3>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Principe UART</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='empty' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Principe UART</figcaption></div></figure>
 <h3>Code ANSI</h3>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - commande code ANSI</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='empty' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - commande code ANSI</figcaption></div></figure>
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 void clear(USART_Type *base)
 
@@ -154,7 +153,7 @@ Les broche des interrupteurs
 Étant donné que les LEDs sont configurées en mode <b>anode commune</b>, 
 il convient de mettre un niveau logique bas pour activer ces dernières. 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Schéma des LEDs</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/leds.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Schéma des LEDs</figcaption></div></figure>
 Un niveau logique haut ne créé pas de différence de potentiel aux bornes des LEDs, de ce fait, aucun courant ne circule.
 
   
@@ -167,7 +166,7 @@ avec la résistance à la masse, ce qui implique que lors d'un appui, le courant
 
 la résistance et toute la tension est au borne de la résistance.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Schéma des interrupteurs</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/buttons.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Schéma des interrupteurs</figcaption></div></figure>
 <h3>Question 2</h3>
 <h4>2.a)</h4>
 \subsubsection*{Instruction}
@@ -282,7 +281,7 @@ Où \bitgreen{XX} represente l'état de la broche.
 
 On souhaite mettre nos deux broches en entrée. Pour cela, on va utiliser l'opérateur de décalage pour sélectionner le duo de bits voulus (en fonction du numéro de la broche). 
 
-Cependant, on souhaite écraser la paire de bits car si on utilise la technique précédente, si on veut passer du mode  <b>11</b> au mode <b>00</b><span title="Ce mode ne sera pas utilisé mais cela permet de rendre l'opération générique pour tous les modes" style='color:grey;'><sup>[note]</sup></span>, le bit de droite ne sera pas affecté.
+Cependant, on souhaite écraser la paire de bits car si on utilise la technique précédente, si on veut passer du mode  <b>11</b> au mode <b>00</b><span title="Ce mode ne sera pas utilisé mais cela permet de rendre l'opération générique pour tous les modes" style='color:grey;'><sup>[Note 118]</sup></span>, le bit de droite ne sera pas affecté.
 On va donc réinitialiser les deux bits en faisant un complément de la valeur <b>0x3</b> avec un décalage de <b>\(2\) fois le numéro de la broche.</b> 
 Ce coefficient est justifié par le fait que l'état de chaque broche est défini sur 2 bits. 
 
@@ -624,9 +623,9 @@ Cela est vrai si on est en Upcounting mode, il existe 3 modes :
 On indique ensuite que nous ne mettrons pas à jour les drapeaux d'interruptions. Pour cela, on écrit <b>0</b> dans le registre \reg{SR}
 Il faut ensuite dire au compteur qu'il ne va compter que une fois, pour cela on utilise le One-Pulse-Mode en changeant le bits numéro 3 du registre \reg{CR1} 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - fonctionnement du mode OPM</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/OPM.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - fonctionnement du mode OPM</figcaption></div></figure>
 On utilise l'Auto-Reload Preload Enable <b>ARPE</b> mode qui permet au compteur de s'arrêter à la valeur indiquée dans le registre \reg{ARR}
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - fonctionnement du mode ARPE</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/ARPE.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - fonctionnement du mode ARPE</figcaption></div></figure>
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 #define ONE_PULSE_MODE 0x3 //One Pulse Mode in CR1
 
@@ -640,11 +639,11 @@ tmr->CR1 |=  (1u << ONE_PULSE_MODE) | (1u << AUTO_RELOAD_MODE);		//One pulse-mod
 Le registre \reg{CR1} (Control Register) est le registre qui permet de paramétrer le compteur, il contient notamment le bit One Pulse Mode, le bit Auto Reload et le bit <b>CEN</b>.
 Ce bit permet de lancer le comptage et de savoir si le comptage est terminé (valeur de \reg{ARR} atteinte)
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - éléments du registre CR1</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/tableauCR1.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - éléments du registre CR1</figcaption></div></figure>
 <br>
 
 <h4>Registre PSC</h4>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Fonctionnement du registre PSC</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/PSC.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Fonctionnement du registre PSC</figcaption></div></figure>
 La valeur de notre horloge est de 84MHz, mais étant donné que la valeur de notre prescalaire est codée sur 16 bits, il peut prendre une valeur allant de 0 à 65535 (2**16 possibilités). 
 
 84MHz correspond à une période de 11,9ns. On cherche à mettre en entrée de notre compteur principal une période de 1 microseconde
@@ -669,7 +668,7 @@ En choisissant une base de temps de 1 \(\mu s\), on obtient un préscalaire vala
 
 <br>
 
-<h4>b) Fonction\func{timer wait ms</h4>}
+<h4>b) Fonction timer wait ms</h4>
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 int timer_wait_ms(TIM_t *tmr, uint32_t ms, OnTick cb);
 
@@ -734,7 +733,7 @@ Le MAIN1 allume la led rouge pendant 1s, l'éteint pendant 1s et ce de manière 
 <br>
 
 <h4>II.3 Autres fonctions</h4>
-<h4>a) Fonction\func{timer count init</h4>}
+<h4>a) Fonction timer count init</h4>
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 int timer_count_init(TIM_t *tmr, uint32_t timebase_us);
 
@@ -789,8 +788,8 @@ int timer_count_init(TIM_t *tmr, uint32_t timebase_us)  {
 </code></pre><hr>
 Dans un premier temps cette fonction relie le timer passé en argument(tmr) à la clock correspondante. Pour cela on utilise le registre \reg{APB1ENR} présenté si dessous.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Espace du registre RCC->APB1ENR</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Bits respectifs d'activation</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/tableau_APB1ENR.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Espace du registre RCC->APB1ENR</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/APB1ENR_fonctionnement.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Bits respectifs d'activation</figcaption></div></figure>
 Ensuite on met le registre \reg{SR} à zéro car il n'y a pas d'interruption.
 
 Puis \reg{CR1} en One Pulse Mode et Auto Reload Mode.
@@ -799,7 +798,7 @@ Puis \reg{CR1} en One Pulse Mode et Auto Reload Mode.
 
 <br>
 
-<h4>b) Fonction\func{timer start</h4>}
+<h4>b) Fonction timer start</h4>
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 void timer_start(TIM_t *tmr);
 
@@ -819,10 +818,10 @@ void timer_start(TIM_t *tmr) {
 
 </code></pre><hr>
 Comme expliqué dans le commentaire il faut mettre à 1 le premier bit de \reg{EGR} pour remettre le compteur "à zéros" et commencer correctement grâce au bit 0 de \reg{CR1} : CEN (Counter ENnable) qui <b>doit être mis à 1 pour démarrer le comptage</b>.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Emplacement EGR</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Bit UG</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Activation du compteur</figcaption></div></figure>
-<h4>c) Fonction\func{timer stop</h4>}
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/tableau_EGR.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Emplacement EGR</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/fonctionnement_EGR.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Bit UG</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/CEN.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Activation du compteur</figcaption></div></figure>
+<h4>c) Fonctiontimer stop</h4>
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 void timer_stop(TIM_t *tmr);
 
@@ -839,7 +838,7 @@ On utilise un \&= \~{}(0x1) pour mettre le bit 0 à 0 et uniquement celui là.
 
 \~{}(0x1) donne (0x111..1110)
 
-<h4>d) Fonction \func{read timer</h4>}
+<h4>d) Fonction read timer</h4>
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 uint32_t read_timer(TIM_t *tmr);
 
@@ -854,7 +853,7 @@ uint32_t read_timer(TIM_t *tmr) {
 </code></pre><hr>
 Le registre \reg{CTN} représente la valeur du compteur. On rappel qu'en fonction du timer utilisé, la capacité du compteur change (32bits ou 16bits).
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - registre CNT</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/CNT.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - registre CNT</figcaption></div></figure>
 <br>
 
 <h4>II.4 : MAIN2</h4>
@@ -1505,12 +1504,12 @@ int main()
 
 </code></pre><hr>
 <h3>Test</h3>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/clock.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/clock.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - Horloge</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/moder.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/moder.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - registre MODER</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/pupd.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/pupd.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - registre PUPDR</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/sysconfig.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/sysconfig.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - EXTICR</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/imr.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/imr.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - registre IMR, EMR, RTSR et FTSR</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/nvic2.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/nvic2.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - ICER, ISER et IP</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/clock.png' class='alignnone size-medium' style='max-width:100%;'><figcaption>Figure - Horloge</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/moder.png' class='alignnone size-medium' style='max-width:100%;'><figcaption>Figure - registre MODER</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/pupd.png' class='alignnone size-medium' style='max-width:100%;'><figcaption>Figure - registre PUPDR</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/sysconfig.png' class='alignnone size-medium' style='max-width:100%;'><figcaption>Figure - EXTICR</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/imr.png' class='alignnone size-medium' style='max-width:100%;'><figcaption>Figure - registre IMR, EMR, RTSR et FTSR</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/nvic2.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - ICER, ISER et IP</figcaption></div></figure>
 <br>
 
 <h4>MAIN3</h4>
@@ -1742,8 +1741,8 @@ _RCC->APB1ENR |= 1<<17;
 _RCC->APB2ENR |= 1<<5;
 
 </code></pre><hr>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/clockUSART.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/clockUSART.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Registre APB1ENR</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/usart16.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/usart16.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Registre APB2ENR</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/clockUSART.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Registre APB1ENR</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/usart16.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Registre APB2ENR</figcaption></div></figure>
 <h4>Association des signaux</h4>
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 #define USART_PIN_CONFIG (PIN_MODE_ALTFUNC | PIN_OPT_RESISTOR_NONE | PIN_OPT_AF7)
@@ -1803,9 +1802,9 @@ u->CR1 |=	( 1 << 3);
 u->CR1 |=	( 1 << 2);
 
 </code></pre><hr>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/13.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/13.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Registre CR, bit 13</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/3.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/3.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Registre CR, bit 2</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/2.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/2.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Registre CR, bit 3</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/13.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Registre CR, bit 13</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/Laine/3.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Registre CR, bit 2</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/Laine/2.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Registre CR, bit 3</figcaption></div></figure>
 <h4>Configuration pour les interruptions</h4>
 Pour chaque USARt, nous allons préparer l'éventuelle utilisation de l'USART avec les interruptions sur RX.
 
@@ -2023,7 +2022,7 @@ void uart_putc(USART_t *u, char c)
 
 </code></pre><hr>
 Pour envoyer un caractère, il suffit de mettre un <b>char</b> dans le registre \reg{DR}
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/registre_DR.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/registre_DR.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Registre DR</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/registre_DR.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Registre DR</figcaption></div></figure>
 <h4>Définition de uart puts</h4>
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 void uart_puts(USART_t *u, char *s)
@@ -2072,8 +2071,8 @@ char uart_getc(USART_t *u) {
 }
 
 </code></pre><hr>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/registre_SR.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/registre_SR.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Registre SR</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/registre_SR_Bit5.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/registre_SR_Bit5.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Registre SR, bit 5</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/registre_SR.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Registre SR</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/registre_SR_Bit5.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Registre SR, bit 5</figcaption></div></figure>
 <h3>Test de l'émission d'un caractère</h3>
 Pour vérifier l'émission d'un caractère sans interruption, nous allons tester le code du MAIN1 : 
 
@@ -2459,6 +2458,6 @@ int main()
 </code></pre><hr>
 Voici le résultat : 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/gtk.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/gtk.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Résultat du MAIN4</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stm32/gtk.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Résultat du MAIN4</figcaption></div></figure>
 
 </body></html>

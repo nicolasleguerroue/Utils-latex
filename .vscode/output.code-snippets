@@ -1,12 +1,4 @@
 {
-" \newcommand{\messageBox}[5]{ ": {
-	 "scope" : "tex, latex",
-	 "prefix" : "Latex.MessageBox.messageBox",
-	 "body" : [
-	 "\\messageBox{${1:title}}{${2:colorframe}}{${3:backgroundColor}}{${4:content}}{${5:titleColor}}"
-	 ], 
-	 "description" : " \newcommand{\messageBox}[5]{ ",
-},
 "Display message box ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.MessageBox.messageBox",
@@ -94,6 +86,46 @@
 	 "\\faviconInfo"
 	 ], 
 	 "description" : "Get Info logo ",
+},
+"Get search logo ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Favicons.faviconSearch",
+	 "body" : [
+	 "\\faviconSearch"
+	 ], 
+	 "description" : "Get search logo ",
+},
+"Get link logo ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Favicons.faviconLink",
+	 "body" : [
+	 "\\faviconLink"
+	 ], 
+	 "description" : "Get link logo ",
+},
+"Get clock logo ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Favicons.faviconClock",
+	 "body" : [
+	 "\\faviconClock"
+	 ], 
+	 "description" : "Get clock logo ",
+},
+"Get Chat logo ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Favicons.faviconChat",
+	 "body" : [
+	 "\\faviconChat"
+	 ], 
+	 "description" : "Get Chat logo ",
+},
+"Get SymbolicLink logo ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Favicons.faviconSymbolicLink",
+	 "body" : [
+	 "\\faviconSymbolicLink"
+	 ], 
+	 "description" : "Get SymbolicLink logo ",
 },
 "Center element newenvironment{center}  ": {
 	 "scope" : "tex, latex",
@@ -447,6 +479,14 @@
 	 ], 
 	 "description" : "Add Norton schematic ",
 },
+"Display label color according value ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Electronic.resistorColor",
+	 "body" : [
+	 "\\resistorColor"
+	 ], 
+	 "description" : "Display label color according value ",
+},
 "Add update version ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Debug.addUpdate",
@@ -486,6 +526,14 @@
 	 "\\img{${1:\\rootImages}}{${2:legend}}{${3:ratio}}"
 	 ], 
 	 "description" : "Add simple image ",
+},
+"get counter of image ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Images.getPreviousCompilationdImageCounter",
+	 "body" : [
+	 "\\getPreviousCompilationdImageCounter"
+	 ], 
+	 "description" : "get counter of image ",
 },
 "Add simple image with rotation ": {
 	 "scope" : "tex, latex",
@@ -1439,6 +1487,14 @@
 	 ], 
 	 "description" : "Add answer ",
 },
+"get current font ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Fonts.getCurrentFont",
+	 "body" : [
+	 "\\getCurrentFont"
+	 ], 
+	 "description" : "get current font ",
+},
 "Create badge ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Badges.badge",
@@ -1447,13 +1503,21 @@
 	 ], 
 	 "description" : "Create badge ",
 },
-"Create generic label ": {
+"Create generic vertical label ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Labels.lbl",
 	 "body" : [
 	 "\\lbl{${1:color}}{${2:title}}{${3:content}}"
 	 ], 
-	 "description" : "Create generic label ",
+	 "description" : "Create generic vertical label ",
+},
+"Create generic horizontal label ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Labels.lblHorizontal",
+	 "body" : [
+	 "\\lblHorizontal{${1:color}}{${2:title}}{${3:content}}"
+	 ], 
+	 "description" : "Create generic horizontal label ",
 },
 "Create File label ": {
 	 "scope" : "tex, latex",

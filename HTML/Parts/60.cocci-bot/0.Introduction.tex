@@ -1,0 +1,66 @@
+%\addPartText{Mise en place du Bluetooth dans le projet Cocci-Bot}
+\partImg{Projet Cocci-Bot}{\rootImages/module.jpg}{0.5}
+
+\chapter{Introduction}     
+
+\section{Présentation}
+
+Ce tutoriel a pour objectif de créer une application pour diriger le robot en Bluetooth. \index{Bluetooth}
+L'application enverra des « commandes » au module Bluetooth de type Crius 
+Cette application se fera à l'aide du logiciel en ligne «App Inventor 2», qui se divise en deux parties : 
+
+\begin{items}{blue}{\Triangle}
+    \item une partie dédiée exclusivement à l'interface graphique
+	  (positionnement des boutons, etc).
+	\item une seconde partie dédiée à la gestion des données et à leurs envois/\\réceptions
+\end{items}
+
+\noindent
+Nous verrons donc comment faire une interface spécifique pour le Cocci-Bot. \\
+
+\messageBox{Remarque importante}{red}{white}{Il est impératif que le téléphone portable tactile soit sous le système d'exploitation Android et qu'il dispose de la fonctionnalité Bluetooth}{white}
+
+
+
+Par exemple, si j'appuie sur un bouton «avancer», je veux que l'application envoie en Bluetooth la donnée qui permettra à l'Arduino de comprendre l'instruction  à l'aide  du module Bluetooth.
+
+
+\section{Liste du matériel}
+
+Pour cette première partie, nous aurons besoin de : 
+
+\begin{items}{blue}{\Triangle}
+    \item Un téléphone portable, comme dit précédemment, étant tactile et fonctionnant sous \colors{red}{Android}. Les dimensions importent peu, pourvu que celui-ci dispose du mode Bluetooth
+    \item Un module Bluetooth de type Crius (Alimentation en 5V)
+    \item Une carte Arduino 
+    \item Des fils de connexion pour brancher le module à la carte
+    \item Une connexion internet
+\end{items}
+
+Et c'est tout… pour le moment.
+
+
+\section{Cahier des Charges}
+
+Maintenant que nous avons la liste du matériel nécessaire, ce serait bien de mettre en place un cahier des charges afin de savoir ce que le robot sera capable de faire… \\
+
+1) L'application devra se connecter au module Bluetooth du robot.
+Pour cela, on se connectera  à un module en passant par la liste des modules Bluetooth disponibles.\\
+Cette méthode permet de se connecter sans avoir l'adresse MAC. En revanche, l'étape de l'appairage est indispensable. (Chapitre \ref{appairage}) \\
+
+2) Le robot devra être contrôlé de façon manuelle,  il y aura donc 5 boutons de commande :
+
+\begin{items}{blue}{\Triangle}
+    \item 1 bouton «Avancer»
+    \item 1 bouton «Reculer»
+    \item 1 bouton «Droite»
+    \item 1 bouton «Gauche»
+    \item 1 bouton «Stop»
+\end{items}
+
+
+3) Le robot devra également se diriger de façon autonome grâce à ses capteurs (distance, lumière). Il y aura donc un bouton «automatique» pour déclencher ce mode. \\
+
+\messageBox{Application facultative}{blue}{white}{ Le robot pourra également indiquer l'état de la batterie (en \%, sur l'écran LCD) par simple appui d'un bouton. \\ Cette section ne sera pas abordée içi.}{white}
+
+

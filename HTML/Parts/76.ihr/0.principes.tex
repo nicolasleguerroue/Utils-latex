@@ -1,0 +1,310 @@
+\chapter{Introduction}
+Les robots sont de plus en plus présents dans notre quotidien sous différentes formes. Ils existent sous forme de machine, d'objet ou bien sous forme humanoïde. 
+Leur importance se démontre dans de nombreux domaines tels que l'éducation, la santé, le travail, etc... \\
+Leur rôle est d'aider l'humain dans une tâche, que ce soit pour apprendre, travailler ou accomplir diverses tâches.  La tendance va vers un monde dans lequel on ne peut pas se passer des robots. \\
+
+Dans le cadre de ce cours nous nous sommes consacrés à la conception d'un robot facilitant aux déplacements des personnes à mobilités réduites. Le domaine de la santé et de l'aide à la personne nous tient beaucoup à coeur de par son importance. \\
+
+Ainsi, nous avons essayé de s'imaginer à la place d'une personne rencontrant des difficultés à se déplacer afin de comprendre les difficultés qu'elle peut rencontrer. Le contexte dans lequel le robot va évoluer est très important à prendre en compte car il est lié à de nombreuses contraintes. 
+
+L'objectif de ce rapport est de présenter le travail que nous avons fait pour répondre à la problématique suivante : \\
+
+\bi{Dans quelle mesure un robot peut-il faciliter le déplacement d'une personne à mobilité réduite pour effectuer des tâches du quotidien ?}
+
+ %\img{\rootImages/header.png}{Notre projet}{0.05}
+
+
+\chapter{Solution proposée}
+
+Cette section détaille les solutions techniques pour mener à bien le projet.\\
+
+Nous avons pensé à développer une solution permettant aux personnes à mobilités réduites (personnes âgées, personnes en situation d'obésité, personnes malades, personnes en fauteuil roulant,...) de se déplacer ou de faire déplacer un robot sur des distances relativement courtes. \\
+L'objectif est de minimiser les efforts à faire pour se déplacer et de rendre le système intuitif. En effet, notre solution se doit d'être simple d'utilisation et sans risque pour l'utilisateur. Ainsi, lors de la conception de notre robot nous avons imaginé des sécurités évitant au maximum le risque d'incident. \\
+
+Afin de répondre au mieux à la problématique et de prendre en compte les contraintes liées au contexte nous avons imaginé une solution. \\
+
+Notre système est un robot qui se commande à distance avec un gant permettant de le contrôler.
+Nous avons conçu un système sans fil car il évite le risque pour la personne de se prendre les pieds dedans. De plus, le gant permettant le pilotage se veut léger et ergonomique. Le but est que la personne se sente à l'aise et produise le moins d'effort possible. \\
+
+\img{\rootImages/header.png}{Le rover et le gant avec le module de contrôle}{0.05}
+
+
+
+\section{Principe d'utilisation}
+
+L'utilisateur enfile un gant comprenant un capteur qui mesure l'inclinaison de sa main suivant trois axes. Pour notre cas on utilisera seulement deux axes, celui correspondant à l'angle de tangage permettant de tourner à droite et à gauche ainsi que l'angle de roulis pour avancer ou reculer. \\
+
+Sur ce gant il y a un module permettant de communiquer avec le robot pour le contrôler à distance.
+Il y a donc un émetteur situé sur le gant et un récepteur sur le robot.
+Les deux doivent être autonomes en énergie donc ils possèdent chacun une batterie. \\
+
+Le robot quant à lui est constitué de quatre moteurs. Pour le faire avancer nous pilotons les moteurs via une carte Arduino. Cette carte récupère les informations transmises par le module de communication venant du gant. \\
+
+Ainsi, lorsque l'utilisateur incline sa main vers l'avant le robot avance en faisant tourner les quatre roues dans le sens horaire. Pour faire reculer le robot c'est l'inverse.
+Pour faire tourner le robot, l'utilisateur doit incliner sa main dans un sens. Cela a pour effet de faire tourner les deux roues de gauche dans le sens inverse de celles de droite. \\
+
+Enfin, lorsque l'utilisateur incline sa main vers l'avant et sur un coté, le robot se déplace en avant en se décalant légèrement sur le coté concerné (trajectoire plus diagonale).
+
+\section{La communication sans fil}
+
+Nous avons opté pour un module de communication sans fil afin de faire transiter les informations de la position de la main au module gérant le moteur pour éviter d'utiliser un câble.\\
+Plusieurs technologies étaient disponibles telles que :
+
+\begin{items}{blue}{\Triangle}
+    \item Les modules Bluetooth (Crius, HC-05, HC-06)
+    \item Les modules radio 433 MHz
+    \item Les modules radio 2.4 GHz (Xbee, ESP-02…)
+\end{items}
+
+
+Nous avons refusé les modules Bluetooth car ils sont plus appropriés pour des applications avec un téléphone (phase d'appairage). Il nous restait donc les modules radios, il fallait donc choisir les fréquences de fonctionnement.\\
+
+Les modules radio à 433 MHz possèdent moins de fonctionnalités, nous avons opté pour utiliser un module Xbee. L’UQAC en possède, cela nous a permis de commencer rapidement le projet sans attendre une livraison de matériel.\\
+
+ \img{\rootImages/xbee.png}{Un module Xbee}{0.5}
+ 
+Le module Xbee est un module de communication 2.4 GHz. Il se base sur une liaison série.
+Après avoir configuré le module avec le logiciel \lib{XCTU}, il suffit d’envoyer les données sur la broche Rx du module afin qu’il envoie les données à l’autre module.\\
+Le mode API du module n’est pas activé afin qu’il communique avec un module ayant une adresse spécifique (on souhaite éviter une diffusion de type broadcast afin de ne pas interférer avec d’autres modules présents dans la salle).\\
+
+La configuration des modules Xbee est détaillée en annexe à la section  \link{\ref{xbee}}
+
+\section{Le positionnement de la main}
+
+Pour récupérer la position dans l’espace de la main, nous avons opté pour un accéléromètre comportant un compas et magnétomètre. Il s'agit d'une centrale IMU \footnote{Inertial Measurement Unit} 9 axes, chaque grandeur est disponible sur l'axe x, y et z.\\
+
+ \img{\rootImages/imu.jpg}{Les axes de la centrale IMU}{0.5}
+ 
+Cette solution permet de réduire l'encombrement car les modules présents à l'UQAC sont de petites tailles et peuvent s'intégrer sur un gant.\\
+
+Afin d'obtenir la position dans l'espace, nous récupérons les valeurs des accélérations, des vitesses angulaires et des valeurs du champ magnétique terrestre sur les 3 axes. \\
+Ensuite, en utilisant l’algorithme de Mahony (ou bien celui de Madgwick) et en nous basant sur les quaternions, nous pouvons déterminer la position angulaire dans l'espace à condition d'échantillonner suffisamment vite \footnote{L'algorithme de Mahony compense l'erreur avec un correcteur PI contrairement à l'algorithme de Madgwick. Il faut donc réduire le temps d'échantillonage pour avoir une intégration plus précise.} (moins de 50 ms entre deux lectures) et cela nous permet d'avoir une résolution de moins d’un degré, ce qui est largement suffisant pour notre projet.\\
+
+Dans le cadre de ce projet, nous avons utilisé le module \bold{MPU9250}
+
+ \img{\rootImages/mpu.jpg}{Un module MPU9250}{0.5}
+ 
+ Le capteur communique en I2C \footnote{Inter Integrated Circuit}.\\
+C'est un bus série synchrone bidirectionnel half-duplex avec 2 broches utilisées pour communiquer :
+\begin{items}{green}{\Triangle}
+    \item SDA : Serial Data (ligne de données) \index{SDA}
+    \item SCL : Serial Clock (ligne d'horloge) \index{SCL}
+\end{items}
+
+Une masse est commune aux périphériques.\\
+
+Les échanges ont toujours lieu entre un seul maître et un (ou tous les) esclave(s), toujours à l’initiative du maître \footnote{Jamais de maître à maître ou d’esclave à esclave, cependant, rien n’empêche un composant de passer du statut de maître à esclave et réciproquement} et pour éviter les conflits électriques les broches SDA et SCL sont de type \bold{Collecteur Ouvert}.\\ 
+Il faut donc ajouter des résistances de tirage mais ces dernières sont généralement intégrées, comme dans notre cas.
+
+A chaque composant est attribué une adresse physique qui permettra les échanges. L'adresse de notre capteur vaut \bold{0x68}. Cette adresse est codée sur 7 bits, ce qui fait que le bus I2C peut supporter en théorie 127 périphériques \footnote{en  réalité moins car il faut tenir compte de la capacité de ligne}.\\
+
+\subsubsection{Précision du module}
+
+Afin de gagner en précision, nous calibrons le capteur avant de lancer un cycle. \\Il existe bien une fonction de calibration pour le capteur mais l'intégration et la proportionnelle du correcteur engendre un dépassement sur les premières acquisitions. 
+
+La figure suivante représente l'allure des valeurs du roulis sur les premiers échantillonnages du gyroscope lorsque ce dernier possède un roulis réel de $0^{\circ}$. La fréquence d'échantillonage est de 1 kHz.
+
+\begin{graphicFigure}{0.6}{0.6}{-100}{1000}{-1}{35}{Échantillons}{Angle de roulis($\circ)$}{Le régime transitoire du gyroscope}
+    \addTrace{red}{0}{1000}{32*(exp(-x/200)+0.01*sin(1*x)}
+    \addTrace{blue}{0}{1000}{0}
+    \addLegend{Angle mesuré ($^\circ$), Angle réel ($^\circ$)}
+\end{graphicFigure}
+
+Afin d'éviter ce régime transitoire, nous faisons une salve de mesures pour revenir au régime permanent \footnote{A condition que le capteur ne bouge pas} puis nous lisons les valeurs sur un nombre d'échantillons afin de déterminer les angles au repos. \\
+
+\bold{Cette phase de calibration permet à l'utilisateur de choisir la position au repos du gant, cela évite qu'il soit forcément calibré à l'horizontal.}\\
+
+Pour cela, lors du démarrage de l'émetteur, nous envoyons au robot un mot clé afin que le robot joue une musique pendant la calibration. Il ne faut pas bouger le capteur de position car cela fausserait les commandes. \\
+
+Enfin, pour améliorer la précision du capteur, nous avons modifié l'offset du compas en tenant compte de la déclinaison magnétique qui est de 15 ° environ à Chicoutimi \cite{mag}.
+
+
+\section{Le contrôle du robot}
+
+
+\subsection{La lecture des données}
+Une fois que le robot lit les données en provenance du Xbee, il doit décoder la trame reçue. Cette dernière est au format suivant : \\
+
+Trame = "\bold{XXXX}"\\
+
+Chaque "X" prend la valeur \bold{0} ou \bold{1} et représente respectivement l'ordre d'activation pour :
+
+\begin{items}{blue}{\Bullet}
+    \item Tourner à gauche
+    \item Tourner à droite
+    \item Avancer
+    \item Reculer
+\end{items}
+
+
+Ainsi, si le robot reçoit la trame \bold{0010}, il va avancer.
+
+\subsection{Le contrôle des moteurs}
+
+La vitesse du robot est contrôlable en modifiant la vitesse et le sens de rotation des moteurs droits et gauches. Il nous faut donc 2 broches de signal pour contrôler le robot.\\
+
+Ce contrôle se fait via un signal PWM\footnote{Pulse Widht Modulation}. 
+La figure suivante représente le sens de rotation et la vitesse d'un bloc moteur (gauche ou droit). L'axe des ordonnées représente la vitesse en \% en fonction de la valeur du rapport cyclique envoyé au moteur. Cette valeur est comprise entre 0 et 255.
+Si la valeur de vitesse est positive, le moteur tourne dans un premier sens et si elle est négative, le moteur tourne dans l'autre sens.
+
+\label{moteur}
+\begin{graphicFigure}{0.6}{0.6}{-1}{256}{-100}{100}{Ordre de vitesse}{Vitesse (\%)}{Commande des moteurs}
+    \addPoints{blue}{(0, 30) (100,30) (100, -100) (180, 0) (255, 100)}
+     \addPoints{green}{(0, 0) (255,0)}
+     \addLegend{Vitesse du moteur, Vitesse nulle}
+\end{graphicFigure}
+
+Aussi, si nous souhaitons faire avancer le robot à la vitesse maximal, nous envoyons la valeur \bold{255} sur le bloc gauche et droit. \\
+Si nous souhaitons faire tourner le robot à vitesse faible, nous pouvons envoyer la valeur \bold{170} sur le bloc droit et \bold{190} sur le bloc gauche.\footnote{La valeur de repos est de 180}
+
+\section{Les mesures de sécurité}
+
+Afin de rendre plus sûr le robot et son utilisation, nous avons mis en place des mesures de sécurité sur plusieurs niveaux.
+Tout d'abord, nous avons fait en sorte que le robot puisse se déplacer \bold{uniquement} si l'utilisateur calibre le module de positionnement (MPU9250). La condition de calibration est validée si l'utilisateur entend la musique sur le robot.\\
+
+Une autre sécurité ajoutée est l'arrêt du robot lorsque la connexion entre les 2 Xbee n'est plus assurée.
+Nous avons crée une fonction de lecture qui attend de recevoir des données sur le port série. En revanche, une variable interne fixe un \bold{timeout} maximal au dessus du quel la fonction de lecture renvoie une chaîne de caractère vide. Une chaîne de caractère vide signifie donc une perte de connexion.\\
+Le code suivant permet de gérer la perte de connexion du module : 
+
+\begin{Cpp}
+  String message = xBee.read(WAIT_DATA);  
+  if(message.length()==0)
+  {
+    Serial.println(">>> Xbee disconnected");
+    rover.stop();
+  }
+\end{Cpp}
+
+Nous envoyons des données au robot toutes les 5 ms et nous avons fixé un \italic{timeout} de 200 ms.\\
+
+Ensuite, le robot ne peut avancer que si il n'a pas d'obstacle trop proche de lui sur sa route.\\
+Différentes technologies sont utilisées pour mesurer une distance, cependant elles possèdent leurs avantages et inconvénients. Nous allons dresser les principaux avantages et inconvénients puis nous pourrons déterminer la technologie.
+
+\begin{items}{blue}{\Circle}
+    \item Infrarouge
+    \begin{items}{green}{\Circle}
+        \item Bon marché
+        \item Assez précis
+    \end{items}
+    \begin{items}{red}{\Circle}
+        \item Non-linéaire
+        \item Sensibilité à la lumière ambiante
+        \item Dépend du coefficient de réflexion lumineuse de la surface en face du capteur
+    \end{items}
+
+    \item Laser
+    \begin{items}{green}{\Circle}
+        \item Très précis
+        \item Longue distance
+    \end{items}
+    \begin{items}{red}{\Circle}
+        \item Prix
+    \end{items}
+
+    \item Ultra-sonore
+    \begin{items}{green}{\Circle}
+        \item Prix
+        \item Ne dépend pas de la couleur de la surface en face du capteur
+    \end{items}
+    \begin{items}{red}{\Circle}
+        \item Précision parfois arbitraire
+    \end{items}
+\end{items}
+
+Ayant besoin de précision et une distance de mesure assez précise, nous allons opter pour une technologie laser.
+Le module choisi est un LiDAR (Light Detection And Ranging).\\
+
+Le LiDAR est composé d'un émetteur et d'un récepteur. L'émetteur envoie une impulsion laser et celle-ci est réfléchie contre une paroi (obstacle) pour être captée par le récepteur. Étant donné que l'on connaît la vitesse de la lumière qui correspond à la vitesse à laquelle se déplace le faisceau lumineux, nous pouvons en déduire la distance de l'obstacle en mesurant le temps mis par le faisceau émis par le laser pour faire l'aller retour. 
+
+
+
+\section{Liste du matériel}
+
+\begin{items}{green}{\faLeaf}
+    \item Un robot Rover avec les moteurs, les drivers et la batterie
+    
+     \img{\rootImages/rover.png}{Le rover}{0.3}
+     
+    \item 2 modules Xbee
+    \item Un accéléromètre MPU9250
+    \item 1 carte Arduino Duemilanove (partie robot)
+    \item 1 carte Arduino Pro Mini pour l'émetteur
+    \item 1 module FTDI pour programmer la carte Pro Mini
+    \item 1 batterie pour le circuit émetteur 
+    \item 2 shields pour les Xbee
+    \item 1 capteur de distance LiDAR
+\end{items}
+
+\section{Organisation du code}
+
+Nous avons choisi d'utiliser un seul fichier qui gère le code les 2 cartes Arduino. Le code approprié est sélectionné avec la directive de pré-compilation \bold{\#define}.
+
+Une approche orientée objet a été choisie car cela permet de rendre plus souple le code en cas d'ajout de fonctionnalités (on ajoute des "modules" au robot).\\
+
+Ainsi, par exemple, nous créons des instances des différentes classes afin de les manipuler par la suite.
+\begin{Cpp}
+
+  //Xbee
+  UART xBee = UART(RX_XBEE, TX_XBEE);
+  //Gyro
+  
+  #define SAMPLING_PERIOD_MS 100
+  Gyro gyroscop = Gyro(ADDRESS_GYRO);   //New instance of Gyro class, provides tools to read gyro
+  
+  //Led
+  #define PIN_LED 13
+  LED led = LED(PIN_LED);    
+\end{Cpp}
+
+
+La figure suivante détaille les classes utilisées en fonction du code émetteur ou récepteur. \\
+Les classes rouges concernent le positionnement de la main et les classes bleues l'envoi et la réception des données.\\
+
+ \img{\rootImages/call.png}{Les différentes classes du projet}{0.5}
+ 
+ Le code principal du programme est disponible en annexe à la section \ref{code}
+
+
+\section{Schéma électrique du circuit émetteur}
+
+    \img{\rootImages/sender.png}{Le branchement du circuit émetteur}{0.5}
+    
+    Pour l'émetteur, nous avons donc un module Xbee, une centrale IMU et une carte Arduino. Une batterie est intégrée au gant pour rendre le système autonome.
+    
+\section{Schéma électrique du circuit récepteur}
+
+    \img{\rootImages/receiver.png}{Le branchement du circuit receveur}{0.5}
+    
+    Sur ce schéma, la partie de contrôle des moteurs est simulée par 2 transistors MOSFET.
+
+
+
+\chapter{Discussions}
+
+
+Nous avons pu expérimenter les algorithmes de Mahony et Madgwick afin de comparer leurs performances\cite{algo}. Lors d'échantillonnages à hautes fréquences, les 2 algorithmes semblent similaires \footnote{Pas de différences de performances évidentes}. En revanche lors d'échantillonnages à faibles fréquences (<20 Hz), l'algorithme de Mahony n'est plus adapté car la dérive est trop importante (>$50^{\circ}$).\\
+
+Ensuite, lors de la calibration du capteur, nous avons remarqué que mettre une musique pendant la phase de calibration n'est pas la meilleure idée. En effet, nous étions tenté de danser sur l'aire de la musique. Or, il ne faut pas bouger la main pendant la calibration.\\
+
+Lors des essais dans les couloirs, l'envoi et la réception des données était étrange dans la mesure où lors des essais en laboratoire, le comportement du robot était normal et dès que nous sortions dans les couloirs, il se comportait de manière imprévisible. Les commandes de direction n'étaient pas reçues par le robot.\\
+Nous avons donc ajouté des outils de débugage dans le code mais malgré ces derniers, il nous a été impossible de distinguer la ou les causes des comportements étranges.\\
+
+Nous aurions bien aimé faire avancer le robot avec une vitesse proportionnelle à l'inclinaison de la main. Le problème pour mettre en place cette idée ne venait pas de l'accéléromètre (précision inférieure au degré) mais bien de la courbe de réponse du moteur.En effet, la réponse du moteur (cf section \ref{moteur}) a été tracée à vide et la vitesse n'est plus proportionnelle sur la phase [100-255]. Nous avons donc abandonné cette idée. \\
+De plus, parmi les grandes étapes du projet (gyroscope, Xbee, moteur), la phase de contrôle du moteur a été la plus compliquée car le comportement du robot était parfois étrange. Nous avons vu que le robot était en mode \italic{Contrôle PWM} façon engin radio commandé, c'est à dire que l'un des signal contrôle la vitesse du Rover (avancer ou reculer ) et le second signal contrôle le différentiel de la vitesse des roues. Si le différentiel est nul, le Rover avance dans une direction et si le différentiel est maximal, le coté droit sera en opposition de phase par rapport au coté gauche et le robot fera demi-tour sur place.\\
+
+Enfin, nous aurions pu ajouter une fonctionnalité pour arrêter le robot en tapant sur la main. Cela aurait permit d'ajouter une sécurité pour éviter que le robot ne se déplace de manière imprévue.
+Il aurait aussi été possible d'arrêter le robot en retournant la main.
+
+
+
+
+\chapter{Conclusion}
+
+Nous avons vraiment apprécié la réalisation de ce projet car il était très plaisant et intéressant à faire. La conception de ce projet a nécessité une petite phase de réflexion pour décider des meilleurs choix techniques. Cette phase était très intéressante car nous avons pu discuter des meilleures technologies à utiliser. 
+Ensuite, nous sommes passés à la réalisation du projet. Nous avons rencontrés quelques difficultés notamment liés à des problèmes d'interférences qui perturbait les communications entre le robot et le gant. 
+Étant donné que nous avons réussi à le faire fonctionner assez vite, nous avons pu lui rajouter des fonctionnalités.
+Cependant, la partie du début du cours sur l'asservissement n'a pas été utile à ce projet.
+
+
+
+

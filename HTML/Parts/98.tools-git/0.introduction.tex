@@ -1,0 +1,120 @@
+
+\chapter{Utilisation des ressources du CREPP}
+
+\section{Présentation}
+
+Ce document a pour objectif d'expliquer le fonctionnement de Git pour les ateliers du CREPP.
+Un répertoire Git a été créé pour centraliser les supports des ateliers ainsi que les codes et projets produits depuis la création du CREPP en 2012.\\
+Il est donc en perpétuelle amélioration.
+
+\section{Localisation}
+Le répertoire est disponible à l'adresse suivante : \link{\url{https://github.com/CREPP-PLOEMEUR}} ou bien en passant sur
+ le site du CREPP\footnote{\link{\url{crepp.org}}}, dans la section \bold{Ressources GIT}
+
+\img{\rootImages/localisation.png}{Accès aux ressources GIT}{0.5}
+
+\section{Menu principal}
+
+
+Une fois le lien cliqué, vous tombez directement sur cette interface 
+
+\img{\rootImages/git_home.png}{La page principale du répertoire Git}{0.35}
+
+Les répertoires facilement accessibles sont :
+
+\begin{items}{blue}{\Bullet}
+    \item Le répertoire \bold{Supports\_PDF} regroupe les supports PDf utilisés pour les Ateliers Arduino et Microcontrôleurs.
+    \item Le répertoire \bold{Codes\_Arduino} est une compilation des codes Arduino utilisés lors des ateliers.
+    \item Le répertoire \bold{Codes\_ESP12} est une compilation des codes ESP12 des ateliers.
+\end{items}
+
+Sous ces trois répertoires, vous avez accès à l'ensemble des répertoires du CREPP. Pour afficher tous les répertoires, vous pouvez cliquer 
+sur \bold{View all repositories} en bas de la page.
+
+\img{\rootImages/view.png}{Afficher l'ensemble des répertoires}{0.45}
+
+Il est possible de classer les répertoires en cliquant sur \bold{Sort} et de les classer en fonction de :
+
+\begin{items}{blue}{\Bullet}
+    \item Les dates de modifications
+    \item Les noms
+\end{items}
+
+\img{\rootImages/sort.png}{Trier les répertoires}{0.45}
+
+Actuellement, voici les répertoires : 
+
+\begin{items}{orange}{\faBookmark} 
+\item codes\_Arduino
+\item Codes\_ESP12
+\item Codes\_Pico
+\item Projets\_Ateliers\_Jeunes
+\item Projet\_Capteur\_pollution\_atmospherique
+\item Projet\_Cocci-Bot
+\item Projet\_Crepp-Rap
+\item Projet\_Fauteuil\_roulant
+\item Projet\_MySensors
+\item Projet\_Pot\_Qui\_pense
+\item Projet\_Raspi-Bot
+\item Projet\_SimpleCDBot
+\item Projet\_Tracker\_Solaire
+\item Projet\_Ventilateur
+\item Supports\_PDF 
+\end{items}
+
+
+\section{Exploration d'un répertoire}
+
+\subsection{L'arborescence}
+
+En cliquant sur un répertoire, l'arborescence de ce dernier apparaît avec le premier rang des dossiers et les fichiers sur le même niveau.\\
+En cliquant sur les noms des dossiers, on peut parcourir l'arborescence du répertoire complet.\\
+
+\img{\rootImages/main.png}{L'arborescence du répertoire}{0.30}
+
+Une description du répertoire est disponible avec un fichier README.md. (ici le répertoire Codes\_Arduino)
+
+\img{\rootImages/readme.png}{Une description du répertoire}{0.35}
+
+Les principaux langages utilisés dans le répertoires sont indiqués à droite de la section \bold{README}.
+
+\subsection{Récupération d'un fichier}
+
+\subsubsection{Un fichier contenant du code}
+Pour récupérer le contenu  d'un fichier particulier, il faut parcourir l'arborescence pour le trouver.\\
+Une fois le fichier localisé, il faut cliquer sur le fichier afin de voir son contenu : 
+
+
+\img{\rootImages/content.png}{Un contenu de fichier}{0.35}
+
+Enfin, il ne reste plus qu'à cliquer sur \bold{Copy raw contents}
+pour copier tout le texte du fichier dans le presse-papier.
+
+\img{\rootImages/raw.png}{Copier le contenu d'un fichier}{0.6}
+
+
+\subsubsection{Un fichier PDF}
+
+Pour récupérer le fichier PDF, après l'avoir localisé, il suffit de cliquer sur le bouton \bold{Download}.
+
+\img{\rootImages/download_pdf.png}{Téléchargement d'un fichier PDF}{0.35}
+
+\messageBox{Remarque}{orange}{white}{Cette méthode est contraignante quand nous sommes ammenés à manipuler plusieurs fichiers au sein d'un même répertoire. \\La méthode suivante va vous expliquer comment télécharger directement tout un répertoire pour travailler par la suite en local.}{black}
+
+
+\section{Téléchargement d'un répertoire}
+
+Pour télécharger un répertoire dans son intégralité, il faut tout d'abord se placer à la racine de celui-ci en cliquant sur le 
+nom du répertoire (Codes\_Arduino):
+
+\img{\rootImages/name.png}{Déplacement à la racine du répertoire}{0.35}
+
+Ensuite, il faut cliquer sur le bouton vert \shortcut{Code} pour dérouler un petit menu puis cliquer sur \bold{Download ZIP}
+
+\img{\rootImages/zip.png}{Téléchargement du répertoire}{0.5}
+
+Le répertoire va se télécharger au format ZIP dans vos téléchargements avec le suffixe \bold{-master}.\\ 
+Par exemple, le répertoire \bold{Codes\_Arduino} sera téléchargé sous le nom \bold{Codes\_Arduino-master.zip}.\\
+
+Il ne vous reste plus qu'à extraire le fichier pour explorer le répertoire.
+

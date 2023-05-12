@@ -1,0 +1,133 @@
+\chapter{Langage HTML}
+
+Le \glossary{HTML} est un langage contenant des balises, c'est à dire des 
+marqueurs spécifiques pour organiser la page Web.
+
+Il existe deux types principaux de balises: 
+
+\begin{items}{blue}{\Triangle}
+\item Les balises en paire (Par exemple $<h1></h1>$)
+\item Les balises orphelines (Par exemple $<img>$)
+\end{items}
+
+Une balise commence par un chevron ouvrant et se termine par un chevron fermant.
+Toutes les balises fermantes (pour les balises en paire) sont de la forme $</nom\_balise>$ \\
+
+Toute page HTML commencer par la balise \lbl{blue}{html}{html}
+
+\messageBox{\faviconInfo}{darkBlue}{darkBlue}{Pour mettre du code en commentaire, c'est à dire ne pas le visualiser dans la page Web de rendu, il faut mettre le code entre $<--!$ et $-->$}{white}
+
+
+\begin{Html}{Première balise HTML}
+<html>
+    <!-- Ceci est mon début de page HTML --> 
+</html>
+\end{Html}
+
+\section{La forme de la page}
+
+La page Web est scindée en 2 entités: 
+
+\begin{items}{blue}{\Triangle}
+\item L'en-tête (header), marqué avec la balise \lbl{green}{CMT}{$<head></head>$}
+\item Le corps (body), marqué avec la balise \lbl{green}{CMT}{$<body></body>$}
+\end{items}
+
+\begin{Html}{Page minimaliste HTML}
+<html>
+    <head>
+        <!-- Ceci est un header --> 
+    </head>
+
+    <body>
+        <!--! Ceci est un body -->
+    </body>
+</html>
+\end{Html}
+
+
+\section{L'en-tête}
+
+L'en-tête va contenir les informations et les paramètres de la page, notamment : 
+
+\begin{items}{blue}{\Triangle}
+    \item Le titre de la page
+    \item Les importations des bibliothèques (feuilles de style)
+    \item Les icônes
+    \item L'encodage de la page (UTF-8)
+    \end{items}
+
+
+\begin{Html}{L'en-tête}
+<head>
+        <--! Titre en haut de la page -->
+        <title>Titre de la page</title> 
+
+        <--! Ajout d'une feuille de style -->
+        <link rel="stylesheet" href="style.css" type="text/css"> 
+
+        <--! Ajout d'une icone -->
+        <link rel="icon" href="icone.ico">  
+        
+        <--! Encodage UTF-8 -->
+        <meta charset="utf-8">  
+
+</head>
+    \end{Html}
+
+
+
+\section{Le corps}
+
+Le corps va contenir l'ensemble des informations affichées sur la page
+    
+\begin{items}{blue}{\Triangle}
+    \item Les titres, sous-titre, sous-sous-titre
+    \item Les paragraphes 
+    \item Les images
+    \item Les liens
+    \item Les sections de code
+    \item ...
+\end{items}
+    
+    
+\subsection{Ajout des titres}
+
+Un titre en HTML est vue avec un niveau hiérarchique. 
+Un titre de page est au niveau 1, un sous-titre avec un niveau 2, etc...
+
+Pour mettre un titre, il faut donc écrire \lbl{green}{CMT}{$<h1>Titre</h1>$}, un sous-titre 
+c'est \\
+\lbl{green}{CMT}{$<h2>Sous-titre</h2>$}
+
+
+\subsection{Ajout des images}
+
+Pour ajouter une image, il faut connaître son emplacement dans le système (ordinateur) ou bien sur Internet (url).
+
+Il s'agit de la balise orpheline \lbl{green}{CMT}{$<img>$}
+
+\begin{Html}{Ajout d'une image}
+<--! Image locale -->
+<img src="monImage.png" alt="Impossible de charger l'image">
+
+<--! Image Internet -->
+<img url="www.crepp.oreg/image.png" alt="Impossible de charger l'image">
+\end{Html}
+
+
+\subsection{Ajout des liens}
+
+Pour ajouter une image, il faut connaître son emplacement dans le système (ordinateur) ou bien sur Internet (url).
+
+Il s'agit de la balise orpheline \lbl{green}{CMT}{$<img>$}
+
+\begin{Html}{Ajout d'un lien}
+<--! Lien -->
+<a href="monChemin" > Texte du lien</a>
+\end{Html}
+Les liens permettent de pointer sur d'autres pages, que ce soit sur le serveur courant ou bien un autre.
+
+
+
+

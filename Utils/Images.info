@@ -15,6 +15,7 @@
 \rowColor{white}  rootImages & cmd & Dynamic source of image  & 0\\ \hline
 \rowColor{white}  imgHeader & cmd & Add simple image on header page  & 3\\ \hline
 \rowColor{white}  img & cmd & Add simple image  & 3\\ \hline
+\rowColor{white}  getPreviousCompilationdImageCounter & cmd & get counter of image  & 0\\ \hline
 \rowColor{white}  imgr & cmd & Add simple image with rotation  & 4\\ \hline
 \rowColor{white}  imgf & cmd & Add simple floating image  & 6\\ \hline
 \rowColor{white}  imgn & cmd & Add simple image with reference name  & 4\\ \hline

@@ -1,0 +1,128 @@
+
+\chapter{Les transistors MOSFET}
+\index{MOSFET} 
+\section{Présentation}
+
+     Nous avons vu l'utilisation des transistors bipolaires. \\
+     Ces derniers sont assez contraignants à mettre en oeuvre car ils sont commandés en courant.
+
+     Nous allons utiliser cette fois-ci la technologie des \glossary{MOSFET} \footnote{MOSFET : Metal Oxide Semiconductor Field Effect Transistor = Transistor à effet de champ à structure métal-oxyde-semi-conducteur} car ces derniers ont l'avantage d'être contrôlés en \bold{tension}.
+
+     Ce composant possède trois broches : 
+     
+     \begin{items}{blue}{\Triangle}
+     
+       \item Le drain (D)
+       \item la porte (G)\footnote{G pour Gate}
+       \item la source (S)
+     
+     \end{items}
+     
+     \img{\rootImages/mosfet.png}{La représentation du transistor MOSFET}{0.1}
+     
+     \section{Conventions}
+     
+     Afin de simplifier les calculs par la suite, posons également les normes suivantes : 
+     
+     \begin{items}{blue}{\Triangle}
+     
+       \item Le courant entrant dans le Drain est appelé $I_{D}$
+       \item Le courant entrant dans la Porte est appelé $I_{G}$
+       \item Le courant sortant de la Source est appelé $I_{S}$
+
+       \item La tension entre la Porte et la Source est appelée $V_{GS}$
+       \item La tension entre le Drain et la Source est appelée $V_{DS}$
+     \end{items}
+     
+     \subsection{Les familles de transistors MOSFET}
+
+     Les transistors MOSFET sont classés en deux catégories : 
+     
+     \begin{items}{blue}{\Triangle}
+     
+       \item Les transistors MOSFET à canal N \footnote{Le nom de ces familles provient du type de jonction utilisé en interne. Pour plus de renseignement, consulter les diodes et semi-conducteurs}
+       \item Les transistors MOSFET à canal P
+     
+     \end{items}
+     
+     Le principe de fonctionnement est similaire entre ces deux familles, seul le branchement et le niveau de commande diffère.\\
+     Dans ce document, nous utiliserons essentiellement des transistors MOSFET à canal N car ces derniers utilisent des grandeurs 
+     positives.
+     
+     \img{\rootImages/mos.png}{Transistors à canal N et P}{0.6}
+
+     \section{Les paramètres de sélection du transistor}
+     
+     Les paramètres de sélection de nos transistors MOSFET sont identiques aux transistors bipolaires, c'est à dire :
+     
+     \begin{items}{blue}{\Triangle}
+     
+       \item La tension admissible sur $V_{DS}$ du transistor
+       \item Le courant admissible entre le Drain et la Source.
+     \end{items}
+     
+     Pour la suite de la présentation, on supposera que notre transistor a été dimensionné pour répondre à ces deux contraintes.
+
+
+     \section{Le principe}
+
+     Ce type de transistor fonctionne comme les transistors bipolaires mais est commandé en tension et non en courant.
+
+     Par analogie, le drain joue le rôle du collecteur, la source celui de l'émetteur et la porte celui de la base.\\
+     Le courant de l'élément à contrôler (moteur, résistance de puissance) transite entre le drain et la source et la tension de commande est aux bornes de la porte.\\
+     
+     Les transistors MOSFET deviennent passant\footnote{Le transistor laisse passer tout le courant autorisé.} lorsque la tension sur la porte dépasse une tension de déclenchement appelée $V_{GS_{th}}$.
+     Cette valeur est généralement comprise entre $2$ et $4$ Volts.\\
+
+     \bold{Lorsque cette tension} $V_{GS_{th}}$ est atteinte, notre transistor peut être remplacé d'un point de vue électrique entre le drain et la source par une résistance de très faible valeur, appelée $R_{DS_{on}}$
+
+    \section{Comparaison avec les transistors bipolaires}
+
+    Par nature, la porte du MOSFET est vue comme un condensateur. Le transistor ne consomme pas de courant, excepté pendant les commutations.\\
+    Ainsi, le courant est nul dans la porte pour maintenir le moteur en marche alors que pour un bipolaire, il faut maintenir un courant dans la base.\\
+
+    Les MOSFET sont donc plus économes en énergie que les bipolaires.\\
+    De plus, ils peuvent généralement supporter des courants plus importants que les bipolaires.\\
+
+    En revanche, en hautes fréquences, les MOSFET sont moins réactifs du fait de leur capacité en entrée.
+     \section{Mise en pratique}
+
+     Nous souhaitons faire tourner le même moteur que celui utilisé avec notre transistor bipolaire.\\
+     Nous allons le commander avec une carte Arduino.
+
+     \subsection{Branchements}
+
+     Tout d'abord, il convient de placer le moteur entre notre alimentation et le drain.\\
+     
+ 
+    \messageBox{Remarque}{cyan}{white}{Toutes les charges à contrôler avec ce type de transistor se placent entre l'alimentation et le drain.}{black}
+ 
+     Enfin, il ne nous reste plus qu'à relier une sortie numérique de l'Arduino vers notre porte \bold{sans} résistance. Nous obtenons donc le schéma suivant.
+ 
+     \img{\rootImages/schema_mosfet.png}{Branchement du transistor MOSFET}{0.45}
+  
+     \subsection{Exemple de programme Arduino}
+ 
+     Voici un code permettant de faire tourner le moteur périodiquement pendant 5 secondes puis de l'arrêter pendant 5 secondes. 
+     Il s'agit du même code que pour le transistor bipolaire.
+ 
+ \begin{Cpp}{Code Arduino avec MOSFET}
+
+  #define PIN 11     //GATE du transistor
+ 
+  void setup() {
+  
+    pinMode(PIN, OUTPUT); //Mise en sortie de la broche
+  
+  }//Fin setup
+  
+  void loop() {
+  
+    digitalWrite(PIN, HIGH);    //Mise en route du transistor
+    delay(5000);               //Délai de 5s
+    digitalWrite(PIN, LOW);     //Arret du transistor
+    delay(5000);               //Délai de 5s
+  
+  }//Fin loop
+  
+ \end{Cpp}

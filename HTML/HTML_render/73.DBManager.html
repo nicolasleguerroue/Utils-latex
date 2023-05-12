@@ -1,0 +1,55 @@
+<html><head><style>.cent {  display: block;  margin-left: auto;  margin-right: auto;}</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> </script><body style='margin-left:5%;margin-right:5%;margin-top:1%'><h4>Fichier générer depuis les sources Latex</h4><h5>Auteur : Nicolas Le Guerroué</h5><a href='index.html'><button class='btn btn-success' >Revenir au sommaire</button></a><hr>\newcommand{\constrain}[1]{<span style='background-color:blue;opacity:60%;color:blue;' class='badge badge-pill'>#1</span>}
+
+Ce logiciel permettra de gérer efficacement les composants électroniques.
+
+<ul>
+    <li> Une bibliothèque commune de composants
+</li>
+    <li> Une bibliothèque personnelles
+</li>
+</ul>
+<ul>
+    <li> Un identifiant unique 
+</li>
+    \constrain{PRIMARY KEY}
+
+    <li> Une référence unique 
+</li>
+    \constrain{ALPHANUM} \constrain{UPPERCASE}
+
+    <li> Une désignation 
+</li>
+    <li> Une catégorie
+</li>
+    <li> Une sous-catégorie
+</li>
+    <li> Un boîtier
+</li>
+    <li> Une plage d'alimentation
+</li>
+    <li> Une documentation technique
+</li>
+    <li> Une image
+</li>
+</ul>
+Les images et documents ne seront pas stockés au format binaire dans la base de données, cela prend trop de place et ralentis considérablement le temps d'accès aux données.
+
+<h3>Cas d'usages</h3>
+<ul>
+    <li> L'utilisateur souhaite ajouter un composant non existant dans la bibliothèque
+</li>
+    <li> L'utilisateur souhaite ajouter un composant dans sa base de données personnelle.
+</li>
+<ul>
+        <li> Le composant existe, il l'ajoute dans son espace personnel.
+</li>
+        <li> Le composant n'existe pas dans la bibliothèque, il doit l'ajouter manuellement dans la bibliothèque puis l'ajouter dans son espace personnel.
+</li>
+</ul>
+    <li> L'utilisateur souhaite consulter un composant dans la bibliothèque
+</li>
+    <li> L'utilisateur souhaite consulter un composant dans son espace personnel
+</li>
+</ul>
+
+</body></html>

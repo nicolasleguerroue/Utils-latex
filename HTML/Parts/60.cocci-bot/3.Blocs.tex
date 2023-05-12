@@ -1,0 +1,167 @@
+\chapter{Gestion de l'application}
+
+Nous avons réalisé et mis en place tous nos élément graphiques. Il ne nous reste donc plus qu'a les faire interagir afin d'envoyer les données Bluetooth. \\
+\noindent
+Pour cela, commencez par aller dans la section \bold{Bloc}, disponible en haut à droite de la page
+
+\img{\rootImages/bloc.png}{Emplacement du menu "\bold{Bloc}"}{0.8}
+
+\newpage
+\section{Présentation}
+A l'ouverture du menu \bold{Bloc}, voici le rendu
+\img{\rootImages/bloc_main.png}{Menu "\bold{Bloc}"}{0.3}
+
+Sur le menu de gauche, nous retrouvons une liste de blocs 
+
+\img{\rootImages/blocs.png}{Menu latéral}{0.5} \label{place_menu_left}
+
+mais également nos élements graphiques agencés précédemment : 
+
+\img{\rootImages/own_blocs.png}{Nos élements ajoutés}{0.5}
+
+En cliquant sur chaque onglet (Contrôle, Logique, Math…), une liste de blocs apparaît :
+(ici, en cliquant sur Contrôle)
+
+\img{\rootImages/zoom_control.png}{Blocs \bold{Controls}}{0.4}
+
+Tous ces blocs sont faits pour pouvoir être glissés dans la partie blanche centrale…
+
+
+\section{Configuration de la liste des périphériques Bluetooth}
+
+\subsection{Principe}
+
+Nous allons configurer notre liste \bold{Connexion} afin qu'elle nous indique les modules Bluetooth disponibles.
+
+Cette étape se fera en deux temps : 
+
+\begin{items}{blue}{\Triangle}
+    \item Configuration de la liste \bold{avant} le choix de l'utilisateur
+    \item Mise à jour de la liste \bold{après} le choix de l'utilisateur
+\end{items}
+
+
+Commencer par sélectionner la liste \bold{Connexion} dans le menu latéral
+
+\img{\rootImages/connexion.png}{Sélection de la liste}{0.9}
+
+Le menu suivant apparaît : \\
+
+\img{\rootImages/zoom_connexion.png}{Éléments de l'objet \bold{Connexion}}{0.6}
+
+\begin{items}{blue}{\Triangle}
+    \item Le "\bold{Quand connexion.Avant prise}" représente le bloc qui contiendra les instructions de la liste, c'est à dire que dans ce bloc, nous annoncerons que la liste contiendra toutes les adresses Bluetooth disponibles.
+    \item Le "\bold{Quand connexion.Après prise}" représente le bloc d'instructions après avoir choisi le module Bluetooth dans la liste. \\Dans ce bloc, après avoir récupéré l'adresse du module, nous nous connecterons à ce dernier.
+\end{items}
+
+Il faut donc placer ces deux blocs dans la zone blanche (glisser-déposer).
+
+\subsection{Définir les clients Bluetooth disponibles}
+
+Le bloc pour définir les élements de la liste \bold{Connexion} est le suivant : 
+
+\img{\rootImages/connexion_begin.png}{Définition de la liste}{0.8}
+
+Il attend en argument (zone de puzzle à droite) une liste. \\
+Nous allons lui donner une liste des modules Bluetooth disponibles grâce à notre Client Bluetooth installé (Section \ref{bluetooth_install}). \\
+
+Ce bloc est disponible dans le menu latéral, partie \bold{BluetoothClient1}
+
+\img{\rootImages/bluetooth_place.png}{Sélection du client Bluetooth}{0.8}
+
+Puis
+
+\img{\rootImages/client.png}{Sélection du bloc des adresses}{0.8}
+
+Au final, on obtient le bloc suivant : 
+
+\img{\rootImages/bloc1.png}{Bloc de configuration de la liste}{0.8}
+
+\section{Connexion au module Bluetooth}
+
+Une fois que l'utilisateur a sélectionner le module auquel il souhaite se connecter, il faudra mettre à jour l'état de la liste et se connecter au module Bluetooth
+
+\subsection{Principe}
+Une fois que la personne a fait son choix dans "\bold{Connexion}", on vérifie la couleur de l'arrière plan de \bold{connexion} :
+
+\begin{items}{blue}{\Triangle}
+    \item Si la couleur est rouge (par défaut), cela veut dire que nous ne sommes pas connectés.
+    On remplace donc le mot « Connexion » par l'adresse MAC\footnote{L'adresse MAC est une adresse physique pour identifier de manière unique un composant.} sélectionnée et on définit la couleur d'arrière-plan en vert, pour obtenir ceci :
+    
+     \img{\rootImages/mac.png}{Rendu de l'état de connexion}{0.5}
+    
+    
+Visuellement, on sait que nous sommes connectés. \\
+Ensuite,  pour se connecter réellement, on établit une connexion Bluetooth sécurisée à l'adresse donnée par la sélection de la liste «connexion». \\
+Quand c'est fait, on envoie en Bluetooth la lettre « c » que l'Arduino se chargera d'interpréter, et pourra, en conséquent, jouer une mélodie pour confirmer la connexion.
+    
+   
+    \item Si la couleur est verte , cela veut dire que nous sommes déjà connectés. Il faut donc remettre la couleur et le texte d'origine (« connexion ») et se déconnecter
+    
+\end{items}
+
+\subsection{Emplacement des blocs}
+
+
+Dans le bloc \bold{Quand connexion.Après prise}, nous allons avoir besoin d'une structure de contrôle, c'est à dire en l'occurrence un bloc conditionnel \bold{Si-Alors-Sinon}
+
+
+\img{\rootImages/ifelse.png}{Emplacement des blocs conditionnels}{0.8}
+
+Nous aurons également besoin d'un bloc de comparaison : 
+
+\img{\rootImages/equal.png}{Emplacement des blocs de comparaison}{0.8}
+
+
+Les blocs de couleurs sont disponibles à l'emplacement suivant : 
+
+\img{\rootImages/colors.png}{Emplacement des blocs de couleurs}{0.8}
+
+
+Enfin, les chaînes de caractères sont disponibles à l'emplacement suivant : 
+
+\img{\rootImages/string.png}{Emplacement des chaînes de caractères}{0.8}
+
+
+\messageBox{Astuce}{green}{white}{ Pour savoir où se situe une instruction, il faut regarder le nom de l'instruction. Elle sera de la forme nomInstruction.fonction. Le "nomInstruction" sera affiché dans un des onglets de gauche\\Par exemple, pour "mettre Connexion.elements", il faut aller dans l'onglet "Connexion"}{white}
+
+Maintenant que vous savez ou trouver les blocs, je vous invite à recopier ce bloc d'instructions, qui n'est que la mise en pratique de la partie "Principe" de cette section
+
+\img{\rootImages/connect.png}{Gestion de la liste après sélection}{0.6}
+
+Le plus dur est fait, reste maintenant à gérer les boutons directionels.
+
+\section{Gestion des boutons de direction}
+
+Nous allons sélectionner le bouton \bold{Avancer} dans le menu de gauche
+\img{\rootImages/zoom_bouton.png}{Menu du bouton Avancer}{0.6}
+
+ A l'intérieur de ce bloc, on mettra les instructions pour envoyer le mot « c » en Bluetooth \\
+Pour le langage Arduino, c'est l'équivalent de :
+
+\begin{Cpp}{Equivalent Arduino}
+if (bouton==appui) {allumer led ;}     
+\end{Cpp}
+	        
+Après, nous avons d'autres  paramètres (appui long, après avoir retiré le doig, sur le bouton...) \\
+
+
+Placez le "\bold{Quand  avancer. Click}" sur la page blanche. \\
+
+Ensuite, nous allons vérifier si nous sommes connectés. Pour cela, nous mettrons un "\bold{Si connexion.Couleur\_de\_fond = vert} » afin d’attester la connexion.
+
+Enfin, sélectionnez l'onglet "\bold{BluetoothClient1}" et insérez la fonction "\bold{envoyer texte}" en mettant le mot "a" (comme avancer) en texte à envoyer. \footnote{il faut privilégier de petites chaînes de caractère afin que le module puisse lire plus facilement. Il y a moins de perte de données} \\
+Pour obtenir ceci : 
+
+
+\img{\rootImages/bouton_avancer.png}{Code du bouton Avancer}{0.6}
+
+Il suffit de réaliser la même étape pour tous les boutons. Il faudra juste changer le "\bold{Quand avancer.Click}" en "\bold{Quand 'bouton'.Click}" et ne pas oublier de changer le texte à envoyer. \\
+
+
+Par exemple, un deuxième bouton donnerait :  ("g" pour gauche, "d" pour droite, "r" pour reculer, "s" pour stop, "b" pour batterie, "A" pour automatique)
+
+\img{\rootImages/bouton_gauche.png}{Code du bouton Gauche }{0.6}
+
+Après avoir fait ceci pour les autres boutons, l'application est terminée… \\
+Nous pouvons donc passer à l'installation de l'application sur votre téléphone

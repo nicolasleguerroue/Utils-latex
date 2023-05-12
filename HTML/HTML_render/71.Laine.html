@@ -14,8 +14,6 @@ La seconde version devrait comporter un traitement d'image avec une caméra pour
 <h3>État des lieux</h3>
 Actuellement, des essais ont été réalisés avec la CNC qui était stocké au FabLab.
 
-De nombreuses tentatives (parfois infructueuses) pour prendre en main le GCode ont donc été réalisées.
-
 <h3>Liste du matériel</h3>
 <ul>
     <li> Une ancienne CNC (modèle de Xavier Hinault)
@@ -46,7 +44,7 @@ La liaison <span title="Universal Asynchronous Receiver / Transmitter  : Transme
 </li>
 </ul>
 <h4>Vitesse de communication</h4>
-La liaison étant asynchrone, il faut que les périphériques communiquent à la même vitesse. Cette dernière est normalisée et représente le nombre de bit par seconde (baud<span title="1 baud représente 1 symbole par seconde." style='color:grey;'><sup>[note]</sup></span>)
+La liaison étant asynchrone, il faut que les périphériques communiquent à la même vitesse. Cette dernière est normalisée et représente le nombre de bit par seconde (baud<span title="1 baud représente 1 symbole par seconde." style='color:grey;'><sup>[Note 127]</sup></span>)
 
 En l’occurrence, la CNC communique à 115200 bauds.
 
@@ -117,30 +115,20 @@ Pendant toutes les durées des déplacements en X et Y, le porte-aiguille reste 
 </ul>
 Ce cycle se reproduit pour balayer l'ensemble du plateau.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/cycle.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/cycle.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Cycle de poinçonnage</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/Laine/cycle.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Cycle de poinçonnage</figcaption></div></figure>
 <h2 >Programmation Python</h2>
-De nombreuses heures ont été consacrées pour envoyer des séquences GCode avec la version 3.X de Python.
-
-La communication via liaison série avec la CNC n'a pas été possible via Python3.X, 
-
-pour la première version de l'interface, une des contraintes sera d'utiliser la version 2.7 de Python.
-
 <h3>L'interface graphique</h3>
-Le choix de l'interface graphique s'est porté sur les bibliothèques PyQt.
-
-La version 5 est la plus récente mais des soucis de compatibilité existent avec la version 2.7.
-
-La deuxième contrainte est donc d'utiliser la version 4 de PyQt.
+Le choix de l'interface graphique s'est porté sur les bibliothèques PyQt5.
 
 <h3>Installation des outils</h3>
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
 sudo apt install python-pip
 
-sudo apt-get install python-qt4
+sudo apt-get install python-qt5
 
 sudo apt-get install pyqt4-dev-tools 
 
-pip install serial
+pip install pyserial
 
 sudo apt-get install qt4-designer
 
@@ -150,7 +138,7 @@ sudo apt-get install qt4-designer
 <h3>Un premier programme</h3>
 Ce premier programme, sans interface graphique (juste dans un terminal) permet de vérifier le bon déplacement de la tête sur l'ensemble du plateau.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/algo.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/algo.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Déplacement de la tête</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/Laine/algo.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Déplacement de la tête</figcaption></div></figure>
 Pour lancer le programme, il faut saisir la commande suivante : 
 
 <hr><pre style='background-color:#F5F5F5;padding-left:1em;'><code>
@@ -299,9 +287,9 @@ Voici la première version d'une interface graphique réalisée avec PyQt4.
 
 Le code est disponible sur le Git du club à 
 
-l'adresse <a class="alert-link">\url{https://github.com/CREPP-PLOEMEUR/Feutrage-de-laine</a>}
+l'adresse <a class="alert-link">\url{https://github.com/CREPP-PLOEMEUR/Feutrage-de-laine}
 <h4>Utilisation de l'interface</h4>
-Tout d'abord, veuillez télécharger le dossier complet puis se rendre dans le dossier <span class='badge badge-light'>GUI</span>
+Tout d'abord, veuillez télécharger le dossier complet puis se rendre dans le dossier <span class='badge badge-light'>V4 GUI PyQt4</span>
 Ensuite, faire click-droit et <b>Ouvrir un terminal ici</b>
 Ensuite, saisir la commande suivante pour lancer l'interface : 
 
@@ -309,30 +297,28 @@ Ensuite, saisir la commande suivante pour lancer l'interface :
 python GUIMain.py
 
 </code></pre><hr>
-L'interface se lance. Elle se compose de 4 onglets : 
+L'interface se lance. Elle se compose de 3 onglets : 
 
 <ul>
     <li> Présentation
 </li>
     <li> Paramètres
 </li>
-    <li> Génération du GCode
-</li>
     <li> Lancement du cycle
 </li>
 </ul>
 Veuillez vous rendre à l'onglet <b>Présentation</b>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/1.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/1.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Onglet Présentation</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='empty' class='alignnone size-medium' style='max-width:25%;'><figcaption>Figure - Onglet Présentation</figcaption></div></figure>
 Il détaille le déplacement du porte aiguilles sur le schéma.
 
 Une barre de statut est disponible sur tous les onglets et indique l'état courant du cycle. Au démarrage de l'application, il indique <b>Non connecte</b>.
 il faut donc se connecter à la machine.
 
 Pour cela, il faut sélectionner le port série disponible dans la liste (ttyACMX généralement) et cliquer sur <span class='badge badge-light'>Connect</span>.
-En cas de bonne connexion, la barre de statut indique <b>Connecte - Gcode non genere</b>.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/2.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/2.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Connexion effectué</figcaption></div></figure>
+En cas de bonne connexion, la barre de statut indique <b>Connecte</b>.
+<figure id=''><div class='cent' style='text-align:center;'><img src='empty' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Connexion effectué</figcaption></div></figure>
 Il faut ensuite cliquer sur l'onglet <b>Paramètres</b>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/3.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/3.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Paramètres du cycle</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='empty' class='alignnone size-medium' style='max-width:25%;'><figcaption>Figure - Paramètres du cycle</figcaption></div></figure>
 Voici les différents paramètres du cycle
 
 <ul>
@@ -351,21 +337,11 @@ Voici les différents paramètres du cycle
     <li> Vitesse sur l'axe Z : La vitesse de déplacement sur l'axe Z comprise entre 1 et 10
 </li>
 </ul>
-Une fois tous les paramètres renseignés, nous allons générer le GCode. Pour cela, il faut se rendre dans l'onglet <b>Génération du GCode</b>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/4.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/4.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Génération du GCode</figcaption></div></figure>
-Lors de l'ouverture de l'onglet, le GCode n'est pas généré, pour le faire il faut cliquer sur le bouton <span class='badge badge-light'>générer le GCode</span>
-A ce moment là, le GCode généré apparaît sur l'interface : 
-
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/5.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/5.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Le GCode généré</figcaption></div></figure>
-Il ne reste plus qu'à lancer le cycle en appuyant sur le bouton <span class='badge badge-light'>Lancer le cycle</span> dans l'onglet <b>Lancement du cycle</b>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/6.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/6.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Lancement du cycle</figcaption></div></figure>
-<div class='alert alert-danger' ><h4>Attention</h4>Une fois le cycle lancé, il n'est plus possible d'utiliser l'interface. En cas d'arret d'urgence, il faut couper l'alimentation avec l'interrupteur. Une future version de l'interface règlera ce problème.</div>
-Quand le cycle est terminé, les instructions GCode envoyés seront affichées sur l'écran et la barre de status indique <b>Termine</b>.
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/08/7.png'><img src='http://www.crepp.org/wp-content/uploads/2022/08/7.png' class='alignnone size-medium' style='max-width:25%;'></a><figcaption>Figure - Un cycle terminé</figcaption></div></figure>
-<h3>Pistes d'améliorations</h3>
-La prochaine version, dans l'optimal, devrait gérer la communication série sans fonction bloquante (ce qui est le cas sur cette version car manque de temps).
-
-Si jamais la communication série est fonctionnelle avec Python3.X, toute la structure de l'interface est disponible avec la version 5 de PyQt.Il serait préférable à moyen terme de passer en version Python 3.X.
-
+Une fois tous les paramètres renseignés, nous allons pouvoir lancer un cycle. Pour cela, il faut se rendre dans l'onglet <b>Lancement du cycle</b>
+Il ne reste plus qu'à lancer le cycle en appuyant sur le bouton <span class='badge badge-light'>Lancer le cycle</span>.
+<figure id=''><div class='cent' style='text-align:center;'><img src='empty' class='alignnone size-medium' style='max-width:25%;'><figcaption>Figure - Lancement d'un cycle</figcaption></div></figure>
+Une fois le cycle lancé, il est possible de l’arrêter en cliquant sur <span class='badge badge-light'>Arreter le cycle</span>.
+<figure id=''><div class='cent' style='text-align:center;'><img src='empty' class='alignnone size-medium' style='max-width:25%;'><figcaption>Figure - Un cycle en cours</figcaption></div></figure>
+Lorsque le cycle est arrêté, si vous cliquez sur <span class='badge badge-light'>Lancer le cycle</span>, ce dernier va reprendre du début, c'est à dire en coordonnées (0,0).
 
 </body></html>

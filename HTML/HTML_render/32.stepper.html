@@ -4,9 +4,9 @@
 \newcommand{\pap}{moteur pas-à-pas~}  
 \newcommand{\paps}{moteurs pas-à-pas~}
 
-Les \pap sont utilisés lorsqu'on souhaite un asservissement en position d'un axe de rotation avec une précision inégalée par 
+Les \pap sont utilisés lorsqu'on souhaite un asservissement en position d'un axe de rotation 
 
-les servomoteurs.
+avec une précision inégalée par les servomoteurs.
 
  
 <h4>Constitution</h4>
@@ -22,10 +22,10 @@ Les \pap sont constitués de :
 <ul>
   <li> \pap à phase bipolaire
 </li>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/moteur_bipolaire.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/moteur_bipolaire.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - \pap bipolaire</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/moteur_bipolaire.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - \pap bipolaire</figcaption></div></figure>
   <li> \pap à phases unipolaires
 </li>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/step_wire.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/step_wire.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - \pap unipolaires</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/step_wire.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - \pap unipolaires</figcaption></div></figure>
   <li> \pap à reluctance variable (non abordés ici)
 </li>
 </ul>
@@ -39,39 +39,39 @@ formé par la paire de phase.
 
 En alimentant la paire de phase avec une tension négative, l'aimant se place dans le sens contraire.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/step1.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/step1.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Pas 1</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/step2.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/step2.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Pas 2</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/step3.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/step3.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Pas 3</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/step1.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Pas 1</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/step2.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Pas 2</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/step3.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Pas 3</figcaption></div></figure>
 <h4>Exemples avec phases unipolaires</h4>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/ste2.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/ste2.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Pas 1</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/ste21.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/ste21.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Pas 2</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/ste22.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/ste22.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Pas 3</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/ste2.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Pas 1</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/ste21.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Pas 2</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/ste22.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Pas 3</figcaption></div></figure>
 Les moteurs possèdent plus de phases car un débattement de 45° est vite limité.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/inside.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/inside.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - Un intérieur de moteur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/inside.png' class='alignnone size-medium' style='max-width:100%;'><figcaption>Figure - Un intérieur de moteur</figcaption></div></figure>
 Les \pap unipolaires présentent l'avantage de faire circuler un courant positif dans le circuit de commande. 
 
 Ils sont donc plus simples à mettre en oeuvre mais ils nécessitent plus de bobinage.
 
 <h2 >Commande des \paps</h2>
 <h3>Moteurs unipolaires</h3>
-Les \pap unipolaires ont besoins d'être contrôlés via un circuit adaptés, le plus connu est le <span style='background-color:blue;opacity:60%;color:white;' class='badge badge-pill'>ULN2803</span>
+Les \pap unipolaires ont besoins d'être contrôlés via un circuit adaptés, le plus connu est le <span style='background-color:blue;opacity:60%;color:blue;' class='badge badge-pill'>ULN2803</span>
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/udn.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/udn.jpg' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Driver ULN2803</figcaption></div></figure>
-Pour les moteurs unipolaires, il faut mettre une des phases à la masse pour faire circuler le courant dans la phase <span title="Due au cable relié à l'alimentation positive du moteur" style='color:grey;'><sup>[note]</sup></span>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/udn.jpg' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Driver ULN2803</figcaption></div></figure>
+Pour les moteurs unipolaires, il faut mettre une des phases à la masse pour faire circuler le courant dans la phase <span title="Due au cable relié à l'alimentation positive du moteur" style='color:grey;'><sup>[Note 7]</sup></span>
 
 On constate sur la figure suivante un montage Darlington : deux transistors NPN forme un seul transistor dont le coefficient
 
 \(\(\beta\)\) est le produit de chacun des coefficients \(\(\beta\)\) de chaque transistor.
 
-Cela permet de contrôler des charges avec très peu de courant de commande. <span title="Se référer à la partie \bold{Circuits de puissance" style='color:grey;'><sup>[note]</sup></span>}
+Cela permet de contrôler des charges avec très peu de courant de commande. <span title="Se référer à la partie \bold{Circuits de puissance" style='color:grey;'><sup>[Note 8]</sup></span>}
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/darlington.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/darlington.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Contrôle d'une phase</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/uln_pinout.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/uln_pinout.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Driver de controle</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/darlington.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Contrôle d'une phase</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/uln_pinout.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Driver de controle</figcaption></div></figure>
 <h3>Moteurs bipolaires</h3>
 On a vu qu'il fallait inverser la tension de commande au borne des bobines. Pour cela on peut utiliser le montage en pont en H.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/pont.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/pont.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Structure du pont en H</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/pont.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Structure du pont en H</figcaption></div></figure>
 <ul>
   <li> En activant S1 et S4 (fermeture du circuit), la charge est parcourue par un courant allant de gauche à droite
 </li>
@@ -84,12 +84,12 @@ et négatives aux bornes des phases de nos moteurs.
 
 Ce principe est également utilisé pour contrôler les moteurs à courant continu
 
-On peut utiliser le circuit <span style='background-color:blue;opacity:60%;color:white;' class='badge badge-pill'>L298</span>
+On peut utiliser le circuit <span style='background-color:blue;opacity:60%;color:blue;' class='badge badge-pill'>L298</span>
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/l298.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/l298.jpg' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Un pont en H intégré</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/l298.jpg' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Un pont en H intégré</figcaption></div></figure>
 <h4>Avantages et inconvénients des \paps</h4>
 <ul>
-    <li> Très grande précision en boucle ouverte <span title="Contrôle sans asservissement, contrairement aux servomoteurs" style='color:grey;'><sup>[note]</sup></span>
+    <li> Très grande précision en boucle ouverte <span title="Contrôle sans asservissement, contrairement aux servomoteurs" style='color:grey;'><sup>[Note 9]</sup></span>
 </li>
     <li> Couple élevé en bas régime
 </li>
@@ -121,7 +121,7 @@ On peut utiliser le circuit <span style='background-color:blue;opacity:60%;color
 <h2 >Exemples</h2>
 <h3>Mise en pratique avec Arduino</h3> 
 Nous utiliserons un \pap <b>28BYJ-48</b> de type unipolaire. 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/byj.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/byj.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Le moteur 28BYJ-48 </figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/byj.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Le moteur 28BYJ-48 </figcaption></div></figure>
 Les caractéristiques sont les suivantes : 
 
 <ul>
@@ -132,7 +132,7 @@ Les caractéristiques sont les suivantes :
 </ul>
 Pour augmenter le nombre de pas, on ajoute un train d'engrenage.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/reduce.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/reduce.jpg' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Une augmentation du nombre de pas</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/reduce.jpg' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Une augmentation du nombre de pas</figcaption></div></figure>
 <h4>Liste du matériel</h4>
 <ul>
   <li> Carte Arduino Uno
@@ -161,7 +161,7 @@ Nous utiliserons les broches 8, 9, 10 et 11 et  l'alimentation 5V du moteur sera
   <li> Gnd sur Gnd
 </li>
 </ul>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/arduino.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/arduino.png' class='alignnone size-medium' style='max-width:20%;'></a><figcaption>Figure - Schéma Arduino</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/arduino.png' class='alignnone size-medium' style='max-width:20%;'><figcaption>Figure - Schéma Arduino</figcaption></div></figure>
 <h4>Code Arduino</h4>
 Ce code fait tourner le moteur d'un tour, attend 2 secondes puis fait un tour dans l'autre sens avec un délai de 2s.
 
@@ -210,7 +210,7 @@ Nous utiliserons le même \pap 28BYJ-48
 <ul>
   <li> Carte ESP8266 NodeMCU (ESP-12)
 </li>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/mcu.jpeg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/mcu.jpeg' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - ESP12 NodeMCU</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/mcu.jpeg' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - ESP12 NodeMCU</figcaption></div></figure>
   Cette carte fait partie de la famille des ESP8266 et se programme directement avec l’Éditeur Arduino. 
 
   L'installation des bibliothèques pour l'ESP12 est détaillée en annexe du document.
@@ -227,7 +227,7 @@ Les numéros des broches sont différents sur les cartes ESP812 (modèle NodeMCU
 
 Voici les équivalences des broches entre le code et l'emplacement physique.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/nodeMCU.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/nodeMCU.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Broches ESP12</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/stepper/nodeMCU.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Broches ESP12</figcaption></div></figure>
 Nous utiliserons les broches D1, D2, D5 et D6 et  l'alimentation 5V du moteur sera fournie par la broche Vin de l'ESP12
 
 <ul>
@@ -244,7 +244,7 @@ Nous utiliserons les broches D1, D2, D5 et D6 et  l'alimentation 5V du moteur se
   <li> Gnd sur Gnd
 </li>
 </ul>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/nodemcu.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/nodemcu.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Schéma ESP12</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/nodemcu.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Schéma ESP12</figcaption></div></figure>
 <h4>Code ESP12</h4>
 Ce code fait tourner le moteur d'un tour, attend 2 secondes puis fait un tour dans l'autre sens avec un délai de 2s.
 

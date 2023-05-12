@@ -1,0 +1,44 @@
+\chapter{Installation}
+
+\section{Installation des outils}
+
+
+La bibliothèque \lib{Utils-latex} regroupe les outils pour installer et compiler un répertoire de travail Latex.
+\messageBox{\faviconInfo}{green}{green}{L'ensemble des outils présentés est optimisé pour une utilisation avec le logiciel Visual Studio Code}{black}
+
+Il faut donc saisir la commande suivante dans le dossier où l'on souhaite créer le répertoire de travail : 
+
+\begin{Bash}{Clone de la bibliothèque et démarrage de l'installation}
+git clone https://github.com/nicolasleguerroue/Utils-latex.git && Utils-latex/tools/init
+\end{Bash}
+
+On vous demande ensuite si vous souhaitez mettre à jour le système.
+\img{\rootImages/acceptInstall.png}{Installation des paquets}{0.7}
+Répondre \bold{y} est fortement conseillé. A ce moment là, l'ensemble des logiciels et paquets nécessaires vont être installés.\\
+Voici les paquets installés : \\
+\begin{items}{blue}{\faviconLeaf}
+\item texlive-full
+\item git
+\item texlive-lang-european
+\item okular
+\item gnuplot
+\end{items}
+
+Enfin, on vous demande si vous souhaitez installer les extensions VScode, encore une fois, l'acceptation est vivement recommandée.
+\img{\rootImages/installExtensions.png}{Installation des extensions VSCode}{0.7}
+
+Le logiciel VSCode se lance une fois que l'installation est terminée.
+
+
+\section{Configuration des tâches}
+
+Lors de l'ouverture du répertoire de compilation, un script de vérification va se lancer automatiquement.
+Pour ce faire, il va falloir activer le lancement des tâches.\\ 
+Il faut faire le raccourci clavier \shortcut{CTRL+SHIFT+P} et saisir \bold{Manage Automatic tasks in Folder} 
+\img{\rootImages/manage.png}{Lancement des tâches au démarrage}{0.5}
+
+Puis valider l'action avec \bold{Manage Automatic tasks in Folder}
+
+\img{\rootImages/allowManager.png}{Activation des tâches au démarrage}{0.5}
+
+Ce script exécuté au démarrage permet de vérifier l'intégrité des fichiers (paramètres, outils) avant de lancer une compilation.

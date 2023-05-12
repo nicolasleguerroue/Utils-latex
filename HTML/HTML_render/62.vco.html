@@ -34,7 +34,7 @@ On cherche donc à déterminer la relation qui existe entre le signal d’entré
 
 tension analogique délivrée par le MCV4. Pour cela, on mesure la tension en sortie du MCV4 à l’aide d’un voltmètre. Pour chaque note jouée, on obtient :
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/tableur.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/tableur.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - Equation du VCO</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/vco/tableur.png' class='alignnone size-medium' style='max-width:100%;'><figcaption>Figure - Equation du VCO</figcaption></div></figure>
 Ainsi, nous obtenons la relation suivante : 
 
 \( Tension_{MCV4} =0.00217020673595 \cdot Frequence + 0.002907571050445 \) 
@@ -46,7 +46,7 @@ synthétiseur avec la fréquence théorique donnée par cette relation.
 <h3>Contraintes</h3>
 Le montage général est imposé et sera sous cette forme:
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/global.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/global.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - Forme global du montage</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/orolia/global.png' class='alignnone size-medium' style='max-width:100%;'><figcaption>Figure - Forme global du montage</figcaption></div></figure>
 Ce système devra générer un signal:
 
 <ul>
@@ -74,21 +74,21 @@ Notre objectif sera donc de déterminer les valeurs de R3, R4 et R5 en sachant q
 
 <h2 >Etude des différents blocs fonctionnels</h2>
 <h3>Etude du bloc 1</h3>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/bloc1.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/bloc1.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Bloc ensemble</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/cocci-bot/bloc1.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Bloc ensemble</figcaption></div></figure>
 <h4>Etude du transistor</h4>
 Afin de caractériser le transistor, on étudie le montage ci- contre.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/transistor1.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/transistor1.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Montage du transistor</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/vco/transistor1.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Montage du transistor</figcaption></div></figure>
 Ce montage comprend une double alimentation stabilisée, une résistance de 1K et un transistor MOSFET 2N7000.
 
 Afin de déterminer le modèle équivalent, on applique une tension négative puis positive sur la broche Gate du transistor (broche de commande) 
 
 et on relève la tension aux bornes du transistor (tension entre Drain et Source appelée \(V_{DS}\)).
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/gate9.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/gate9.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - On applique une tension de 9V</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/equ1.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/equ1.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Modèle équivalent</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/gate-9.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/gate-9.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - On applique une tension de -9V</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/equ2.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/equ2.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Modèle équivalent</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/vco/gate9.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - On applique une tension de 9V</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/vco/equ1.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Modèle équivalent</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/vco/gate-9.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - On applique une tension de -9V</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/vco/equ2.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Modèle équivalent</figcaption></div></figure>
 On applique maintenant un signal carré sur la broche Gate et on observe la tension \(V_{DS}\).
 
 Paramètres du Générateur Basse Fréquence sur LTSpice:
@@ -101,7 +101,7 @@ Paramètres du Générateur Basse Fréquence sur LTSpice:
 <li> Fréquence: 1Hz
 </li>
 </ul>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/ltspice1.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/ltspice1.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Montage du transistor</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/vco/ltspice1.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Montage du transistor</figcaption></div></figure>
 Ainsi, d’un point de vue électrique, le transistor peut être assimilé à un interrupteur.
 
 L’état du transistor dépend de la tension sur la broche Gate. Selon la documentation technique (Datasheet 2N7000) :
@@ -118,20 +118,20 @@ En étudiant la documentation technique, on constate que le transistor peut êtr
 
 Ci contre, la résistance équivalente entre Drain et Source (RDS) en fonction de la tension VGS(Datasheet 2N7002).
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/vgsth.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/vgsth.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Courant en fonction de \(VGSth\)</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/vco/vgsth.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Courant en fonction de \(VGSth\)</figcaption></div></figure>
 Pour une tension VGSth valant 9V, la résistance RDSvaut 2.5 \(Ohm \) (lecture graphique).
 
 Pour une tension \(VGSth\) nulle, un courant de fuite (\(ID_{SS}\)) apparaît ce qui implique une résistivité très élevée du composant.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/dt1.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/dt1.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Courant en fonction de \(VGSth\)</figcaption></div></figure>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/dt2.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/dt2.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Courant en fonction de \(VGSth\)</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/vco/dt1.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Courant en fonction de \(VGSth\)</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/vco/dt2.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Courant en fonction de \(VGSth\)</figcaption></div></figure>
 Il convient donc de protéger le transistor lorsque celui-ci est passant car sa mise en conduction imposerait un courant \(\frac{Ve}{RDS} = \frac{14}{2.5} =5.6A\)
 
 La résistance R1 (\(100K\)) du cahier des charge est donc justifiée pour la protection du transistor.
 
 On a donc expérimenté le bon fonctionnement du transistor en commutation avec les mêmes composants (mêmes valeurs) que la simulation :
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/empty'><img src='http://www.crepp.org/wp-content/uploads/2022/06/empty' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Courant en fonction de \(VGSth\)</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='empty' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Courant en fonction de \(VGSth\)</figcaption></div></figure>
 Sur ce graphe, on remarque que la tension VDS ne peut prendre que deux valeurs : 0V ou Ve (ici, Ve=\(14\)V).
 
 <h4>On remplace le transistor par un interrupteur ouvert:</h4>
@@ -157,7 +157,7 @@ En posant R3=R2, on obtient:
 \( Vs= -Ve \)
 
 <h3>Etude du bloc 2</h3>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/bloc2.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/bloc2.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Bloc 2</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/vco/bloc2.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Bloc 2</figcaption></div></figure>
 Ce bloc comprend un montage de l’AOP avec un condensateur dans la boucle de contre-réaction négative.
 
 Le condensateur est un composant passif permettant de stocker des charges électriques à ses bornes.

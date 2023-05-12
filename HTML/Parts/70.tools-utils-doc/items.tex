@@ -1,0 +1,61 @@
+\chapter{Bibliothèque Items} \label{Items}
+
+La bibliothèque \lib{Items} permet de gérer les listes à puce.
+
+\section{Création d'un liste}
+
+\begin{items}{orange}{\Triangle}
+    \item A
+    \item B
+    \item C
+\end{items}
+
+\loc{Body}
+\begin{Latex}{Code pour la création d'une liste}
+\begin{items}{orange}{\Triangle}
+    \item A
+    \item B
+    \item C
+\end{items}
+\end{Latex}
+
+
+\subsection{Options}
+
+\begin{items}{orange}{\Triangle}
+    \item Triangle
+    \item Circle
+    \item Bullet
+    \item \faGear
+    \item \faFileText
+    \item ...
+\end{items}
+
+\begin{Latex}{Options disponibles}
+\Triangle
+\Bullet 
+\Circle
+\faGear
+\faFileText
+\end{Latex}
+
+\messageBox{\faviconInfo}{green}{green}{Il est possible de personnaliser les puces en utilsant la bibliothèque \lib{Fonts} (Section \italic{\titleName{Fonts}})
+Par exemple, on peut créer une liste avec le symbole \faFileText~et obtenir le résultat suivant :
+\begin{items}{orange}{\faFileText}
+    \item Settings
+    \item Files
+    \item Directory
+\end{items}
+
+}{white}
+
+\begin{Latex}{Personnalisation des puces}
+    \begin{items}{orange}{\faFileText}
+        \item Settings
+        \item Files
+        \item Directory
+    \end{items}
+\end{Latex}
+
+
+\input{Utils/Items.info}

@@ -1,0 +1,82 @@
+
+\chapter{Installation de MySql}
+
+\section{Présentation}
+Un site qui commence à s’étoffer et à prendre de l’ampleur se verra un jour ou l’autre obligé d’utiliser une base de données pour traiter les informations et les stocker de manière efficace. 
+Certaines  bases de données sont qualifiées de relationnelles car les éléments stockés entretiennent entre eux des points communs comme des noms, des catégories, des nombres… \\
+
+La plupart des logiciels de gestion de base de données sont basés sur la relation client-serveur.\\
+C’est à dire que pour le serveur fasse correctement son travail (stocker et récupérer des données), il faut un logiciel client qui dialogue avec le serveur. \\
+Pour des raisons de facilités, nous installerons le logiciel client et serveur sur le même ordinateur, c'est à dire sur le serveur.
+
+Aujourd’hui, de nombreux logiciels de gestion de base de données cohabitent : 
+
+\begin{itemize}
+    \item MariaDB
+    \item MySql
+    \item SQLite
+    \item ...
+\end{itemize}
+
+\section{Installation}
+Dans le cas de ce tutoriel, nous installerons MySql.
+
+Il faut saisir les deux commandes suivantes : 
+
+\begin{Bash}{Installation de MySql}
+sudo apt-get install -y mysql-client
+sudo apt-get install -y mysql-server
+\end{Bash}
+
+Selon la version de la distribution, un mot de passe peut être demandé ou non.
+Par exemple, pour une distribution Ubuntu antérieur à la 18.04, un mot de passe est demandé, le cas échéant, le mot de passe par défaut est celui du compte root du serveur. \\
+Dans tous les cas, retenez bien le mot de passe pour la suite.
+
+\section{Connexion}
+
+Deux méthodes de connexion sont possibles, en fonction de la distribution: 
+
+\begin{Bash}{Lancement de MySql}
+mysql -u root -p
+\end{Bash}
+
+-u 	représente l’utilisateur : root
+-p 	indique que l’utilisateur va saisir un mot de passe
+
+\begin{Bash}{Lancement de Mysql}
+sudo mysql
+\end{Bash}
+
+Une fois le mot de passe saisi, un invité de commande apparaît
+
+Le prompt mysql> indique que MySql a été correctement installé.
+
+Pour ceux qui se sont connectés à MySql via > sudo mysql , il n’est pas recommandé de changer de mot de passe.
+
+Pour les autres cas, vous pouvez changer de mot de passe en saisissant 
+\begin{Bash}{Modifier un compte}
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'nouveau_mot_de_passe';
+\end{Bash}
+
+Il vous faudra donc vous connectez à votre compte Mysql avant de saisir la commande. 
+
+
+Nous allons ensuite créer un compte qui possède des droits étendue :
+Dans MySql \\
+
+
+\begin{Bash}{Création d'un compte}
+CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON *.* TO 'user'@'localhost';
+\end{Bash}
+
+
+Vous pouvez remplacer user par un identifiant de votre choix.
+password est à remplacer par le mot de passe de votre choix. \\
+
+Enfin, si vous souhaitez supprimer un compte, il suffit de saisir
+\begin{Bash}{Suppression d'un utilisateur Mysql}
+DROP USER 'user'@'localhost';
+\end{Bash}
+
+

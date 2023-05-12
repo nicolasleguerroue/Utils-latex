@@ -1,0 +1,389 @@
+\chapter{Les GPIOs}
+
+ \section{Question 1}
+
+\subsection{1.a}
+
+Les broches LEDs 
+
+\begin{itemize}
+
+  \item LED\_RED : \outputPin{OUTPUT} sur la broche \genericPin{PB4}
+  \item LED\_BLUE : \outputPin{OUTPUT} sur la broche \genericPin{PA9}
+  \item LED\_GREEN : \outputPin{OUTPUT} sur la broche \genericPin{PC7}
+
+\end{itemize}
+
+Les broche des interrupteurs 
+
+\begin{itemize}
+
+  \item SW\_UP : \inputPin{INPUT} sur la broche \genericPin{PA4}
+  \item SW\_DOWN : \inputPin{INPUT} sur la broche \genericPin{PB0}
+  \item SW\_LEFT : \inputPin{INPUT} sur la broche \genericPin{PC1}
+  \item SW\_RIGHT : \inputPin{INPUT} sur la broche \genericPin{PC0}
+  \item SW\_CENTER : \inputPin{INPUT} sur la broche \genericPin{PB5}
+
+\end{itemize}
+
+\subsection{1.b}
+
+Étant donné que les LEDs sont configurées en mode \bold{anode commune}, 
+il convient de mettre un niveau logique bas pour activer ces dernières. \\
+
+\img{\rootImages/leds.png}{Schéma des LEDs}{0.6}
+
+Un niveau logique haut ne créé pas de différence de potentiel aux bornes des LEDs, de ce fait, aucun courant ne circule.
+  
+\subsection{1.c}
+
+Lors d'un appui sur un interrupteur, le niveau logique associé est un niveau haut (3.3V). \\
+Ce niveau se justifie par le type de montage. En effet, nous distinguons un montage en mode \bold{Pull-down} 
+avec la résistance à la masse, ce qui implique que lors d'un appui, le courant circule dans
+la résistance et toute la tension est au borne de la résistance.
+
+\img{\rootImages/buttons.png}{Schéma des interrupteurs}{0.4}
+
+\section{Question 2}
+
+\subsection{2.a)}
+\subsubsection*{Instruction}
+L'adresse du registre \reg{RCC\_AHB1ENR} est \adr{0x40023830}
+
+\subsubsection{Instruction}
+L'instruction est la suivante : 
+
+\begin{Cpp}{Affectation de l'horloge au port C}
+#define PORT_C 2
+
+RCC->AHB1ENR |= 1u << PORT_C;	
+\end{Cpp}
+\subsubsection{Justification de l'instruction}
+
+Le registre \reg{RCC\_AHB1ENR} est de la forme suivante (Avec GPIOAEN le bit de poids faible): \\
+\bitred{RESERVED} \bitgreen{GPIODEN} \bitgreen{GPIOCEN} \bitgreen{GPIOBEN} \bitgreen{GPIOAEN} \\
+\bitblue{X}\bitblue{X}\bitblue{X}\bitblue{X}\bitblue{X}\bitblue{X}    \quad\quad \quad\quad \bitgreen{X}   \quad\quad \quad\quad          \bitgreen{X}    \quad\quad \quad\quad  \bitgreen{X}    \quad\quad \quad\quad\bitgreen{X}\\
+
+
+
+Pour synchroniser l'horloge au port voulue, il suffit de mettre à 1 le bit du port C.
+
+Pour cela, on commence par placer un '1' devant le bon bit, dans notre cas sur \bold{GPIOCEN}. On utilise l'opérateur de décalage à gauche.\\
+
+
+
+$1 << 2$ revient à écrire \bin{100} puis en faisant ou \bold{OU} logique, cela permet de passer le bit à 1 si ce dernier est à 0 et de ne rien changer si il est déja à 1.
+
+
+Le fait de faire un \bold{OU} permet de ne pas affecter les autres bits du registre, ce qui est souhaité. 
+
+\subsubsection{Exemple}
+Prenons en considération les 4 premiers bits de notre registre \reg{RCC\_AHB1ENR} et observons le résultat avec notre opération.\\
+Ici, le port B et A sont déja activés (LSB).\\
+
+\begin{tabular}{rl|l}
+  Opérateur & Données & Information \\
+\hline
+    & 0011 & (RCC\_AHB1ENR tronqué)\\
+   | & 0100 & ($1 << pin$)\\
+   \hline
+   = & 0111 & (RCC\_AHB1ENR tronqué)\\
+  
+\end{tabular} \\
+
+On constate que le port C est bien relié à l'horloge et que les autres ports n'ont pas été affectés.
+
+\subsection{2.b)}
+
+\begin{itemize}
+
+\item \reg{GPIOC\_MODER} : Ce registre permet de définir le mode de la broche. Il existe 4 modes.
+
+  \begin{itemize}
+    \item 00 : entrée  (mode par défaut)
+    \item 01 : sortie
+    \item 10 : broches alternatives (SPI, I2C, UART...)
+    \item 11 : analogique
+  \end{itemize}
+
+ \item \reg{GPIOC\_PUPDR} : Ce registre permet de définir les éventulles résistances de rappel. Il existe 4 modes.
+
+  \begin{itemize}
+    \item 00 : aucune résistance de rappel
+    \item 01 : mode Pull-Up
+    \item 10 : mode Pull-Down
+    \item 11 : mode réservé
+  \end{itemize}
+
+  Dans notre cas, les broches \inputPin{PC0} et \inputPin{PC1} sont en entrée \bold{sans résistance de pull-up/pull-down}.
+
+\end{itemize}
+
+\subsubsection{Instructions}
+
+  \begin{Cpp}{Configurations des broches en entrée}
+
+  int pc0 = 0;                //Broche associée au port
+  int pc1 = 1;                //Broche associée au port
+
+  int upDown = 0b00;   //Aucune résistance de rappel
+  int input = 0b00     //broche en entrée
+
+  //Etat de la broche
+  GPIOC->MODER=GPIOC->MODER & ~(0b11 << (pc0*2) ) | input << (pc0*2); 
+  GPIOC->MODER=GPIOC->MODER & ~(0b11 << (pc1*2) ) | input << (pc1*2);
+
+  //pull-up/pull-down ?
+  GPIOC->PUPDR=GPIOC->PUPDR & ~(0b11 << (pc0*2) ) | upDown << (pc0*2);
+  GPIOC->PUPDR=GPIOC->PUPDR & ~(0b11 << (pc1*2) ) | upDown << (pc1*2);
+
+\end{Cpp}
+
+\subsubsection{Justification de l'instruction}
+
+Le registre \reg{GPIOC\_MODER} est de la forme suivante, de manière tronquée (Avec MODER0 les 2 bits de poids les plus faibles): \\
+\bitgreen{MODER3} \bitgreen{MODER2} \bitgreen{MODER1} \bitgreen{MODER0}\\
+\quad\quad\quad\bitgreen{X}\bitgreen{X} \quad\quad\quad\bitgreen{X}\bitgreen{X}\quad\quad\quad\bitgreen{X}\bitgreen{X}    \quad\quad\bitgreen{X}\bitgreen{X}\\
+
+
+Où \bitgreen{XX} represente l'état de la broche.\\
+
+On souhaite mettre nos deux broches en entrée. Pour cela, on va utiliser l'opérateur de décalage pour sélectionner le duo de bits voulus (en fonction du numéro de la broche). \\
+
+Cependant, on souhaite écraser la paire de bits car si on utilise la technique précédente, si on veut passer du mode  \bold{11} au mode \bold{00}\footnote{Ce mode ne sera pas utilisé mais cela permet de rendre l'opération générique pour tous les modes}, le bit de droite ne sera pas affecté.\\
+
+On va donc réinitialiser les deux bits en faisant un complément de la valeur \bold{0x3} avec un décalage de \bold{$2$ fois le numéro de la broche.} \\
+
+
+Ce coefficient est justifié par le fait que l'état de chaque broche est défini sur 2 bits. \\
+
+Ensuite, il ne nous reste plus qu'à faire un \bold{ET} avec le registre pour ne pas modifier les autres broches puis faire un \bold{OU} avec notre mode souhaité. \\
+Il est impératif que le mode soit exprimé en valeur hexadécimal.
+
+\subsubsection{Exemple}
+Prenons en considération les 8 premiers bits de poids faibles (4 premières broches du port) de notre registre \reg{GPIOC\_MODER} et observons le résultat avec notre opération.\\
+On souhaite mettre la broche 4 au mode \bold{00} \\
+
+\begin{tabular}{rl|l}
+  Opérateur & Données & Information \\
+\hline
+    & 10110011 & (GPIOC\_MODER)\\
+  \& & 00111111 & not(0b11 $<< 2*$ pin) \\
+  \hline
+  = & 00110011 &  \\
+  | & 00000000 & (\bold{0b00}$<<2*$ pin)  \\
+  \hline
+   = & 00110011 & (GPIOC\_MODER)  \\
+\end{tabular} \\
+
+Le registre \reg{GPIOC\_PUPDR} est modifié de la même façon que \\
+le registre \reg{GPIOC\_MODER}.
+
+
+\subsection{2.c)}
+
+\begin{itemize}
+
+\item \reg{GPIOC\_MODER} : Voir question précédente
+
+ \item \reg{GPIOC\_OTYPER} : Ce registre permet de définir le type de configuration de sortie. Il existe 2 modes.
+
+  \begin{itemize}
+    \item 0 : sortie push pull
+    \item 1 : sortie à drain ouvert
+  \end{itemize}
+
+\item \reg{GPIOC\_OSPEEDR} : Ce registre permet de définir la vitesse des broches de sortie. Il existe 4 modes.
+
+  \begin{itemize}
+    \item 00 : Vitesse faible
+    \item 01 : Vitesse intermédiaire
+    \item 10 : Vitesse elevée
+    \item 11 : Vitesse maximale
+  \end{itemize}
+
+
+
+\end{itemize}
+
+
+\subsubsection{Instructions}
+
+  \begin{Cpp}{Configurations des paramètres des sorties}
+  int pc7 = 0;   //Broche associée au port
+  
+  int output_type = 0x0;   //sortie push-pull
+  int speed = 0b01;        //vitesse medium
+  int upDown = 0b00;       //Aucune résistance de rappel
+
+  //Type de sortie
+  GPIOC->OTYPER = GPIOC->OTYPER & ~(0b1 << pc7 ) | output_type << pc7; 
+  //Vitesse
+  GPIOC->OSPEED=GPIOC->OSPEED & ~(0b11 << (pc7*2) ) | speed << (pc7*2);
+  //Pullup-down ?
+  GPIOC->PUPDR=GPIOC->PUPDR & ~(0b11 << (pc7*2) ) | upDown << (pc7*2);
+
+\end{Cpp}
+
+\subsubsection{Présentation}
+
+Les registres \reg{GPIOC\_OTYPE} et \reg{GPIOC\_SPEEDR} sont modifiés de la même façon que le registre \reg{GPIOC\_MODER}  si ce n'est que le registre \\
+\reg{GPIOC\_OTYPER} ne nécéssite pas de décaler de deux fois le numéro de la broche car chaque information sur le type de sortie est stockée dans un bit et non deux.
+
+
+\section{Question 3}
+
+\subsection{a)}
+
+\subsection{Instructions BSRR}
+
+\begin{Cpp}{Instruction BSRR}
+  
+  #define pin 7 //Broche de la led sur le port C
+  void green_led(uint32_t state) {
+
+    GPIOC->BSRR = (state)?  1u << pin  :  0b1 <<(16u)<<pin;
+    
+  }
+  
+
+\end{Cpp}
+
+\subsection{Justification de l'instruction BSRR}
+
+Ce registre utilise les 16 premiers bits de poids les plus faibles pour mettre la sortie à 1 et 
+les 16 bits suivants pour mettre la sortie à 0. \\
+
+Lorsque \bold{state} est à 0, on veut donc écrire dans le bit BR7 qui force la broche à 0. 
+D'ou le décalage de la valeur 1 de 16 bits puis du décalage de la pin. \\
+On peut écrire la valeur brute dans le registre sans faire de masque dans la mesure où 
+les changements d'états se font dès qu'un \bold{1} est présent. Au tour d'horloge suivant, les bits sont réinitialisés à 0.
+
+Lorsque \bold{state} est à 1, on veut donc écrire dans le bit BS7 qui force la broche à 1. 
+D'ou le décalage de la pin uniquement. \\
+
+
+
+\subsection{Instructions ODR}
+
+\begin{Cpp}{Instruction ODR}
+  
+  #define pin 7 //Broche de la led sur le port C
+  void green_led(uint32_t state) {
+
+    GPIOC->ODR = (state) ? GPIOC->ODR | (0b1 <<pin) : GPIOC->ODR & ~(0b1 <<pin);
+     
+  }
+  
+
+\end{Cpp}
+
+\subsection{Justification de l'instruction ODR}
+
+Ce registre utilise les 16 premiers bits de poids les plus faibles pour mettre la sortie à 1 ou 0.
+
+Lorsque \bold{state} est à 1, on veut donc écrire dans le bit ODR7 qui force la broche à 1. D'ou le décalage de la valeur 1 de la pin puis le \bold{OU} pour ne pas affecter les autres sorties. \\
+
+
+Lorsque \bold{state} est à 0, on veut donc écrire dans le bit ODR7 qui force la broche à 0. 
+
+Il suffit de réinitialiser le bit en le mettant à 0 avec un décalage du port d'un bit complémenté et en faisant un \bold{ET}
+avec la valeur actuelle du registre.
+
+\subsection{b)}
+
+\begin{Cpp}{Instruction input}
+
+uint32_t input() {
+
+    uint32_t output;
+
+    output = GPIOC->IDR & (0b1 << 0);  //Right
+    output |= _GPIOC->IDR & (0b1 << 1); //Left
+    
+    return output;
+}
+
+\end{Cpp}
+
+\subsection{Justification de l'instruction input}
+
+Le registre \reg{GPIOC->IDR} est accessible en lecture seule.
+
+Il suffit de faire un \bold{ET} avec la valeur 1 décalé de la valeur de la broche et de mettre le résulat dans une variable.
+
+On effectue la même opération si ce n'est que l'on fait un \bold{OU} avec la variable \bold{output} afin de ne pas écraser le bit lu précédemment.
+
+
+\subsection{c) Code final}
+
+
+\begin{Cpp}{Code final}
+
+  #define LED 7
+  
+  void green_led(uint32_t state){
+
+    GPIOC->BSRR = (state)? 0b1 << LED : 0b1 << (16u) << LED;
+
+  }//End green_led
+
+  #define SW_RIGHT (1u)
+  #define SW_LEFT (1u<<1)
+
+  uint32_t input(){
+
+    uint32_t output;
+    output = _GPIOC->IDR & (0b1)); //Right
+    output |= _GPIOC->IDR & (0b1 << 1); //Left
+  
+    return output;
+
+  }//End input
+
+  int main(){
+  
+    _RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN; //Clock
+
+    //Settings LED
+    //Output
+    GPIOC->MODER=GPIOC->MODER & ~(0b11 << (LED*2) ) | 0b01 << (LED*2); 
+    //Type of output
+    GPIOC->OTYPER = GPIOC->OTYPER & ~(0b1 << LED ) | 0b0 << LED; 
+    //Medium speed
+    GPIOC->OSPEED=GPIOC->OSPEED & ~(0b11 << (LED*2) ) | 0b01 << (LED*2);
+    //no Pullup-down
+    GPIOC->PUPDR=GPIOC->PUPDR & ~(0b11 << (LED*2) ) | 0b00 << (LED*2);
+
+
+    //Settings buttons SW_LEFT (PC1) and SW_RIGHT (PC0)
+    //Right button
+    GPIOC->MODER=GPIOC->MODER & ~(0b11 << (0*2) ) | 0b00 << (0*2); 
+    GPIOC->PUPDR=GPIOC->PUPDR & ~(0b11 << (0*2) ) | 0b00 << (0*2);
+    //Left buttons
+    GPIOC->MODER=GPIOC->MODER & ~(0b11 << (1*2) ) | 0b00 << (1*2); 
+    GPIOC->PUPDR=GPIOC->PUPDR & ~(0b11 << (1*2) ) | 0b00 << (1*2);
+  
+    while (true){
+  
+      uint32_t button_value = input();
+  
+      if(button_value & (1u)){
+  
+        green_led(0);
+  
+      }//End if
+  
+      else if(button_value & (1u << 1) ){
+      
+        green_led(1u);
+
+      }//End else if
+
+    }//End while
+
+  return 0;
+  }//End main
+
+\end{Cpp}
+

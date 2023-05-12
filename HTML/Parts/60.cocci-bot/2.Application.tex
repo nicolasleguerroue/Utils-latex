@@ -1,0 +1,232 @@
+\chapter{Création de l'interface}
+\section{Préparation}
+\index{App Inventor}
+Maintenant que nous nous sommes assurés que la communication s'effectuera, il est temps de faire l'application et de préparer notre outil (enfin, me direz-vous!) \\
+
+\noindent
+Tout d'abord, saisissez dans un moteur de recherche l'adresse suivante : 
+\url{http://appinventor.mit.edu/} (Site \bold{App Inventor 2}» ) \\
+
+Une page comme ceci devrait apparaître :
+
+\img{\rootImages/portail.png}{Le portail App Inventor}{0.3}
+
+Ensuite, cliquez en haut à gauche sur :  \shortcut{Create App}
+Cela devrait vous diriger vers ceci : \\
+
+\img{\rootImages/account.png}{La fenêtre de connexion}{0.3}
+
+Puis connectez vous avec votre compte Google (ou Gmail). Si vous n'en avez pas, sa création est rapide… (create account). \\
+Vous tombez ensuite sur une interface similaire : 
+
+\img{\rootImages/begin.png}{La fenêtre des applications}{0.3}
+
+\noindent
+Pour démarrer votre projet, cliquez sur « \bold{Start new project} » (onglet « \bold{Projects} »)et là, cette page apparaît : 
+\img{\rootImages/screen1.png}{La fenêtre de notre application}{0.3}
+\noindent 
+Avant toute chose, réglez la langue du site en français. Pour cela, sélectionnez l'onglet \bold{English} et choisissez « \bold{français} ».\\
+
+\img{\rootImages/langue.png}{Le choix de la langue}{0.7}
+
+\section{Sauvegarde du projet}
+
+Avant toute chose, voici une étape non négligeable : la sauvegarde du projet
+
+\messageBox{Remarque importante}{red}{white}{L'application App Inventor étant en ligne, un problème de réseau peut ruiner votre projet en cas de mauvaise sauvegarde. Il convient de sauvegarder régulièrement votre travail}{white}
+
+
+Il faut se reporter au menu du haut et aller dans \bold{Projets} puis \bold{Enregistrer le projet}
+
+\img{\rootImages/save.png}{Sauvegarde du projet}{0.7}
+
+
+Quant à l'interface, un petit tour d'horizon s'impose.
+
+\section{Présentation des éléments graphiques}
+\img{\rootImages/layout.png}{Les outils de App Inventor}{0.45}
+
+Par convention, dans ce tutoriel :
+
+\begin{items}{blue}{\Triangle}
+    \item la partie \colors{orange}{orange} sera la partie menu
+    \item la partie \colors{blue}{bleue}  sera l'interface
+    \item la partie \colors{gray}{grise}  sera la partie composants
+    \item la partie \colors{green}{verte}  sera la partie propriétés
+    \item la partie \colors{red}{rouge}  garde son nom : blocks
+    \item la partie \colors{magenta}{magenta} est la partie "graphique" (regroupement des quatre premières parties
+\end{items}
+
+Maintenant, prenons un \colors{orange}{sélectionneur de liste} dans le menu, et faisons le \colors{blue}{glisser sur l'interface}. 
+Pour cela, maintenez enfoncé le« \bold{sélectionneur de liste} » dans le menu et faites le glisser sur l'écran virtuel. Relâchez ensuite la souris. On obtient :
+
+
+\img{\rootImages/render1.png}{Rendu de l'\colors{blue}{interface}}{0.5}
+\img{\rootImages/render_2.png}{Rendu des \colors{gray}{composants}}{0.7}
+Veuillez cliquer sur \bold{Sélecteur\_de\_list1}
+\img{\rootImages/render_3.png}{Rendu des \colors{green}{propriétés}}{0.5}
+
+
+\subsection{Principaux elements} \label{menu}
+
+Maintenant, on peut voir que le menu offre plusieurs choix d'objets. Voici les plus importants :
+
+Il vous est notamment possible de \\faire les actions suivantes :
+
+\begin{items}{blue}{\Triangle}
+    \item Créer un bouton
+    \item Créer une case à cocher
+    \item Sélectionner une date
+    \item Afficher une image
+    \item Afficher du texte
+    \item Créer une liste de selection
+    \item Créer une liste classique
+    \item Envoyer une notification
+    \item Afficher un curseur
+    \item Créer une zone de saisie de texte \\(mot de passe...)
+    \item Sélectionner l'heure
+\end{items}
+
+
+\img{\rootImages/menu.png}{La liste des composants}{0.6}
+
+\section{Présentation des propriétés}
+
+Nous allons présenter les propriétés principales des composants mis à notre disposition. \\
+\noindent
+Tout d'abord, gardez le \colors{orange}{sélectionneur de liste} sur l'\colors{blue}{écran}.
+Ensuite, pour centrer la liste, allez dans le menu \colors{gray}{composants}, sélectionnez  \bold{screen 1}.
+\img{\rootImages/select_screen.png}{Sélection de l'écran}{0.6}
+
+Dans l'onglet \colors{green}{propriété} → alignement horizontal, sélectionner la liste sur \bold{centrer}. 
+\img{\rootImages/center_screen.png}{Centrage de l'écran}{0.6}
+
+
+Vous pouvez également changer la forme du bouton. \\
+Allez dans \colors{gray}{Composants} → sélectionneur de liste et dans \colors{green}{Propriétés}, trouvez l'onglet \bold{forme} 
+et sélectionnez celle voulue.    
+
+\img{\rootImages/shape.png}{Forme du bouton}{0.6}
+
+
+Voici quelques paramètres de mise en forme : 
+
+\begin{items}{blue}{\Triangle}
+    \item Vous pouvez modifier la couleur de la liste en sélectionnant \bold{Couleur de fond}
+    \item Pour modifier la taille de la liste, il suffit de rentrer la taille en pixels ou en \% de l'écran (\bold{Hauteur, Largeur}) \\	Il vaut mieux préciser en \% afin que l'application soit compatible au niveau du format sur tous les appareils.
+\end{items}
+
+
+\img{\rootImages/properties.png}{La liste des propriétés}{0.6}
+
+Enfin, pour décider du titre de la liste sur l'application, sélectionner la liste \bold{Selectionneur\_de\_liste1} et dans ses \colors{green}{propriétés}, modifier l'onglet \bold{texte} et écrivez, par exemple « \bold{Connexion} »
+
+\img{\rootImages/rename.png}{Choisir le nom par défaut du bouton \bold{Connexion}}{0.6}
+
+\section{Renommer les élements}
+
+Dans un souci de clarté, il convient de \\ renommer les éléments que nous \\ plaçons sur l'écran. \\
+
+Pour renommer le sélectionneur de liste,\\ il faut allez dans les \colors{gray}{composants} de \\l'interface,  et sélectionnez  « Renommer » \\
+Je l'ai renommé en « connexion ».
+
+
+\img{\rootImages/rename_screen.png}{Renommer un élement}{0.6}
+
+
+
+\messageBox{Astuce}{green}{white}{Pour changer la couleur d'arrière-plan de l'application, allez dans composants → screen1 et dans propriétés, sélectionnez couleur de fond}{white}
+
+\section{Ajouter un client Bluetooth} \label{bluetooth_install}
+
+Par la suite, nous allons utiliser le client Bluetooth d'App Inventor. \\
+Pour le trouver, il suffit d'explorer le \colors{orange}{menu latéral}. Un ensemble d'éléments est disponible à la suite des principaux éléments énumérés dans la section \ref{menu}.
+
+\img{\rootImages/add.png}{Menu latéral}{0.6}
+
+Le client Bluetooth se situe dans la section \bold{Connectivité}
+
+\img{\rootImages/connectivite.png}{Ajouter un client Bluetooth}{0.6}
+Pour l'ajouter à noter application, il suffit de glisser le client Bluetooth sur l'\colors{blue}{interface}.
+A ce moment là, sous l'écran virtuel, le client Bluetooth apparaît.
+
+\img{\rootImages/non-visible.png}{Présence du client Bluetooth}{0.6}
+
+Et voila, le client Bluetooth est mis en place.
+
+\section{Premier rendu et agencement des élements}
+
+En faisant toutes ces étapes, on obtient : 
+
+\img{\rootImages/first_render.png}{Premier rendu de l'application}{0.4}
+
+En ajoutant un bouton (glisser-déposer un bouton disponible dans le menu latéral) et en modifiant ses propriétés (forme, couleur...), on obtient ceci : 
+
+\img{\rootImages/second_render.png}{Rendu avec un bouton "Avancer"}{0.4}
+
+\subsection{Générer un espace entre deux élements}
+
+On souhaite maintenant espacer le bouton "Connexion" et le bouton "Avancer" \\
+
+Rien de plus simple ! Il suffit de placer un élément \bold{label}
+(outil dans menu) entre les deux boutons puis de
+choisir ses dimensions, ce qui correspondra à l'espacement des boutons. \\
+\img{\rootImages/label.png}{Emplacement du label}{0.8}
+
+Pour que le label ne soit pas visible, il suffira de mettre son texte vide.
+
+\img{\rootImages/label_content.png}{Texte du label}{0.8}
+
+Et voilà le résultat : 
+
+\img{\rootImages/label_space.png}{Espace entre deux élements}{0.2}
+
+
+\section{Alignement des éléments}
+
+Maintenant, ce serait bien de pouvoir aligner des boutons (ou autre)
+horizontalement afin d'obtenir quelque  chose comme ceci :
+
+\img{\rootImages/align_button.png}{Alignement d'éléments}{0.4}
+
+Ne vous inquiétez pas, le cadre noir n’apparaîtra pas sur l'application ; c'est juste un moyen de distinguer les alignements. \\
+
+Pour faire ceci, allez dans le \colors{orange}{menu} et sélectionnez l'onglet \bold{Disposition}
+
+\img{\rootImages/disposition.png}{Emplacement des éléments d'agencement}{0.4}
+
+Une fenêtre comme ceci apparaît :
+
+\img{\rootImages/disposition_layout.png}{Éléments d'agencement}{0.5}
+
+Ensuite, faites glisser l'outil \bold{Arrangement Horizontal}
+sous la liste « \bold{Connexion} » et vous devriez avoir ceci :
+
+\img{\rootImages/add_layout.png}{Éléments d'agencement placé}{0.5}
+
+Vous pouvez dorénavant faire glisser des boutons dans ce carré et ils se mettront automatiquement côte à côte. Il suffit de régler la taille des boutons sélectionnés dans \colors{green}{propriétés}.
+
+
+\messageBox{Astuce}{green}{white}{Il est possible de changer les dimensions de l'outil "Arrangement Horizontal"}{white}
+\img{\rootImages/ha_layout.png}{Propriétés de l'objet \bold{Arrangement Horizontal}}{0.5}
+
+
+En revanche, il y a un fond blanc pour l'objet \bold{Arrangement Horizontal }:
+
+\img{\rootImages/next_layout.png}{Couleur d'arrière-plan de l'outil \bold{Arrangement Horizontal}}{0.7}
+
+En allant dans les \colors{green}{propriétés} de l'objet \bold{Arrangement Horizontal}, mettez la couleur d'arrière-plan en « \bold{aucun} »
+
+\img{\rootImages/background_color.png}{Couleur d'arrière-plan transparent}{0.7}
+
+\section{Mise en place de l'ensemble des boutons}
+
+Après avoir mis les boutons "\bold{Droite}", "\bold{Stop}", "\bold{Gauche}", "\bold{Reculer}", "\bold{Batterie}" et "\bold{Auto}" et mis un peu de couleur, vous pouvez obtenir une interface de ce type :
+
+\img{\rootImages/render.png}{Rendu de l'application}{0.7}
+
+\messageBox{Remarque importante}{red}{white}{Par la suite, veuillez mettre l'arrière-plan de « connexion » en rouge (non représenté ici) }{white}
+
+
+
+

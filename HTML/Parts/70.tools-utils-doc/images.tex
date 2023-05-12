@@ -1,0 +1,110 @@
+\chapter{Bibliothèque Images}
+
+La bibliothèque \lib{Images} permet d'ajouter des images.
+
+\section{Définition de l'espace de nommage}
+\label{handleImages}
+
+Lors de l'ajout d'une image, il n'est pas nécessaire de connaître le nom du dossier courant.\\
+
+Pour les commandes \lib{img}, \lib{imgr} et \lib{imgf}, l'argument \bold{Référence} doit être de la forme \bold{\\rootImages+NomImage.extension}.
+
+La macro \lib{\\rootImages} prendra lors de la compilation la valeur du dossier courant.
+
+Par exemple, pour ajouter une image appelée \file{monImage.png} provenant du dossier \\
+\dir{Images/Part1}, il suffit d'écrire : 
+
+\begin{Latex}{Code pour l'espace de nommage}
+\img{\rootImages/monImages.png}{Ma légende}{0.5}
+\end{Latex}
+
+Le troisième argument représente le rapport de taille de l'image.
+
+
+\section{Ajout d'une image non-flottante}
+
+\img{\rootImages/tux.png}{Légende de l'image}{0.5}
+
+\loc{Body}
+\begin{Latex}{Code pour l'ajout d'une image non-flottante}
+\img{\rootImages/tux.png}{Légende de l'image}{0.5}
+\end{Latex}
+
+\section{Ajout d'une image non-flottante avec une rotation}
+
+\imgr{\rootImages/tux.png}{Légende de l'image}{0.5}{45}
+
+Le dernier argument de la commande représente l'angle de rotation en °.
+
+\loc{Body}
+\begin{Latex}{Code pour l'ajout d'une image non-flottante avec une rotation}
+\imgr{\rootImages/tux.png}{Légende de l'image}{0.5}{45}
+\end{Latex}
+
+
+\section{Ajout d'une image référencée}
+
+\subsection{Afficher l'image référencée}
+
+Il est possible de faire référence à une image avec la commande suivante : 
+
+\loc{Body}
+\begin{Latex}{Code pour référencer une image}
+\imgn{\rootImages/tux.png}{Une image référenceée}{0.5}{tux}
+\imgn{\rootImages/tux.png}{Une autre image référencée}{0.5}{tux2}
+\end{Latex}
+
+\imgn{\rootImages/tux.png}{Une image référenceée}{0.5}{tux}
+\imgn{\rootImages/tux.png}{Une autre image référencée}{0.5}{tux2}
+
+\subsection{Faire référence dans le document}
+
+Il existe 2 façons de référencer une figure : 
+
+\begin{items}{blue}{\Triangle}
+    \item Via une référence explicite
+    \begin{Latex}{Référence par le numéro}
+La \figureName{tux} représente Tux.
+\end{Latex}
+    La \figureName{tux} représente Tux.
+    \item Via une référence entre parenthèse
+\begin{Latex}{Référence entre parenthèse}
+L'image de Tux apparaît sur le document \figureRef{tux2}
+\end{Latex}
+    L'image de Tux apparaît sur le document \figureRef{tux2}
+  \end{items}
+
+\section{Ajout d'une image flottante}
+
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut purus elit, vestibulum
+ut, placerat ac, adipiscing vitae, felis. Curabitur dictum gravida mauris. Nam arcu li-
+bero, nonummy eget, consectetuer id, vulputate a, magna. Donec vehicula augue eu
+neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+turpis egestas. Mauris ut leo. Cras viverra metus rhoncus sem. Nulla et lectus vestibu-
+
+\imgf{\rootImages/tux.png}{Légende}{0.5}{0.5}{r}{10}
+
+lum urna fringilla ultrices. Phasellus eu tellus sit amet tortor gravida placerat. Integer
+sapien est, iaculis in, pretium quis, viverra ac, nunc. Praesent eget sem vel leo ultrices
+bibendum. Aenean faucibus. Morbi dolor nulla, malesuada eu, pulvinar at, mollis ac,
+nulla. Curabitur auctor semper nulla. Donec varius orci eget risus. Duis nibh mi, congue
+Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Ut purus elit, vestibulum
+ut, placerat ac, adipiscing vitae, felis. Curabitur dictum gravida mauris. Nam arcu li-
+bero, nonummy eget, consectetuer id, vulputate a, magna. Donec vehicula augue eu
+neque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac
+turpis egestas. Mauris ut leo. Cras viverra metus rhoncus sem. Nulla et lectus vestibu-
+
+
+\loc{Body}
+\begin{Latex}{Code pour l'ajout d'une image lottante}
+\imgf{\rootImages/tux.png}{Légende}{0.5}{0.5}{r}{10}
+\end{Latex}
+
+
+\section{Ajout d'une image dans les parties}
+
+Il est possible d'ajouter une image dans les pages présentant les parties du document (Commande \bold{part}).
+
+
+
+\input{Utils/Images.info}

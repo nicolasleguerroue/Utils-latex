@@ -1,0 +1,45 @@
+\chapter{Bibliothèque Object3D}
+
+La bibliothèque \lib{Object3D} gère les figures 3D et les graphiques 3D.
+
+\section{Affichage d'un graphique 3D avec insertion des données depuis une équation}
+
+\plot{Titre 3D}{sin(x)*cos(y)}
+
+
+\loc{Body}
+\begin{Latex}{Code pour l'affichage graphique 3D avec insertion des données depuis une équation}
+\plot{Titre 3D}{sin(x)*cos(y)}
+\end{Latex}
+
+\section{Affichage de sphères en 3D}
+
+\ball{red}{2}
+\ball{green}{3}
+\ball{blue}{4}
+\ball{darkBlue}{5}
+
+\loc{Body}
+\begin{Latex}{Code pour l'affichage de sphères en 3D}
+\ball{red}{2}
+\ball{green}{3}
+\ball{blue}{4}
+\end{Latex}
+
+Il est possible d'utilise ces balles pour décorer les listes : \\
+
+\begin{items}{darkBlue}{\ball{blue}{1.5}}
+    \item A
+    \item B
+    \end{items}
+
+\loc{Body}
+\begin{Latex}{Code pour décorer les listes avec les balles}
+\begin{items}{darkBlue}{\ball{blue}{1.5}}
+\item A
+\item B
+\end{items}
+\end{Latex}
+
+
+\input{Utils/Objects3D.info}

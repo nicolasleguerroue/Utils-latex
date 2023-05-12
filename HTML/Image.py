@@ -10,7 +10,7 @@ class Image():
         pass
 
     @staticmethod
-    def create(path, legend, size, indexImage=0, figureRef="", wordpress=True) -> str:
+    def create(path, legend, size, indexImage=0, figureRef="", wordpress=False) -> str:
        
         assert type(path) is str, "Expected <str>, given <"+str(type(path))+">"
         assert type(legend) is str, "Expected <str>, given <"+str(type(legend))+">"
@@ -29,11 +29,10 @@ class Image():
         assert type(imageName) is str, "Expected <str>, given <"+str(type(imageName))+">"
 
         for d in sorted(os.listdir(srcImage)):
-
             if(isdir(srcImage+"/"+d)):
                 for d2 in  sorted(os.listdir(srcImage+"/"+d)):
                     if(imageName==d2):
-                        return (prefixFolder+srcImage+"/"+d+"/"+d2).replace(d+"/", "")
+                        return (prefixFolder+srcImage+"/"+d+"/"+d2)#.replace(d+"/", "")
         return "empty"
 
     @staticmethod

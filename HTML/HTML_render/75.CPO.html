@@ -1,0 +1,534 @@
+<html><head><style>.cent {  display: block;  margin-left: auto;  margin-right: auto;}</style><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"><script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> </script><body style='margin-left:5%;margin-right:5%;margin-top:1%'><h4>Fichier générer depuis les sources Latex</h4><h5>Auteur : Nicolas Le Guerroué</h5><a href='index.html'><button class='btn btn-success' >Revenir au sommaire</button></a><hr>\newcommand{\cl}{client }
+
+\newcommand{\cls}{clients }
+
+<h2 >Introduction</h2>
+<h3>Principe</h3>
+Notre projet consiste en la création d’un logiciel de partage de connaissance sur un ordinateur.
+
+L’utilisateur recherche un sujet, par exemple « Le fonctionnement d'un moteur thermique» soit via une recherche par mots clés ou par type, ce qui l’amène à plusieurs supports hébergés sur le serveur.
+
+Il lui est donc possible de visionner des supports de cours mais également d'en rédiger avec notre éditeur de support intégré.
+
+<h3>L'objectif du Développement Durable</h3>
+Notre projet répond à l'objectif du développement durable n°4, "Éducation de Qualité" qui se bat pour : "Assurer l'accès de chacun à une éducation de qualité, sur un pied d'égalité, et promouvoir les possibilités d'apprentissage tout au long de sa vie."
+
+<h2 >Cahier des Charges</h2>
+<h3>Conventions</h3>
+Par souci de clarté, les personnes utilisant notre logiciel seront appelées les \cls <span title="Référence au type de communication client-serveur" style='color:grey;'><sup>[Note 89]</sup></span> car ces derniers se connectent en réalité à un serveur à distance.
+
+Les documents que les \cls seront amenés à visionner seront appelés des supports.
+
+<h3>Les supports</h3>
+Un support est écrit par un créateur qui peut être un utilisateur lui-même. Le support contient du texte agrémentés de vidéos ou de photos pour faciliter la compréhension. 
+
+Les supports seront affichés sous forme de rendu WEB et pourront contenir :
+
+<ul>
+    <li> Des titres et sous-titres
+</li>
+    <li> Des paragraphes
+</li>
+    <li> Des listes
+</li>
+    <li> Des liens
+</li>
+    <li> Des images
+</li>
+    <li> Des vidéos youtube
+</li>
+    <li> Des équations \LaTeX
+</li>
+</ul>
+ 
+
+ 
+
+ %Nous comptons également mettre en place un système de certification afin de spécifier à l’utilisateur que le contenu qu’il regarde a été validé. 
+
+ Il y aura également potentiellement <span title="Sous réserve que suffisamment de temps soit à notre disposition" style='color:grey;'><sup>[Note 90]</sup></span> un système de notes afin d’augmenter le référencement des supports les mieux notés. 
+
+<h3>L'utilisation</h3>
+Le logiciel se doit d'être simple d'utilisation pour les clients. Il doit également être intuitif et ergonomique.
+
+Les clients pourront donc : 
+
+<ul>
+    <li> Consulter les supports publiés par les autres utilisateurs
+</li>
+    <li> Rédiger facilement un support de façon textuelle : Un éditeur MarkDown sera intégré au logiciel pour générer les supports avec les instructions MarkDown. Le HTML est également interprété.
+</li>
+    <li> Modifier ses supports
+</li>
+    <li> Supprimer ses supports
+</li>
+    <li> Commenter les supports publiques
+</li>
+</ul>
+<h3>Système de connexion</h3>
+Il faut un compte pour publier des supports<span title="La modification se fait par le propriétaire du document, c'est-à-dire celui qui l'a rédigé" style='color:grey;'><sup>[Note 91]</sup></span> mais aucun compte n'est demandé pour visualiser un support.
+
+<h3>Système de téléchargement</h3>
+Si un support plaît particulièrement au client, il pourra le télécharger sur sa machine locale afin de visionner le support même avec une absence de réseau Internet.
+
+En local, l'utilisateur peut également rédiger des supports<span title="Sous réserve de réussir l'utilisation de MathJax en local." style='color:grey;'><sup>[Note 92]</sup></span>.
+
+<h3>Maintenance du projet</h3>
+Le code devra être lisible et bien commenté, afin de simplifier sa maintenance.
+
+Une documentation complète des classes rédigées sera disponible au format HTML et \LaTeX
+
+<h3>Plateforme</h3>
+Notre application devra fonctionner sur un ordinateur desktop Windows ou Linux (et sera en théorie compatible MacOS).
+
+<h2 >Choix techniques</h2>
+<h3>Bibliothèques</h3>
+Notre projet sera basé sur le framework Qt 5.15.2 (LTS) C++, celui-ci étant multi-plateforme.
+
+L'utilisation de ce framework impacte grandement notre projet.
+
+En effet, de nombreuses classes sont alors à notre disposition et le code s'en retrouvera modifié. Par exemple, toutes les classes standards du C++ (ou presque) ont leur équivalent Qt : 
+
+<ul>
+    <li> std::vector<T> devient QVector<T>
+</li>
+    <li> std::string<T> devient QString<T>
+</li>
+    <li> ...
+</li>
+</ul>
+Ces types propres au framework doivent être privilégiés lorsque l'on programme avec.
+
+Ainsi, dans notre diagramme UML ou dans notre code, il ne sera pas rare de voir des classes dont le nom commence par la lettre "Q" en Majuscule, cela signifie qu'il s'agit d'une classe du framework Qt.
+
+<h3>Les serveurs</h3>
+Le serveur distant hébergera un service : 
+
+<ul>
+    <li> Le serveur MySql (base de données)
+</li>
+</ul>
+Le serveur sera donc accessible à distance 24h/24 afin que les clients puissent utiliser le logiciel quand ils le souhaitent.
+
+Une utilisation du logiciel en local<span title="Absence de connexion Internet" style='color:grey;'><sup>[Note 93]</sup></span> sera détaillée dans la partie locale.
+
+<h4>Le serveur MySql</h4>
+Une base de données MySql<span title="Sous licence libre" style='color:grey;'><sup>[Note 94]</sup></span> sera utilisé sur le serveur afin de stocker les informations nécessaires au bon fonctionnement du logiciel.
+
+Ce serveur permet de stocker l'intégralité des supports accessibles par les clients.
+
+Lorsqu'un client souhaite donc visionner un support, le logiciel devra d'abord télécharger le support sur la machine du client. 
+
+Ensuite, l'affichage est généré et le client peut visionner le support.
+
+<h4>Compression des données</h4>
+Un support devra être transportable du serveur au client sous forme de fichier compressé. Ce fichier contient toutes les informations nécessaires au bon affichage du support.
+
+Étant donné que le client peut modifier ou consulter des supports, l'envoi des fichiers compressés sera multi-directionnel.
+
+C'est le logiciel qui se chargera de compresser les fichiers qu'il reçoit et qu'il envoit.
+
+<h3>Ajout de formules en \LaTeX</h3>
+Lors de l'édition des supports, les formules \()LaTeX sont intégrées entres deux balises \()\().
+
+<h2 >Choix graphiques</h2>
+<h3>Interface</h3>
+L'interface est décomposable en trois parties principales :
+
+<ul>
+<li> La barre de menu propre aux propriétés de la fenêtre. Il comprendra des sous-menus : 
+</li>
+<ul>
+    <li> Fichier
+</li>
+    <li> Éditions
+</li>
+    <li> Fenêtre
+</li>
+    <li> Aide
+</li>
+</ul>
+ 
+
+ <li> Le menu de navigation latérale de l'application. Il est accessible via l'appui sur un bouton et il est possible de le rétracter par l'appui sur ce même bouton.
+</li>
+ <li> La fenêtre de navigation qui contiendra, à tour de rôle et sur demande : 
+</li>
+<ul>
+    <li> l'accueil avec une liste de vidéo
+</li>
+    <li> L'affichage des supports
+</li>
+    <li> Les informations sur le compte client
+</li>
+    <li> les paramètres
+</li>
+</ul>
+ 
+
+ <li> Une barre de statut
+</li>
+ <li> Une barre de recherche permanente
+</li>
+</ul>
+La page suivante contient une proposition d'interface.
+
+A déplacer
+
+Les informations sur le compte client :
+
+Nom
+
+Cours fait par la personne + nombre de cours
+
+Nombre de likes par cours et totale
+
+Possibilité de modifier les cours de l'utilisateur
+
+<h3>Améliorations</h3>
+<ul>
+<li> Gestion des dates ->  agenda ++
+</li>
+<li> Ajout de thèmes
+</li>
+<li> Ajout d'un système de notation
+</li>
+<li> Ajout d'un système de miniature pour les supports
+</li>
+</ul>
+\imgr{\rootImages/interface.png}{Interface}{0.7}{0}
+
+<h2 >Tables SQL</h2>
+<h3>Contenu des tables</h3>
+<ul>
+<li> Voici une projection de la table "Files"<span title="Table contenant l'ensemble des supports" style='color:grey;'><sup>[Note 95]</sup></span>
+</li>
+<ul>
+<li> \integer{ID}  : L'identifiant du support
+</li>
+<li> \str{TITLE}  : Le titre du support
+</li>
+<li> \str{OWNER}  : Le nom du propriétaire
+</li>
+<li> \str{FILENAME}  : Le nom du fichier (et son emplacement) contenant le support
+</li>
+<li> \str{FILE}  : Le contenu du fichier compressé
+</li>
+<li> \str{IMAGE}  : Le nom de l'image (et son emplacement) contenant l'image miniature
+</li>
+<li> \integer{LEVEL} : Le niveau de difficulté
+</li>
+<li> \Date{DATE} : Dernière date de modification
+</li>
+<li> \integer{LIKE} : Nombre de J'aime sur le support
+</li>
+<li> \str{DESCRIPTION}  :Brève description du support
+</li>
+</ul>
+<li> Voici une projection de la table "Users"<span title="Table contenant l'ensemble des utilisateurs" style='color:grey;'><sup>[Note 96]</sup></span>
+</li>
+<ul>
+<li> \integer{ID}  : L'identifiant du client (ordre de création de compte)
+</li>
+<li> \str{LAST NAME}  : Le nom du client
+</li>
+<li> \str{FIRST NAME}  : Le prénom du client
+</li>
+<li> \str{MAIL}  : L'adresse mail du client
+</li>
+<li> \str{LOGIN}  : L'identifiant de connexion du client
+</li>
+<li> \str{PASSWORD}  : Le mot de passe du client (crypté)
+</li>
+<li> \str{PHONE} : Numéro de téléphone
+</li>
+</ul>
+</ul>
+<br>
+
+<h2 >Modélisations UML</h2>
+<h3>Scénarios</h3>
+<h4>Scénario nominal : Consulter un cours</h4>
+<ul>
+    
+
+        <li> L'utilisateur souhaite consulter un cours. Il n'a pas besoin de se connecter, il lui suffit de saisir un nom de cours dans la barre de recherche.
+</li>
+        <li> Il valide sa recherche et la liste des supports <span title="Recherche par mot-clés" style='color:grey;'><sup>[Note 97]</sup></span> apparaît.
+</li>
+        <li> L'utilisateur valide le support qu'il souhaite consulter et le support complet se télécharge sur la machine client.
+</li>
+        <li> L'utilisateur peut consulter le support à volonté.
+</li>
+        
+
+</ul>
+<h4>Scénarios alternatifs : Créer un support</h4>
+    
+
+<ul>
+        <li> L'utilisateur souhaite créer un cours. Il a besoin de se connecter au serveur.
+</li>
+        <li> Une fois l'identifiant et le mot de passe saisi, une requête est envoyé au serveur pour valider l'authentification.
+</li>
+        <li> Une fois connecté, l'utilisateur peut éditer un cours en saisissant du code Markdown et des balises HTML.
+</li>
+        <li> L'utilisateur valide ses modifications.
+</li>
+        
+
+        %\img{}{}{}{} Exemple image code
+
+</ul>
+        
+
+<h4>Scénarios alternatifs : Modifier  un support</h4>
+<ul>
+        
+
+        <li> L'utilisateur souhaite modifier une de ses publications. Il a besoin de se connecter au serveur.
+</li>
+        <li> Une fois l'identifiant et le mot de passe saisi, une requête est envoyé au serveur pour valider l'authentification.
+</li>
+        <li> L'utilisateur modifie le code Markdown ou HTML qu'il a saisi lors de la création de son support.
+</li>
+        <li> L'utilisateur valide ses modifications.
+</li>
+</ul>
+<h4>Scénarios d'erreur : Problème d'authentification</h4>
+<ul>
+        <li> Code d'identification erroné
+</li>
+        <li> Retour au scénario alternatif courant(étape 1)
+</li>
+</ul>
+<h4>Scénarios d'erreur : Absence de connexion internet</h4>
+<ul>
+        <li> Téléchargement des supports impossibles
+</li>
+        <li> Consultation des supports déjà téléchargés 
+</li>
+        <li> Attente de réseau Internet
+</li>
+</ul>
+<br>
+
+<h3>Diagramme de cas d'utilisation</h3>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/CPO/cas_d_utilisation.png' class='alignnone size-medium' style='max-width:100%;'><figcaption>Figure - Cas d'utilisation</figcaption></div></figure>
+<h3>Diagramme d'activité</h3>
+\imgr{\rootImages/activite.png}{Diagramme d'activité}{0.80}{-90}
+
+<h3>Diagramme de classes</h3>
+\imgr{\rootImages/classes.png}{Diagramme d'activité}{0.306}{-90}
+
+%<h2 >ne pas compiler</h2>
+%Barre de chargement quand on scroll l'écran
+
+%stylesheet foc doxygen
+
+%interpréter latex en markdown avec dollars simple.
+
+%javascript local
+
+<h2 >Présentation finale</h2>
+<ul>
+<li> Présentation de la vidéo
+</li>
+5 min de vidéo : 
+
+- Mode pub : 
+
+- Une utilisation simple et intuitive MAIS des fonctionnalités poussées : 
+
+- Un éditeur Markdown/HTML
+
+- Gestion des vidéos, images et documents PDF
+
+- Un accès sécurisé à tout moment
+
+- Une utilisation possible sans réseau via la possibilité de télécharger le contenu qui VOUS intéresse.
+
+- Une visualisation des cours par catégorie
+
+- La possibilité d'apprendre de nouvelle chose via l'onglet tendances.
+
+- et un classement de qualité fait par les utilisateur
+
+- Gestion de vos paramètres personnels
+
+Notre projet consiste donc en la création d’un logiciel de partage de connaissance sur un ordinateur.
+
+L’utilisateur recherche un sujet, par exemple « Le fonctionnement d'un moteur thermique» soit via une recherche par mots clés ou par type, ce qui l’amène à plusieurs supports hébergés sur le serveur.
+
+Il lui est donc possible de visionner des supports de cours mais également d'en rédiger avec notre éditeur de support intégré.
+
+<li> Introduction et contexte du projet : (1min10)
+</li>
+Dans notre groupe de projet nous sommes un groupe de quatre étudiants. Il y a Mathieu Charles, Nicolas Le Guerroué, Théo Mainguené et Romain Possémé. 
+
+Dans le cadre du projet de CPO nous avions tous à coeur de faire un projet en lien avec l'éducation, car nous avons constaté un réel besoin de créer quelque chose qui permette de rassembler des connaissances. Notre projet est donc en lien avec l'Objectif de Développement Durable numéro 4 ; à savoir une "Éducation de Qualité" dont l'objectif est "Assurer l'accès de chacun à une éducation de qualité, sur un pied d'égalité, et promouvoir les possibilités d'apprentissage tout au long de sa vie."
+
+Nous sommes parti du principe que le partage des connaissances fait que l'on progresse mieux dans l'apprentissage. C'est pour cela que nous avons voulu créer un logiciel permettant aux étudiants de rédiger s'ils le souhaitent des sortes de cours ou bien directement des fiches résumés. 
+
+Nous avons souhaité faire un logiciel non seulement simple pour récupérer des documents et cours mais aussi avec une partie rédaction de cours/tutoriel qui est grandement simplifiée par l'éditeur MarkDown.
+
+Ce langage est simple d'utilisation, plus rapide à prendre en main que le HTML. Cependant, le balisage HTML est supporté.
+
+<li> Vidéo de présentation
+</li>
+<li> Présentation de Qt et choix des bibliothèques
+</li>
+Qt est une plateforme de développement d’interfaces graphiques GUI.
+
+Qt fournit un ensemble de classes décrivant des éléments graphiques (widgets) et des éléments non graphiques : accès aux données (fichier, base de données), connexions réseaux …
+
+Qt permet la portabilité des applications (Linux,Windows,mac Os).
+
+Les widgets peuvent être utilisés pour créer ses propres fenêtres et boîtes de dialogue complètement prédéfinies (ouverture/enregistrement de fichiers, progression d’opération, etc). 
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/CPO/ui.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Une interface graphique</figcaption></div></figure>
+Les interactions avec l’utilisateur sont gérées par un mécanisme appelé signal/slot. Ce mécanisme est la base de la programmation événementielle des applications basées sur Qt.
+
+Exemple : Fonction pb clicked qui renvoie a une action de l’utilisateur
+
+Le programme sera principalement défini par ses réactions aux différents événements qui peuvent se produire
+
+<figure id=''><div class='cent' style='text-align:center;'><img src='/CPO/all.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Arborescence du projet</figcaption></div></figure>
+<li> Fonctionnement global comment les fenêtres interagissent entre elles
+</li>
+Le fonctionnement global de notre application est simple, nous avons une classe mainwindow qui gère notre affichage principal, c’est la fenêtre qui se charge quand on lance le code.
+
+image point de vu utilisateur et point de vu ui
+
+Comme on peut le voir cette fenêtre est composé de deux éléments, qui sont en réalité des contenants, des QstackedWidget. La particularité de ce contenant c’est qu’il fournis une zone graphique sous forme de page, on peut donc créer une page dédiée à la connexion puis une page pour l’affichage des cours et jongler entre ces pages via le code de notre classe principale.
+
+Le premier avantage de cette méthode est que l’on peut créer autant de page que l'on veut et donc de fonctionnalité que l’on veut. La deuxième force est que chaque page peut hériter d’une classe et donc d’une partie graphique complexe, cela facilite le codage et permet d’avoir de nombreuses fonctionnalités compactes d’un point de vue graphique.
+
+<br>
+
+<h3>Présentation graphique -> Fonctionnement de l'interface</h3> (1m50)
+Pour la partie graphique, il y a trois types de fichiers : le fichier "source", le fichier d'en-tête "header" et le fichier "forms" qui correspond à l'interface graphique.
+
+Le principe est le même que pour les fichiers "Headers" et "Sources", il y un fichier Main qui est appelé à la compilation. Le fichier "Mainwindow.ui" contient une grande fenêtre de la classe QMainWindow dans laquelle on a plusieurs petites fenêtres et éléments graphiques que l'on appelle des Widgets. Ces petites fenêtres sont ensuite designer de manière graphique. 
+
+Il y a tout en tas d'éléments graphiques que l'on peut insérer (Cf photo).
+
+Les widgets que l'on a le plus utilisé dans notre projet sont les QPushButton pour valider une information, les QLabel pour afficher le texte, QLineEdit pour écrire du texte.
+
+Ensuite pour une utilité à ces widgets, il est nécessaire de lier ceci à une action. C'est ce que l'on appelle le principe de signaux/slots.
+
+Par analogie, le principe de signaux/slots correspond aux interruptions. Dès qu'un évènement est capté, une fonction que l'on aura définie et qui lui sera liée sera appelée.
+
+Nous avons placé graphiquement avec le logiciel QtDesigner des widgets mais nous en avons également généré une bonne partie de manière dynamique. C'est-à-dire qu'ils ont été généré via une ligne de code.
+
+Nous avons créer nos propre Widgets personnalisés lié a une classe, par exemple la classe userprofile, connectionwindow ou encore foldablemenubar, qui contiennent eux même un ensemble de widgets.
+
+Dans notre affichage principal, le mainwindow hérite de ces classes. 
+
+Via des accesseurs et des mutateurs les boutons liés aux signaux et slots de la mainwindow sont insérer via pointeur dans nos classes peronnalisés. Ces boutons constituent donc le lien entre notre mainwindow et nos classes personnalisé.
+
+<h3>Problème rencontré</h3>
+Nous avons rencontré quelque problème au cours de ce projet. Majoritairement des problèmes liés aux classes très spécifique de Qt, en effet dans notre projet nous utilisons des classes afin de simplifier la représentation graphique de nos éléments or il arrive que ces éléments soient compliqués à gérer. Par exemple nous sommes restés assez longtemps bloqué sur un problème de layout qui ne s’était pas complètement vide et qui donc empêchait toute réécriture. Il y a eu également des problèmes quant à l’encapsulation de notre code, en effet certains éléments avaient besoin d’être déclarés dans la mainWindow mais étaient lié à une classe dont héritait notre MainWindow.
+
+<h3>Base de données</h3>
+Pour sauvegarder l'ensemble des données du logiciel, nous avons fait le choix de stocker les informations dans une base de données distante : Une BDD basée sur MySql est hébergé sur un serveur personnel et permet d'accéder aux données à n'importe quel moment et pour tous les utilisateurs.
+
+Après avoir essayé de compiler les drivers MySql sous Windows (6 h sans succès, on a essayé différentes bases de données (SQLite, PostgreSQl), nous sommes tous passé sous Linux pour compiler le projet.
+
+Après avoir ouvert le port de connexion (5000) sur le serveur, il a fallu coder la classe DBManager qui permet de faire des requêtes SQL protégées contre les injections SQL. (Pour cela, on utilise des requêtes préparée). 
+
+Avec DBmanager, on est capable de faire les requêtes classique (création, suppression des tables, des bases. 
+
+L'utilisation de la bdd sous Qt repose sur le système de modèle. En faisant une requête, on met à jour le modèle et il ne nous reste plus qu'à manipuler ce modèle pour extraire les données?
+
+Nous avons fait le choix de sauvegarder les fichiers contenant les cours sous format binaire sur la bdd afin de centraliser les infos.
+
+A court terme, cette solution semble assez pratique mais la consultation des données est ralenti.
+
+A long terme, il est souhaitable de passer par un serveur SFTP mais après de nombreuses tentatives sous Qt pour se connecter à ce serveur, nous avons choisi la solution de sauvegarde des données sous SQL.
+
+Dans les soucis rencontrés sous SQl, il a fallu augmenter la capacité maximale du fichier binaire à insérer dans la base de données.
+
+Lorsqu’un client souhaite donc visionner un support, le logiciel devra d’abord télécharger le support distant sur la machine du client.
+
+Toutes les infos sur le cours sont contenu dans le fichier ZIP correspondant, ce dernier ayant un fichier de méta données propre.
+
+Enfin, pour visualiser les données sur le serveur, une interface Web a été mise en place sur le serveur distant pour que tous le monde puisse consulter la base de données.
+
+En ce qui concerne les points d'amélioration, le premier serait de chiffrer les mots de passe contenus dans la BDD. Cependant, par manque de temps, cela n'a pas été fait.
+
+<h3>Rapport personnel Nicolas</h3>
+En plus d'un enrichissement des connaissances sur Qt, ce projet m'aura permis de prendre en main l'outil Git qui s'est avéré très utile.
+
+Le choix de faire un projet à plusieurs est un format nouveau et bienvenu 
+
+par rapport aux anciens projets Informatique lors des derniers semestres.
+
+Ce projet a pu conforter mes acquis en base de données et m'a permis de mettre en place un serveur SQL distant avec une interface Web conçue pour visualiser la base de données. 
+
+J'ai éprouvé plus de difficulté à faire le lien entre les différentes parties graphiques car nous avons choisi de faire des Widgets personnalisés.
+
+Je trouve dommage que autant d'heures passés sur ce projet soit si peu valorisées.
+
+De plus, je trouve que passer une période pour l'UML est trop long, sachant que personnellement, je n'ai pas tenu compte des diagrammes UML.
+
+<li> Description de chaque classe
+</li>
+<ul>
+<li> Base de données
+</li>
+<ul>
+<li> DBElement : représente un élement de la base de données
+</li>
+<li> DBFilter : représente un filtre de sélection de données
+</li>
+<li> DBManager : permet de gérer la connexion à la base de données ainsi que la récupération et l'envoi de données depuis la base de données 
+</li>
+<li> LocalManager : Gestion des fichiers téléchargés en local
+</li>
+</ul>
+<li> Fenetres graphiques
+</li>
+<ul>
+<li> ConnectionWindow : Gère la connexion d'un utilisateur pour éditer des cours
+</li>
+<li> FoldableMenuBar : Gère le menu latéral gauche
+</li>
+<li> HomeWindow : Affiche la page principale
+</li>
+<li> Settings : Gére la page des paramètres utilisateurs
+</li>
+<li> UserWindow : Affiche les cours de l'utilisateur
+</li>
+</ul>
+<li> Editeur markdown
+</li>
+<ul>
+<li> MarkDwonDocument : Gère un document markdown
+</li>
+<li> markDownEditor : permet d'éditer un document markdown
+</li>
+<li> MarkDownPage : ?
+</li>
+<li> MarkDownPreview : Affiche un document markdown
+</li>
+</ul>
+<li> Cours
+</li>
+<ul>
+<li> Course : Gère un cours
+</li>
+<li> CourseInfo : Gestion des métadonnées du cours
+</li>
+</ul>
+<li> Utilisateur
+</li>
+<ul>
+<li> UserProfile : Gère un utilisateur
+</li>
+</ul>
+</ul>
+\end {items}
+
+
+</body></html>

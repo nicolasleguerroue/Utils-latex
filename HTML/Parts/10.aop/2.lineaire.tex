@@ -1,0 +1,29 @@
+
+
+\chapter{Étude en mode linéaire}
+\section{Intérêt de l’étude }
+
+Les AOP en fonctionnement linéaire permettent de réaliser les opérations mathématiques :
+
+d\begin{items}{blue}{\Triangle}
+  \item \bold{amplification} : $Vs=A_0 \cdot Ve$
+  $A_0$ est le coefficient d’amplification du montage (A ne pas confondre avec $A_d$ le coefficient d’amplification différentiel 
+  imposé par le constructeur)
+  $A_0$ peut être positif ou négatif
+  \item \bold{addition algébrique} : $V_s=\sum_{k=0}^{n} V_k$
+  \item \bold{intégration et dérivation} (avec des condensateurs) à une constante près
+  \item \bold{logarithme et exponentielle}
+\end{items}
+
+\section{Méthode de résolution}
+La \colors{red}{réaction négative} (liaison entre la sortie et l’entrée inverseuse) impose un fonctionnement stable et linéaire, 
+d'où \colors{red}{$\varepsilon=0, E_+=E_-$} \\
+
+L’hypothèse de la résistance d’entrée de l’AOP implique que $I_+=I_-=0$
+
+Afin de déterminer $Vs$, il faut exprimer \bold{$E_+$et $E_-$ en fonction des éléments du montage}. \\
+
+\bold{En égalisant les deux équations obtenues ($E_+=k$ et $E_-=k'$)}, on obtient une relation de type $V_s = f(V_e)$
+
+
+\messageBox{Remarque}{orange}{white}{$I_s$ est issu d’une source de tension, il n’y a donc pas de loi simple permettant de déterminer sa valeur algébrique. Il ne faut pas avoir d'à priori sur son sens}{black}

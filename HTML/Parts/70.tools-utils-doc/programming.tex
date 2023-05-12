@@ -1,0 +1,144 @@
+\chapter{Bibliothèque Programming}
+
+La bibliothèque \lib{Programming} gère l'affichage de code source dans le document.\\
+
+\section{Affichage d'un code C/C++ avec titre}
+
+
+\begin{Cpp}{Titre}
+#include <iostream>
+
+#define CONST 1
+
+int var = 1;
+float 
+
+int main() {
+  
+  call();
+  return 0;
+
+}//End main
+
+\end{Cpp}
+
+\loc{Body}
+\begin{Latex}{Code pour l'affichage d'un code C/C++ avec titre}
+    \begin{Cpp}{Titre}
+        #include <iostream>
+        
+        #define CONST 1
+        
+        int var = 1;
+        float 
+        
+        int main() {
+          
+          call();
+          return 0;
+        
+        }//End main
+        
+        \end{Cpp}
+\end{Latex}
+
+\section{Affichage d'un code C/C++ sans titre}
+
+
+\begin{Cpp}
+#include <iostream>
+
+#define CONST 1 #const var
+
+int var = 1;
+float g = 2.5;
+...
+
+\end{Cpp}
+
+\loc{Body}
+\begin{Latex}{Code pour l'affichage d'un code C/C++ sans titre}
+    \begin{Cpp}
+        #include <iostream>
+        
+        #define CONST 1 #const var
+        
+        int var = 1;
+        float g = 2.5;
+        ...
+        
+        \end{Cpp}
+\end{Latex}
+
+
+\section{Affichage d'un code Python avec titre}
+
+
+\begin{Python}{Titre du code}
+def call(input):
+
+  """docstring"""
+  a = input
+  for elem in a:
+    print(elem) #show
+\end{Python}
+
+\loc{Body}
+\begin{Latex}{Code pour l'affichage d'un code Python avec titre}
+  \begin{Python}{Titre du code}
+    def call(input):
+    
+      """docstring"""
+      a = input
+      for elem in a:
+        print(elem) #show
+    \end{Python}
+\end{Latex}
+
+\section{Affichage d'un code Python sans titre}
+
+
+\begin{Python}
+def call(input):
+
+  """docstring"""
+  ...
+\end{Python}
+
+\loc{Body}
+\begin{Latex}{Code pour l'affichage d'un code Python sans titre}
+  \begin{Python}
+    def call(input):
+    
+      """docstring"""
+      ...
+    \end{Python}
+\end{Latex}
+
+
+\section{Affichage d'un code Bash avec titre}
+
+
+\begin{Bash}{Titre du code}
+sudo apt-get -y update
+sudo apt-get -y upgrade
+echo -e "content"
+\end{Bash}
+
+\loc{Body}
+\begin{Latex}{Code pour l'affichage d'un code Bash avec titre}
+  \begin{Bash}{Titre du code}
+    sudo apt-get -y update
+    sudo apt-get -y upgrade
+    echo -e "content"
+    \end{Bash}
+\end{Latex}
+
+\section{Affichage d'un code bash sans titre}
+
+\bold{Ce type d'affichage n'est pas encore supporté par la bibliothèque.}
+
+\input{Utils/Programming.info}
+
+
+

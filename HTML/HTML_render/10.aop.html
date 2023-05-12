@@ -7,7 +7,7 @@
    
 Un AOP (Amplificateur Opérationnel) est un composant actif qui permet de réaliser des opérations mathématiques (addition, soustraction, intégration, dérivation, etc) et du fait de sa miniaturisation et de sa fiabilité, on le rencontre aujourd’hui dans de nombreuses applications comme l’audio, la radio, l’asservissement…
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/pinoutAOP.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/pinoutAOP.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Les entrées et sorties de l'AOP</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/pinoutAOP.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Les entrées et sorties de l'AOP</figcaption></div></figure>
  
 Un AOP possède deux entrées notées appelées \colors{red}{entrée non inverseuse} et <span style='color:red;'>entrée inverseuse</span>, une 
 
@@ -17,7 +17,7 @@ L’AOP dispose souvent d’une alimentation symétrique (\(Vcc+\) et \(Vcc-\)) 
 
 (GND) des alimentations.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/power.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/power.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - L'alimentation d'un AOP</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/power.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - L'alimentation d'un AOP</figcaption></div></figure>
 <h3>Conventions</h3>
 Afin de simplifier les calculs sur les AOP, quelques conventions ont été adoptées :
 
@@ -58,7 +58,7 @@ Ces caractéristiques sont les suivantes :
 </ul>
 Cela se traduit par un modèle dont les deux entrées sont ouvertes (courant nul) et avec une tension de sortie qui ne serait pas affectée par le courant de sortie
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/theorique.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/theorique.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Le modèle théorique de l'AOP</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/theorique.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Le modèle théorique de l'AOP</figcaption></div></figure>
 <h3>Modèle réel</h3> 
 Cependant, il convient de noter que ce modèle n’est que théorique.
 
@@ -82,7 +82,7 @@ D'où le modèle suivant :
   <li> Bande passante : imposée par le constructeur (Ex : le LM324 tolère 1MHz)
 </li>
 </ul>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/real.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/real.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Le modèle réel de l'AOP</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/real.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Le modèle réel de l'AOP</figcaption></div></figure>
 Cependant, pour les calculs, <span style='color:red;'>l’hypothèse du courant d’entrée</span> nul sera retenue, tout comme celle du gain \(Ad\)
 
 <h3> Modes de fonctionnement</h3>
@@ -99,7 +99,7 @@ Le signal de sortie ne peut prendre que deux valeurs, \(Vsat_+\)ou \(Vsat_-\)
 En l’absence de contre-réaction, \(Vs=\varepsilon Ad\) 
 
 <b>Une réaction est un retour du signal sur une des deux entrées. Celle ci peut être positive ou négative en fonction de l’entrée choisie (entrée -,réaction négative et entrée +, réaction positive).</b>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/52.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/52.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Les modes de fonctionnement de l'AOP</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/52.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Les modes de fonctionnement de l'AOP</figcaption></div></figure>
 <h3>Résistance de charge</h3>
 Il est possible de mettre une résistance de charge entre \(V_s\) et la masse. 
 
@@ -109,7 +109,7 @@ Cependant, le courant de l’AOP étant limité à quelques dizaines de mA, il c
 
 Si \(R_{c}\) est suffisamment élevée, cette dernière n’influence pas la tension de sortie \(V_s\) 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/loadAOP.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/loadAOP.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - La résistance de charge</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/loadAOP.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - La résistance de charge</figcaption></div></figure>
 
 <h2 >Étude en mode linéaire</h2>
 <h3>Intérêt de l’étude </h3>
@@ -148,9 +148,9 @@ son impédance de sortie est considérée comme nulle.
 
 Ainsi, le comportement de la charge en entrée ne sera pas affecté par l’AOP, le signal d'entrée ne sera donc pas modifié. 
 
-Ce montage sert donc à faire une <b>adaptation d’impédance</b>.
+Ce montage sert donc à faire une <b>adaptation d’impédance</b>.  
 <h3>Montage</h3>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/suiveur.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/suiveur.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Le montage suiveur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/suiveur.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Le montage suiveur</figcaption></div></figure>
 <h3>Démonstration</h3> 
 La réaction négative implique que \(\varepsilon=0\) (fonctionnement linéaire)
 
@@ -165,10 +165,10 @@ La réaction négative implique que \(\varepsilon=0\) (fonctionnement linéaire)
 
 On souhaite mesurer une tension au borne d’un capteur avec un appareil de mesure.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/sensor.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/sensor.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Le capteur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/sensor.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Le capteur</figcaption></div></figure>
 On place ensuite une charge \(\( R_c \)\) au \(b\)ornes de \(A\) et \(b\). Cette résistance \(\( R_c \)\) représente l'appareil d'acquisition.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/rc.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/rc.png' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Le modèle d'acquisition</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/rc.png' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Le modèle d'acquisition</figcaption></div></figure>
 \end{exemple}
 
 <i>Quelle est l’influence de \(Rc\) sur la tension \(AB\) dans le montage suivant ?</i><br> 
@@ -192,7 +192,7 @@ Si \(R_c \rightarrow + 0 \) alors \(R_{equ} \rightarrow 0 \Rightarrow U_{AB} \ri
 
 D'où le montage suivant, avec \(R_c \rightarrow + \infty\), le signal n'est pas déformé.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/measure.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/measure.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - L'adaptation d'impédance</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/measure.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - L'adaptation d'impédance</figcaption></div></figure>
 
 <h2 >Montage non-inverseur</h2>
 <h3>Présentation</h3>
@@ -200,7 +200,7 @@ Ce montage amplifie la tension \(V_e\) par un <b>gain \(A_0\) positif</b>.
 L’amplificateur reste en mode linéaire si \(Ve < Vcc_{sat} \cdot A_0\)
 
 <h3>Montage</h3>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/non_inv.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/non_inv.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Le montage amplificateur non inverseur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/non_inv.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Le montage amplificateur non inverseur</figcaption></div></figure>
 <h3>Démonstration</h3>
 Un AOP en mode linéaire impose \(\varepsilon=0\)
 
@@ -231,7 +231,7 @@ On peut donc utiliser le montage précédent.
 
 On prendra \(R_1=1 k\Omega\) et \(R_2=4k\Omega\) pour avoir \(A_0=5\)
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/inv_img.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/inv_img.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Amplification du signal noir par 5</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/inv_img.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Amplification du signal noir par 5</figcaption></div></figure>
 \end{exemple}
 
 
@@ -239,7 +239,7 @@ On prendra \(R_1=1 k\Omega\) et \(R_2=4k\Omega\) pour avoir \(A_0=5\)
 <h3>Présentation</h3>
 Ce montage amplifie la tension \(V_e\) par un <b>gain \(A_0\) négatif</b>.
 <h3>Montage</h3>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/non_inv.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/non_inv.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Le montage amplificateur non inverseur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/non_inv.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Le montage amplificateur non inverseur</figcaption></div></figure>
 <h3>Démonstration</h3>
 Mode linéaire : \(\varepsilon = 0\)
 
@@ -268,7 +268,7 @@ On peut donc utiliser le montage précédent.
 
 On prendra \(R_1=1 k\Omega\) et \(R_2=5k\Omega\) pour avoir \(A_0=-5\)
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/inv_signal.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/inv_signal.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Amplification du signal noir par -5</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/inv_signal.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Amplification du signal noir par -5</figcaption></div></figure>
 \end{exemple}
 
 
@@ -291,7 +291,7 @@ Cependant, cette comparaison peut s’effectuer de plusieurs manières, avec un 
 Ce montage permet de comparer simplement deux tensions entre elle.
 
 <h4>Montage</h4>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/cmp.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/cmp.png' class='alignnone size-medium' style='max-width:70%;'></a><figcaption>Figure - Comparateur simple seuil</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/cmp.png' class='alignnone size-medium' style='max-width:70%;'><figcaption>Figure - Comparateur simple seuil</figcaption></div></figure>
 Ce mode est le plus simple et est régi de la manière suivante : 
 
 On sait que \(\varepsilon = E_+ - E_-\) et que \(V_s=\varepsilon \cdot A_d\) avec \(Ad=+\infty\) 
@@ -308,7 +308,7 @@ Si \(E_+>E_-\) :
 
 Si \(V_2=0V\), on obtient la caractéristique de transfert suivante  
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/12.jpg'><img src='http://www.crepp.org/wp-content/uploads/2022/06/12.jpg' class='alignnone size-medium' style='max-width:30%;'></a><figcaption>Figure - Caractéristique de transfert, \(V_1\) est la tension d’entrée de l’AOP</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/12.jpg' class='alignnone size-medium' style='max-width:30%;'><figcaption>Figure - Caractéristique de transfert, \(V_1\) est la tension d’entrée de l’AOP</figcaption></div></figure>
 <h4>Comparateur inverseur simple seuil</h4>
 Le raisonnement est le même sauf que les entrées sont inversées. 
 
@@ -327,19 +327,19 @@ Si \(E_+<E_-\) :
 Ce type de montage permet d’éliminer les tensions “parasites”, c’est à dire les tensions bruités et non indésirables. 
 
 <h4>Montage</h4>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/double_cmp.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/double_cmp.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Montage comparateur non inverseur double seuil </figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/double_cmp.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Montage comparateur non inverseur double seuil </figcaption></div></figure>
 <h4>Application</h4>
 Par exemple, un capteur de lumière résistif (photo-résistance) sera sensible aux variations de lumière (nuages…). 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/14.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/14.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Un signal bruité</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/14.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Un signal bruité</figcaption></div></figure>
 Or, si on compare ce signal par rapport à une référence, on ne veut pas que le capteur déclenche plusieurs fois l’action.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/trig.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/trig.png' class='alignnone size-medium' style='max-width:100%;'></a><figcaption>Figure - Le cycle de déclenchement</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/trig.png' class='alignnone size-medium' style='max-width:100%;'><figcaption>Figure - Le cycle de déclenchement</figcaption></div></figure>
 Pour éviter ce problème, on utilise un comparateur à double seuil : 
 
 toute les tensions parasites ayant une amplitude inférieure à la tension de différence entre les deux seuils seront ignorées.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/dual.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/dual.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Le principe</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/dual.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Le principe</figcaption></div></figure>
 On va chercher les deux valeurs de basculement : 
 
 \(E_+ = \frac{V_eR_2 + V_s R_1}{R_1 + R_2}\)
@@ -399,14 +399,14 @@ On obtient le cycle d’hystérésis suivant :
 
 \((VB=S2 et VH=S1)\)
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/hys1.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/hys1.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Cycle d'hystérésis non inverseur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/hys1.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Cycle d'hystérésis non inverseur</figcaption></div></figure>
 \(U_{milieu de cycle}=(V_{seuil1}+V_{seuil2}) \cdot 0.5\) 
 
 \(Largeur_{cycle}=V_{seuil1}-V_{seuil2}\)
 
 <h4>Comparateur inverseur double seuil</h4>
 <h4>Montage</h4>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/double_inv.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/double_inv.png' class='alignnone size-medium' style='max-width:50%;'></a><figcaption>Figure - Montage comparateur inverseur double seuil</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/double_inv.png' class='alignnone size-medium' style='max-width:50%;'><figcaption>Figure - Montage comparateur inverseur double seuil</figcaption></div></figure>
 <h4>Démonstration</h4>
 La démarche est rigoureusement identique avec \(\varepsilon>0\), on a \(V_s=Vsat_+\)
 
@@ -414,7 +414,7 @@ et pour  \(\varepsilon<0\) on a \(V_s=Vsat_-\)
 
 On obtient le cycle d’hystérésis suivant : 
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/hys2.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/hys2.png' class='alignnone size-medium' style='max-width:80%;'></a><figcaption>Figure - Cycle d'hystérésis inverseur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/hys2.png' class='alignnone size-medium' style='max-width:80%;'><figcaption>Figure - Cycle d'hystérésis inverseur</figcaption></div></figure>
 
 <h3>Présentation</h3>
 Ce montage intègre une tension d’entrée. 
@@ -422,7 +422,7 @@ Ce montage intègre une tension d’entrée.
 En sortie, on obtient une tension \(V_s\) valant \(V_s\)=k \cdot \int V_e
 
 <h3>Montage</h3>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/integrateur.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/integrateur.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Montage intégrateur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/integrateur.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Montage intégrateur</figcaption></div></figure>
 <h3>Démonstration</h3>
 Montage en mode linéaire car contre-réaction négative. 
 
@@ -455,7 +455,7 @@ On souhaite générer un signal triangulaire.
 
 En intégrant un signal rectangulaire, on obtient un signal triangulaire.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/triangle.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/triangle.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Un signal triangulaire généré depuis un signal carré</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/triangle.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Un signal triangulaire généré depuis un signal carré</figcaption></div></figure>
 Soit \(V_e=2V\) ou \(V_e=-2V\)
 
 Si \(V_e=2V\) 
@@ -491,7 +491,7 @@ avec \(k=-\frac{1}{RC} \)
 Ce montage permet de soustraire deux tensions d’entrée afin d’obtenir la différence en sortie.
 
 <h3>Montage</h3>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/sous.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/sous.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Montage soustracteur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/sous.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Montage soustracteur</figcaption></div></figure>
 <h3>Démonstration</h3>
 Contre-réaction négative donc mode linéaire.
 
@@ -526,7 +526,7 @@ Si \(R_1=R_2=R_3=R_4\), on obtient :
 
 On souhaite mesurer une tension entre deux points A et B d’un circuit (tension différentielle)
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/variable.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/variable.png' class='alignnone size-medium' style='max-width:40%;'></a><figcaption>Figure - Tension différentielle \(AB\)</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/variable.png' class='alignnone size-medium' style='max-width:40%;'><figcaption>Figure - Tension différentielle \(AB\)</figcaption></div></figure>
 \end{exemple}
 
 Pour étudier la différence de potentiel entre les deux points du circuit, on peut utiliser un montage soustracteur 
@@ -537,17 +537,17 @@ afin qu’en sortie du montage avec l’AOP, on ait :
 
 On peut réaliser le montage suivant.
 
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/diff.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/diff.png' class='alignnone size-medium' style='max-width:55%;'></a><figcaption>Figure - Un montage pour lire une tension entre deux points</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/diff.png' class='alignnone size-medium' style='max-width:55%;'><figcaption>Figure - Un montage pour lire une tension entre deux points</figcaption></div></figure>
 
 <h3>Présentation</h3>
 Ce montage permet d'additionner en sortie plusieurs tensions d’entrée. Avec ce montage, la tension de sortie est multipliée par un coefficient -1
 
 <h3>Montage</h3>
-<figure id=''><div class='cent' style='text-align:center;'><a href='http://www.crepp.org/wp-content/uploads/2022/06/somme.png'><img src='http://www.crepp.org/wp-content/uploads/2022/06/somme.png' class='alignnone size-medium' style='max-width:60%;'></a><figcaption>Figure - Montage sommateur inverseur</figcaption></div></figure>
+<figure id=''><div class='cent' style='text-align:center;'><img src='/aop/somme.png' class='alignnone size-medium' style='max-width:60%;'><figcaption>Figure - Montage sommateur inverseur</figcaption></div></figure>
 <h3>Démonstration</h3>
 Contre-réaction négative donc montage linéaire. 
 
-On applique le théorème de Millman <span title="on fera abstraction de U3" style='color:grey;'><sup>[note]</sup></span>
+On applique le théorème de Millman <span title="on fera abstraction de U3" style='color:grey;'><sup>[Note 88]</sup></span>
 
 \(E_+=0\)
 

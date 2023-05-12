@@ -49,4 +49,5 @@
 \rowColor{white}  addLed & cmd & Create led  & 5\\ \hline
 \rowColor{white}  thevenin & cmd & Add Thevenin schematic  & 4\\ \hline
 \rowColor{white}  norton & cmd & Add Norton schematic  & 4\\ \hline
+\rowColor{white}  resistorColor & cmd & Display label color according value  & 0\\ \hline
 \end{tabular}

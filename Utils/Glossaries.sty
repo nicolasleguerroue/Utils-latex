@@ -10,6 +10,7 @@
 %############################################################
 % Default command for glossary (renewcommand) {gls}[1] #content
 
+
 \renewcommand{\glossary}[1]{%display glossarie #filename
 \addtocounter{glossaryCounter}{1} 
 \gls{#1}
@@ -23,7 +24,9 @@
     % \ifnum \value{glossaryCounter}>0
     % {
         \renewcommand {\acronymname}{#1}
+        %\glsaddall
         \printnoidxglossaries
+        %\printglossary[style=mystyle]
         \printglossaries
         \typeout{>>> Utils: Glossary loaded !}
         \addcontentsline{toc}{chapter}{#1}

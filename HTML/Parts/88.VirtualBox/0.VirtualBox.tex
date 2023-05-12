@@ -1,0 +1,313 @@
+\chapter{VirtualBox}
+
+
+Ce document a pour objectif de configurer le logiciel VirtualBox et de récupérer une image Linux 
+afin de faire fonctionner Linux sous une machine Windows.\\
+Ainsi, cela permet de travailler sur une machine Linux tout en évitant de modifier les fichiers 
+sensibles de l’ordinateur (secteur d’amorçage…).\\
+En revanche, ce système est gourmand en ressource, cela se traduit donc par une légère perte de 
+performance sur la machine Virtuelle Linux (appelée MVL dans ce document).\\
+
+Veuillez lire attentivement les prérequis car en cas de manquement à une obligation d’installation 
+citée dans la section suivante, la MVL ne fonctionnera pas ou mal au pire des cas.\\
+
+
+
+\section{Prérequis}
+
+
+Avant de se lancer dans l’installation de la MVL, il est important de vérifier si l’ordinateur 
+hôte pourra faire tourner cette MVL.\\
+Pour cela, plusieurs conditions sont nécessaires :
+
+\begin{items}{green}{\faviconCheck}
+\item Être sous Windows 7, Windows 8, Windows 10 ou Windows 11
+\item Avoir une connexion internet
+\item Un ordinateur ayant au moins 6 Gigaoctets de mémoire vive (6 Go de RAM)
+\item Cet ordinateur doit pouvoir supporter l’hébergement des machines virtuelles
+\end{items}
+
+Cette étape est primordiale, sans quoi la machine virtuelle ne pourra pas fonctionner.
+
+
+
+\section{Bios}
+
+Sur les ordinateurs pouvant héberger des machines virtuelles, le programme permettant 
+d’activer cette fonctionnalité se trouve la plupart du temps dans le BIOS de l’ordinateur.\\
+
+Le BIOS (Basic Input Output System) est un microprogramme qui se lance au démarrage de l’ordinateur 
+avant que les systèmes d’exploitation ne démarrent. Ce microprogramme a pour but de vérifier 
+l’intégrité des composants de l’ordinateur (mémoire, disque dur, ports USB…) et est accessible au 
+démarrage de l’ordinateur en appuyant sur une touche du clavier lors de l’apparition de la marque 
+de l’ordinateur.\\
+
+Cependant, en fonction des ordinateurs, les touches peuvent changer…\\
+Par exemple, voici les touches (les plus répandues) lors du démarrage d’un ordinateur.\\
+Avant de faire une action, veuillez lire la section “Configuration du BIOS” en intégralité.
+
+TOSHIBA
+F2
+DELL
+F9
+ASUS
+F2
+LENOVO
+F2
+HP
+F10
+
+
+Si jamais vous n’arrivez pas à accéder au BIOS avec les touches ECHAP, F2,F5, F10,F12 ou SUPPR, 
+veuillez regarder la documentation en ligne à propos de votre ordinateur.\\
+
+
+Le moment où il faut presser la touche :
+(affichage de la marque de l’ordinateur)
+(Je ne possède pas d’actions chez Dell…)
+
+Une fois la touche pressée plusieurs fois dès le démarrage, le menu suivant devrait apparaître :
+
+Il faut trouver la section Advanced (la plupart des cas) :
+Dans les options, on cherche “Virtualization” ou “Virtualization Technology” que l’on sélectionne à « Enable » pour activer les machines virtuelles.
+
+Il ne faut pas toucher aux autres options sous peine de ne plus voir l’ordinateur démarrer correctement
+Ensuite, on presse F10 pour quitter le BIOS en sauvegardant les changements.
+
+
+\section{Choix de la distribution}
+
+Linux est un système d’exploitation basé sur un noyau UNIX.\\
+Il existe une multitude de versions de Linux que l’on appelle distribution.\\
+Ces distributions s’appellent Debian, Ubuntu, Fedora, CentOs… et se déclinent sous plusieurs 
+interfaces graphiques.\\
+
+Ainsi, pour chaque distribution Linux, le noyau est commun (gestion des composants…), 
+seuls les logiciels annexes sont différents.\\
+Le choix de la distribution se fait donc selon plusieurs critères comme : \\
+
+\begin{items}{green}{\faviconLeaf}
+\item La communauté autour de la distribution (Nombre d’utilisateurs et documentation fournie)
+\item La variété des logiciels déjà présents lors de l’installation (peu de manipulation pour rendre 
+le système fonctionnel)
+\item La consommation de la mémoire vive (liée au choix de l’interface graphique)
+\end{items}
+
+Ainsi, je vous propose d’installer Xubuntu, une distribution basée sur Ubuntu et qui possède une 
+interface graphique légère (interface Xfce). De plus, la communauté de Xubuntu est active et de nombreux 
+logiciels sont disponibles.\\
+
+
+Pour ceux qui le souhaitent, ils peuvent également installer une autre dérivée d'Ubuntu comme :
+
+- Kubuntu  (interface gourmande mais évoluée)
+- Lubuntu  (interface ultra-légère)
+
+Pour ceux qui veulent plus d’informations, ils peuvent comparer les différentes interfaces graphiques :
+
+- Kde			(Kubuntu...)
+- Gnome		(Ubuntu...)
+- Xfce			(Xubuntu...)
+- Lxde			(Lubuntu...)
+- Cinnamon 		(Linux Mint…)
+- …
+
+
+Ensuite, il vous faudra connaître votre architecture d’ordinateur. Si jamais vous ne l’avez pas, 
+ce n’est pas grave mais c’est mieux de la connaître.\\
+Pour cela, il vous faudra chercher dans les paramètres système de votre ordinateur.\\
+
+
+Si vous avez un doute, prenez l’architecture 32 bits car cette dernière est compatible avec 
+les 64 bits. Enfin, si votre ordinateur est récent, il y a de fortes chances pour qu’il soit en 64 bits.\\
+
+
+Après avoir trouvé l'architecture, rendez vous sur le site officiel de la distribution en question 
+(Exemple : http://xubuntu.fr/ )\\
+
+Pour un ordinateur 32 bits avec Xubuntu, copier ce lien dans un navigateur : http://cdimage.ubuntu.com/xubuntu/releases/18.04.2/release/xubuntu-18.04.2-desktop-i386.iso
+Pour un ordinateur 64 bits avec Xubuntu, copier ce lien dans un navigateur : http://cdimage.ubuntu.com/xubuntu/releases/18.04.2/release/xubuntu-18.04.2-desktop-amd64.iso
+
+En cliquant sur un des ces liens, un fichier au format .iso va être téléchargé.\\
+Il vous faudra noter l’emplacement du lieu de téléchargement (souvent dans “Téléchargements”)\\
+Une fois le téléchargement de l’image ISO terminé, nous pouvons configurer VirtualBox.
+
+
+\section{“Configuration}
+
+Pour installer VirtualBox, téléchargez le logiciel sur le site officiel à l’adresse suivante :
+https://www.virtualbox.org/wiki/Downloads 
+Dans cette section, sélectionnez “Windows hosts”
+
+Un exécutable sera téléchargé, exécutez le et laissez vous guider par l’installation (paramètres par défaut). Un logo similaire apparaît sur votre bureau
+
+
+
+
+    b) Lancement
+Lors de l’ouverture de VirtualBox, commencer par aller dans le menu supérieur et dans “Machine”, cliquez sur “Nouvelle”.
+
+
+
+Le menu suivant s’affiche : il faut nommer la machine et sélectionner le système d’exploitation.
+Dans le menu déroulant, sélectionnez “Linux/2.6/3.x” (dernière version).
+Sélectionnez l’architecture 64 bits ou 32 bits en fonction de votre PC.
+
+
+    c) Allocation de la mémoire
+L’étape suivante permet d’allouer de la mémoire à la MVL et à VirtualBox
+
+
+
+Par défaut, VirtualBox recommande une certaine quantité de mémoire (ici, 1Go)
+Cependant, pour être à l’aise, il est recommandé de mettre 3 Go (3000 Mo)
+
+
+
+Dans cette configuration de VirtualBox, l’ordinateur hôte n’est pas prévu pour faire beaucoup de tâches sur Windows. Si vous êtes sur la MVL, pensez à réduire les activités sous Windows, (Jeux, gros logiciels en arrière plan...).
+Après quelques essais, vous pourrez diminuer la mémoire allouée pour la machine si vous le souhaitez.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    d) Création du disque dur
+
+Nous allons créer un disque dur virtuel lors de l’installation.
+
+Ensuite, nous allons définir le type de fichier de disque (par défaut)
+
+
+
+Choisissez un fichier de disque dur à taille fixe afin de gagner en rapidité lors de l’utilisation de la MVL. (page suivante)
+
+
+
+
+
+En faisant cette étape, nous allons pouvoir créer un disque dur pouvant contenir le système Linux. Pour être confortable, nous allons octroyer 20 Go de stockage pour la MVL.
+Bien évidemment, cette capacité dépend de la taille de votre disque dur réel.
+
+Après validation, cette fenêtre apparaît :
+
+
+A la fin de l’animation, le disque dur virtuel est créé.
+
+
+
+
+
+    e) Sélection de l’image ISO
+Une fois sur la page principale, sélectionnez votre machine 
+
+et cliquez sur Configuration
+
+
+Cette interface apparaît :
+
+
+Allez dans le menu Stockage
+
+
+Puis cliquez sur “Ajouter un lecteur optique”
+
+
+puis “Choisir un disque”
+
+Cliquez sur “Ajouter”
+
+
+Il ne vous reste plus qu'à trouver votre image ISO téléchargée.
+
+
+
+
+
+
+
+
+Une fois ce résultat obtenu, la configuration de VirtualBox est terminée.
+
+
+
+\section{Installation}
+
+
+Une fois revenu sur le menu principal, sélectionnez votre machine et cliquez sur “Démarrer”
+
+
+Après quelques instants, le logo de la distribution s’affiche suivi d’un menu gris :
+
+
+
+
+Veuillez tout d’abord sélectionnez la langue d’installation : 
+
+
+Puis cliquez sur “Installer Xubuntu”
+
+
+
+
+
+
+
+
+Sélectionnez la langue de manière plus précise :
+
+
+
+Pour la section “Mises à Jours”, sélectionnez les deux cases, surtout la deuxième car sans cette dernière, il vous faudra installer manuellement les pilotes et codecs multimédias (étape pénible…)
+En revanche, si la première option n’est pas cochée, ce n’est pas grave car on pourra faire la mise à jour plus tard.
+A partir de cette étape, le réseau internet n’est plus obligatoire.
+
+
+
+Nous allons effacer le disque alloué (20 Go) afin de mettre Linux dessus.
+
+Il faut ensuite valider ce choix…
+
+Il ne vous reste plus qu'à renseigner vos informations personnelles.
+
+
+Vous devez indiquer votre nom, votre identifiant et votre mot de passe.
+Le nom de l’ordinateur importe peu.
+
+
+Une fois validé, l’installation du noyau Linux peut débuter.
+
+
+Après un petit temps, la fenêtre suivante s’affiche :
+
+Faite “Redémarrer maintenant”.
+Ensuite, à la vue de cette fenêtre, faites “Entrée”
+
+La machine redémarre et affiche de nouveau la marque de la distribution (Xubuntu).
+
+Vous pouvez maintenant vous connecter sous votre nom d’utilisateur
+et avec votre mot de passe. Pour information, le pavé numérique n’est pas activé par défaut sous VirtualBox.
+
+
+Une fois connecté, vous arrivez sur un menu semblable :
+
+
+Le menu (équivalent Windows) se situe ici :
+
+
+
+Pour éteindre la machine proprement, il suffit d’aller dans le menu et de cliquer sur le bouton 
+
+Une fois éteinte, pour allumer la machine, il suffit de cliquer sur Démarrer
+
+
+
+Ce tutoriel est désormais terminé, n’hésitez pas à faire des retours afin que je puisse l’améliorer et pour corriger les erreurs éventuelles.

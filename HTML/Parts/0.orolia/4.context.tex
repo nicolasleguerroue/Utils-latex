@@ -1,0 +1,88 @@
+\chapter{L'environnement des balises}  
+
+\section{Le programme COSPAS-SARSAT}
+
+Pour communiquer, les balises Orolia se basent sur le programme standardisé \glossary{COSPAS-SARSAT} (C/S) \figureRef{network} qui regroupe 43 pays et organisations pour former un réseau de satellites et de stations terrestres. \\ Les échanges avec les satellites se font avec des signaux à 406 MHz et les fréquences 121.5 MHz et 243 MHz sont des fréquences qui permettent aux services \glossary{SAR}
+(Search and Rescue) de localiser la balise.\\
+
+Chaque signal de détresse est traité par l'un des 200 pays et territoires.
+
+%#Parler des constellations
+
+\imgn{\rootImages/global.png}{Le réseau Cospas-Sarsat}{0.9}{network}
+
+La figure précédente nous indique le cheminement d'un processus de détresse, c'est à dire lorsque une balise commence à émettre un message.
+
+Tout d'abord, une balise située dans un avion (ELT), un navire (EPIRB) ou sur une personne (PLB) envoie des messages de détresse pendant 24 heures au réseau de satellites. 
+Les satellites forment un ensemble de 3 constellations : 
+
+
+\begin{items}{blue}{\Circle}
+    \item La constellation \glossary{LEOSAR} (Low-Earth Orbiting Search and Rescue) est formée de 6 satellites à 36 000 km d'altitude.
+    \item La constellation \glossary{GEOSAR} (Geostationary Search and Rescue) avec cinq satellites à 36 000 km également.
+    \item La constellation \glossary{MEOSAR} (Medium-Earth Orbit SAR) formée par les satellites GPS et Galiléo notamment.
+\end{items}
+
+Les satellites réceptionnent le message et transmettent aux différentes stations terrestres la demande de détresse.\\
+
+Chaque message comprend différents champs ayant chacun une fonction comme indiquer l'identifiant unique de la balise, vérifier l'intégrité des données...\\
+
+Lors des premières 48 heures, un signal de positionnement est envoyé pour que les secours puissent localiser la balise avec le système SAR qui lance les recherches au sol (hélicoptères, navires...). Cette phase est appelée Homing.
+
+Les normes C/S imposent une durée de fonctionnement de minimum 24 h et 48 h pour certains modèles (ELT).
+
+\section{L'architecture d'une balise}
+
+Une balise peut fondamentalement est scindée en deux chaînes : 
+
+\begin{items}{blue}{\Circle}
+    \item Une chaîne de Puissance qui s'occupera d'émettre les messages de détresse
+    \item Une chaîne Logique pour gérer les états de la balise
+\end{items}
+
+\imgn{\rootImages/powerBeacon.png}{L'architecture de l'alimentation d'une balise}{0.5}{archBeacon}
+
+La gestion de l'énergie d'une balise (deux parties qui seront abordées par la suite) est donc la partie qui vise à faire fonctionner la logique et la puissance en partant d'une batterie.
+
+
+\section{Les contraintes des balises}
+
+Ces balises sont placées dans des environnements contraignants (avion, navires...), il faut donc alimenter la balise avec une batterie afin qu'elle puisse émettre ses messages de détresse en toute situation.\\Les balises doivent être autonomes en énergie et ne nécessiter aucune interaction de l'utilisateur pour émettre les messages.\\
+
+Ainsi, en plus des normes C/S, le domaine de l'aéronautique ajoute ses propres normes de sécurité dont notamment l'utilisation des balises à -40°.\\
+Cependant, à cette température, les batteries utilisées dans certaines balises sont moins efficaces et la capacité apparente diminue comme le montre la figure suivante :\\
+
+\imgn{\rootImages/datasheet.png}{L'effet de la température et du courant sur une cellule de batterie}{0.8}{batt}
+
+Ces balises ne doivent être activées qu'en cas de détresse avérée et ne peuvent pas se déclencher intempestivement. Elles forment donc un système de sécurité utilisé en dernier recours car l'échec n'est pas permis.\\
+Les contraintes d'autonomie énergétique sont exigeantes car une balise doit émettre dans les 5 secondes même lorsque elle n'est pas activée depuis des années.
+
+
+Il faut donc jongler entre les contraintes imposées par la batterie et par la puissance nécessaire à la partie Puissance et Logique afin d'émettre avec suffisamment de puissance aux satellites. 
+
+\section{Les modes de la balise}
+\label{frequencies}
+
+Il existe principalement 3 modes de fonctionnement :
+
+\begin{items}{blue}{\Circle}
+    \item mode OFF : La balise est totalement désactivée.
+    \item mode ARMED : Seule quelques fonctions vitales (détection de crash, détection d'eau de mer) sont activées, le reste est en sommeil.
+    \item mode ON : La balise émet ses signaux de détresse sur les différentes fréquences. Un message transmit est appelé Burst. Pour le 406 MHz, les bursts durent une seconde et se répartissent ainsi sur les 24 premières heures : 
+     \begin{items}{blue}{\Triangle}
+ \item 6 bursts espacés chacun de 5 secondes
+ \item 59 bursts espacés chacun de 30 secondes
+ \item 705 bursts espacés chacun de 120 secondes
+ \end{items}
+ 
+ Entre chaque burst en 406 Mhz, un signal est transmis pour le système SAR. Après 24 h, la balise émet uniquement en 121.5 MHz et 243 MHz.
+\end{items}
+
+\section{Le système de batterie}
+
+Afin d'alimenter les balises, deux modèles de batterie ont été développés : 
+
+\begin{items}{blue}{\Circle}
+ \item Une batterie BAT400 qui comprend 4 cellules de 3V (3Ah) en série, ce qui fait une batterie de 12V et 3Ah (4s1p)
+ \item Une batterie BAT800 qui comprend 2 branches parallèles de 4 cellules de 3V (3Ah) en série, ce qui fait une batterie de 12V et 6Ah (4s2p)
+ \end{items}

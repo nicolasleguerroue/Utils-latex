@@ -1,0 +1,56 @@
+\chapter{Installation de Domoticz}
+\section{Installation de Domoticz sur Linux}
+
+Veuillez ouvrir un terminal puis saisir les commandes suivantes : 
+
+\begin{Bash}{Installation de domoticz}
+sudo apt-get -y install cmake make gcc g++ libssl-dev git libcurl4-openssl-dev libusb-dev python3-dev curl zlib1g-dev zlib1g
+\end{Bash}
+
+Puis lancez le script d'installation avec la commande suivante
+
+\begin{Bash}{Installation de domoticz}
+  sudo curl -L https://install.domoticz.com | bash
+\end{Bash}
+
+Le terminal devrait afficher un contenu similaire : 
+
+\img{\rootImages/load.png}{Vérification des bibliothèques}{0.3}
+
+Ensuite, une interface utilisateur se lance dans le terminal:
+
+
+\img{\rootImages/l1.png}{Présentation de Domoticz}{0.4}
+
+Il faut saisir la touche \lmagenta{KEY}{ENTREE} pour afficher la fenêtre suivante.
+Une deuxième fenêtre apparaît. Veuillez sélectionner le service HTTP (par défaut) puis \lmagenta{KEY}{ENTREE}
+
+\img{\rootImages/l2.png}{Choix du protocole par défaut}{0.4}
+
+Nous allons ensuite choisir le port 8080 pour communiquer sur le réseau (par défaut : 8080)
+
+\img{\rootImages/l3.png}{Choix du port}{0.4}
+
+Nous utiliserons le port 443 (HTTPS) pour un protocole plus sécurisé.
+
+\img{\rootImages/l4.png}{Protocole HTTPS}{0.4}
+
+Il ne vous reste plus qu'à choisir l'emplacement du logiciel Domoticz.\\
+Par défaut, Domoticz le place dans vos documents personnels (/home/nom\_utilisateur)
+
+\img{\rootImages/l5.png}{Emplacement des fichiers Domoticz}{0.4}
+
+Il ne vous reste plus qu'à valider l'installation : 
+
+\img{\rootImages/l6.png}{Validation de l'installation}{0.4}
+
+Puis dans votre navigateur internet, saisir :
+
+\begin{Bash}{Lancement de Domoticz}
+  localhost:8080
+\end{Bash}
+
+
+
+
+

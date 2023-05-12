@@ -1,0 +1,378 @@
+\part{Les Timers}
+\chapter{Présentation}
+
+L'objectif de ce laboratoire est d'abord de développer une API (fichiers timer.h/.c) afin de gérer les timers (TIM2 à TIM5) du microcontrôleur STM32F411.\\
+Dans un deuxième temps, on utilisera ces fonctions afin de détecter un appui long ou un appui court sur un bouton poussoir. Si l'appui est court, la couleur de la led RGB sera changée ; si l'appui est long la led RGB sera allumée ou éteinte selon un fonctionnement de type "flip-flop". La durée de l'appui sera affichée, pour information, sur l'afficheur LCD de la carte d'extension Appshield. \\
+
+Une partie de la préparation de ce laboratoire a été faite en TD. Les interruptions ne sont pas utilisées dans ce laboratoire. \\
+Les API permettant d'utiliser la led RGB, le joystick et l'afficheur LCD sont fournies
+précompilées. Consulter leur fichier d'en-tête *.h pour prendre connaissance des fonctions de l'API disponibles.\\
+Les documentations relatives à l'utilisation du microcontrôleur STM32F411 sont disponibles
+sur les postes de travail et en ligne (Moodle).
+
+
+
+\chapter{API timer.h/.c}
+
+
+\section{II.1 Fonctions d'attente}
+
+
+\subsubsection{a) Fonction timer\_wait\_us}
+
+\begin{Cpp}{Prototype de la fonction\func{timer\_wait\_ms}} 
+int timer_wait_us(TIM_t *tmr, uint32_t us, OnTick cb);
+\end{Cpp}
+
+La fonction utilise le timer tmr pour générer une attente de us microsecondes. Le paramètre cb n'est pas utilisé ici car nous n'utilisons pas d'interruption.\\
+La fonction retourne 0 à la fin d'une exécution sans erreur. \\
+
+\begin{Cpp}{Définition de la fonction\func{timer\_wait\_us}} 
+int timer_wait_us(TIM_t *tmr, uint32_t us, OnTick cb) 
+{
+
+tmr -> ARR = us;			//End of timer at us   Auto Reload Register
+		
+tmr->SR = 0; 														//No update interrupt flag
+tmr->CR1 |=  (1u << ONE_PULSE_MODE) | (1u << AUTO_RELOAD_MODE);		//One pulse-mode and Auto-reload preload enable
+
+timer_start(tmr);
+
+while (tmr->CR1 & 0x1){};//Tant que le compteur n'a pas fini de compter jusqu'à ARR
+return 0;
+}
+\end{Cpp}
+
+Que fait-on ? Dans un premier temps on écrit la valeur de us dans le registre \reg{ARR} (Auto-Reload Register).\\
+Cela veut dire que le compteur va aller de 0 à la valeur de notre registre \reg{ARR}.\\
+Cela est vrai si on est en Upcounting mode, il existe 3 modes : \\
+
+\begin{items}{red}{\Triangle}
+\item Upcounting mode : comptage de 0 à ARR (par default)
+\item Downcounting mode : comptage de ARR à 0 
+\item Center-align mode : comptage de 0 à ARR puis de ARR à 1.
+\end{items}
+
+On indique ensuite que nous ne mettrons pas à jour les drapeaux d'interruptions. Pour cela, on écrit \bold{0} dans le registre \reg{SR}\\
+Il faut ensuite dire au compteur qu'il ne va compter que une fois, pour cela on utilise le One-Pulse-Mode en changeant le bits numéro 3 du registre \reg{CR1} 
+
+\img{\rootImages/OPM.png}{fonctionnement du mode OPM}{0.5}
+
+On utilise l'Auto-Reload Preload Enable \bold{ARPE} mode qui permet au compteur de s'arrêter à la valeur indiquée dans le registre \reg{ARR}
+
+\img{\rootImages/ARPE.png}{fonctionnement du mode ARPE}{0.5}
+
+\begin{Cpp}{Paramétrage du registre \reg{CR1}} 
+
+#define ONE_PULSE_MODE 0x3 //One Pulse Mode in CR1
+#define AUTO_RELOAD_MODE 0x7 //ARPE
+//...
+tmr->CR1 |=  (1u << ONE_PULSE_MODE) | (1u << AUTO_RELOAD_MODE);		//One pulse-mode and Auto-reload preload enable
+\end{Cpp}
+
+Le registre \reg{CR1} (Control Register) est le registre qui permet de paramétrer le compteur, il contient notamment le bit One Pulse Mode, le bit Auto Reload et le bit \bold{CEN}.\\
+Ce bit permet de lancer le comptage et de savoir si le comptage est terminé (valeur de \reg{ARR} atteinte)
+
+\img{\rootImages/tableauCR1.png}{éléments du registre CR1}{0.5}
+
+
+
+
+
+
+\newpage
+\subsubsection{Registre PSC}
+
+\img{\rootImages/PSC.png}{Fonctionnement du registre PSC}{0.5}
+
+La valeur de notre horloge est de 84MHz, mais étant donné que la valeur de notre prescalaire est codée sur 16 bits, il peut prendre une valeur allant de 0 à 65535 (2**16 possibilités). 
+84MHz correspond à une période de 11,9ns. \\On cherche à mettre en entrée de notre compteur principal une période de 1 microseconde\\
+Le compteur va donc réagir toutes les microsecondes.\\
+
+Notre période d'horloge peut donc atteindre au maximum une valeur de 78ms. En effet, on divise notre fréquence d'horloge par 65535. 
+On obtient la fréquence min que l'on a pour notre compteur, soit 65535/84*10**6 = 78ms.
+On se rend donc compte de la limite de notre prescalaire.
+
+La valeur de notre préscalaire vaut : 
+
+\begin{equation}
+PSC = TCK\_CNT*FCK\_PSC-1
+\end{equation}
+
+En choisissant une base de temps de 1 $\mu s$, on obtient un préscalaire valant 83.
+
+
+\newpage
+\subsubsection{b) Fonction timer\_wait\_ms}
+\begin{Cpp}{Prototype de la fonction\func{timer\_wait\_ms}} 
+int timer_wait_ms(TIM_t *tmr, uint32_t ms, OnTick cb);
+\end{Cpp}
+
+La fonction utilise le timer tmr pour générer une attente de ms millisecondes. Le paramètre cb n'est pas utilisé ici car il n'y a pas d'interruption. La fonction retourne 0 à la fin d'une exécution sans erreur.
+
+
+Pour que le timer attende en ms, nous utilisons une boucle for qui va répéter ms fois la fonction \func{timer\_wait\_us} basée sur une attente de 1000 $\mu s$ \\
+
+
+\begin{Cpp}{Définition de la fonction\func{timer\_wait\_us}} 
+int timer_wait_ms(TIM_t *tmr, uint32_t ms, OnTick cb) 
+{
+		for (uint32_t i = 0; i < ms; i++)
+		{
+			timer_wait_us(tmr, 1000, NULL);
+		}//End for
+	    return 0;
+}
+\end{Cpp}
+
+
+
+
+
+\newpage
+\subsection{II.2 Tests : MAIN1}
+
+\begin{Cpp}{Code main1} 
+#define wait_us           1000*1000   //us
+
+int main()
+{    
+    leds_init();
+    leds(0);
+    timer_count_init(_TIM2,1);//timebase of 1 micro-seconde
+    while(1)
+    {
+        red_led(1);
+        timer_wait_ms(_TIM2, 1000, NULL);
+        red_led(0);
+        timer_wait_ms(_TIM2, 1000, NULL);
+    }        
+}   
+\end{Cpp}
+
+Le MAIN1 allume la led rouge pendant 1s, l'éteint pendant 1s et ce de manière périodique.
+
+
+\newpage
+\subsection{II.3 Autres fonctions}
+\subsubsection{a) Fonction timer\_count\_init}
+\begin{Cpp}{Prototype de la fonction\func{timer\_count\_init}} 
+int timer_count_init(TIM_t *tmr, uint32_t timebase_us);
+\end{Cpp}
+
+\begin{Cpp}{Prototype de la fonction \func{timer\_count\_init}} 
+int timer_count_init(TIM_t *tmr, uint32_t timebase_us)  {
+
+		//select timer
+		if(tmr==_TIM2) {
+			_RCC->APB1ENR |= (1u<<0);	
+		}//End if
+		else if (tmr==_TIM3) {
+			_RCC->APB1ENR |= (1u<<1);
+		}//End else if
+		else if (tmr==_TIM4) {
+			_RCC->APB1ENR |= (1u<<2);
+		}//End else if		
+		else if (tmr==_TIM4) {
+			_RCC->APB1ENR |= (1u<<3);
+		}//End else if	
+        
+    	tmr->SR = 0; 														//No update interrupt flag
+    	tmr->CR1 |=  (1u << ONE_PULSE_MODE) | (1u << AUTO_RELOAD_MODE);		//One pulse-mode and Auto-reload preload enable
+
+		/*Computing timebase
+		//PSC = TCK_CNT*FCK_PSC-1 = 1*10(^-6)*84*10(^6)-1 = 83
+		*/
+		tmr->PSC = (uint32_t) (timebase_us*0.000001*84000000)-1; 
+
+		return 0;
+
+}
+\end{Cpp}
+
+Dans un premier temps cette fonction relie le timer passé en argument(tmr) à la clock correspondante. Pour cela on utilise le registre \reg{APB1ENR} présenté si dessous.
+\img{\rootImages/tableau_APB1ENR.png}{Espace du registre RCC->APB1ENR}{0.5}
+\img{\rootImages/APB1ENR_fonctionnement.png}{Bits respectifs d'activation}{0.5}
+
+Ensuite on met le registre \reg{SR} à zéro car il n'y a pas d'interruption.\\
+Puis \reg{CR1} en One Pulse Mode et Auto Reload Mode.
+(expliqué avant)
+
+
+\newpage
+\subsubsection{b) Fonction timer\_start}
+\begin{Cpp}{Prototype de la fonction\func{timer\_start}} 
+void timer_start(TIM_t *tmr);
+\end{Cpp}
+
+\begin{Cpp}{Définition de la fonction\func{timer\_start}} 
+void timer_start(TIM_t *tmr) {
+		//Re-initialize the counter and generates an update of the registers
+		tmr->EGR = 0x1;		// reset
+		//Enable timer
+		tmr->CR1 |= 0x1; 
+}
+\end{Cpp}
+
+Comme expliqué dans le commentaire il faut mettre à 1 le premier bit de \reg{EGR} pour remettre le compteur "à zéros" et commencer correctement grâce au bit 0 de \reg{CR1} : CEN (Counter ENnable) qui \bold{doit être mis à 1 pour démarrer le comptage}.
+
+\img{\rootImages/tableau_EGR.png}{Emplacement EGR}{0.5}
+
+\img{\rootImages/fonctionnement_EGR.png}{Bit UG}{0.5}
+
+\img{\rootImages/CEN.png}{Activation du compteur}{0.5}
+
+
+\subsubsection{c) Fonctiontimer\_stop}
+\begin{Cpp}{prototype de la fonction \func{timer\_stop}} 
+void timer_stop(TIM_t *tmr);
+\end{Cpp}
+
+\begin{Cpp}{Définition de la fonction \func{timer\_stop}} 
+void timer_stop(TIM_t *tmr) {
+    tmr->CR1 &= ~(0x1);  //we put the bit 0 at 0 
+}
+\end{Cpp}
+
+On utilise un \&= \~{}(0x1) pour mettre le bit 0 à 0 et uniquement celui là.
+\~{}(0x1) donne (0x111..1110)\\
+
+
+
+
+
+\subsubsection{d) Fonction read\_timer}
+\begin{Cpp}{Prototype de la fonction\func{read\_timer}} 
+uint32_t read_timer(TIM_t *tmr);
+\end{Cpp}
+
+\begin{Cpp}{Définition de la fonction\func{read\_timer}} 
+uint32_t read_timer(TIM_t *tmr) {
+
+	return tmr->CNT ;	//current value
+}
+\end{Cpp}
+
+Le registre \reg{CTN} représente la valeur du compteur. On rappel qu'en fonction du timer utilisé, la capacité du compteur change (32bits ou 16bits).
+
+\img{\rootImages/CNT.png}{registre CNT}{0.5}
+
+\newpage
+\subsection{II.4 : MAIN2}
+\begin{Cpp}{Main 2} 
+#define sampling_period 100         //us
+#define timebase_us     10
+
+int main()
+{
+    uint32_t delay = 0;
+    
+    sw_init();
+    timer_count_init(_TIM3, timebase_us);
+    timer_count_init(_TIM2, 1);
+    lcd_reset();    
+    
+    while(1)
+    {
+        //TIM3 used for sampling button states
+        timer_wait_us(_TIM3, sampling_period, NULL);
+        if(sw_center())
+        {
+            //TIM2 used for delay measurement
+            timer_start(_TIM2);
+            while(sw_input() & SW_CENTER);
+            timer_stop(_TIM2);
+            delay = read_timer(_TIM2);
+            cls();
+            lcd_printf("duree appui : %d ms\r\n", delay/(1000));
+        }
+    }        
+}
+\end{Cpp}
+
+Cette fonction nous indique combien de temps nous sommes restés appuyé sur la touche centrale du joystick.\\
+Explication du code :
+Si on appui sur la touche centrale du joystick, on lance le timer 2.\\
+Tant que la touche centrale du joystick est appuyée, le timer 2 continue de s'incrémenter.\\
+Une fois que l'appui est relaché, on arrête le timer 2.\\
+On lit la valeur du timer 2 et on affiche sa valeur divisée par 1000 (car la fonction read\_timer retourne une valeur en microsecondes).\\ On obtient donc le temps que l'on est resté appuyé en millisecondes. 
+
+
+
+\newpage
+\section{III Programme complet : MAIN 3}
+\begin{Cpp}{Main 3} 
+#define sampling_period 100         //us
+#define timebase_us     100
+#define long_delay      1000        //ms
+
+#define LONG_DELAY 1000
+#define SHORT_DELAY 50
+
+
+int main()
+{
+    uint32_t delay = 0;
+    uint8_t color = 1;  //color from 1 to 7
+    uint8_t leds_state = 1;
+
+    
+    leds_init();
+    leds(color);
+    sw_init();
+    lcd_reset();
+    
+    //initialisation timer
+    timer_count_init(_TIM3, timebase_us);
+    timer_count_init(_TIM2, 1);
+    
+    while(1)
+    {
+
+        if(sw_center())
+        {
+            //TIM2 used for delay measurement
+            timer_start(_TIM2);
+            while(sw_input() & SW_CENTER);
+            timer_stop(_TIM2);
+            delay = read_timer(_TIM2);
+            cls();
+            lcd_printf("duree appui : %d ms\r\n", delay/(1000));
+
+            if( (delay/1000)>LONG_DELAY) {
+                leds_state= (leds_state) ? 0 : 1 ;
+                if(leds_state) {
+                    leds(color);
+                }
+                //set led
+                else {
+                    leds(0);
+                }
+
+            }//End if long_delay
+
+            if( ((delay/1000)<LONG_DELAY) && ((delay/1000)>SHORT_DELAY)) {
+                color = (color == 7) ? 1: color+1;
+                if(leds_state) {
+                    leds(color);
+                }
+                else {
+                    leds(0);
+                }
+  
+            }//End if long_delay
+           lcd_printf("Couleur : %d", color);
+        }
+    }        
+}
+\end{Cpp}
+
+Le MAIN3 sert à changer la couleur de la LED si on fait un appui court sur le joystick. Mais également à éteindre ou allumer cette même LED (en fonction de son état) si on fait un appui long.\\
+
+Si on appui sur la touche centrale du joystick on déclenche le timer 2.\\
+Tant que la touche est maintenu enfoncée, le timer 2 continu à s'incrémenter.
+Une fois que l'on relache la touche, le timer 2 s'arrête.\\
+On affiche le temps que l'on est resté appuyé.
+Si ce délai est inférieur à LONG\_DELAY (qui est une variable que l'on a fixée) mais supérieur à SHORT\_DELAY, on change la couleur de la led.\\
+Si on appui pendant plus de LONG\_DELAY ms, on inverse l'état de la LED.
+
