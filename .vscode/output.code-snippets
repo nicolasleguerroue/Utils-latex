@@ -495,6 +495,14 @@
 	 ], 
 	 "description" : "Add update version ",
 },
+" ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Debug.progressbar",
+	 "body" : [
+	 "\\progressbar"
+	 ], 
+	 "description" : " ",
+},
 "Include PDF file ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Pdf.includeFile",
@@ -767,6 +775,14 @@
 	 ], 
 	 "description" : "Display the nomenclature ",
 },
+"Display end notes ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Endnote.displayEndnotes",
+	 "body" : [
+	 "\\displayEndnotes{${1:tocName}}"
+	 ], 
+	 "description" : "Display end notes ",
+},
 "Set 3D vector ": {
 	 "scope" : "tex, latex",
 	 "prefix" : "Latex.Maths.evec",
@@ -814,6 +830,14 @@
 	 "\\x"
 	 ], 
 	 "description" : "create equivalent arrow ",
+},
+"Use degree symbol ": {
+	 "scope" : "tex, latex",
+	 "prefix" : "Latex.Maths.Degree",
+	 "body" : [
+	 "\\Degree"
+	 ], 
+	 "description" : "Use degree symbol ",
 },
 "Default part newcommand{part} ": {
 	 "scope" : "tex, latex",

@@ -10,4 +10,5 @@
 \rowColor{white}  f & cmd & create fraction  & 2\\ \hline
 \rowColor{white}  equi & cmd & create equivalent arrow  & 0\\ \hline
 \rowColor{white}  x & cmd & create equivalent arrow  & 0\\ \hline
+\rowColor{white}  Degree & cmd & Use degree symbol  & 0\\ \hline
 \end{tabular}

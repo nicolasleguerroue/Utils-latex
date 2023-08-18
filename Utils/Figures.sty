@@ -38,7 +38,7 @@
 {
     
     \begin{figure}[h]
-        \label{AZE}
+        \label{fig:#2}
         \begin{center}
             \setTitleFigure{#1}
             \raiseMessage{Creating new figure ['\titleFigure']}
@@ -53,7 +53,7 @@
 \newcommand{\createFigureRef}[3]  %Create new figure with ref #name #content #reference
 {
     \begin{figure}[h]
-        \label{#3}
+        \label{fig:#3}
         \centering
     \raiseMessage{Creating new figure ['#1']}
         {#2}
@@ -72,6 +72,6 @@
 
 
 \newcommand{\figureRef}[1] %Display number of fugure with '(Figure X.X)' format #figureReference
-{(Figure \ref{#1})} 
+{(Figure \ref{fig:#1})} 
 \newcommand{\figureName}[1]   %Display number of fugure with 'figure X.X' format #figureReference
-{figure \ref{#1}} 
+{figure \ref{fig:#1}} 

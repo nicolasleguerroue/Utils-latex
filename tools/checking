@@ -104,6 +104,9 @@ done
 
 echo -e ">>> Checking of files : [$green OK $default]"
 
+
+
+
 echo ">>> Generating Snippets file"
 python3 ${src}/tools/generateSnippets.py
 echo -e ">>> Generating Snippets file : [$green OK $default]"

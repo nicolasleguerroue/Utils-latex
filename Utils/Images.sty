@@ -10,8 +10,6 @@
 \RequirePackage{float}              %image floating
 \RequirePackage{wrapfig}            %Float figures
 \RequirePackage{subcaption}         %Subcaption
-\RequirePackage{animate}            %Gif
-\RequirePackage{media9}             %Animations
 %############################################################
 \typeout{>>> Utils: Package 'Images' loaded !}
 %############################################################
@@ -93,7 +91,7 @@
         \begin{figure}[H]
             \centering\
             \includegraphics[scale=#3]{#1}\caption{#2}
-            \label{#4}
+            \label{fig:#4}
         \end{figure} 
         \addtocounter{imgCounter}{1} 
         \raiseMessage{Image '#1' [size=#3,id=\arabic{imgCounter}] loaded !} 

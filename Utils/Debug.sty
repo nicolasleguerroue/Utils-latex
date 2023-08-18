@@ -6,6 +6,8 @@
 %############################################################
 %################################################################
 \RequirePackage{catchfile}           %Tools for reading #
+\RequirePackage{tikz}
+\RequirePackage{xcolor}
 %############################################################
 \typeout{>>> Utils: Package 'Debug' loaded !}
 
@@ -15,4 +17,15 @@
         \textbf{\textcolor{black}{#1}}
     }
     \quad{#2}
+}
+
+
+
+
+\newcommand{\progressbar}[2]{%
+    \begin{tikzpicture}[baseline]
+        \fill [gray!30] (0,0) rectangle (#1,0.4);
+        \fill [darkBlue] (0,0) rectangle (#1*#2/100,0.4);
+        \draw [white] (0.5*#1,0.2) node {\textbf{#2\%}};
+    \end{tikzpicture}%
 }

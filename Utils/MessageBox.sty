@@ -43,3 +43,13 @@
 
 % \newenvironment{myidea}{\begin{myideabox}\centering\LARGE\faLightbulbO\tcblower}
 %                        {\end{myideabox}}
+
+\definecolor{myblue}{RGB}{0,92,184}
+\definecolor{mygray}{RGB}{170,170,170}
+
+\newcommand{\azerty}[2][myblue]{
+    \begin{tikzpicture}
+    \node[rectangle,rounded corners=5pt,fill=#1,text=white,minimum width=5cm,minimum height=2cm,align=center] (message) at (0,0) {\textbf{#2}};
+    \node[text=mygray] at (message.north) {\footnotesize\textsf{Information}};
+    \end{tikzpicture}
+}

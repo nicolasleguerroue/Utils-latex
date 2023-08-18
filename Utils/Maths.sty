@@ -6,6 +6,14 @@
 %############################################################
 \typeout{>>> Utils: Package 'Maths' loaded !}
 %############################################################
+\RequirePackage{siunitx}
+\RequirePackage{calculator}
+\RequirePackage{xfrac} 
+\RequirePackage{xparse}
+\RequirePackage{xfp}
+\RequirePackage{gensymb}
+
+
 \newcommand{\evec}[3]{%Set 3D vector #x y z
     \left (\begin{array}{ccc} #1 \\ #2 \\ #3\end{array} \right )} %Set 3D vector #x y z
 
@@ -25,4 +33,6 @@
 \newcommand{\x} %create equivalent arrow #
 {x}
 
+\newcommand{\Degree} %Use degree symbol #
+{$^{\circ}$}
 
