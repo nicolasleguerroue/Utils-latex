@@ -1,0 +1,29 @@
+%############################################################
+%###### Package 'Forms' 
+%###### This package contains some tools to display forms
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+\RequirePackage{eforms}  %Include eform
+\RequirePackage{fp}  %Include eform
+%############################################################
+\typeout{>>> Utils: Package 'Forms' loaded !}
+%############################################################
+
+
+\newcommand{\inputText}[4]{%
+    \raisebox{-\fpeval{#3/2.0-0.1}cm}{\TextField[name=#1, width=#2cm, height=#3cm, bordercolor=#4]{}}
+}
+\newcommand{\inputTextWithoutLine}[4]{%
+    \TextField[name=#1, width=#2cm, height=#3cm, bordercolor=#4]{}
+}
+
+\newcommand{\checkBoxLeft}[5]{%
+\begin{Form}
+    \CheckBox[name=#1,width=#2cm,height=#3cm,bordercolor=#4]{} #5
+\end{Form}
+}
+
+\newcommand{\cbL}{%
+\checkBox[\symbolchoice{circle}]{myCheck}{10bp}{10bp}{On}
+}

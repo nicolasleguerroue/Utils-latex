@@ -104,6 +104,16 @@ function installTools(){
         echo -e "\tInstalling VSCode extension : <${e##*.}>"
         $VSCodeCmd --install-extension $e
     done
+    
+    #Acrotex install
+    sudo mkdir -p /usr/local/share/texmf/tex/latex
+    #Move eq-save and acrotex directory into this folder
+    #then run the following command : 
+    latex acrotex.ins
+    #then  go into eq-save dir and run this command : 
+    latex eq-save.ins
+    #Thus, cp eq-save.sty and acrotex in Utils directory. The package is installed successfully.
+    sudo texhash
 
     echo -e ">>> Installing tools : [$green OK $default]"
 

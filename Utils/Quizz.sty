@@ -4,8 +4,8 @@
 %###### Author  : Nicolas LE GUERROUE
 %###### Contact : nicolasleguerroue@gmail.com
 %############################################################
-%\RequirePackage{eq-save} %Question
-%\RequirePackage{exerquiz}
+\RequirePackage{eq-save} %Question
+\RequirePackage{exerquiz}
 
 %\RequirePackage{eforms}
 
@@ -13,25 +13,18 @@
 \RequirePackage{amssymb}
 \typeout{>>> Utils: Package 'Quizz' loaded !}
 
-% \begin{manswers}[diff]{4}
-%    \bChoices
-%        \Ans1 linéaire \eAns
-%        \Ans1 comparateur \eAns
-%        \Ans0 toujours les 2 \eAns
-%    \eChoices
-%    \end{manswers}
 
-% \newenvironment{mcq} %utiple Choice Question #
-% {
-%    \begin{manswers}[diff]{4}
-%    \bChoices
-% }
-% {
-%    \eChoices
-%    \end{manswers}
-% }
+\newenvironment{mcq} %utiple Choice Question #
+{
+   \begin{manswers}[diff]{4}
+   \bChoices
+}
+{
+   \eChoices
+   \end{manswers}
+}
 
-% \newcommand{\logicalAnswer}[2] %Logical answer #Answer isCorrect?
-% {
-%    \Ans0 #1 \eAns
-% }
+\newcommand{\logicalAnswer}[2] %Logical answer #Answer isCorrect?
+{
+   \Ans0 #1 \eAns
+}

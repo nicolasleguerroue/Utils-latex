@@ -479,6 +479,20 @@ else
  	echo -e "[Step $count_step / $count_sum_full] >>> First compilation of  '$main.tex' is over"
 fi
 
+
+
+#!/bin/bash
+
+# Fonction pour afficher en vert
+print_green() {
+    echo -e "\e[32m$1\e[0m"
+}
+
+# Fonction pour afficher en rouge
+print_red() {
+    echo -e "\e[31m$1\e[0m"
+}
+
 let count_step++
 echo -e "[Step $count_step / $count_sum_full] >>> Moving of $main.pdf..."
 echo -e "$orange"
@@ -505,6 +519,37 @@ echo -e "$default"
 end=`date +"%s"`
 time=`expr $end - $begin`
 rm $main.xdy 2>> $renderReportFile
+
+
+# Vérifie si un lien est valide en utilisant wget
+check_url() {
+    if wget -q --spider "$1"; then
+        print_green "Link $1 is valid"
+    else
+        print_red "Link $1 is not valid"
+    fi
+}
+
+
+# Récupère toutes les URL à l'intérieur des balises \href{}
+urls_git=$(grep -oP '\\githubLink\{\K[^}]*' "standlone.tex")
+urls_href=$(grep -oP '\\href\{\K[^}]*' "$1")
+urls_platformio=$(grep -oP '\\platformIOLink\{\K[^}]*' "standlone.tex")
+
+# Parcours les URL et vérifie leur validité
+for url in $urls_href; do
+    check_url "$url"
+done 
+
+for url in $urls_git; do
+    check_url "$url"
+done
+
+for url in $urls_platformio; do
+    check_url "$url"
+done
+
+
 echo -e ">>> Compilation over in $time s ! $default"
 
 

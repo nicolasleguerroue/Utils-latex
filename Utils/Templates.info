@@ -1,0 +1,15 @@
+\section{Liste des dépendances}
+\begin{tabular}{|l|l|}\hline 
+\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Description} \\ \hline
+\rowColor{white} Links & Labels library \\ \hline
+\rowColor{white} MessageBox & MessageBox library \\ \hline
+\rowColor{white} Colors & Colors library \\ \hline
+\rowColor{white} Favicons & Favicons library \\ \hline
+\rowColor{white} Labels & Labels library \\ \hline
+\rowColor{white} verbatim & write in file \\ \hline
+\end{tabular}\section{Liste des fonctions}
+\begin{tabular}{|l|l|l|l|}\hline 
+\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Type} & \color{white}{Description} & \color{white}{Argument}\\ \hline
+\rowColor{white}  githubLink & cmd & Create a message box with code link  & 1\\ \hline
+\rowColor{white}  platformIOLink & cmd & Create a message box with code link  & 1\\ \hline
+\end{tabular}

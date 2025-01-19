@@ -19,4 +19,13 @@
 \rowColor{white}  faviconClock & cmd & Get clock logo  & 0\\ \hline
 \rowColor{white}  faviconChat & cmd & Get Chat logo  & 0\\ \hline
 \rowColor{white}  faviconSymbolicLink & cmd & Get SymbolicLink logo  & 0\\ \hline
+\rowColor{white}  faviconUser & cmd & Get user logo  & 0\\ \hline
+\rowColor{white}  faviconUsers & cmd & Get users logo  & 0\\ \hline
+\rowColor{white}  faviconPlace & cmd & Get place logo  & 0\\ \hline
+\rowColor{white}  faviconBirth & cmd & Get birth cake logo  & 0\\ \hline
+\rowColor{white}  faviconPhone & cmd & Get phone logo  & 0\\ \hline
+\rowColor{white}  faviconEnvelope & cmd & Get envelop logo  & 0\\ \hline
+\rowColor{white}  faviconCase & cmd & Get case logo  & 0\\ \hline
+\rowColor{white}  faviconHome & cmd & Get case logo  & 0\\ \hline
+\rowColor{white}  faviconCode & cmd & Get code logo  & 0\\ \hline
 \end{tabular}

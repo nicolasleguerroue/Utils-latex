@@ -1,0 +1,13 @@
+\section{Liste des dépendances}
+\begin{tabular}{|l|l|}\hline 
+\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Description} \\ \hline
+\rowColor{white} eforms & Include eform \\ \hline
+\rowColor{white} fp & Include eform \\ \hline
+\end{tabular}\section{Liste des fonctions}
+\begin{tabular}{|l|l|l|l|}\hline 
+\rowColor{darkBlue} \color{white}{Nom} & \color{white}{Type} & \color{white}{Description} & \color{white}{Argument}\\ \hline
+\rowColor{white}  inputText & cmd &   & 0\\ \hline
+\rowColor{white}  inputTextWithoutLine & cmd &   & 0\\ \hline
+\rowColor{white}  checkBoxLeft & cmd &   & 0\\ \hline
+\rowColor{white}  cbL & cmd &   & 0\\ \hline
+\end{tabular}

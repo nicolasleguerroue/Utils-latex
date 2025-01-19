@@ -1,0 +1,41 @@
+%############################################################
+%###### Package 'Template' 
+%###### This package contains tools to use usefull templates in documents
+%###### Author  : Nicolas LE GUERROUE
+%###### Contact : nicolasleguerroue@gmail.com
+%############################################################
+\RequirePackage{Links} %Labels library #
+\RequirePackage{MessageBox} %MessageBox library #
+\RequirePackage{Colors} %Colors library #
+\RequirePackage{Favicons} %Favicons library #
+\RequirePackage{Labels} %Labels library #
+\RequirePackage{verbatim} %write in file #
+%############################################################
+\typeout{>>> Utils: Package 'Templates' loaded !}
+%################################################################
+
+\newwrite\fichier
+\openout\fichier=linksToCheck.txt
+
+\newcommand{\githubLink}[1]{ %Create a message box with code link #url 
+
+    \messageBox{\faviconInfo}{darkBlue}{darkBlue}{Le code complet est disponible en faisant un clic-droit puis \bold{Copy link Adress} sur le lien suivant : \link{\href{#1}{Lien du code}}.\\ 
+    Il ne vous reste plus qu'à coller le lien dans votre navigateur Internet.}{white}
+
+
+    \write\fichier{}
+    \closeout\fichier
+
+}
+
+
+\newcommand{\platformIOLink}[1]{ %Create a message box with code link #url 
+
+    \messageBox{\faviconCode}{darkBlue}{darkBlue}{Le code de ce projet PlatformIO est disponible en faisant un clic-droit puis \bold{Copy link Adress} sur le lien suivant : \link{\href{#1}{Lien du code}}.\\ 
+    Il ne vous reste plus qu'à coller le lien dans votre navigateur Internet.}{white}
+
+
+    \write\fichier{}
+    \closeout\fichier
+
+}

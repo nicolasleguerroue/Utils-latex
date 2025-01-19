@@ -10,12 +10,13 @@
 \RequirePackage{float}              %image floating
 \RequirePackage{wrapfig}            %Float figures
 \RequirePackage{subcaption}         %Subcaption
+\RequirePackage{svg}                %SVG file
 %############################################################
 \typeout{>>> Utils: Package 'Images' loaded !}
 %############################################################
 
 
-\DeclareGraphicsExtensions{.png,.pdf,.jpeg,.jpg}
+\DeclareGraphicsExtensions{.png,.pdf,.jpeg,.jpg,.svg}
 \newcounter{imgCounter}  %Create new counter
 
 \newcommand{\rootImages} %Dynamic source of image #
@@ -25,6 +26,16 @@
     \IfFileExists{#1}
     {
         \includegraphics[scale=#3]{#1} 
+        \addtocounter{imgCounter}{1} 
+    }
+    {
+        \raiseWarning{Image '#1' no loaded}
+    }
+}
+\newcommand{\imgSVG}[3]{%Add simple image on header page #filename legend ratio
+    \IfFileExists{#1}
+    {
+        \includesvg[scale=#3]{#1} 
         \addtocounter{imgCounter}{1} 
     }
     {
@@ -103,6 +114,22 @@
 
 
 
+
+\newcommand{\imgWithoutLegend}[6]{%Add simple floating image #\\rootImages legend ratioImage ratioPage side numberOfLines
+    \IfFileExists{#1}
+    {
+        \begin{wrapfigure}[#6]{#5}{#4\textwidth}
+            \centering\ 
+            \includegraphics[scale=#3]{#1}
+
+        \end{wrapfigure} 
+        \addtocounter{imgCounter}{1} 
+        \raiseMessage{Image '#1' [size=#3,id=\arabic{imgCounter},side=#5] loaded !} 
+    }
+    {
+        \raiseWarning{Image '#1' no loaded}
+    }
+}
 
 
 

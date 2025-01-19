@@ -216,6 +216,7 @@ class Snippet():
 
 
     def parse(self, output):
+        print("parsing")
 
         counter = 0
         commands = []
@@ -261,15 +262,18 @@ class Snippet():
         #Save last parsed file
         data = "{\n"
         for c in commands:
+
             r = c.create()
             if(r):
                 data+=r
         data+="\n}"
+        print(data)
         ofile = open(output, "w")
+        
         ofile.write(data)
         ofile.close()
 
   
 
 parser = Snippet("Utils")
-parser.parse("../.vscode/output.code-snippets")
+parser.parse("../../.vscode/output.code-snippets")  #../.vscode/output.code-snippets2"

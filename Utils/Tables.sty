@@ -17,6 +17,17 @@
 }
 
 
+\newenvironment{Array}[1] %Array of data as figure #headerArray title
+{
+    \begin{table}[h]
+        \centering
+    \begin{tabular}{#1}
+}
+{
+    
+    \end{tabular}
+    \end{table}%
+}
 
 \newenvironment{tableFigure}[2] %Array of data as figure #headerArray title
 {
