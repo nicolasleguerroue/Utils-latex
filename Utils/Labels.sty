@@ -206,3 +206,9 @@ right=0mm,left=4mm,arc=1pt,boxsep=2pt,before upper={\vphantom{dlg}},
 colframe=orange!50!black,coltext=orange!25!black,colback=orange!10!white,
 overlay={\begin{tcbclipinterior}\fill[orange!75!orange!50!white] (frame.south west)
   rectangle node[text=white,font=\sffamily\bfseries\tiny,rotate=90] {INT} ([xshift=4mm]frame.north west);\end{tcbclipinterior}}}
+
+
+
+
+\newcommand{\board}[1] %Create File label #filename
+{\lblHorizontal{darkBlue}{\faviconCubes}{#1}} 

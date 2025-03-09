@@ -14,6 +14,9 @@
 \typeout{>>> Utils: Package 'Templates' loaded !}
 %################################################################
 
+\newcommand{\creppio}{ %Shortcut of \creppio board  
+\board{CREPP.io}
+}
 \newwrite\fichier
 \openout\fichier=linksToCheck.txt
 
@@ -29,13 +32,12 @@
 }
 
 
-\newcommand{\platformIOLink}[1]{ %Create a message box with code link #url 
+\newcommand{\platformIOLink}[3]{ %Create a message box with code link #url 
 
-    \messageBox{\faviconCode}{darkBlue}{darkBlue}{Le code de ce projet PlatformIO est disponible en faisant un clic-droit puis \bold{Copy link Adress} sur le lien suivant : \link{\href{#1}{Lien du code}}.\\ 
-    Il ne vous reste plus qu'à coller le lien dans votre navigateur Internet.}{white}
+    \messageBox{\faviconCode}{darkBlue}{darkBlue}{Le code de ce projet PlatformIO est disponible via l'extension \bold{\creppio} ou bien en faisant un clic-droit puis \bold{Copy link Adress} sur le lien suivant : \link{\href{#1}{Lien du code}}.\\ 
+    Il ne vous reste plus qu'à coller le lien dans votre navigateur Internet puis à télécharger le répertoire pour l'ouvrir avec VScode.}{white}
 
-
-    \write\fichier{}
-    \closeout\fichier
+    \immediate\write18{wget -O main.cpp #2/refs/heads/main/src/main.cpp}
+    \lstinputlisting[style=Cpp, caption={#3}]{main.cpp}
 
 }

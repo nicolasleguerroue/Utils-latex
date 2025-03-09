@@ -28,4 +28,5 @@
 \rowColor{white}  faviconCase & cmd & Get case logo  & 0\\ \hline
 \rowColor{white}  faviconHome & cmd & Get case logo  & 0\\ \hline
 \rowColor{white}  faviconCode & cmd & Get code logo  & 0\\ \hline
+\rowColor{white}  faviconCubes & cmd & Get cubes logo  & 0\\ \hline
 \end{tabular}

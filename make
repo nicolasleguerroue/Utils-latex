@@ -38,7 +38,7 @@ bibliographyMerge="Bibliography.bib"
 main_file="main.tex" 							#main file
 standlone="standlone.tex"						#standlone file -> compiling without any other file
 version="Versions.tex"
-
+versionFile="Compilation.tex"
 #################################################
 ## Function
 #################################################
@@ -71,9 +71,19 @@ function loadValue {
 }
 #End createDirectory
 
+# Vérifie si un lien est valide en utilisant wget
+check_url() {
+    if wget -q --spider "$1"; then
+        print_green "Link $1 is valid"
+    else
+        print_red "Link $1 is not valid"
+    fi
+}
+
+
 #compile latex in pdf with error checking
 function pdfLatex {
-	pdflatex_common_args="--file-line-error --halt-on-error"  #--shell-escape used to minted env
+	pdflatex_common_args="--file-line-error --halt-on-error --shell-escape" # used to minted env
 	pdflatex ${pdflatex_common_args} --output-dir=$outputDir ../$main.tex >> $renderReportLog
 	pdflatex_success=$?
 	if [ ! $pdflatex_success -eq 0 ];then
@@ -88,6 +98,16 @@ function pdfLatex {
 }
 #End pdfLatex
 
+
+# Fonction pour afficher en vert
+print_green() {
+    echo -e "\e[32m$1\e[0m"
+}
+
+# Fonction pour afficher en rouge
+print_red() {
+    echo -e "\e[31m$1\e[0m"
+}
 
 #####################################################################################
 ##
@@ -438,65 +458,43 @@ echo -e "$green"
 echo -e "[Step $count_step / $count_sum_full] >>> Generating of import file for parts (Parts) is over"
 let count_step++
 
-if [ "$1" == "--full" ];then 
-	echo -e "[Step $count_step / $count_sum_full] >>> First compilation of '$main.tex' file..."
-	let count_step++
-	pdfLatex
-	echo -e "[Step $count_step / $count_sum_full] >>> Creating of bibliography..."
-	echo -e "$default"
-	bibtex $outputDir/$main
-	echo -e "$green"
-	echo -e "[Step $count_step / $count_sum_full] >>> First compilation of '$main.tex' file over !"
-	let count_step++
-	echo -e "[Step $count_step / $count_sum_full] >>> Glossary compilation..."
-	echo -e "$default"
-	mv $outputDir/$main.xdy $main.xdy  #use to make glossaries
-	makeglossaries $outputDir/$main #>> $renderReportFile
-	echo -e "$green"
-	echo -e "[Step $count_step / $count_sum_full] >>> Glossary compilation over !"
-	let count_step++
-	echo -e "[Step $count_step / $count_sum_full] >>> Compilation of nomenclature...."
-	echo -e "$default"
-	makeindex $outputDir/$main >> $renderReportFile
-	#makeindex $outputDir/$main.nlo -s nomencl.ist -o $outputDir/$main.nls >> $renderReportFile
-	echo -e "$green"
-	echo -e "[Step $count_step / $count_sum_full] >>> Compilation of nomenclature is over"
-	let count_step++
-fi
-if [ "$1" == "--full" ];then 
-	echo -e "[Step $count_step / $count_sum_full] >>> Second compilation of  '$main.tex' file..."
-else
- 	echo -e "[Step $count_step / $count_sum_full] >>> First compilation of  '$main.tex' file..."
-fi
+function compile_directory
+{
+echo -e "[Step $count_step / $count_sum_full] >>> First compilation of '$main.tex' file..."
+let count_step++
+pdfLatex
+echo -e "[Step $count_step / $count_sum_full] >>> Creating of bibliography..."
+echo -e "$default"
+bibtex $outputDir/$main
+echo -e "$green"
+echo -e "[Step $count_step / $count_sum_full] >>> First compilation of '$main.tex' file over !"
+let count_step++
+echo -e "[Step $count_step / $count_sum_full] >>> Glossary compilation..."
+echo -e "$default"
+mv $outputDir/$main.xdy $main.xdy  #use to make glossaries
+makeglossaries $outputDir/$main #>> $renderReportFile
+echo -e "$green"
+echo -e "[Step $count_step / $count_sum_full] >>> Glossary compilation over !"
+let count_step++
+echo -e "[Step $count_step / $count_sum_full] >>> Compilation of nomenclature...."
+echo -e "$default"
+makeindex $outputDir/$main >> $renderReportFile
+#makeindex $outputDir/$main.nlo -s nomencl.ist -o $outputDir/$main.nls >> $renderReportFile
+echo -e "$green"
+echo -e "[Step $count_step / $count_sum_full] >>> Compilation of nomenclature is over"
+let count_step++
+echo -e "[Step $count_step / $count_sum_full] >>> Second compilation of  '$main.tex' file..."
 
 echo -e "$orange" 
 echo "" > $renderReportLog
 pdfLatex
 echo -e "$green"
-if [ "$1" == "--full" ];then 
-	echo -e "[Step $count_step / $count_sum_full] >>> Second compilation of  '$main.tex' is over"
-else
- 	echo -e "[Step $count_step / $count_sum_full] >>> First compilation of  '$main.tex' is over"
-fi
-
-
-
-#!/bin/bash
-
-# Fonction pour afficher en vert
-print_green() {
-    echo -e "\e[32m$1\e[0m"
-}
-
-# Fonction pour afficher en rouge
-print_red() {
-    echo -e "\e[31m$1\e[0m"
-}
+echo -e "[Step $count_step / $count_sum_full] >>> Second compilation of  '$main.tex' is over"
 
 let count_step++
 echo -e "[Step $count_step / $count_sum_full] >>> Moving of $main.pdf..."
 echo -e "$orange"
-mv $outputDir/$main.pdf $main.pdf >> $renderReportFile
+mv $outputDir/$main.pdf $1 >> $renderReportFile
 echo -e "$green"
 echo -e "[Step $count_step / $count_sum_full] >>> Moving of $main.pdf to root folder..."
 echo -e "$blue"
@@ -519,37 +517,51 @@ echo -e "$default"
 end=`date +"%s"`
 time=`expr $end - $begin`
 rm $main.xdy 2>> $renderReportFile
-
-
-# Vérifie si un lien est valide en utilisant wget
-check_url() {
-    if wget -q --spider "$1"; then
-        print_green "Link $1 is valid"
-    else
-        print_red "Link $1 is not valid"
-    fi
 }
 
 
-# Récupère toutes les URL à l'intérieur des balises \href{}
-urls_git=$(grep -oP '\\githubLink\{\K[^}]*' "standlone.tex")
-urls_href=$(grep -oP '\\href\{\K[^}]*' "$1")
-urls_platformio=$(grep -oP '\\platformIOLink\{\K[^}]*' "standlone.tex")
+if [ "$1" == "--compile" ];then 
+	echo "\includeversion{VERSION_ESP12}" > $makeDir/$versionFile
+	echo "\excludeversion{VERSION_PICO}" >> $makeDir/$versionFile
+	echo "\excludeversion{VERSION_QUIZZ}" >> $makeDir/$versionFile
 
-# Parcours les URL et vérifie leur validité
-for url in $urls_href; do
-    check_url "$url"
-done 
+	compile_directory "main_v1.0.pdf"
 
-for url in $urls_git; do
-    check_url "$url"
-done
+	echo "\includeversion{VERSION_PICO}" > $makeDir/$versionFile
+	echo "\excludeversion{VERSION_ESP12}" >> $makeDir/$versionFile
+	echo "\excludeversion{VERSION_QUIZZ}" >> $makeDir/$versionFile
 
-for url in $urls_platformio; do
-    check_url "$url"
-done
+	compile_directory "main_v2.0.pdf"
+
+else
+
+	compile_directory "main.pdf"
+fi
+
+if [ "$1" == "--full" ];then
+
+	echo "Full"
+fi
+
+# # Récupère toutes les URL à l'intérieur des balises \href{}
+# urls_git=$(grep -oP '\\githubLink\{\K[^}]*' "standlone.tex")
+# urls_href=$(grep -oP '\\href\{\K[^}]*' "standlone.tex")
+# urls_platformio=$(grep -oP '\\platformIOLink\{\K[^}]*' "standlone.tex")
+
+# # Parcours les URL et vérifie leur validité
+# for url in $urls_href; do
+#     check_url "$url"
+# done 
+
+# for url in $urls_git; do
+#     check_url "$url"
+# done
+
+# for url in $urls_platformio; do
+#     check_url "$url"
+# done
 
 
-echo -e ">>> Compilation over in $time s ! $default"
+#echo -e ">>> Compilation over in $time s ! $default"
 
 
